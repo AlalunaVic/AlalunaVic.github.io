@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicken Palace — Demo</title>
+<style>
+  :root{ --bg:#171310; --card:#241c16; --line:#3a2d20; --amber:#d96c3d; --amber2:#b34e24; --cream:#f7efe3; --mut:#cdbfa9; --wa:#25d366; --wa-dark:#075e54; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#0d0b09;color:var(--cream);font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .page{max-width:520px;margin:0 auto;background:var(--bg);box-shadow:0 0 40px rgba(0,0,0,.6);padding-bottom:86px}
+  .demo-bar{background:var(--amber);color:#1d1408;text-align:center;font-size:12.5px;font-weight:800;letter-spacing:.4px;padding:8px 12px;text-transform:uppercase}
+  .hero{position:relative}
+  .hero img{width:100%;height:330px;object-fit:cover;display:block}
+  .hero .fade{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,11,8,.94) 8%,rgba(15,11,8,.12) 55%,rgba(15,11,8,.25))}
+  .hero .txt{position:absolute;left:0;right:0;bottom:0;padding:20px 22px}
+  .hero h1{font-size:32px;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+  .hero h1 span{color:var(--amber)}
+  .hero p{font-size:15.5px;margin-top:4px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+  .hero-btns{display:flex;gap:8px;margin-top:14px}
+  .hb{flex:1;border:none;cursor:pointer;font-weight:800;font-size:15px;padding:12px;border-radius:11px;font-family:inherit}
+  .hb.wa{background:var(--wa);color:#0b2416}
+  .hb.ghost{background:rgba(20,14,8,.65);color:var(--cream);border:1.5px solid var(--amber)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;padding:14px 18px 0}
+  .chip{background:var(--card);border:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:5px 10px;border-radius:20px}
+  .chip b{color:var(--amber)}
+  a.chip{text-decoration:none;cursor:pointer}
+  section{padding:24px 18px 2px}
+  h2{font-size:21px;margin-bottom:4px}
+  h2 .a{color:var(--amber)}
+  .sub{color:var(--mut);font-size:14px;margin-bottom:12px}
+  .catnav{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+  .catnav a{flex:0 0 auto;background:var(--card);border:1px solid var(--line);color:var(--cream);font-size:13px;font-weight:700;padding:7px 13px;border-radius:20px;text-decoration:none}
+  .dish{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:12px}
+  .dish img{width:100%;height:180px;object-fit:cover;display:block}
+  .dish .d{padding:12px 14px}
+  .dish .d b{font-size:16px}
+  .dish .d p{color:var(--mut);font-size:13.5px;margin:2px 0 10px}
+  .item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 2px;border-top:1px solid #2e2318}
+  .item:first-of-type{border-top:none}
+  .item .n{font-size:14.5px}
+  .item .ds{color:var(--mut);font-size:12.5px}
+  .item .p{color:var(--amber);font-weight:700;font-size:14.5px;white-space:nowrap}
+  .add{background:var(--amber);color:#1d1408;border:none;font-weight:800;font-size:13px;padding:9px 13px;border-radius:9px;cursor:pointer;white-space:nowrap;font-family:inherit}
+  .add:active{transform:scale(.96)}
+  .menu-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 14px 10px;margin-bottom:14px}
+  .menu-card h3{color:var(--amber);font-size:16px;padding:10px 0 2px}
+  .full-img{width:100%;border-radius:14px;display:block}
+  .cta{margin:26px 18px 4px;background:linear-gradient(135deg,#2b2016,#241a10);border:1px solid var(--amber2);border-radius:16px;padding:20px;text-align:center}
+  .cta p{color:var(--mut);font-size:14.5px;margin-top:6px}
+  .foot{text-align:center;color:#8d7f6a;font-size:12px;padding:18px 30px 10px}
+  .rev{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+  .rev .who{font-size:13px;color:var(--mut);margin-top:5px}
+  .rev .stars{color:var(--amber);letter-spacing:2px}
+  .btn2{display:block;width:calc(100% - 36px);margin:10px 18px 0;padding:15px;border-radius:12px;font-weight:800;font-size:16px;text-align:center;text-decoration:none;cursor:pointer;border:none;font-family:inherit}
+  .btn2.wa2{background:var(--wa);color:#0b2416}
+  .btn2.ghost2{background:transparent;border:1.5px solid var(--amber);color:var(--amber)}
+  .prow{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #2e2318;font-size:14.5px;gap:12px}
+  .prow:first-child{border-top:none}
+  .prow .p{color:var(--amber);font-weight:800;white-space:nowrap}
+  .bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:flex;gap:8px;padding:10px 12px;background:rgba(13,11,9,.92);backdrop-filter:blur(6px);z-index:20}
+  .bar button{flex:1;border:none;cursor:pointer;font-weight:800;font-size:15px;padding:14px 8px;border-radius:12px;font-family:inherit}
+  .bar .cartb{background:#332619;color:var(--cream);border:1px solid var(--line)}
+  .bar .asistb{background:var(--wa);color:#0b2416}
+  .badge{display:inline-block;background:var(--amber);color:#1d1408;border-radius:12px;padding:0 7px;margin-left:5px;font-size:13px}
+  .panel{position:fixed;inset:0;background:rgba(5,4,3,.6);z-index:30;display:none}
+  .panel.open{display:block}
+  .sheet{position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);max-height:88vh;background:#1e1712;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden}
+  .sheet .head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .sheet .head b{font-size:16.5px}
+  .x{background:none;border:none;color:var(--mut);font-size:22px;cursor:pointer;padding:0 4px}
+  .sheet .body{overflow-y:auto;padding:12px 18px}
+  .crow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid #2e2318;font-size:14.5px;gap:8px}
+  .crow:first-child{border-top:none}
+  .qty button{background:var(--card);border:1px solid var(--line);color:var(--cream);width:26px;height:26px;border-radius:7px;font-weight:800;cursor:pointer}
+  .qty span{display:inline-block;min-width:22px;text-align:center}
+  .ctotal{display:flex;justify-content:space-between;font-size:16.5px;font-weight:800;padding:13px 0 4px;border-top:1px solid var(--line);margin-top:6px}
+  .send{margin:12px 18px 18px;background:var(--wa);color:#0b2416;border:none;font-weight:800;font-size:16px;padding:15px;border-radius:12px;cursor:pointer;font-family:inherit}
+  .empty{color:var(--mut);text-align:center;padding:22px 0;font-size:14.5px}
+  .chatwrap{position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);height:88vh;background:#efe7db;display:flex;flex-direction:column;border-radius:20px 20px 0 0;overflow:hidden}
+  .wa-head{background:var(--wa-dark);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+  .wa-head b{font-size:15.5px;display:block}
+  .wa-head span{font-size:12px;color:#bfe3d8}
+  .wa-head .x{color:#fff}
+  .wa-body{flex:1;overflow-y:auto;padding:14px 12px;background-image:radial-gradient(#ddd2c0 1px, transparent 1px);background-size:18px 18px}
+  .msg{max-width:82%;padding:8px 11px;border-radius:10px;font-size:13.5px;margin-bottom:8px;color:#1c2420;box-shadow:0 1px 1px rgba(0,0,0,.12);white-space:pre-line}
+  .msg small{display:block;text-align:right;color:#7b8a84;font-size:10.5px;margin-top:2px}
+  .in{background:#fff}
+  .out{background:#d9fdd3;margin-left:auto}
+  .typing{background:#fff;color:#7b8a84;font-style:italic}
+  .qr{display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;background:#e7ddcb}
+  .qr button{background:#fff;border:1px solid var(--wa-dark);color:var(--wa-dark);font-weight:700;font-size:12.5px;padding:7px 11px;border-radius:16px;cursor:pointer;font-family:inherit}
+  .wa-input{display:flex;gap:8px;padding:10px;background:#f0e9db}
+  .wa-input input{flex:1;border:none;border-radius:20px;padding:11px 15px;font-size:14.5px;outline:none}
+  .wa-input button{background:var(--wa);border:none;color:#0b2416;font-weight:800;border-radius:20px;padding:0 18px;cursor:pointer;font-size:14.5px;font-family:inherit}
+  /* ===== Vista de escritorio (web) ===== */
+  @media (min-width:920px){
+    .page{max-width:1140px;padding-bottom:96px}
+    .hero img{height:470px}
+    .hero h1{font-size:46px}
+    .hero .txt{padding:30px 40px}
+    section{padding:32px 40px 6px}
+    .chips{padding:18px 40px 0}
+    .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .feat-grid .dish{margin-bottom:0}
+    .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
+    .cta{margin:34px 40px 4px}
+    .btn2{width:auto;margin:12px 40px 0}
+    .bar{width:min(1140px,100%)}
+    .sheet{bottom:28px;border-radius:20px}
+    .chatwrap{left:auto;right:28px;transform:none;width:410px;height:min(76vh,640px);bottom:28px;border-radius:20px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="demo-bar">Demo personalizada para Chicken Palace · Tócala: pide, pregunta y reserva</div>
+
+  <div class="hero">
+    <img id="heroImg" alt="Chicken Palace">
+    <div class="fade"></div>
+    <div class="txt">
+      <h1>Chicken <span>Palace</span></h1>
+      <p>La mejor comida peruana de New Jersey — palabra de la casa.</p>
+      <div class="hero-btns">
+        <button class="hb wa" onclick="openChat('order')">💬 Pedir por WhatsApp</button>
+        <button class="hb ghost" onclick="document.getElementById('menu').scrollIntoView()">Ver menú</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chips"><a class="chip" href="#menu">🍗 Pollos a la brasa</a>
+    <a class="chip" href="#ubicacion">📍 Edison, NJ</a>
+    <a class="chip" href="#ubicacion">🕘 Todos los días · 9 AM–9 PM</a>
+  </div>
+
+  <section id="menu">
+    <h2>Menú <span class="a">completo</span></h2>
+    <p class="sub">Toca <b style="color:var(--amber)">+ Agregar</b> y arma tu pedido. El asistente lo toma por ti.</p>
+    <div class="catnav" id="catNav"></div>
+    <div class="feat-grid" id="featGrid"></div>
+    <div class="menu-grid" id="menuGrid" style="margin-top:14px"></div>
+  </section>
+
+  <section>
+    <h2>Un rincón de <span class="a">casa</span></h2>
+    <p class="sub">Así se siente comer en Chicken Palace.</p>
+    <img class="full-img" id="interiorImg" alt="Interior del restaurante">
+  </section>
+
+  <section id="resenas">
+    <h2 id="revTitle">Lo que dicen <span class="a">nuestros clientes</span></h2>
+    <p class="sub" id="revSub">Reseñas de Google — las que traen clientes nuevos cada semana.</p>
+    <div id="revList"></div>
+  </section>
+
+  <section id="ubicacion">
+    <h2>Horario y <span class="a">ubicación</span></h2>
+    <p class="sub">900 Amboy Ave, Edison, NJ 08837</p>
+    <div class="menu-card">
+      <div class="item"><div><div class="n">🕘 Horario</div><div class="ds">Pollos saliendo del horno todo el día</div></div><span class="p" style="text-align:right">Todos los días · 9 AM–9 PM</span></div>
+      <div class="item"><div><div class="n">📍 Dirección</div><div class="ds">900 Amboy Ave, Edison, NJ 08837</div></div></div>
+      <div class="item"><div><div class="n">📞 Teléfono</div><div class="ds">(732) 486-3262</div></div></div>
+    </div>
+    <div class="hero-btns" style="margin-top:2px">
+      <a class="hb wa" style="text-decoration:none;text-align:center" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chicken+Palace+900+Amboy+Ave%2C+Edison%2C+NJ+08837">🗺️ Cómo llegar</a>
+      <a class="hb ghost" style="text-decoration:none;text-align:center" href="tel:7324863262">📞 Llamar ahora</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pruébalo tú mismo 👇</h2>
+    <p class="sub">Toca <b style="color:var(--amber)">“Hablar con el asistente”</b> y pregúntale lo que sea — o reserva una mesa. Así atiende Chicken Palace a sus clientes, solo, a cualquier hora.</p>
+  </section>
+
+  <div class="cta">
+    <h2>Esto es <span style="color:var(--amber)">solo el comienzo</span></h2>
+    <p>Esta demo se armó con la información pública de Chicken Palace. La versión real — con sus fotos, su menú exacto y su WhatsApp conectado — puede estar lista en <b style="color:var(--cream)">24 horas</b>.</p>
+  </div>
+
+  <a class="btn2 wa2" target="_blank" href="https://wa.me/18484331021?text=Hola%2C%20soy%20de%20Chicken%20Palace%2C%20vi%20mi%20demo%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n">Soy de Chicken Palace — quiero la mía</a>
+  <button class="btn2 ghost2" onclick="togglePanel('pricePanel',true)">Ver paquetes y precios</button>
+
+  <p class="foot">Página de demostración creada para Chicken Palace con información pública del negocio.<br>Servicios Digitales con IA · New Jersey · 2026</p>
+
+</div>
+
+<div class="bar">
+  <button class="cartb" onclick="togglePanel('cartPanel',true)">🛒 Mi pedido<span class="badge" id="cartBadge">0</span><span id="cartSum"></span></button>
+  <button class="asistb" onclick="openChat()">💬 Hablar con el asistente</button>
+</div>
+
+<div class="panel" id="pricePanel">
+  <div class="sheet">
+    <div class="head"><b>Paquetes y precios</b><button class="x" onclick="togglePanel('pricePanel',false)">✕</button></div>
+    <div class="body">
+      <div class="prow"><span><b>Web 24H</b><br><small style="color:var(--mut)">Tu página lista en 24 horas</small></span><span class="p">$349</span></div>
+      <div class="prow"><span><b>Web + Video IA</b><br><small style="color:var(--mut)">Página + comercial con IA</small></span><span class="p">$449</span></div>
+      <div class="prow"><span><b>Negocio Automático</b><br><small style="color:var(--mut)">+ asistente IA en tu WhatsApp</small></span><span class="p">$899</span></div>
+      <div class="prow"><span><b>COMBO TODO INCLUIDO</b><br><small style="color:var(--mut)">Web + 2 videos + asistente + perfil de Google + asesoría · valor $1,310</small></span><span class="p">$1,000</span></div>
+      <p style="color:var(--mut);font-size:13.5px;padding-top:10px">50% para arrancar, 50% contra entrega. Todo queda a tu nombre.</p>
+    </div>
+    <a class="send" style="display:block;text-align:center;text-decoration:none" target="_blank" href="https://wa.me/18484331021?text=Hola%2C%20vi%20los%20paquetes%20en%20la%20demo%20de%20Chicken%20Palace%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n">Quiero más información →</a>
+  </div>
+</div>
+
+<div class="panel" id="cartPanel">
+  <div class="sheet">
+    <div class="head"><b>🛒 Tu pedido</b><button class="x" onclick="togglePanel('cartPanel',false)">✕</button></div>
+    <div class="body" id="cartBody"></div>
+    <div class="body" style="padding-top:0"><div class="ctotal"><span>Total</span><span id="cartTotal">$0.00</span></div></div>
+    <button class="send" onclick="sendOrder()">Enviar pedido por WhatsApp →</button>
+  </div>
+</div>
+
+<div class="panel" id="chatPanel">
+  <div class="chatwrap">
+    <div class="wa-head"><div><b>Chicken Palace</b><span>en línea · asistente IA · responde al instante</span></div><button class="x" onclick="togglePanel('chatPanel',false)">✕</button></div>
+    <div class="wa-body" id="chatBody"></div>
+    <div class="qr" id="qrBar"></div>
+    <div class="wa-input">
+      <input id="chatInput" type="text" placeholder="Escribe tu mensaje…" onkeydown="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<script src="img-a.js"></script><script src="img-b.js"></script><script src="img-c.js"></script><script src="img-d.js"></script><script src="img-e.js"></script><script>
+const CFG = {"hero": "pollo", "interior": "interior2", "name": "Chicken Palace", "hoursShort": "Todos los días · 9 AM–9 PM", "address": "900 Amboy Ave, Edison, NJ 08837", "menuTeaser": "La especialidad: <b>pollo a la brasa</b> por cuartos, medios y enteros 🍗 más sánguches, pichanga y pescado frito. Menú completo en la página.", "priceTeaser": "Precios de casa 💵 1/4 de pollo $11.95, pollo entero $26.95, sánguches desde $8.95. ¿Te armo un pedido?", "delivery": null, "star": {"a": "El <b>pollo entero a la brasa</b> con papas y ensalada sale <b>$26.95</b> 🍗 Alcanza para 3–4 personas. ¿Te lo aparto para recoger?", "keys": ["pollo entero", "entero"], "q": "¿Cuánto sale el pollo entero?"}, "featured": [{"img": "pollo", "name": "Pollo a la brasa entero", "desc": "Con papas fritas, ensalada y cremas — para 3 o 4 personas.", "price": 26.95}, {"img": "ceviche", "name": "Ceviche de pescado", "desc": "Fresco, con camote, choclo y cancha.", "price": 17.95}], "menu": [{"cat": "Pollos a la brasa", "icon": "🍗", "items": [["Pollo entero", "Con papas fritas y ensalada", 26.95], ["1/2 pollo", "Con papas fritas y ensalada", 16.95], ["1/4 pollo", "Con papas fritas y ensalada", 11.95]]}, {"cat": "Sánguches", "icon": "🥪", "items": [["Sánguche de lomo", "Lomo saltado en pan francés", 9.95], ["Sánguche de chicharrón", "Con salsa criolla y camote", 8.95]]}, {"cat": "De la casa", "icon": "🍽️", "items": [["Pichanga", "Para picar entre varios", 15.95], ["Pescado frito", "Con arroz, ensalada y tártara", 17.95], ["Chaufa de pollo", "Al wok, con sillao", 15.95]]}, {"cat": "Bebidas", "icon": "🥤", "items": [["Inca Kola", "Bien fría", 3.5], ["Chicha morada", "Hecha en casa", 4.25]]}], "reviews": [["Vanessa Q.", "El nombre no miente: el pollo es el rey. Jugoso, con la piel crocante."], ["Andrés M.", "El sánguche de chicharrón con su salsa criolla es obligatorio."], ["Liliana F.", "Pedimos el pollo entero para la familia cada viernes. Nunca falla."]], "reviewsVerified": false};
+const IMGRES=k=>(window.IMG&&window.IMG[k])||k;
+const $=id=>document.getElementById(id);
+$('heroImg').src=IMGRES(CFG.hero); $('interiorImg').src=IMGRES(CFG.interior);
+const fmt=n=>'$'+n.toFixed(2);
+const now=()=>new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+function togglePanel(id,open){ $(id).classList.toggle('open',open); }
+function esc(s){ return s.replace(/'/g,"\\'"); }
+
+/* ---------- Render: destacados, menú, reseñas, chips rápidos ---------- */
+(function render(){
+  let nav='';
+  CFG.menu.forEach((c,i)=>{ nav+='<a href="#cat'+i+'">'+c.icon+' '+c.cat+'</a>'; });
+  $('catNav').innerHTML=nav;
+  let feat='';
+  CFG.featured.forEach(f=>{
+    feat+='<div class="dish"><img src="'+IMGRES(f.img)+'" alt="'+f.name+'"><div class="d"><b>'+f.name+'</b><p>'+f.desc+'</p><button class="add" onclick="addItem(\''+esc(f.name)+'\','+f.price+')">+ Agregar · '+fmt(f.price)+'</button></div></div>';
+  });
+  $('featGrid').innerHTML=feat;
+  let mg='';
+  CFG.menu.forEach((c,i)=>{
+    mg+='<div class="menu-card" id="cat'+i+'"><h3>'+c.icon+' '+c.cat+'</h3>';
+    c.items.forEach(it=>{
+      mg+='<div class="item"><div><div class="n">'+it[0]+'</div><div class="ds">'+it[1]+'</div></div><span class="p">'+fmt(it[2])+'</span><button class="add" onclick="addItem(\''+esc(it[0])+'\','+it[2]+')">+ Agregar</button></div>';
+    });
+    mg+='</div>';
+  });
+  $('menuGrid').innerHTML=mg;
+  if(!CFG.reviewsVerified){
+    $('revTitle').innerHTML='Así se verán <span class="a">tus reseñas</span>';
+    $('revSub').textContent='Tu reputación, trabajando para ti en tu propia página.';
+  }
+  let rv='';
+  CFG.reviews.forEach(r=>{
+    rv+='<div class="rev"><span class="stars">★★★★★</span><br>“'+r[1]+'”<div class="who">— '+r[0]+' · Google</div></div>';
+  });
+  $('revList').innerHTML=rv;
+  let qr='<button onclick="quickAsk(this)">¿A qué hora abren?</button><button onclick="quickAsk(this)">Quiero reservar una mesa</button>';
+  if(CFG.star){ qr+='<button onclick="quickAsk(this)">'+CFG.star.q+'</button>'; }
+  qr+='<button onclick="quickAsk(this)">¿Dónde están ubicados?</button>';
+  $('qrBar').innerHTML=qr;
+})();
+
+/* ---------- Carrito ---------- */
+const cart=new Map();
+function addItem(name,price){
+  const it=cart.get(name)||{price:price,qty:0}; it.qty++; cart.set(name,it);
+  renderCart();
+  const b=$('cartBadge'); b.style.transform='scale(1.35)'; setTimeout(()=>b.style.transform='',180);
+}
+function chQty(name,d){
+  const it=cart.get(name); if(!it)return; it.qty+=d;
+  if(it.qty<=0)cart.delete(name); renderCart();
+}
+function cartTotals(){ let c=0,t=0; cart.forEach(it=>{c+=it.qty;t+=it.price*it.qty;}); return {c,t}; }
+function renderCart(){
+  const {c,t}=cartTotals();
+  $('cartBadge').textContent=c;
+  $('cartSum').textContent=c? ' · '+fmt(t):'';
+  $('cartTotal').textContent=fmt(t);
+  const body=$('cartBody');
+  if(!cart.size){ body.innerHTML='<div class="empty">Tu pedido está vacío.<br>Agrega algo rico del menú 😋</div>'; return; }
+  let h='';
+  cart.forEach((it,name)=>{ h+='<div class="crow"><span>'+name+'<br><small style="color:var(--mut)">'+fmt(it.price)+' c/u</small></span><span class="qty"><button onclick="chQty(\''+esc(name)+'\',-1)">−</button><span>'+it.qty+'</span><button onclick="chQty(\''+esc(name)+'\',1)">+</button></span><b>'+fmt(it.price*it.qty)+'</b></div>'; });
+  body.innerHTML=h;
+}
+renderCart();
+
+/* ---------- Chat / asistente ---------- */
+let greeted=false, state='idle', res={};
+function bubble(text,who){
+  const d=document.createElement('div');
+  d.className='msg '+(who==='me'?'in':'out');
+  d.innerHTML=text+'<small>'+now()+(who==='me'?'':' ✓✓')+'</small>';
+  $('chatBody').appendChild(d); $('chatBody').scrollTop=1e6;
+  return d;
+}
+function botSay(text,delay){
+  const t=document.createElement('div');
+  t.className='msg out typing'; t.textContent='escribiendo…';
+  $('chatBody').appendChild(t); $('chatBody').scrollTop=1e6;
+  setTimeout(()=>{ t.remove(); bubble(text,'bot'); }, delay||900);
+}
+function openChat(intent){
+  togglePanel('chatPanel',true);
+  if(!greeted){
+    greeted=true;
+    botSay('¡Hola! 😊 Soy el asistente de <b>'+CFG.name+'</b>. Puedo ayudarte a pedir, reservar una mesa o responder tus preguntas. ¿Qué se te antoja hoy?',600);
+    if(intent==='order'){ setTimeout(()=>botSay('Para pedir: agrega tus platos desde el <b>menú</b> con + Agregar y al final toca <b>Enviar pedido por WhatsApp</b>. Yo lo confirmo aquí mismo. 👌'),2300); }
+  } else if(intent==='order'){
+    botSay('¡Claro! Arma tu pedido desde el menú con el botón <b>+ Agregar</b> y al final toca <b>Enviar pedido por WhatsApp</b>. Yo lo confirmo aquí mismo. 👌',600);
+  }
+}
+function quickAsk(btn){ const t=btn.textContent.trim(); bubble(t,'me'); botHandle(t); }
+function sendChat(){
+  const inp=$('chatInput'); const t=inp.value.trim(); if(!t)return;
+  inp.value=''; bubble(t,'me'); botHandle(t);
+}
+function orderText(){
+  let lines=[],t=0;
+  cart.forEach((it,name)=>{ lines.push(it.qty+' × '+name+' — '+fmt(it.price*it.qty)); t+=it.price*it.qty; });
+  return {txt:lines.join('\n'), total:t};
+}
+function sendOrder(){
+  if(!cart.size){ alert('Tu pedido está vacío — agrega algo del menú primero 😊'); return; }
+  togglePanel('cartPanel',false); togglePanel('chatPanel',true); greeted=true;
+  const o=orderText();
+  bubble('Hola, quiero hacer un pedido:\n'+o.txt+'\nTotal: '+fmt(o.total),'me');
+  botSay('¡Pedido recibido! ✅\n'+o.txt+'\n<b>Total: '+fmt(o.total)+'</b>\nLo tenemos listo en 20 minutos para recoger. ¿A nombre de quién lo dejo?',1100);
+  state='order_name';
+}
+function botHandle(raw){
+  const t=raw.toLowerCase();
+  if(state==='order_name'){
+    state='idle';
+    botSay('Perfecto, <b>'+raw+'</b> ✅ Tu pedido queda confirmado a tu nombre. Te avisamos por aquí cuando esté listo. ¡Gracias por pedir en <b>'+CFG.name+'</b>! 🎉');
+    cart.clear(); renderCart(); return;
+  }
+  if(state==='res_dia'){ res.dia=raw; state='res_hora'; botSay('¿A qué <b>hora</b> te la reservo?'); return; }
+  if(state==='res_hora'){ res.hora=raw; state='res_personas'; botSay('¿Para <b>cuántas personas</b>?'); return; }
+  if(state==='res_personas'){ res.personas=raw; state='res_nombre'; botSay('¡Casi listo! ¿A <b>nombre</b> de quién dejo la mesa?'); return; }
+  if(state==='res_nombre'){
+    res.nombre=raw; state='idle';
+    botSay('¡Reservado, <b>'+res.nombre+'</b>! ✅\nMesa para <b>'+res.personas+'</b>, el <b>'+res.dia+'</b> a las <b>'+res.hora+'</b>.\nTe mando un recordatorio antes. ¡Te esperamos en <b>'+CFG.name+'</b>! 🎉');
+    return;
+  }
+  if(CFG.star && CFG.star.keys.some(k=>t.includes(k))){ botSay(CFG.star.a); return; }
+  if(/reserv/.test(t)){ state='res_dia'; botSay('¡Con gusto te reservo! 📅 ¿Para qué <b>día</b>? (puedes decir “el sábado”, “mañana”, una fecha…)'); return; }
+  if(/hora|abren|abierto|cierra|horario/.test(t)){ botSay('Nuestro horario: <b>'+CFG.hoursShort+'</b> 🕘 ¿Te reservo una mesa o quieres pedir para recoger?'); return; }
+  if(/donde|direcci|ubicac|llegar|quedan/.test(t)){ botSay('Estamos en <b>'+CFG.address+'</b> 📍 En la sección <b>Horario y ubicación</b> de la página tienes el botón de Cómo llegar 🗺️ ¿Vienes hoy?'); return; }
+  if(/menu|menú|plato|comen|venden|tienen|ofrecen/.test(t)){ botSay(CFG.menuTeaser); return; }
+  if(/precio|cuesta|cuanto|cuánto/.test(t)){ botSay(CFG.priceTeaser); return; }
+  if(/pedido|ordenar|pedir/.test(t)){ botSay('Perfecto 🙌 Arma tu pedido en el <b>menú de la página</b> con el botón + Agregar, y al final toca <b>Enviar pedido por WhatsApp</b>. Yo te lo confirmo aquí.'); return; }
+  if(/delivery|domicilio|env[ií]o/.test(t)){ botSay(CFG.delivery ? CFG.delivery : 'Por ahora tomamos pedidos para <b>recoger</b> aquí en el local 🛍️ ¿Te armo un pedido?'); return; }
+  if(/hola|buenas|hey/.test(t)){ botSay('¡Hola! 😊 ¿Te ayudo a <b>pedir</b>, <b>reservar una mesa</b> o te cuento del <b>menú</b>?'); return; }
+  if(/gracias/.test(t)){ botSay('¡Con gusto! 😊 Aquí estoy 24/7 para lo que necesites.'); return; }
+  botSay('Te ayudo con gusto 😊 Puedo <b>tomar tu pedido</b>, <b>reservar una mesa</b>, decirte el <b>horario</b> o contarte del <b>menú</b>. ¿Qué te gustaría?');
+}
+</script>
+</body>
+</html>
