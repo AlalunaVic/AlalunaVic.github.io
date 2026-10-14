@@ -154,7 +154,7 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 <script>
 'use strict';
 /* ============ SetupQC MVP — single-file demo ============ */
-var LS_KEY = 'setupqc_v4';
+var LS_KEY = 'setupqc_v5';
 var MEASURES = [
   {key:'nut',    label:'String Spacing at Nut'},
   {key:'feet',   label:'Bridge Thickness at Feet'},
@@ -170,11 +170,36 @@ var statuses = {at_bench:'At Bench', ready:'Ready for QC', approved:'Approved', 
    Two spec sets per instrument/size: Strobel book values (Standard) and Revelle-for-Sweetwater values. All mm.
    Values per size are [min,max] pairs in table order: scoopT, scoopB, nut, spacing, feet, top, width, treble, bass.
    Only the six QC-card measurements (nut, spacing, feet, top, treble, bass) become inspection targets — they alone approve or reject.
-   Scoop and bridge width travel as reference data on each template (ref) and never gate approval. */
-var STANDARDS = {"violin":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.5,3.5],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.2,3.2],[1.0,1.0],[32.0,32.0],[2.7,2.7],[4.3,4.3]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.0,3.0],[0.9,0.9],[29.0,29.0],[2.5,2.5],[3.9,3.9]]},"sweetwater":{"4/4":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[34.0,34.0],[5.0,5.0],[1.3,1.6],[41.0,41.0],[3.5,3.7],[5.5,5.7]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.8,4.2],[1.0,1.3],[32.0,32.0],[2.7,2.9],[4.3,4.5]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.4,3.8],[0.9,1.2],[29.0,29.0],[2.5,2.7],[3.9,4.1]]}},"viola":{"sizes":["17\"","16-16.5\"","15-15.5\"","14\"","13\"","12\""],"strobel":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.5],[1.5,1.5],[50.0,50.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[37.0,37.0],[5.3,5.3],[1.5,1.5],[48.0,48.0],[4.3,4.3],[6.3,6.3]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[36.0,36.0],[5.0,5.0],[1.4,1.4],[46.0,48.0],[4.0,4.0],[6.0,6.0]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.6,3.6],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]]},"sweetwater":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[6.1,6.5],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.9,6.3],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.9],[1.5,1.5],[46.0,46.0],[4.5,4.5],[6.5,6.5]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.8,5.2],[1.3,1.6],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]]}},"cello":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.0,11.0],[2.6,2.6],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.0,10.0],[2.4,2.4],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.3,9.3],[2.2,2.2],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[8.6,8.6],[2.0,2.0],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[7.9,7.9],[1.9,1.9],[65.0,65.0],[2.9,2.9],[4.7,4.7]]},"sweetwater":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.8,12.2],[2.6,2.9],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.8,11.2],[2.4,2.7],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.8,10.2],[2.2,2.5],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[9.3,9.7],[2.0,2.3],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[8.5,8.9],[1.9,2.2],[65.0,65.0],[2.9,2.9],[4.7,4.7]]}}};
+   Scoop and bridge width travel as reference data on each template (ref) and never gate approval.
+   Cello string heights carry Victor's shop standard (2026-10-14): book values +1.5 mm (A 5.5 / C 8.0 mm at 4/4). */
+var STANDARDS = {"violin":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.5,3.5],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.2,3.2],[1.0,1.0],[32.0,32.0],[2.7,2.7],[4.3,4.3]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.0,3.0],[0.9,0.9],[29.0,29.0],[2.5,2.5],[3.9,3.9]]},"sweetwater":{"4/4":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[34.0,34.0],[5.0,5.0],[1.3,1.6],[41.0,41.0],[3.5,3.7],[5.5,5.7]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.8,4.2],[1.0,1.3],[32.0,32.0],[2.7,2.9],[4.3,4.5]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.4,3.8],[0.9,1.2],[29.0,29.0],[2.5,2.7],[3.9,4.1]]}},"viola":{"sizes":["17\"","16-16.5\"","15-15.5\"","14\"","13\"","12\""],"strobel":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.5],[1.5,1.5],[50.0,50.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[37.0,37.0],[5.3,5.3],[1.5,1.5],[48.0,48.0],[4.3,4.3],[6.3,6.3]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[36.0,36.0],[5.0,5.0],[1.4,1.4],[46.0,48.0],[4.0,4.0],[6.0,6.0]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.6,3.6],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]]},"sweetwater":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[6.1,6.5],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.9,6.3],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.9],[1.5,1.5],[46.0,46.0],[4.5,4.5],[6.5,6.5]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.8,5.2],[1.3,1.6],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]]}},"cello":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.0,11.0],[2.6,2.6],[90.0,90.0],[5.5,5.5],[8.0,8.0]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.0,10.0],[2.4,2.4],[83.0,83.0],[5.2,5.2],[7.5,7.5]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.3,9.3],[2.2,2.2],[77.0,77.0],[4.9,4.9],[7.0,7.0]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[8.6,8.6],[2.0,2.0],[70.0,70.0],[4.6,4.6],[6.6,6.6]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[7.9,7.9],[1.9,1.9],[65.0,65.0],[4.4,4.4],[6.2,6.2]]},"sweetwater":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.8,12.2],[2.6,2.9],[90.0,90.0],[5.5,5.5],[8.0,8.0]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.8,11.2],[2.4,2.7],[83.0,83.0],[5.2,5.2],[7.5,7.5]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.8,10.2],[2.2,2.5],[77.0,77.0],[4.9,4.9],[7.0,7.0]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[9.3,9.7],[2.0,2.3],[70.0,70.0],[4.6,4.6],[6.6,6.6]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[8.5,8.9],[1.9,2.2],[65.0,65.0],[4.4,4.4],[6.2,6.2]]}}};
 function stdTargets(inst, size, spec){ var a = STANDARDS[inst][spec][size]; return {nut:a[2], spacing:a[3], feet:a[4], top:a[5], treble:a[7], bass:a[8]}; }
 function stdRef(inst, size, spec){ var a = STANDARDS[inst][spec][size]; return {scoopT:a[0], scoopB:a[1], width:a[6]}; }
 function pairText(p){ return p[0]===p[1] ? (p[0]+' mm') : (p[0]+'\u2013'+p[1]+' mm'); }
+function implausible(t, v){ if(v==null||isNaN(v)) return false; return v<=0 || v > Math.max(t[1]*3, t[1]+10); }
+function oosList(t, m){ return MEASURES.filter(function(x){ return m[x.key]!=null && inRange(t.targets[x.key], m[x.key])!==true; }); }
+function submitGate(i, t, m, parts, kitFlag){
+  var blockers = [];
+  var missing = MEASURES.filter(function(x){ return m[x.key]==null; });
+  if(missing.length) blockers.push('Missing measurements: '+missing.map(function(x){return x.label;}).join(', '));
+  var impl = MEASURES.filter(function(x){ return implausible(t.targets[x.key], m[x.key]); });
+  if(impl.length) blockers.push('Implausible value — likely a typo (59 instead of 5.9): '+impl.map(function(x){return x.label;}).join(', '));
+  var pend = (parts||[]).filter(function(p){ return p.state==='pending'; });
+  if(pend.length && !kitFlag) blockers.push('Kit not reconciled: '+pend.length+' part(s) still pending — mark each installed/substituted, or flag the kit incomplete with a note.');
+  var subNoNote = (parts||[]).filter(function(p){ return p.state==='substituted' && !(p.note||'').trim(); });
+  if(subNoNote.length) blockers.push('A substituted part needs a note — what was used instead?');
+  return blockers;
+}
+function andonHTML(i, readOnly){
+  if(i.problem && i.problem.flag){
+    return '<div class="card" style="border-color:var(--bad)"><h3>\u26a0 Problem flagged — in the problem queue</h3><div class="sub">'+esc(i.problem.reason)+(i.problem.note?' — '+esc(i.problem.note):'')+' \u00b7 '+fmtDate(i.problem.at)+'</div>'+(readOnly?'':'<button class="btn dark mt" id="pb-resolve">Mark resolved</button>')+'</div>';
+  }
+  if(readOnly) return '';
+  return '<div class="card"><h3>\u26a0 Flag a problem (andon)</h3><div class="sub">Something wrong — a missing or damaged part, a spec question? Flag it and set the instrument aside in the problem queue instead of forcing the work. The bench keeps flowing; the manager sees it.</div>'+
+  '<label class="fl">Problem type</label><select id="pb-reason">'+['Missing part','Damaged part','Spec question','Bench / tool issue','Waiting on a decision'].map(function(r){return '<option>'+r+'</option>';}).join('')+'</select>'+
+  '<label class="fl">Note</label><input type="text" id="pb-note" placeholder="One line — what happened?">'+
+  '<button class="btn danger mt" id="pb-flag">\u26a0 Flag problem</button></div>';
+}
 function defaultTemplates(){
   var T = [
     {id:'tpl-sw', model:'REV25', client:'Sweetwater', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Sweetwater Spec',
@@ -245,6 +270,10 @@ function seedState(){
      qc:null,
      history:[['Intake — record created (kit: Despiau blank, Wittner Ultra tailpiece, string set)',daysAgo(0,8)]]}
   ];
+  inst.forEach(function(x){ x.problem={flag:false,reason:'',note:'',at:null}; x.luthier.oos={flag:false,reason:''}; });
+  var i3x = inst.filter(function(x){return x.id==='i3';})[0];
+  i3x.problem = {flag:true, reason:'Missing part', note:'Tailpiece missing from the kit bag — flagged for Prep', at:daysAgo(0,8)};
+  i3x.history.push(['\u26a0 Problem flagged (Missing part): tailpiece missing from the kit bag', daysAgo(0,8)]);
   return {templates:t, instruments:inst, role:'luthier', view:'work'};
 }
 var state;
@@ -337,7 +366,7 @@ function chip(st){ return '<span class="chip '+({at_bench:'bench',ready:'ready',
 function instButton(i){
   var t = tpl(i.templateId);
   return '<button class="inst" data-open="'+i.id+'" data-search="'+esc((i.code+' '+i.serial+' '+(i.brand||'')).toLowerCase())+'"><div><div class="t1">'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+i.code+'</span></div>'+
-    '<div class="t2">Serial '+esc(i.serial)+' · '+esc(t.size||'')+' · '+esc(t.client)+' · '+(i.luthier&&i.luthier.name?('by '+esc(i.luthier.name)):'not yet serviced')+'</div></div>'+chip(i.status)+'</button>';
+    '<div class="t2">Serial '+esc(i.serial)+' · '+esc(t.size||'')+' · '+esc(t.client)+' · '+(i.luthier&&i.luthier.name?('by '+esc(i.luthier.name)):'not yet serviced')+'</div></div>'+((i.problem&&i.problem.flag)?'<span class="chip returned">\u26a0 PROBLEM</span> ':'')+chip(i.status)+'</button>';
 }
 function toolBar(){
   return '<button class="btn scan mb" id="scanBtn">📷 Scan label</button>'+
@@ -363,6 +392,8 @@ function renderList(){
     if(done.length){ h += '<div class="sub mb" style="margin-top:14px">Already inspected:</div>' + done.map(instButton).join(''); }
   } else {
     h += toolBar();
+    var benchN = list.filter(function(x){return x.status==='at_bench';}).length;
+    if(benchN>=5) h += '<div class="banner info">Bench WIP limit reached ('+benchN+' at bench) — kanban rule: finish or flag work in progress before pulling more.</div>';
     h += '<button class="btn mb" id="newBtn">+ New instrument</button>';
     h += '<div class="card" id="newCard" style="display:none"><h2>New instrument — intake</h2>'+
       '<label class="fl">Serial number (from the internal label)</label><input type="text" id="nf-serial" placeholder="e.g. RV25-88500">'+
@@ -385,7 +416,7 @@ function createInstrument(){
   if(!serial){ toast('Enter the serial number first.'); return; }
   var tNew = tpl(document.getElementById('nf-tpl').value);
   var ni = {id:uid(), code:genCode(), serial:serial, templateId:tNew.id, brand:tNew.brand||'', status:'at_bench', createdAt:new Date().toISOString(),
-    parts:tplParts(tNew), kitIncomplete:{flag:false, note:''},
+    parts:tplParts(tNew), kitIncomplete:{flag:false, note:''}, problem:{flag:false,reason:'',note:'',at:null},
     luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null}, qc:null,
     history:[['Intake — record created', new Date().toISOString()]]};
   state.instruments.unshift(ni); save();
@@ -446,7 +477,7 @@ function renderLuthierForm(i){
     '<div class="row mt"><button class="btn dark sm" id="labelBtn">🏷️ Label / QR tag</button>'+
     (readOnly?'':'')+'</div></div>';
   h += '<div class="card"><h3>Setup measurements — “Actual” (mm)</h3>'+
-    '<div class="sub">Fields turn green inside spec, red outside. Out-of-spec values block submission — fix them at the bench, not on paper.</div>'+
+    '<div class="sub">Fields turn green inside spec, red outside. An impossible value (a typo like 59 for 5.9) cannot be submitted at all. An out-of-spec value can only go up with the flag below — where QC and the manager will see it. No silent bad work, no fake numbers.</div>'+
     measureFields('lu', i.luthier.measures, t, true) +
     kitHTML(i, readOnly) +
     '<label class="switch"><input type="checkbox" id="lu-newbridge" '+(i.luthier.newBridge?'checked':'')+(readOnly?' disabled':'')+'> New bridge used</label>'+
@@ -454,41 +485,51 @@ function renderLuthierForm(i){
     '<label class="fl">Photos (arrival / bridge / finished)</label>'+
     (readOnly?'':'<input type="file" id="lu-photo" accept="image/*" multiple>')+
     '<div class="photos" id="lu-photos">'+(i.luthier.photos||[]).map(function(p){return '<img src="'+p+'">';}).join('')+'</div>'+
+    '<label class="switch"><input type="checkbox" id="lu-oos" '+((i.luthier.oos&&i.luthier.oos.flag)?'checked':'')+(readOnly?' disabled':'')+'> Submit with out-of-spec flag — a measurement is outside the card spec and I am sending it up honestly (QC and the manager will see it)</label>'+
+    '<label class="fl">Out-of-spec reason</label><select id="lu-oos-reason" '+(readOnly?'disabled':'')+'>'+['Could not reach spec','Instrument limitation','Higher action requested by client','Other — explained to QC'].map(function(r){ return '<option'+(((i.luthier.oos||{}).reason===r)?' selected':'')+'>'+r+'</option>'; }).join('')+'</select>'+
+    '<div id="lu-blockers" style="margin-top:10px"></div>'+
     '<label class="fl">Serviced by</label><input type="text" id="lu-name" value="'+esc(i.luthier.name||'')+'" placeholder="Your name" '+(readOnly?'disabled':'')+'>'+
     (readOnly ? '<div class="sub mt">Manager view is read-only.</div>' :
       '<button class="btn mt" id="lu-submit">'+(i.status==='returned'?'Fix &amp; resubmit to QC':'Submit — Ready for QC')+'</button>'+
       '<div class="sub mt">Submitting locks your measurements with your name and a timestamp.</div>')+
     historyHTML(i)+'</div>';
+  h += andonHTML(i, readOnly);
   app.innerHTML = h;
   wireBack(); wireLive('lu', t);
   document.getElementById('labelBtn').onclick = function(){ ui.mode='label'; render(); };
+  var pbf = document.getElementById('pb-flag'); if(pbf) pbf.onclick = function(){ var r=document.getElementById('pb-reason').value; var n=document.getElementById('pb-note').value.trim(); i.problem={flag:true, reason:r, note:n, at:new Date().toISOString()}; i.history.push(['\u26a0 Problem flagged ('+r+')'+(n?': '+n:''), i.problem.at]); save(); render(); toast('Flagged — the instrument is in the problem queue.'); };
+  var pbr = document.getElementById('pb-resolve'); if(pbr) pbr.onclick = function(){ i.problem={flag:false, reason:'', note:'', at:null}; i.history.push(['Problem resolved', new Date().toISOString()]); save(); render(); toast('Problem cleared.'); };
   if(readOnly) return;
   document.getElementById('lu-photo').addEventListener('change', function(ev){ handlePhotos(ev, i); });
   document.getElementById('lu-submit').onclick = function(){
     var m = readMeasures('lu'); var t2 = tpl(i.templateId);
-    var missing = MEASURES.filter(function(x){ return m[x.key]==null; });
-    if(missing.length){ toast('Fill in all 6 measurements first.'); return; }
-    var bad = MEASURES.filter(function(x){ return inRange(t2.targets[x.key], m[x.key])!==true; });
-    if(bad.length){ toast('Out of spec: '+bad.map(function(x){return x.label;}).join(', ')+'. Correct at the bench before submitting.'); return; }
     var name = document.getElementById('lu-name').value.trim();
-    if(!name){ toast('Sign your work — enter “Serviced by”.'); return; }
-    var newParts = [], missNote = false;
+    var newParts = [];
     (i.parts||[]).forEach(function(p, idx){
       var stEl = document.getElementById('kp-state-'+idx), ntEl = document.getElementById('kp-note-'+idx);
-      var st = stEl ? stEl.value : p.state, nt = ntEl ? ntEl.value.trim() : (p.note||'');
-      if(st==='substituted' && !nt) missNote = true;
-      newParts.push({name:p.name, state:st, note:nt});
+      newParts.push({name:p.name, state: stEl ? stEl.value : p.state, note: ntEl ? ntEl.value.trim() : (p.note||'')});
     });
-    if(missNote){ toast('A substituted part needs a note — what was used instead?'); return; }
-    i.parts = newParts;
     var kiEl = document.getElementById('kp-incomplete'), knEl = document.getElementById('kp-inote');
-    i.kitIncomplete = {flag: kiEl ? kiEl.checked : false, note: knEl ? knEl.value.trim() : ''};
+    var kitFlag = kiEl ? kiEl.checked : false;
+    var oosEl = document.getElementById('lu-oos'), oosReasonEl = document.getElementById('lu-oos-reason');
+    var oosFlag = oosEl ? oosEl.checked : false;
+    var blockers = submitGate(i, t2, m, newParts, kitFlag);
+    if(!name) blockers.push('Sign your work — enter \u201cServiced by\u201d.');
+    var oos = oosList(t2, m);
+    if(oos.length && !oosFlag) blockers.push('Out of spec: '+oos.map(function(x){return x.label;}).join(', ')+' — fix it at the bench, or check the out-of-spec flag so QC and the manager see it.');
+    var bx = document.getElementById('lu-blockers');
+    if(blockers.length){ if(bx) bx.innerHTML = '<div class="banner ret"><strong>Cannot submit yet:</strong><br>'+blockers.map(function(b){return esc(b);}).join('<br>')+'</div>'; toast('Cannot submit yet — see the list above the button.'); return; }
+    if(bx) bx.innerHTML = '';
+    i.parts = newParts;
+    i.kitIncomplete = {flag: kitFlag, note: knEl ? knEl.value.trim() : ''};
     i.luthier.measures = m; i.luthier.name = name;
+    i.luthier.oos = {flag: !!(oosFlag && oos.length), reason: oosFlag ? (oosReasonEl ? oosReasonEl.value : '') : ''};
     i.luthier.newBridge = document.getElementById('lu-newbridge').checked;
     i.luthier.subs = document.getElementById('lu-subs').value.trim() || subsText(i);
     i.luthier.submittedAt = new Date().toISOString();
     if(i.status==='returned'){ i.qc = null; i.history.push(['Reworked and resubmitted by '+name, i.luthier.submittedAt]); }
     else i.history.push(['Submitted by '+name+' — Ready for QC', i.luthier.submittedAt]);
+    if(i.luthier.oos.flag) i.history.push(['Submitted WITH out-of-spec flag: '+i.luthier.oos.reason, i.luthier.submittedAt]);
     i.status = 'ready'; save();
     ui.mode=null; ui.detailId=null; state.role='luthier'; render();
     toast('Submitted. The inspector will verify it blind.');
@@ -553,6 +594,7 @@ function renderBlind(i){
    '<div class="sub">Serial '+esc(i.serial)+' · Template: '+esc(t.name)+'</div>'+
    '<h3 class="mt">Your measurements (mm)</h3>'+ measureFields('qc', null, t, true) +
    '<label class="fl">Checked by</label><input type="text" id="qc-name" placeholder="Inspector name">'+
+   '<div class="sub">RII rule (from aviation maintenance): the inspector cannot be the person who serviced this instrument.</div>'+
    '<button class="btn mt" id="qc-submit">Submit &amp; compare</button></div>';
   wireBack(); wireLive('qc', t);
   document.getElementById('qc-submit').onclick = function(){
@@ -560,6 +602,7 @@ function renderBlind(i){
     if(MEASURES.some(function(x){return m[x.key]==null;})){ toast('Enter all 6 of your measurements first.'); return; }
     var name = document.getElementById('qc-name').value.trim();
     if(!name){ toast('Enter the inspector name (“Checked by”).'); return; }
+    if(i.luthier.name && name.toLowerCase()===i.luthier.name.trim().toLowerCase()){ toast('RII rule: the inspector cannot be the person who did the work — a second person must verify this instrument.'); return; }
     var prevAttempts = i.qc && i.qc.attempts ? i.qc.attempts : 0;
     i.qc = {name:name, measures:m, decision:null, reason:'', at:new Date().toISOString(), attempts:prevAttempts+1, pending:true};
     save(); ui.compareId = i.id; ui.mode='compare'; render();
@@ -572,6 +615,7 @@ function renderCompare(i){
   var canDecide = i.qc && i.qc.pending;
   h += '<div class="card"><h2>'+esc(t.model)+' · <span class="code">'+i.code+'</span> '+chip(i.status)+'</h2>'+
     '<div class="sub">Serial '+esc(i.serial)+' · '+esc(t.name)+'</div>';
+  if(i.luthier.oos && i.luthier.oos.flag) h += '<div class="banner ret">\u26a0 Submitted with out-of-spec flag: '+esc(i.luthier.oos.reason||'measurement outside card spec')+'. The luthier sent this up honestly — judge the flagged values in the table.</div>';
   if(i.luthier.submittedAt) h += '<div class="sub">Serviced by '+esc(i.luthier.name)+' · '+fmtDate(i.luthier.submittedAt)+(i.luthier.newBridge?' · New bridge':'')+(i.luthier.subs?' · Subs: '+esc(i.luthier.subs):'')+'</div>';
   if(i.qc){
     h += '<div class="sub">Checked by '+esc(i.qc.name)+' · '+fmtDate(i.qc.at)+'</div>';
@@ -655,8 +699,18 @@ function renderManager(){
    '<div class="stat mt"><div class="s"><div class="n">'+by.at_bench+'</div><div class="l">At bench</div></div>'+
    '<div class="s"><div class="n">'+by.ready+'</div><div class="l">Ready for QC</div></div>'+
    '<div class="s"><div class="n">'+by.approved+'</div><div class="l">Approved</div></div>'+
-   '<div class="s"><div class="n">'+(fpPct==null?'—':fpPct+'%')+'</div><div class="l">First-pass approval</div></div></div>'+
+   '<div class="s"><div class="n">'+(fpPct==null?'—':fpPct+'%')+'</div><div class="l">First-pass yield</div></div>'+'<div class="s"><div class="n">'+list.filter(function(x){return x.problem&&x.problem.flag;}).length+'</div><div class="l">In problem queue</div></div></div>'+
    (by.returned? '<div class="banner ret mt">'+by.returned+' instrument(s) returned for rework — see the list below.</div>':'')+'</div>';
+  var exc = [];
+  list.forEach(function(x){
+    if(x.problem && x.problem.flag) exc.push(['\u26a0 Problem flagged', x, x.problem.reason+(x.problem.note?' — '+x.problem.note:'')]);
+    if(x.status==='returned') exc.push(['\u21a9 Returned for rework', x, x.qc?x.qc.reason:'']);
+    if(x.kitIncomplete && x.kitIncomplete.flag) exc.push(['Kit incomplete', x, x.kitIncomplete.note||'a part was missing']);
+    if(x.luthier.oos && x.luthier.oos.flag && x.status!=='approved') exc.push(['Submitted out of spec', x, x.luthier.oos.reason||'']);
+    if(x.qc && x.qc.measures && x.luthier.measures){ var big = MEASURES.filter(function(m){ var a=x.luthier.measures[m.key], b=x.qc.measures[m.key]; return a!=null&&b!=null&&Math.abs(a-b)>0.2; }); if(big.length) exc.push(['QC discrepancy over 0.2 mm', x, big.map(function(m){return m.label;}).join(', ')]); }
+  });
+  h += '<div class="card"><h2>Needs attention — review by exception</h2><div class="sub">Only exceptions land here — problem flags, returns, incomplete kits, out-of-spec submissions, QC discrepancies. Everything else is assumed fine (the pharma rule: review by exception).</div>'+
+    (exc.length ? exc.map(function(e){ return '<div class="banner ret" style="margin-top:8px"><strong>'+e[0]+'</strong> — '+esc(tpl(e[1].templateId).model)+' <span class="code">'+e[1].code+'</span> (serial '+esc(e[1].serial)+')'+(e[2]?': '+esc(e[2]):'')+'</div>'; }).join('') : '<div class="banner info" style="margin-top:8px">Nothing needs attention. The floor is clean.</div>')+'</div>';
   h += '<div class="card"><h2>Ask your data</h2><div class="sub">Plain-language questions, answered honestly from the records on this device (demo engine — on the production version this layer runs on local Ollama inside your building). Try: “How many are ready for QC?” · “Which instruments were returned and why?” · “Who serviced the most?” · “How many Sweetwater?”</div>'+
    '<div class="row mt"><input type="text" id="ask-q" placeholder="Ask about your instruments…"><button class="btn sm" id="ask-btn" style="flex:0 0 84px">Ask</button></div>'+
    '<div class="asklog" id="ask-log"></div></div>';
