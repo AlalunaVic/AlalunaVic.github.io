@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SetupQC Ops — Full Operations</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+:root{
+  --bg:#101014; --bg2:#17171d; --card:#1d1d25; --card2:#24242e; --line:#33333f;
+  --gold:#d4a437; --gold2:#f0c65e; --ink:#ece7db; --dim:#a49e8f; --dim2:#77725f;
+  --ok:#43c465; --okbg:#14301c; --bad:#e5534b; --badbg:#3a1a17; --warn:#e8a33d;
+  --radius:12px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:16px; line-height:1.45; padding-bottom:40px}
+a{color:var(--gold2)}
+button{font-family:inherit; cursor:pointer}
+header.top{position:sticky; top:0; z-index:20; background:linear-gradient(180deg,#191921,#141419); border-bottom:1px solid var(--line); padding:10px 14px 8px}
+.brand{display:flex; align-items:baseline; gap:10px}
+.brand h1{font-size:21px; margin:0; letter-spacing:.4px; color:var(--gold2); font-weight:800}
+.brand h1 span{color:var(--ink); font-weight:300}
+.brand .tag{font-size:11px; color:var(--dim); font-style:italic}
+.roles{display:flex; gap:6px; margin-top:10px}
+.roles button{flex:1; background:var(--card); color:var(--dim); border:1px solid var(--line); border-radius:9px; padding:9px 4px; font-size:13.5px; font-weight:600}
+.roles button.on{background:var(--gold); border-color:var(--gold); color:#191408}
+nav.tabs{display:flex; gap:6px; margin-top:8px}
+nav.tabs button{flex:1; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--dim); padding:7px 4px; font-size:14px; font-weight:600}
+nav.tabs button.on{color:var(--gold2); border-bottom-color:var(--gold)}
+main{padding:14px; max-width:760px; margin:0 auto}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px; margin-bottom:12px}
+.card h2{margin:0 0 4px; font-size:17px; color:var(--gold2)}
+.card h3{margin:0 0 6px; font-size:15px}
+.sub{color:var(--dim); font-size:13px}
+.btn{display:inline-block; background:var(--gold); color:#191408; border:none; border-radius:9px; padding:11px 16px; font-size:15px; font-weight:700; width:100%; text-align:center}
+.btn:active{background:var(--gold2)}
+.btn.ghost{background:transparent; color:var(--gold2); border:1px solid var(--gold); font-weight:600}
+.btn.dark{background:var(--card2); color:var(--ink); border:1px solid var(--line); font-weight:600}
+.btn.danger{background:transparent; color:var(--bad); border:1px solid var(--bad); font-weight:600}
+.btn.sm{width:auto; padding:8px 13px; font-size:13.5px}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.row{display:flex; gap:8px}
+.row>*{flex:1}
+.mt{margin-top:10px}.mb{margin-bottom:10px}
+label.fl{display:block; font-size:13px; color:var(--dim); margin:12px 0 4px; font-weight:600}
+input[type=text],input[type=number],select,textarea{width:100%; background:var(--bg2); border:1px solid var(--line); border-radius:8px; color:var(--ink); padding:11px; font-size:16px; font-family:inherit}
+textarea{resize:vertical; min-height:56px}
+input:focus,select:focus,textarea:focus{outline:none; border-color:var(--gold)}
+.chip{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:20px; letter-spacing:.3px; white-space:nowrap}
+.chip.bench{background:#2c2c38; color:#c9c4b4; border:1px solid var(--line)}
+.chip.ready{background:#3d2f10; color:var(--gold2); border:1px solid var(--gold)}
+.chip.approved{background:var(--okbg); color:var(--ok); border:1px solid var(--ok)}
+.chip.returned{background:var(--badbg); color:var(--bad); border:1px solid var(--bad)}
+.chip.ordered{background:#23232e; color:#b9b3a4; border:1px dashed var(--dim2)}
+.chip.kitting{background:#2e2140; color:#c9a7f5; border:1px solid #7a5fb0}
+.chip.readybench{background:#12303a; color:#6fd3e7; border:1px solid #3d8fa5}
+.chip.shipped{background:#1d2b1d; color:#9ccc65; border:1px solid #558b2f}
+.badge{display:inline-block; background:var(--badbg); color:var(--bad); border:1px solid var(--bad); font-size:11px; font-weight:700; padding:2px 7px; border-radius:12px; margin-left:6px; vertical-align:1px}
+.bagrow{display:flex; align-items:center; gap:11px; padding:9px 0; border-bottom:1px solid var(--line); font-size:14.5px}
+.bagrow input{width:23px; height:23px; accent-color:var(--gold); flex:0 0 auto}
+.bagrow label{flex:1; cursor:pointer}
+.roles{flex-wrap:wrap}
+.roles button{flex:1 1 30%}
+.inst{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:13px 14px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:9px; cursor:pointer; text-align:left; width:100%; color:var(--ink)}
+.inst:active{background:var(--card2)}
+.inst .t1{font-weight:700; font-size:15.5px}
+.inst .t2{color:var(--dim); font-size:12.5px; margin-top:1px}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--gold2); font-weight:700}
+.mgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.mfield{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:10px}
+.mfield .ml{font-size:12px; color:var(--dim); font-weight:700; min-height:30px}
+.mfield .tg{font-size:11.5px; color:var(--dim2); margin-top:3px}
+.mfield input{margin-top:5px; text-align:center; font-size:18px; font-weight:700; padding:9px}
+.mfield.ok{border-color:var(--ok)} .mfield.ok input{border-color:var(--ok); color:var(--ok)}
+.mfield.bad{border-color:var(--bad)} .mfield.bad input{border-color:var(--bad); color:var(--bad)}
+table.cmp{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:8px}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line); padding:7px 5px; text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; letter-spacing:.4px}
+.flag{color:var(--bad); font-weight:700}
+.pass{color:var(--ok); font-weight:700}
+.banner{border-radius:10px; padding:11px 13px; font-size:14px; margin-bottom:12px}
+.banner.ret{background:var(--badbg); border:1px solid var(--bad); color:#f3c1bd}
+.banner.info{background:#2c2c38; border:1px solid var(--line); color:var(--dim)}
+.photos{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+.photos img{width:74px; height:74px; object-fit:cover; border-radius:8px; border:1px solid var(--line)}
+.stat{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.stat .s{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center}
+.stat .n{font-size:26px; font-weight:800; color:var(--gold2)}
+.stat .l{font-size:12px; color:var(--dim); margin-top:2px}
+.asklog{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:11px; font-size:14px; margin-top:10px; white-space:pre-wrap}
+.asklog:empty{display:none}
+.qrbox{display:flex; flex-direction:column; align-items:center; gap:8px; padding:14px; background:#fff; border-radius:10px; color:#111}
+.qrbox .big{font-family:ui-monospace,Menlo,monospace; font-size:30px; font-weight:800; letter-spacing:2px; color:#111}
+.qrbox .sm{font-size:12px; color:#444}
+.switch{display:flex; align-items:center; gap:10px; margin-top:12px; font-size:14.5px}
+.switch input{width:22px; height:22px; accent-color:var(--gold)}
+.hist{font-size:12.5px; color:var(--dim); border-top:1px solid var(--line); margin-top:12px; padding-top:9px}
+.hist div{margin:3px 0}
+.foot{color:var(--dim2); font-size:12px; text-align:center; margin-top:22px; padding:0 16px}
+.linkbtn{background:none; border:none; color:var(--dim); font-size:12.5px; text-decoration:underline; padding:4px}
+#printArea{display:none}
+@media print{
+  @page{margin:6mm}
+  body>*{display:none !important}
+  body>#printArea{display:block !important; color:#000; background:#fff; padding:24px; font-family:Georgia,serif}
+  body>#printArea .svclabel{margin:0}
+}
+.cert{border:2.5px solid #8a6d1f; padding:26px; max-width:680px; margin:0 auto; color:#111}
+.cert h1{font-size:22px; text-align:center; margin:0; color:#8a6d1f; letter-spacing:1px}
+.cert h2{font-size:14px; text-align:center; font-weight:normal; margin:4px 0 18px; color:#333}
+.cert table{width:100%; border-collapse:collapse; font-size:13px; margin:12px 0}
+.cert td,.cert th{border:1px solid #999; padding:5px 7px; text-align:right}
+.cert td:first-child,.cert th:first-child{text-align:left}
+.cert .meta{display:flex; justify-content:space-between; font-size:13.5px; margin:6px 0}
+.cert .sig{display:flex; justify-content:space-between; margin-top:30px; font-size:13px}
+.cert .sig div{border-top:1px solid #333; padding-top:5px; width:45%; text-align:center}
+.labelprint{border:1.5px dashed #333; padding:18px; max-width:340px; margin:0 auto; text-align:center; color:#111; font-family:Arial,sans-serif}
+.labelprint .big{font-family:monospace; font-size:32px; font-weight:800; letter-spacing:2px}
+.btn.scan{background:#2c2110; color:var(--gold2); border:1.5px solid var(--gold)}
+#scanner{position:fixed; inset:0; background:rgba(8,8,10,.97); z-index:200; display:none; flex-direction:column; align-items:center; padding:20px 16px; overflow:auto}
+#scanner video{width:100%; max-width:420px; border-radius:12px; border:1.5px solid var(--gold); background:#000; margin-top:12px}
+.kitpart{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:8px}
+.kitpart .kp-name{font-size:14px; font-weight:600; margin-bottom:6px}
+.kitpart select{margin-bottom:6px}
+.kp-row{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid var(--line); font-size:13.5px}
+.kp-row:last-child{border-bottom:none}
+/* ——— Classic internal service label (Scherl & Roth style), true size 90 × 38 mm ——— */
+.svclabel{width:90mm; max-width:100%; height:38mm; margin:0 auto; background:#f6efdb; color:#1c1a14; font-family:Georgia,'Times New Roman',serif; border:1.5px solid #2a2519; padding:1.6mm; box-sizing:border-box}
+.svc-in{position:relative; border:1px solid #2a2519; height:100%; padding:1.8mm 3mm; box-sizing:border-box; display:flex; flex-direction:column}
+.svc-brand{text-align:center; font-size:13.5pt; letter-spacing:3px; font-weight:600; line-height:1.1}
+.svc-year{position:absolute; top:1.8mm; right:3mm; font-style:italic; font-size:10pt}
+.svc-mid{display:flex; justify-content:space-between; align-items:center; flex:1; gap:3mm}
+.svc-model{font-size:10pt}
+.svc-model u{font-weight:700}
+.svc-right{display:flex; align-items:center; gap:2.5mm}
+.svc-sn{background:#fff; border:1px solid #bbb; border-radius:2mm; padding:1mm 2.4mm; font-family:Arial,sans-serif; font-weight:700; font-size:10.5pt; white-space:nowrap}
+.svc-qr{text-align:center}
+.svc-qr svg{display:block; margin:0 auto}
+.svc-code{font-family:ui-monospace,Menlo,monospace; font-size:6.5pt; font-weight:700; letter-spacing:.5px; margin-top:.5mm}
+.svc-bottom{text-align:center; font-size:8.5pt; letter-spacing:2.5px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><h1>Setup<span>QC</span></h1><div class="tag">FULL OPERATIONS — the whole chain: order → prep → kitting → bench → QC → shipped. Math checks the measurements. Intelligence answers the questions.</div></div>
+  <div class="roles" id="roles">
+    <button data-role="luthier">🎻 Luthier</button>
+    <button data-role="prep">🏷️ Prep · John</button>
+    <button data-role="kitting">🧺 Kitting · José</button>
+    <button data-role="qc">🔍 QC Inspector</button>
+    <button data-role="manager">📊 Manager</button>
+  </div>
+  <nav class="tabs">
+    <button id="tab-work" class="on">Instruments</button>
+    <button id="tab-templates">Spec Templates</button>
+  </nav>
+</header>
+<main id="app"></main>
+<div class="foot">SetupQC Ops — Full Operations demo · Data lives only in this browser (localStorage).<br>
+<button class="linkbtn" id="resetDemo">Reset demo data</button></div>
+<div id="printArea"></div>
+
+<script>
+'use strict';
+/* ============ SetupQC MVP — single-file demo ============ */
+var LS_KEY = 'setupqc_ops_v1';
+var MEASURES = [
+  {key:'nut',    label:'String Spacing at Nut'},
+  {key:'feet',   label:'Bridge Thickness at Feet'},
+  {key:'top',    label:'Bridge Thickness at Strings'},
+  {key:'spacing',label:'String Spacing at Bridge'},
+  {key:'treble', label:'String Height — Treble Side'},
+  {key:'bass',   label:'String Height — Bass Side'}
+];
+var CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+var statuses = {ordered:'Ordered', kitting:'Kitting', ready_bench:'Ready for Bench', at_bench:'At Bench', ready:'Ready for QC', approved:'Approved', returned:'Returned', shipped:'Shipped'};
+
+function defaultTemplates(){
+  return [
+    {id:'tpl-sw', model:'REV25', client:'Sweetwater', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Sweetwater Spec',
+     targets:{nut:[16.5,16.5], feet:[5,5], top:[1.3,1.6], spacing:[34,34], treble:[3.5,3.7], bass:[5.5,5.7]},
+     kit:['Bridge blank','String set','Tailpiece']},
+    {id:'tpl-std', model:'REV25', client:'Standard', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Standard',
+     targets:{nut:[16.5,16.5], feet:[4.5,4.5], top:[1.2,1.8], spacing:[33.5,33.5], treble:[3.3,3.8], bass:[5.3,5.8]},
+     kit:['Bridge blank','String set','Tailpiece']},
+    {id:'tpl-sr52', model:'SR52E13H', client:'Stock', brand:'Scherl & Roth', size:'Viola 13″', name:'SR52E13H · Viola 13″ — Standard Spec',
+     targets:{nut:[15,15], feet:[3.9,3.9], top:[1.2,1.2], spacing:[31,31], treble:[3.2,3.2], bass:[5.1,5.1]},
+     kit:['Bridge blank — Despiau Superieur (France)','Tailpiece — Wittner Ultra','String set — viola 13″']}
+  ];
+}
+function P(n,s,nt){ return {name:n, state:s||'pending', note:nt||''}; }
+function tplParts(t){ return (t.kit||[]).map(function(n){ return P(n); }); }
+function partsSummary(i){
+  var ins=[], subs=[];
+  (i.parts||[]).forEach(function(p){
+    if(p.state==='installed') ins.push(p.name);
+    if(p.state==='substituted') subs.push(p.name+(p.note?' → '+p.note:''));
+  });
+  return {installed:ins, subs:subs};
+}
+function subsText(i){ return partsSummary(i).subs.join('; '); }
+function mkMeasures(o){ var m={}; MEASURES.forEach(function(x){ m[x.key]=(o&&o[x.key]!=null)?o[x.key]:null; }); return m; }
+function daysAgo(n, h){ var d=new Date(Date.now()-n*864e5); d.setHours(h||10,15,0,0); return d.toISOString(); }
+function fridayISO(){ var d=new Date(); var add=(5-d.getDay()+7)%7; d.setDate(d.getDate()+add); return d.toISOString().slice(0,10); }
+function orderById(id){ return (state.orders||[]).find(function(o){return o.id===id;}); }
+function nextOrderId(){ var n=1043; (state.orders||[]).forEach(function(o){ var m=/ORD-(\d+)/.exec(o.id); if(m) n=Math.max(n, parseInt(m[1],10)+1); }); return 'ORD-'+n; }
+function bagFor(t, line){
+  var items=(t.kit||[]).map(function(nm){ return {name:nm, bagged:false}; });
+  if(line){
+    if(line.strings) items.push({name:'Strings — '+line.strings, bagged:false});
+    if(line.accessories) line.accessories.split('·').forEach(function(a){ a=a.trim(); if(a) items.push({name:'Accessory — '+a, bagged:false}); });
+  }
+  return items;
+}
+function shortageBadge(i){ return (i && i.shortage && i.shortage.flag) ? '<span class="badge">⚠ SHORTAGE</span>' : ''; }
+function dispSerial(i){ return i.serial ? esc(i.serial) : '<em>serial pending</em>'; }
+function seedState(){
+  var t = defaultTemplates();
+  var inst = [
+    {id:'i1', code:'QC-A7K2P', serial:'RV25-88412', templateId:'tpl-sw', brand:'Revelle', status:'approved', createdAt:daysAgo(4),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
+     luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(4,11)},
+     qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.1,top:1.5,spacing:34,treble:3.6,bass:5.7}), decision:'approved', reason:'', at:daysAgo(3,9), attempts:1},
+     history:[['Intake — record created',daysAgo(4)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(4,11)],['QC approved by D. Blouin',daysAgo(3,9)]]},
+    {id:'i2', code:'QC-M3X8Q', serial:'RV25-88437', templateId:'tpl-sw', brand:'Revelle', status:'ready', createdAt:daysAgo(1),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
+     luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.4,spacing:34,treble:3.5,bass:5.5}), newBridge:false, subs:'Dominant G string', photos:[], submittedAt:daysAgo(0,12)},
+     qc:null,
+     history:[['Intake — record created',daysAgo(1)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(0,12)]]},
+    {id:'i3', code:'QC-T9W4E', serial:'RV25-88451', templateId:'tpl-std', brand:'Revelle', status:'at_bench', createdAt:daysAgo(0,9),
+     parts:[P('Bridge blank','installed'),P('String set'),P('Tailpiece')], kitIncomplete:{flag:false,note:''},
+     luthier:{name:'', measures:mkMeasures({nut:16.5,feet:4.5}), newBridge:false, subs:'', photos:[], submittedAt:null},
+     qc:null,
+     history:[['Intake — record created',daysAgo(0,9)]]},
+    {id:'i4', code:'QC-R5D7N', serial:'RV25-88390', templateId:'tpl-sw', brand:'Revelle', status:'returned', createdAt:daysAgo(6),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
+     luthier:{name:'J. Moreno', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(5,14)},
+     qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.0,top:1.6,spacing:34,treble:3.6,bass:5.9}), decision:'returned', reason:'Bass string height measures 5.9 mm — out of spec (5.5–5.7). Lower the bridge on the bass side and resubmit.', at:daysAgo(5,16), attempts:1},
+     history:[['Intake — record created',daysAgo(6)],['Submitted by J. Moreno — Ready for QC',daysAgo(5,14)],['QC returned by D. Blouin: bass height 5.9 out of spec',daysAgo(5,16)]]},
+    {id:'i5', code:'QC-K8R2M', serial:'16264', templateId:'tpl-sr52', brand:'Scherl & Roth', status:'at_bench', createdAt:daysAgo(0,8),
+     parts:tplParts(t[2]), kitIncomplete:{flag:false,note:''},
+     luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null},
+     qc:null,
+     history:[['Intake — record created (kit: Despiau blank, Wittner Ultra tailpiece, string set)',daysAgo(0,8)]]}
+  ];
+  var st = {templates:t, instruments:inst, role:'luthier', view:'work'};
+  inst.forEach(function(x){ x.orderId=null; x.shortage={flag:false,note:''}; x.bagItems=null; });
+  var line0 = {templateId:'tpl-sw', qty:3, strings:'Thomastik Dominant string set', accessories:'Wittner Ultra tailpiece · Despiau bridge blank'};
+  var ord = {id:'ORD-1042', client:'Sweetwater', dueDate:fridayISO(), notes:'Friday shipment — REV25 outfits to Sweetwater spec.', createdAt:daysAgo(1,9), lines:[line0]};
+  function ordInst(id, status, serial, code, baggedCount, extraHist){
+    var bag = bagFor(t[0], line0);
+    bag.forEach(function(b, ix){ b.bagged = ix < baggedCount; });
+    var hst = [['Order ORD-1042 received — Sweetwater (3× REV25)', daysAgo(1,9)]].concat(extraHist||[]);
+    return {id:id, code:code, serial:serial, templateId:'tpl-sw', brand:'Revelle', status:status, orderId:'ORD-1042', orderLine:0, createdAt:daysAgo(1,9),
+      parts:tplParts(t[0]), kitIncomplete:{flag:false,note:''}, shortage:{flag:false,note:''}, bagItems:bag,
+      luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null}, qc:null, history:hst};
+  }
+  var o1 = ordInst('o1','ordered','',null,0,[]);
+  var o2 = ordInst('o2','kitting','RV25-88502','QC-P7D3K',2,
+    [['Serial confirmed by John (Prep)', daysAgo(1,10)],['Labels printed by John — sent to Kitting', daysAgo(1,10)]]);
+  var o3 = ordInst('o3','ready_bench','RV25-88503','QC-W2N9B',99,
+    [['Serial confirmed by John (Prep)', daysAgo(0,9)],['Labels printed by John — sent to Kitting', daysAgo(0,9)],['Kit bagged by José — complete', daysAgo(0,10)]]);
+  st.instruments = inst.concat([o1,o2,o3]); st.orders = [ord];
+  return st;
+}
+var state;
+function load(){
+  try{ var raw = localStorage.getItem(LS_KEY); if(raw){ state = JSON.parse(raw); return; } }catch(e){}
+  state = seedState(); save();
+}
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){ toast('Storage full — photos may be too large.'); } }
+function tpl(id){ return state.templates.find(function(t){return t.id===id;}) || state.templates[0]; }
+function inst(id){ return state.instruments.find(function(i){return i.id===id;}); }
+function genCode(){ var c=''; for(var i=0;i<5;i++) c+=CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return 'QC-'+c; }
+function uid(){ return 'i'+Date.now().toString(36)+Math.floor(Math.random()*999); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function fmtDate(iso){ if(!iso) return '—'; var d=new Date(iso); return d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
+function inRange(t, v){ if(v==null||v===''||isNaN(v)) return null; v=parseFloat(v); if(t[0]===t[1]) return Math.abs(v-t[0])<=0.1; return v>=t[0]&&v<=t[1]; }
+function targetText(t){ return t[0]===t[1] ? ('Target '+t[0]+' mm (±0.1)') : ('Target '+t[0]+' – '+t[1]+' mm'); }
+function toast(msg){ var el=document.getElementById('toast'); if(!el){ el=document.createElement('div'); el.id='toast'; el.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#2c2c38;border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:9px;font-size:14px;z-index:99;max-width:88vw;text-align:center'; document.body.appendChild(el);} el.textContent=msg; el.style.display='block'; clearTimeout(el._h); el._h=setTimeout(function(){el.style.display='none';},2800); }
+function qrSVG(text, px){ if(typeof qrcode==='undefined') return '<div class="sm">(QR unavailable offline — code below)</div>'; try{ var q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:5, margin:2, scalable:true}).replace('<svg ','<svg width="'+(px||140)+'" height="'+(px||140)+'" '); }catch(e){ return ''; } }
+/* ============ In-app QR scanner (reads the internal label's small QR) ============ */
+var scanStream = null, scanRAF = null;
+function startScan(){
+  var ov = document.getElementById('scanner');
+  if(!ov){
+    ov = document.createElement('div'); ov.id = 'scanner';
+    ov.innerHTML = '<div style="color:var(--gold2);font-weight:700;font-size:17px;margin:8px 0 4px">📷 Scan the internal label</div>'+
+      '<div class="sub" style="text-align:center;max-width:340px">Point the camera at the label QR — through the f-hole, or on the hang tag. The code opens the instrument record.</div>'+
+      '<video id="scanVideo" playsinline muted></video><canvas id="scanCanvas" style="display:none"></canvas>'+
+      '<div id="scanMsg" class="sub" style="margin-top:10px;text-align:center;max-width:340px"></div>'+
+      '<button class="btn dark" id="scanClose" style="max-width:340px;margin-top:14px">Cancel</button>';
+    document.body.appendChild(ov);
+    ov.querySelector('#scanClose').onclick = stopScan;
+  }
+  ov.style.display = 'flex';
+  var msg = ov.querySelector('#scanMsg'); msg.textContent = 'Opening camera…';
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof jsQR === 'undefined'){
+    msg.textContent = 'Camera scanning is not available here (it needs HTTPS and camera permission). No problem — use the search box to find the instrument by its code (QC-…) or serial.';
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(stream){
+    scanStream = stream;
+    var v = ov.querySelector('#scanVideo'); v.srcObject = stream; v.play();
+    msg.textContent = 'Looking for a code…';
+    var cv = ov.querySelector('#scanCanvas'), ctx = cv.getContext('2d');
+    var tick = function(){
+      if(!scanStream) return;
+      if(v.readyState === v.HAVE_ENOUGH_DATA && v.videoWidth){
+        cv.width = v.videoWidth; cv.height = v.videoHeight;
+        ctx.drawImage(v, 0, 0, cv.width, cv.height);
+        try{
+          var img = ctx.getImageData(0, 0, cv.width, cv.height);
+          var res = jsQR(img.data, img.width, img.height);
+          if(res && res.data){
+            var code = res.data.trim().toUpperCase();
+            var hit = state.instruments.find(function(x){ return x.code.toUpperCase() === code || String(x.serial).toUpperCase() === code; });
+            if(hit){ stopScan(); openInstrument(hit.id); toast('Opened '+hit.code+' — serial '+hit.serial); return; }
+            msg.textContent = 'Read "'+res.data+'" — no instrument with that code on this device. Type it in the search box to double-check.';
+          }
+        }catch(e){}
+      }
+      scanRAF = requestAnimationFrame(tick);
+    };
+    tick();
+  }).catch(function(){
+    msg.textContent = 'Camera permission was denied, or no camera is available. No problem — use the search box to find the instrument by its code (QC-…) or serial.';
+  });
+}
+function stopScan(){
+  if(scanRAF) cancelAnimationFrame(scanRAF); scanRAF = null;
+  if(scanStream){ scanStream.getTracks().forEach(function(tr){ tr.stop(); }); scanStream = null; }
+  var ov = document.getElementById('scanner'); if(ov) ov.style.display = 'none';
+}
+/* ============ Rendering ============ */
+var app = document.getElementById('app');
+var ui = {detailId:null, mode:null, compareId:null}; // mode: 'luthier' | 'label' | 'blind' | 'compare' | 'cert'
+
+function render(){
+  document.querySelectorAll('#roles button').forEach(function(b){ b.classList.toggle('on', b.dataset.role===state.role); });
+  document.getElementById('tab-work').classList.toggle('on', state.view==='work');
+  document.getElementById('tab-templates').classList.toggle('on', state.view==='templates');
+  document.getElementById('tab-work').textContent = state.role==='manager' ? 'Dashboard' : (state.role==='qc' ? 'QC Queue' : (state.role==='prep' ? 'Prep Queue' : (state.role==='kitting' ? 'Kitting Queue' : 'Instruments')));
+  if(state.view==='templates') return renderTemplates();
+  if(ui.mode==='luthier' && ui.detailId) return renderLuthierForm(inst(ui.detailId));
+  if(ui.mode==='label' && ui.detailId) return renderLabel(inst(ui.detailId));
+  if(ui.mode==='prep' && ui.detailId) return renderPrep(inst(ui.detailId));
+  if(ui.mode==='kit' && ui.detailId) return renderKit(inst(ui.detailId));
+  if(ui.mode==='blind' && ui.detailId) return renderBlind(inst(ui.detailId));
+  if(ui.mode==='compare' && ui.compareId) return renderCompare(inst(ui.compareId));
+  if(state.role==='manager') return renderManager();
+  if(state.role==='prep') return renderPrepList();
+  if(state.role==='kitting') return renderKitList();
+  return renderList();
+}
+function chip(st){ return '<span class="chip '+({ordered:'ordered',kitting:'kitting',ready_bench:'readybench',at_bench:'bench',ready:'ready',approved:'approved',returned:'returned',shipped:'shipped'})[st]+'">'+statuses[st]+'</span>'; }
+function instButton(i){
+  var t = tpl(i.templateId);
+  return '<button class="inst" data-open="'+i.id+'" data-search="'+esc(((i.code||'')+' '+(i.serial||'')+' '+(i.brand||'')+' '+(i.orderId||'')).toLowerCase())+'"><div><div class="t1">'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+(i.code||'no code yet')+'</span>'+shortageBadge(i)+'</div>'+
+    '<div class="t2">Serial '+dispSerial(i)+' · '+esc(t.size||'')+' · '+esc(t.client)+(i.orderId?' · '+i.orderId:'')+' · '+(i.luthier&&i.luthier.name?('by '+esc(i.luthier.name)):'not yet serviced')+'</div></div>'+chip(i.status)+'</button>';
+}
+function toolBar(){
+  return '<button class="btn scan mb" id="scanBtn">📷 Scan label</button>'+
+    '<input type="text" id="listSearch" placeholder="🔎 Find by code (QC-…) or serial" style="margin-bottom:12px">';
+}
+function wireListTools(){
+  var sb = document.getElementById('scanBtn'); if(sb) sb.onclick = startScan;
+  var si = document.getElementById('listSearch');
+  if(si) si.addEventListener('input', function(){
+    var q = si.value.trim().toLowerCase();
+    app.querySelectorAll('.inst').forEach(function(b){ b.style.display = (!q || (b.dataset.search||'').indexOf(q)>=0) ? '' : 'none'; });
+  });
+}
+function renderList(){
+  var list = state.instruments;
+  var h = '';
+  if(state.role==='qc'){
+    h += toolBar();
+    var q = list.filter(function(i){return i.status==='ready';});
+    h += '<div class="card"><h2>QC Queue</h2><div class="sub">Instruments waiting for blind verification. You will enter your own measurements first — the luthier\'s values stay hidden until you submit.</div></div>';
+    h += q.length ? q.map(instButton).join('') : '<div class="banner info">The queue is empty. Nothing is waiting for inspection.</div>';
+    var done = list.filter(function(i){return i.status==='approved'||i.status==='returned';});
+    if(done.length){ h += '<div class="sub mb" style="margin-top:14px">Already inspected:</div>' + done.map(instButton).join(''); }
+  } else {
+    h += toolBar();
+    h += '<button class="btn mb" id="newBtn">+ New instrument</button>';
+    h += '<div class="card" id="newCard" style="display:none"><h2>New instrument — intake</h2>'+
+      '<label class="fl">Serial number (from the internal label)</label><input type="text" id="nf-serial" placeholder="e.g. RV25-88500">'+
+      '<label class="fl">Spec template (model + client)</label><select id="nf-tpl">'+
+      state.templates.map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>';}).join('')+'</select>'+
+      '<div class="sub mt">A short code and QR label are generated at intake. The code is what gets printed on the internal label and the hang tag.</div>'+
+      '<button class="btn mt" id="nf-create">Create record &amp; show label</button></div>';
+    var rb = list.filter(function(i){return i.status==='ready_bench';});
+    if(rb.length){
+      h += '<div class="card"><h2>Ready for Bench — bagged &amp; waiting</h2><div class="sub">Kits are bagged, labeled and waiting. Start work pulls one onto your bench.</div></div>';
+      h += rb.map(readyBenchCard).join('');
+    }
+    var bench = list.filter(function(i){return ['ordered','kitting','ready_bench'].indexOf(i.status)<0;});
+    h += bench.length ? bench.map(instButton).join('') : '<div class="banner info">No instruments at the bench yet.</div>';
+  }
+  app.innerHTML = h;
+  wireListTools();
+  var nb = document.getElementById('newBtn');
+  if(nb) nb.onclick = function(){ document.getElementById('newCard').style.display='block'; nb.style.display='none'; document.getElementById('nf-serial').focus(); };
+  var nc = document.getElementById('nf-create');
+  if(nc) nc.onclick = createInstrument;
+  app.querySelectorAll('[data-open]').forEach(function(b){ b.onclick = function(){ openInstrument(b.dataset.open); }; });
+  app.querySelectorAll('[data-start]').forEach(function(b){ b.onclick = function(){ var ii = inst(b.dataset.start); ii.status='at_bench'; ii.history.push(['Picked up by the luthier — at the bench', new Date().toISOString()]); save(); render(); toast('On your bench: '+(ii.code||ii.serial)); }; });
+}
+function createInstrument(){
+  var serial = document.getElementById('nf-serial').value.trim();
+  if(!serial){ toast('Enter the serial number first.'); return; }
+  var tNew = tpl(document.getElementById('nf-tpl').value);
+  var ni = {id:uid(), code:genCode(), serial:serial, templateId:tNew.id, brand:tNew.brand||'', status:'at_bench', createdAt:new Date().toISOString(),
+    parts:tplParts(tNew), kitIncomplete:{flag:false, note:''},
+    luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null}, qc:null,
+    history:[['Intake — record created', new Date().toISOString()]]};
+  state.instruments.unshift(ni); save();
+  ui.detailId = ni.id; ui.mode='label'; render();
+  toast('Record created — print the label for this instrument.');
+}
+function openInstrument(id){
+  var i = inst(id); if(!i) return;
+  ui.detailId = id;
+  if(state.role==='qc'){ ui.mode = (i.status==='ready') ? 'blind' : 'compare'; }
+  else if(state.role==='prep' && i.status==='ordered'){ ui.mode='prep'; }
+  else if(state.role==='kitting' && i.status==='kitting'){ ui.mode='kit'; }
+  else { ui.mode='luthier'; }
+  render();
+}
+function backBtn(){ return '<button class="linkbtn mb" id="backBtn">← Back to list</button>'; }
+function wireBack(){ var b=document.getElementById('backBtn'); if(b) b.onclick=function(){ ui.mode=null; ui.detailId=null; ui.compareId=null; render(); }; }
+
+function measureFields(prefix, values, t, live){
+  return '<div class="mgrid">' + MEASURES.map(function(m){
+    var v = values ? values[m.key] : null;
+    return '<div class="mfield" id="mf-'+prefix+'-'+m.key+'"><div class="ml">'+m.label+'</div>'+
+      '<input type="number" inputmode="decimal" step="0.1" id="'+prefix+'-'+m.key+'" value="'+(v==null?'':v)+'" placeholder="mm">'+
+      '<div class="tg">'+targetText(t.targets[m.key])+'</div></div>';
+  }).join('') + '</div>';
+}
+function wireLive(prefix, t){
+  MEASURES.forEach(function(m){
+    var inp = document.getElementById(prefix+'-'+m.key); if(!inp) return;
+    var paint = function(){ var r = inRange(t.targets[m.key], inp.value); var f=document.getElementById('mf-'+prefix+'-'+m.key); f.classList.toggle('ok', r===true); f.classList.toggle('bad', r===false); };
+    inp.addEventListener('input', paint); paint();
+  });
+}
+function readMeasures(prefix){ var m={}; MEASURES.forEach(function(x){ var el=document.getElementById(prefix+'-'+x.key); var v=el?parseFloat(el.value):NaN; m[x.key]=isNaN(v)?null:v; }); return m; }
+
+function kitHTML(i, readOnly){
+  var dis = readOnly ? ' disabled' : '';
+  var h = '<div style="margin-top:16px"><h3>Parts kit — from the sealed bag</h3>'+
+    '<div class="sub">Each instrument arrives with its own kit: spec card, internal label and the exact parts to install. Mark what actually went into the instrument.</div>'+
+    '<label class="switch"><input type="checkbox" id="kp-incomplete" '+((i.kitIncomplete&&i.kitIncomplete.flag)?'checked':'')+dis+'> Kit incomplete — a part was missing from the bag</label>'+
+    '<input type="text" id="kp-inote" value="'+esc(i.kitIncomplete?i.kitIncomplete.note:'')+'" placeholder="Missing-part note (if flagged)"'+dis+'>';
+  (i.parts||[]).forEach(function(p, idx){
+    h += '<div class="kitpart"><div class="kp-name">'+esc(p.name)+'</div>'+
+      '<select id="kp-state-'+idx+'"'+dis+'>'+
+      ['pending','installed','substituted'].map(function(s){ return '<option value="'+s+'"'+(p.state===s?' selected':'')+'>'+({pending:'Pending',installed:'Installed',substituted:'Substituted'})[s]+'</option>'; }).join('')+
+      '</select>'+
+      '<input type="text" id="kp-note-'+idx+'" value="'+esc(p.note||'')+'" placeholder="If substituted: what was used instead?"'+dis+'></div>';
+  });
+  return h + '</div>';
+}
+function renderLuthierForm(i){
+  if(!i){ ui.mode=null; return render(); }
+  var t = tpl(i.templateId);
+  var readOnly = (state.role==='manager');
+  var h = backBtn();
+  if(i.status==='returned' && i.qc){ h += '<div class="banner ret"><strong>Returned by QC'+(i.qc.name?' ('+esc(i.qc.name)+')':'')+':</strong> '+esc(i.qc.reason)+'</div>'; }
+  h += '<div class="card"><h2>'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+i.code+'</span> '+chip(i.status)+'</h2>'+
+    '<div class="sub">Serial '+esc(i.serial)+' · '+esc(t.size||'')+' · Template: '+esc(t.name)+' · Intake '+fmtDate(i.createdAt)+'</div>'+
+    '<div class="row mt"><button class="btn dark sm" id="labelBtn">🏷️ Label / QR tag</button>'+
+    (readOnly?'':'')+'</div></div>';
+  h += '<div class="card"><h3>Setup measurements — “Actual” (mm)</h3>'+
+    '<div class="sub">Fields turn green inside spec, red outside. Out-of-spec values block submission — fix them at the bench, not on paper.</div>'+
+    measureFields('lu', i.luthier.measures, t, true) +
+    kitHTML(i, readOnly) +
+    '<label class="switch"><input type="checkbox" id="lu-newbridge" '+(i.luthier.newBridge?'checked':'')+(readOnly?' disabled':'')+'> New bridge used</label>'+
+    '<label class="fl">Substitutions</label><input type="text" id="lu-subs" value="'+esc(i.luthier.subs || subsText(i) || '')+'" placeholder="e.g. Dominant G string" '+(readOnly?'disabled':'')+'>'+
+    '<label class="fl">Photos (arrival / bridge / finished)</label>'+
+    (readOnly?'':'<input type="file" id="lu-photo" accept="image/*" multiple>')+
+    '<div class="photos" id="lu-photos">'+(i.luthier.photos||[]).map(function(p){return '<img src="'+p+'">';}).join('')+'</div>'+
+    '<label class="fl">Serviced by</label><input type="text" id="lu-name" value="'+esc(i.luthier.name||'')+'" placeholder="Your name" '+(readOnly?'disabled':'')+'>'+
+    (readOnly ? '<div class="sub mt">Manager view is read-only.</div>' :
+      '<button class="btn mt" id="lu-submit">'+(i.status==='returned'?'Fix &amp; resubmit to QC':'Submit — Ready for QC')+'</button>'+
+      '<div class="sub mt">Submitting locks your measurements with your name and a timestamp.</div>')+
+    historyHTML(i)+'</div>';
+  app.innerHTML = h;
+  wireBack(); wireLive('lu', t);
+  document.getElementById('labelBtn').onclick = function(){ ui.mode='label'; render(); };
+  if(readOnly) return;
+  document.getElementById('lu-photo').addEventListener('change', function(ev){ handlePhotos(ev, i); });
+  document.getElementById('lu-submit').onclick = function(){
+    var m = readMeasures('lu'); var t2 = tpl(i.templateId);
+    var missing = MEASURES.filter(function(x){ return m[x.key]==null; });
+    if(missing.length){ toast('Fill in all 6 measurements first.'); return; }
+    var bad = MEASURES.filter(function(x){ return inRange(t2.targets[x.key], m[x.key])!==true; });
+    if(bad.length){ toast('Out of spec: '+bad.map(function(x){return x.label;}).join(', ')+'. Correct at the bench before submitting.'); return; }
+    var name = document.getElementById('lu-name').value.trim();
+    if(!name){ toast('Sign your work — enter “Serviced by”.'); return; }
+    var newParts = [], missNote = false;
+    (i.parts||[]).forEach(function(p, idx){
+      var stEl = document.getElementById('kp-state-'+idx), ntEl = document.getElementById('kp-note-'+idx);
+      var st = stEl ? stEl.value : p.state, nt = ntEl ? ntEl.value.trim() : (p.note||'');
+      if(st==='substituted' && !nt) missNote = true;
+      newParts.push({name:p.name, state:st, note:nt});
+    });
+    if(missNote){ toast('A substituted part needs a note — what was used instead?'); return; }
+    i.parts = newParts;
+    var kiEl = document.getElementById('kp-incomplete'), knEl = document.getElementById('kp-inote');
+    i.kitIncomplete = {flag: kiEl ? kiEl.checked : false, note: knEl ? knEl.value.trim() : ''};
+    i.luthier.measures = m; i.luthier.name = name;
+    i.luthier.newBridge = document.getElementById('lu-newbridge').checked;
+    i.luthier.subs = document.getElementById('lu-subs').value.trim() || subsText(i);
+    i.luthier.submittedAt = new Date().toISOString();
+    if(i.status==='returned'){ i.qc = null; i.history.push(['Reworked and resubmitted by '+name, i.luthier.submittedAt]); }
+    else i.history.push(['Submitted by '+name+' — Ready for QC', i.luthier.submittedAt]);
+    i.status = 'ready'; save();
+    ui.mode=null; ui.detailId=null; state.role='luthier'; render();
+    toast('Submitted. The inspector will verify it blind.');
+  };
+}
+function handlePhotos(ev, i){
+  var files = Array.prototype.slice.call(ev.target.files||[]).slice(0,4);
+  files.forEach(function(f){
+    var rd = new FileReader();
+    rd.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var max = 640, sc = Math.min(1, max/Math.max(img.width,img.height));
+        var cv = document.createElement('canvas'); cv.width = Math.round(img.width*sc); cv.height = Math.round(img.height*sc);
+        cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+        i.luthier.photos = (i.luthier.photos||[]).concat([cv.toDataURL('image/jpeg',0.62)]).slice(-4);
+        save(); renderLuthierForm(i);
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+  });
+}
+function historyHTML(i){
+  if(!i.history || !i.history.length) return '';
+  return '<div class="hist"><strong>History</strong>'+i.history.map(function(x){return '<div>· '+esc(x[0])+' — '+fmtDate(x[1])+'</div>';}).join('')+'</div>';
+}
+function servicedLabelHTML(i){
+  var t = tpl(i.templateId);
+  var brand = (i.brand || t.brand || '').toUpperCase();
+  var year = new Date(i.createdAt || Date.now()).getFullYear();
+  var sizeNum = (t.size || '').replace(/^(Violin|Viola|Cello)\s*/, '');
+  return '<div class="svclabel"><div class="svc-in">'+
+    '<div class="svc-brand">'+esc(brand)+'</div><div class="svc-year">'+year+'</div>'+
+    '<div class="svc-mid"><div class="svc-model"><em>Model:</em> <u>'+esc(t.model)+' '+esc(sizeNum)+'</u></div>'+
+    '<div class="svc-right"><div class="svc-sn">SN:'+esc(i.serial)+'</div>'+
+    '<div class="svc-qr">'+qrSVG(i.code, 54)+'<div class="svc-code">'+i.code+'</div></div></div></div>'+
+    '<div class="svc-bottom">PROUDLY SERVICED IN THE USA</div></div></div>';
+}
+function renderLabel(i){
+  if(!i){ ui.mode=null; return render(); }
+  app.innerHTML = backBtn() +
+   '<div class="card"><h2>Internal service label</h2>'+
+   '<div class="sub">The Connolly service label that goes inside the instrument through the f-hole — same label as today, now carrying the small QR. The QR encodes <strong>only the short code</strong>, and the code is printed right under it as the eye-readable backup. Scanning it from inside SetupQC opens this record. Preview is true size: 90 × 38&nbsp;mm.</div>'+
+   '<div style="background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:16px 6px; margin-top:12px; overflow:hidden">'+servicedLabelHTML(i)+'</div>'+
+   '<div class="row mt"><button class="btn" id="printLabel">🖨️ Print label (90 × 38 mm)</button>'+
+   '<button class="btn dark" id="toForm">Open record</button></div>'+
+   '<div class="sub mt">The same print works as the case hang tag — the big-print fallback code is <span class="code">'+i.code+'</span>.</div></div>';
+  wireBack();
+  document.getElementById('toForm').onclick = function(){ ui.mode='luthier'; render(); };
+  document.getElementById('printLabel').onclick = function(){ printHTML(servicedLabelHTML(i)); };
+}
+function printHTML(html){ var pa=document.getElementById('printArea'); pa.innerHTML=html; setTimeout(function(){ window.print(); },60); }
+/* ============ QC: blind verification + comparison ============ */
+function renderBlind(i){
+  if(!i){ ui.mode=null; return render(); }
+  var t = tpl(i.templateId);
+  if(i.status!=='ready'){ ui.mode='compare'; return renderCompare(i); }
+  app.innerHTML = backBtn() +
+   '<div class="banner info">🔍 <strong>Blind verification.</strong> Measure the instrument yourself and enter your values. The luthier\'s measurements are not shown anywhere on this screen — they are revealed only after you submit, side by side.</div>'+
+   '<div class="card"><h2>'+esc(t.model)+' · <span class="code">'+i.code+'</span></h2>'+
+   '<div class="sub">Serial '+esc(i.serial)+' · Template: '+esc(t.name)+'</div>'+
+   '<h3 class="mt">Your measurements (mm)</h3>'+ measureFields('qc', null, t, true) +
+   '<label class="fl">Checked by</label><input type="text" id="qc-name" placeholder="Inspector name">'+
+   '<button class="btn mt" id="qc-submit">Submit &amp; compare</button></div>';
+  wireBack(); wireLive('qc', t);
+  document.getElementById('qc-submit').onclick = function(){
+    var m = readMeasures('qc');
+    if(MEASURES.some(function(x){return m[x.key]==null;})){ toast('Enter all 6 of your measurements first.'); return; }
+    var name = document.getElementById('qc-name').value.trim();
+    if(!name){ toast('Enter the inspector name (“Checked by”).'); return; }
+    var prevAttempts = i.qc && i.qc.attempts ? i.qc.attempts : 0;
+    i.qc = {name:name, measures:m, decision:null, reason:'', at:new Date().toISOString(), attempts:prevAttempts+1, pending:true};
+    save(); ui.compareId = i.id; ui.mode='compare'; render();
+  };
+}
+function renderCompare(i){
+  if(!i){ ui.mode=null; return render(); }
+  var t = tpl(i.templateId);
+  var h = backBtn();
+  var canDecide = i.qc && i.qc.pending;
+  h += '<div class="card"><h2>'+esc(t.model)+' · <span class="code">'+i.code+'</span> '+chip(i.status)+'</h2>'+
+    '<div class="sub">Serial '+esc(i.serial)+' · '+esc(t.name)+'</div>';
+  if(i.luthier.submittedAt) h += '<div class="sub">Serviced by '+esc(i.luthier.name)+' · '+fmtDate(i.luthier.submittedAt)+(i.luthier.newBridge?' · New bridge':'')+(i.luthier.subs?' · Subs: '+esc(i.luthier.subs):'')+'</div>';
+  if(i.qc){
+    h += '<div class="sub">Checked by '+esc(i.qc.name)+' · '+fmtDate(i.qc.at)+'</div>';
+    h += '<table class="cmp"><tr><th>Measurement</th><th>Target</th><th>Luthier</th><th>QC</th><th>Diff</th><th></th></tr>';
+    MEASURES.forEach(function(m){
+      var lv = i.luthier.measures[m.key], qv = i.qc.measures[m.key];
+      var d = (lv!=null&&qv!=null) ? Math.round(Math.abs(lv-qv)*100)/100 : null;
+      var flag = (d!=null && d>0.2) || inRange(t.targets[m.key], qv)!==true;
+      h += '<tr><td>'+m.label+'</td><td>'+targetText(t.targets[m.key]).replace('Target ','')+'</td><td>'+(lv==null?'—':lv)+'</td><td>'+(qv==null?'—':qv)+'</td><td>'+(d==null?'—':d.toFixed(2))+'</td><td class="'+(flag?'flag':'pass')+'">'+(flag?'⚠ FLAG':'✓')+'</td></tr>';
+    });
+    h += '</table><div class="sub mt">Flags: difference over 0.2 mm between the two measurements, or the QC value outside spec.</div>';
+    if(i.qc.decision==='returned') h += '<div class="banner ret mt"><strong>Returned:</strong> '+esc(i.qc.reason)+'</div>';
+    if(i.qc.decision==='approved') h += '<div class="banner info mt" style="border-color:var(--ok);color:var(--ok)">✓ Approved — QC certificate issued.</div><button class="btn" id="certBtn">🖨️ Print QC Certificate</button>' + (i.status==='shipped' ? '<div class="banner info mt">📦 Shipped'+(i.orderId?' — order '+i.orderId:'')+'. This record is closed.</div>' : (state.role==='manager' ? '<button class="btn dark mt" id="shipBtn">📦 Mark as shipped</button>' : ''));
+  } else {
+    h += '<div class="sub mt">No QC verification on file yet.</div>';
+  }
+  if(canDecide){
+    h += '<label class="fl">Reason (required if returning)</label><textarea id="qc-reason" placeholder="What must be corrected, in plain words…"></textarea>'+
+      '<div class="row mt"><button class="btn" id="qc-approve">✓ Approve</button><button class="btn danger" id="qc-return">Return for rework</button></div>';
+  }
+  h += historyHTML(i) + '</div>';
+  if(i.parts && i.parts.length){
+    h += '<div class="card"><h3>Parts kit</h3>'+
+      ((i.kitIncomplete && i.kitIncomplete.flag) ? '<div class="banner ret">⚠ Kit flagged incomplete at intake'+(i.kitIncomplete.note?': '+esc(i.kitIncomplete.note):'')+'</div>' : '')+
+      i.parts.map(function(p){
+        return '<div class="kp-row"><span>'+(p.state==='installed'?'✅':p.state==='substituted'?'🔁':'⏳')+' '+esc(p.name)+'</span><span class="sub">'+p.state+(p.state==='substituted'&&p.note?' → '+esc(p.note):'')+'</span></div>';
+      }).join('')+'</div>';
+  }
+  if(i.luthier.photos && i.luthier.photos.length) h += '<div class="card"><h3>Photos</h3><div class="photos">'+i.luthier.photos.map(function(p){return '<img src="'+p+'">';}).join('')+'</div></div>';
+  app.innerHTML = h;
+  wireBack();
+  var cb = document.getElementById('certBtn'); if(cb) cb.onclick = function(){ printHTML(certHTML(i)); };
+  var shb = document.getElementById('shipBtn'); if(shb) shb.onclick = function(){ i.status='shipped'; i.history.push(['Marked shipped by the manager'+(i.orderId?' — order '+i.orderId:''), new Date().toISOString()]); save(); render(); toast('Shipped. Order progress updated.'); };
+  if(canDecide){
+    document.getElementById('qc-approve').onclick = function(){
+      i.qc.decision='approved'; i.qc.pending=false; i.status='approved';
+      i.history.push(['QC approved by '+i.qc.name, new Date().toISOString()]); save(); render();
+      toast('Approved. Certificate is ready to print.');
+    };
+    document.getElementById('qc-return').onclick = function(){
+      var r = document.getElementById('qc-reason').value.trim();
+      if(!r){ toast('A return needs a written reason — the luthier must know what to fix.'); return; }
+      i.qc.decision='returned'; i.qc.pending=false; i.qc.reason=r; i.status='returned';
+      i.history.push(['QC returned by '+i.qc.name+': '+r, new Date().toISOString()]); save();
+      ui.mode=null; ui.compareId=null; state.role='qc'; render();
+      toast('Returned to the bench with your note.');
+    };
+  }
+}
+function certHTML(i){
+  var t = tpl(i.templateId);
+  var rows = MEASURES.map(function(m){
+    return '<tr><td>'+m.label+'</td><td>'+targetText(t.targets[m.key]).replace('Target ','')+'</td><td>'+i.luthier.measures[m.key]+'</td><td>'+(i.qc?i.qc.measures[m.key]:'—')+'</td></tr>';
+  }).join('');
+  var ps = partsSummary(i);
+  var partsRows = (i.parts||[]).map(function(p){
+    return '· '+esc(p.name)+' — '+(p.state==='substituted' ? 'SUBSTITUTED'+(p.note?' → '+esc(p.note):'') : p.state);
+  }).join('<br>');
+  return '<div class="cert"><h1>QUALITY CONTROL CERTIFICATE</h1><h2>Instrument Setup &amp; Inspection Record — SetupQC</h2>'+
+   '<div class="meta"><span><strong>Model:</strong> '+esc(t.model)+'</span><span><strong>Client spec:</strong> '+esc(t.client)+'</span></div>'+
+   '<div class="meta"><span><strong>Serial number:</strong> '+esc(i.serial)+'</span><span><strong>Record code:</strong> '+i.code+'</span></div>'+
+   '<div class="meta"><span><strong>New bridge used:</strong> '+(i.luthier.newBridge?'YES':'NO')+'</span><span><strong>Substitutions:</strong> '+esc(i.luthier.subs||'None')+'</span></div>'+
+   '<div style="font-size:13px; margin:8px 0"><strong>Parts kit:</strong><br>'+(partsRows||'—')+
+   ((i.kitIncomplete && i.kitIncomplete.flag) ? '<br><strong>⚠ Kit incomplete at intake:</strong> '+esc(i.kitIncomplete.note||'a part was missing') : '')+'</div>'+
+   '<table><tr><th>Measurement</th><th>Target (mm)</th><th>Luthier (mm)</th><th>QC verified (mm)</th></tr>'+rows+'</table>'+
+   '<div class="meta"><span>All measurements verified by independent blind re-measurement.</span></div>'+
+   '<div class="sig"><div>Serviced by<br><strong>'+esc(i.luthier.name)+'</strong><br>'+fmtDate(i.luthier.submittedAt)+'</div>'+
+   '<div>Checked by<br><strong>'+esc(i.qc?i.qc.name:'')+'</strong><br>'+fmtDate(i.qc?i.qc.at:null)+'</div></div></div>';
+}
+
+
+/* ============ Upstream chain: Prep (John) + Kitting (José) + Orders ============ */
+function readyBenchCard(i){
+  var t = tpl(i.templateId);
+  return '<div class="inst" style="cursor:default"><div><div class="t1">'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+(i.code||'')+'</span>'+shortageBadge(i)+'</div>'+
+    '<div class="t2">Serial '+dispSerial(i)+(i.orderId?' · '+i.orderId:'')+' · kit bagged'+((i.shortage&&i.shortage.flag)?' · shortage: '+esc(i.shortage.note||''):'')+'</div></div>'+
+    '<button class="btn sm" data-start="'+i.id+'" style="flex:0 0 auto">Start work</button></div>';
+}
+function labelAndKitPrintHTML(i){
+  var t = tpl(i.templateId);
+  var items = (i.bagItems && i.bagItems.length) ? i.bagItems.map(function(b){return b.name;}) : (t.kit||[]);
+  return servicedLabelHTML(i) +
+   '<div style="max-width:680px;margin:26px auto 0;color:#111;font-family:Arial,sans-serif"><h2 style="font-size:17px;margin:0 0 4px">KIT LIST — bag for '+i.code+'</h2>'+
+   '<div style="font-size:13px;margin-bottom:8px">Model '+esc(t.model)+' · Serial '+esc(i.serial)+(i.orderId?' · Order '+i.orderId:'')+' · Template '+esc(t.name)+'</div>'+
+   items.map(function(n){ return '<div style="font-size:14px;padding:5px 0;border-bottom:1px solid #ccc">☐ '+esc(n)+'</div>'; }).join('')+
+   '<div style="font-size:12px;margin-top:10px">Bag every item for THIS instrument, tick it off in SetupQC (Kitting), and flag shortages instead of improvising.</div></div>';
+}
+function renderPrepList(){
+  var h = '<div class="card"><h2>Prep — John · Labels &amp; order intake</h2><div class="sub">Client orders land here first. For each instrument: confirm the serial, generate the labels (the internal serviced label + the kit list), then hand it to Kitting. José bags exactly what the labels say.</div></div>';
+  var pend = state.instruments.filter(function(i){return i.status==='ordered';});
+  if(!pend.length) h += '<div class="banner info">No instruments waiting for prep. New client orders will appear here.</div>';
+  var byOrder = {};
+  pend.forEach(function(i){ var k = i.orderId||'—'; (byOrder[k] = byOrder[k]||[]).push(i); });
+  Object.keys(byOrder).forEach(function(oid){
+    var o = orderById(oid);
+    h += '<div class="sub mb" style="margin-top:6px"><strong>'+esc(oid)+'</strong>'+(o?' · '+esc(o.client)+' · due '+esc(o.dueDate||''):'')+'</div>' + byOrder[oid].map(instButton).join('');
+  });
+  var done = state.instruments.filter(function(i){return i.status!=='ordered' && i.orderId;});
+  if(done.length) h += '<div class="sub mb" style="margin-top:14px">Already prepped — moving through the chain:</div>' + done.map(instButton).join('');
+  app.innerHTML = h;
+  app.querySelectorAll('[data-open]').forEach(function(b){ b.onclick = function(){ openInstrument(b.dataset.open); }; });
+}
+function renderPrep(i){
+  if(!i){ ui.mode=null; return render(); }
+  var t = tpl(i.templateId); var o = i.orderId ? orderById(i.orderId) : null;
+  var line = o && o.lines ? o.lines[i.orderLine||0] : null;
+  var h = backBtn() + '<div class="card"><h2>Prep · '+esc(t.model)+' · <span class="code">'+(i.code||'no code yet')+'</span></h2>'+
+    '<div class="sub">'+(i.orderId ? 'Order '+i.orderId+' · '+esc(o?o.client:'')+' · due '+(o?esc(o.dueDate||''):'') : 'Direct intake')+' · Template: '+esc(t.name)+'</div>'+
+    '<label class="fl">Serial number — read it off the instrument and confirm it here</label><input type="text" id="prep-serial" value="'+esc(i.serial||'')+'" placeholder="e.g. RV25-88510">'+
+    (line ? '<div class="sub mt">This order line asks for — Strings: <strong>'+esc(line.strings||'standard set')+'</strong> · Accessories: <strong>'+esc(line.accessories||'standard kit')+'</strong></div>' : '')+
+    '<button class="btn dark mt" id="prep-labels">🏷️ Generate labels &amp; kit list</button>'+
+    '<div class="sub mt">Printing assigns this instrument its short code + QR (if it does not have one yet) and prints the serviced label with the kit list José will bag from.</div>'+
+    '<button class="btn mt" id="prep-done">Labels ready — send to Kitting 🧺</button>'+
+    historyHTML(i)+'</div>';
+  app.innerHTML = h; wireBack();
+  document.getElementById('prep-labels').onclick = function(){
+    i.serial = document.getElementById('prep-serial').value.trim();
+    if(!i.serial){ toast('Enter the serial first — the label carries it.'); return; }
+    if(!i.code){ i.code = genCode(); i.history.push(['Short code '+i.code+' assigned at label generation (John, Prep)', new Date().toISOString()]); }
+    save(); printHTML(labelAndKitPrintHTML(i)); renderPrep(i);
+  };
+  document.getElementById('prep-done').onclick = function(){
+    i.serial = document.getElementById('prep-serial').value.trim();
+    if(!i.serial){ toast('The serial must be confirmed before kitting.'); return; }
+    if(!i.code){ toast('Generate the labels first — the bag is identified by its code.'); return; }
+    i.status = 'kitting';
+    i.history.push(['Labels ready — sent to Kitting (José)', new Date().toISOString()]);
+    save(); ui.mode=null; ui.detailId=null; render();
+    toast('Sent to Kitting — José has it in his queue.');
+  };
+}
+function renderKitList(){
+  var h = '<div class="card"><h2>Kitting — José · Bagging the kits</h2><div class="sub">Labels are printed. Bag exactly what each instrument\'s list says — the template parts plus the strings and accessories from the client order. Missing something? Flag the shortage: the manager sees it immediately, and the bench is never surprised.</div></div>';
+  var q = state.instruments.filter(function(i){return i.status==='kitting';});
+  h += q.length ? q.map(instButton).join('') : '<div class="banner info">Nothing waiting to be bagged. Prep sends labeled instruments here.</div>';
+  var done = state.instruments.filter(function(i){return i.status==='ready_bench';});
+  if(done.length) h += '<div class="sub mb" style="margin-top:14px">Bagged — ready for the bench:</div>' + done.map(instButton).join('');
+  app.innerHTML = h;
+  app.querySelectorAll('[data-open]').forEach(function(b){ b.onclick = function(){ openInstrument(b.dataset.open); }; });
+}
+function ensureBag(i){
+  if(i.bagItems && i.bagItems.length) return i.bagItems;
+  var t = tpl(i.templateId); var o = i.orderId ? orderById(i.orderId) : null;
+  var line = o && o.lines ? o.lines[i.orderLine||0] : null;
+  i.bagItems = bagFor(t, line); return i.bagItems;
+}
+function renderKit(i){
+  if(!i){ ui.mode=null; return render(); }
+  var t = tpl(i.templateId); var bag = ensureBag(i);
+  var h = backBtn() + '<div class="card"><h2>Bag the kit · '+esc(t.model)+' · <span class="code">'+(i.code||'')+'</span></h2>'+
+    '<div class="sub">Serial '+dispSerial(i)+(i.orderId?' · Order '+i.orderId:'')+' · '+esc(t.name)+'</div>'+
+    '<div class="sub mt">Tick each item as it goes into the bag for THIS instrument.</div>';
+  bag.forEach(function(b, idx){
+    h += '<div class="bagrow"><input type="checkbox" id="bag-'+idx+'"'+(b.bagged?' checked':'')+'><label for="bag-'+idx+'">'+esc(b.name)+'</label></div>';
+  });
+  h += '<label class="switch"><input type="checkbox" id="kit-short" '+((i.shortage&&i.shortage.flag)?'checked':'')+'> ⚠ Flag shortage — something is missing from the shelf</label>'+
+    '<input type="text" id="kit-short-note" value="'+esc(i.shortage?i.shortage.note:'')+'" placeholder="What is missing? (the manager sees this)"></div>'+
+    '<div class="card"><button class="btn" id="kit-done">Bag complete — Ready for Bench 🎻</button>'+
+    '<div class="sub mt">Enabled when every item is bagged — or when a shortage is flagged, so work is never silently blocked.</div>'+
+    historyHTML(i)+'</div>';
+  app.innerHTML = h; wireBack();
+  var paint = function(){
+    var all = bag.every(function(b, idx){ var el = document.getElementById('bag-'+idx); return el && el.checked; });
+    var fl = document.getElementById('kit-short').checked;
+    document.getElementById('kit-done').disabled = !(all || fl);
+  };
+  bag.forEach(function(b, idx){ document.getElementById('bag-'+idx).addEventListener('change', paint); });
+  document.getElementById('kit-short').addEventListener('change', paint);
+  paint();
+  document.getElementById('kit-done').onclick = function(){
+    bag.forEach(function(b, idx){ b.bagged = document.getElementById('bag-'+idx).checked; });
+    i.shortage = {flag: document.getElementById('kit-short').checked, note: document.getElementById('kit-short-note').value.trim()};
+    i.status = 'ready_bench';
+    i.history.push(['Kit bagged by José'+(i.shortage.flag ? ' — SHORTAGE flagged: '+(i.shortage.note||'unspecified') : ' — complete'), new Date().toISOString()]);
+    save(); ui.mode=null; ui.detailId=null; render();
+    toast('Bag complete. The luthier sees it under Ready for Bench.');
+  };
+}
+function orderLineRow(){
+  return '<div class="om-line" style="border-top:1px solid var(--line); padding-top:2px; margin-top:10px">'+
+    '<label class="fl">Template (model + spec)</label><select class="om-tpl">'+state.templates.map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>';}).join('')+'</select>'+
+    '<div class="row"><div><label class="fl">Qty</label><input type="number" class="om-qty" value="1" min="1"></div>'+
+    '<div><label class="fl">Strings</label><input type="text" class="om-str" placeholder="e.g. Thomastik Dominant set"></div></div>'+
+    '<label class="fl">Accessories</label><input type="text" class="om-acc" placeholder="e.g. Wittner tailpiece · Despiau bridge blank"></div>';
+}
+function orderProgressHTML(o){
+  var items = state.instruments.filter(function(i){return i.orderId===o.id;});
+  var stages = ['ordered','kitting','ready_bench','at_bench','ready','approved','returned','shipped'];
+  var counts = {}; items.forEach(function(i){ counts[i.status]=(counts[i.status]||0)+1; });
+  var shipped = counts.shipped||0;
+  var pct = items.length ? Math.round(100*shipped/items.length) : 0;
+  var shorts = items.filter(function(i){return i.shortage && i.shortage.flag;});
+  var stageTxt = stages.filter(function(st){return counts[st];}).map(function(st){return counts[st]+' '+statuses[st];}).join(' · ');
+  return '<div class="card"><h3>'+esc(o.id)+' · '+esc(o.client)+'</h3>'+
+    '<div class="sub">Due '+esc(o.dueDate||'—')+(o.notes?' · '+esc(o.notes):'')+'</div>'+
+    '<div class="sub mt">'+items.length+' instrument(s): '+(stageTxt||'none yet')+'</div>'+
+    '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;height:12px;margin-top:8px;overflow:hidden"><div style="background:var(--ok);height:100%;width:'+pct+'%"></div></div>'+
+    '<div class="sub mt">'+pct+'% shipped ('+shipped+'/'+items.length+')</div>'+
+    (shorts.length ? '<div class="banner ret mt">⚠ Shortage exceptions ('+shorts.length+'): '+shorts.map(function(i){return (i.code||i.serial||'unassigned')+' — '+esc(i.shortage.note||'unspecified');}).join('; ')+'</div>' : '')+
+    '</div>';
+}
+function createOrder(){
+  var client = document.getElementById('om-client').value.trim() || 'Client';
+  var due = document.getElementById('om-due').value;
+  var notes = document.getElementById('om-notes').value.trim();
+  var lines = []; var bad = false;
+  app.querySelectorAll('.om-line').forEach(function(r){
+    var qty = parseInt(r.querySelector('.om-qty').value, 10) || 0;
+    if(qty < 1) bad = true;
+    lines.push({templateId: r.querySelector('.om-tpl').value, qty: qty,
+      strings: r.querySelector('.om-str').value.trim(), accessories: r.querySelector('.om-acc').value.trim()});
+  });
+  if(bad || !lines.length){ toast('Each order line needs a quantity of at least 1.'); return; }
+  var o = {id: nextOrderId(), client: client, dueDate: due, notes: notes, createdAt: new Date().toISOString(), lines: lines};
+  state.orders = state.orders || []; state.orders.push(o);
+  lines.forEach(function(line, li){
+    var t = tpl(line.templateId);
+    for(var k = 0; k < line.qty; k++){
+      state.instruments.unshift({id: uid(), code: null, serial: '', templateId: t.id, brand: t.brand||'', status: 'ordered',
+        orderId: o.id, orderLine: li, createdAt: new Date().toISOString(),
+        parts: tplParts(t), kitIncomplete: {flag:false, note:''}, shortage: {flag:false, note:''}, bagItems: bagFor(t, line),
+        luthier: {name:'', measures: mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null}, qc: null,
+        history: [['Order '+o.id+' received — '+client, new Date().toISOString()]]});
+    }
+  });
+  save(); render();
+  toast('Order '+o.id+' created — Prep (John) has it in his queue.');
+}
+
+/* ============ Manager: dashboard + Ask your data ============ */
+function renderManager(){
+  var list = state.instruments;
+  var by = {ordered:0, kitting:0, ready_bench:0, at_bench:0, ready:0, approved:0, returned:0, shipped:0};
+  list.forEach(function(i){ by[i.status]++; });
+  var decided = list.filter(function(i){ return i.qc && (i.qc.decision==='approved'||i.qc.decision==='returned'); });
+  var firstPass = decided.filter(function(i){
+    return i.qc.decision==='approved' && !i.history.some(function(h){return /returned/i.test(h[0]);});
+  }).length;
+  var fpPct = decided.length ? Math.round(100*firstPass/decided.length) : null;
+  var h = '<div class="card"><h2>Workshop dashboard</h2><div class="sub">Live from the bench records — no phone calls, no paper hunt.</div>'+
+   '<div class="stat mt"><div class="s"><div class="n">'+by.at_bench+'</div><div class="l">At bench</div></div>'+
+   '<div class="s"><div class="n">'+by.ready+'</div><div class="l">Ready for QC</div></div>'+
+   '<div class="s"><div class="n">'+by.approved+'</div><div class="l">Approved</div></div>'+
+   '<div class="s"><div class="n">'+(fpPct==null?'—':fpPct+'%')+'</div><div class="l">First-pass approval</div></div></div>'+
+   '<div class="stat"><div class="s"><div class="n">'+by.ordered+'</div><div class="l">Ordered</div></div>'+
+   '<div class="s"><div class="n">'+by.kitting+'</div><div class="l">Kitting</div></div>'+
+   '<div class="s"><div class="n">'+by.ready_bench+'</div><div class="l">Ready for bench</div></div>'+
+   '<div class="s"><div class="n">'+by.shipped+'</div><div class="l">Shipped</div></div></div>'+
+   (by.returned? '<div class="banner ret mt">'+by.returned+' instrument(s) returned for rework — see the list below.</div>':'')+'</div>';
+  h += '<div class="card"><h2>Ask your data</h2><div class="sub">Plain-language questions, answered honestly from the records on this device (demo engine — on the production version this layer runs on local Ollama inside your building). Try: “How many are ready for QC?” · “Which instruments were returned and why?” · “Who serviced the most?” · “How many Sweetwater?”</div>'+
+   '<div class="row mt"><input type="text" id="ask-q" placeholder="Ask about your instruments…"><button class="btn sm" id="ask-btn" style="flex:0 0 84px">Ask</button></div>'+
+   '<div class="asklog" id="ask-log"></div></div>';
+  h += '<div class="card"><h2>📦 Client orders</h2><div class="sub">An order is where the chain starts: the client document says which instruments, which strings, which accessories. Creating one generates the instrument records — Prep (John) picks them up from there.</div>'+
+   '<label class="fl">Client</label><input type="text" id="om-client" placeholder="e.g. Sweetwater">'+
+   '<div class="row"><div><label class="fl">Due date</label><input type="date" id="om-due"></div>'+
+   '<div><label class="fl">Notes</label><input type="text" id="om-notes" placeholder="e.g. Friday shipment"></div></div>'+
+   '<div id="om-lines">'+orderLineRow()+'</div>'+
+   '<button class="btn dark sm mt" id="om-addline">+ Add another line</button>'+
+   '<button class="btn mt" id="om-create">Create order — send to Prep</button></div>';
+  h += (state.orders||[]).map(orderProgressHTML).join('');
+  h += '<div class="sub mb">All instruments (tap to view):</div><input type="text" id="listSearch" placeholder="🔎 Find by code (QC-…) or serial" style="margin-bottom:12px">' + (list.length? list.map(instButton).join('') : '<div class="banner info">No instruments yet.</div>');
+  app.innerHTML = h;
+  wireListTools();
+  app.querySelectorAll('[data-open]').forEach(function(b){ b.onclick=function(){ ui.detailId=b.dataset.open; ui.mode='luthier'; render(); }; });
+  var addBtn = document.getElementById('om-addline');
+  if(addBtn) addBtn.onclick = function(){ document.getElementById('om-lines').insertAdjacentHTML('beforeend', orderLineRow()); };
+  var createBtn = document.getElementById('om-create');
+  if(createBtn) createBtn.onclick = createOrder;
+  var run = function(){ var q=document.getElementById('ask-q').value; document.getElementById('ask-log').textContent = answerQuery(q); };
+  document.getElementById('ask-btn').onclick = run;
+  document.getElementById('ask-q').addEventListener('keydown', function(e){ if(e.key==='Enter') run(); });
+}
+function answerQuery(qRaw){
+  var q = (qRaw||'').toLowerCase(); var list = state.instruments;
+  if(!q.trim()) return 'Ask me something like “How many are ready for QC?” or “Which were returned and why?”';
+  var count = function(st){ return list.filter(function(i){return i.status===st;}).length; };
+  var names = function(arr){ return arr.map(function(i){return (i.code||'no code yet')+' (serial '+(i.serial||'pending')+')';}).join(', '); };
+  // orders: what is left / progress
+  var ordMatch = /ord-(\d+)/i.exec(qRaw||'');
+  if(ordMatch || /\border(s)?\b/.test(q)){
+    var oid = ordMatch ? ('ORD-'+ordMatch[1]) : null;
+    var o = oid ? orderById(oid) : null;
+    if(oid && !o) return 'I do not see an order '+oid+' on this device. Orders here: '+((state.orders||[]).map(function(x){return x.id;}).join(', ')||'none')+'.';
+    var scope = o ? list.filter(function(i){return i.orderId===o.id;}) : list.filter(function(i){return i.orderId;});
+    if(!scope.length) return o ? ('Order '+o.id+' has no instruments yet.') : 'No client orders on this device yet.';
+    var per = {}; scope.forEach(function(i){ per[i.status]=(per[i.status]||0)+1; });
+    var breakdown = Object.keys(per).map(function(st){return per[st]+' '+statuses[st].toLowerCase();}).join(', ');
+    var left = scope.filter(function(i){return i.status!=='shipped';});
+    return (o ? 'Order '+o.id+' ('+o.client+', due '+(o.dueDate||'—')+'): ' : 'Across all orders: ')+scope.length+' instrument(s) — '+breakdown+'.\nStill in the building (not shipped): '+left.length+(left.length ? ':\n'+left.map(function(i){return '· '+names([i])+' — '+statuses[i.status];}).join('\n') : '.');
+  }
+  // shortages flagged by Kitting (or at intake)
+  if(/shortage|missing|incomplete/.test(q)){
+    var sh = list.filter(function(i){ return (i.shortage&&i.shortage.flag) || (i.kitIncomplete&&i.kitIncomplete.flag); });
+    if(!sh.length) return 'No shortages flagged anywhere. Every kit that reached the bench was complete.';
+    return 'Shortage exceptions ('+sh.length+'):\n'+sh.map(function(i){
+      var note = (i.shortage&&i.shortage.flag) ? i.shortage.note : i.kitIncomplete.note;
+      return '· '+names([i])+' — '+statuses[i.status]+' — '+(note||'unspecified');
+    }).join('\n');
+  }
+  // waiting on kitting / prep
+  if(/kitting|bagging|bagged|prep/.test(q)){
+    var ow = list.filter(function(i){return i.status==='ordered';});
+    var kw = list.filter(function(i){return i.status==='kitting';});
+    return 'Waiting on Kitting:\n· Still in Prep, labels not ready ('+ow.length+'): '+(ow.length?names(ow):'none')+'.\n· Being bagged by José ('+kw.length+'): '+(kw.length?names(kw):'none')+'.';
+  }
+  // per-technician
+  if(/who|technician|luthier|serviced|workload|most/.test(q)){
+    var per = {}; list.forEach(function(i){ if(i.luthier&&i.luthier.name) per[i.luthier.name]=(per[i.luthier.name]||0)+1; });
+    var keys = Object.keys(per);
+    if(!keys.length) return 'No serviced instruments on record yet.';
+    return 'Instruments serviced per technician:\n' + keys.map(function(k){return '· '+k+': '+per[k];}).join('\n');
+  }
+  // returned & why
+  if(/return|rework|reject|fail|why/.test(q)){
+    var ret = list.filter(function(i){return i.status==='returned';});
+    if(!ret.length) return 'Nothing is currently returned for rework. Every inspected instrument passed.';
+    return 'Returned for rework ('+ret.length+'):\n' + ret.map(function(i){return '· '+names([i])+' — '+(i.qc?i.qc.reason:'');}).join('\n');
+  }
+  // by client / template
+  var clientHit = state.templates.find(function(t){ return q.indexOf(t.client.toLowerCase())>=0; });
+  if(clientHit || /client|standard/.test(q)){
+    var t2 = clientHit || state.templates.find(function(t){return /standard/.test(q)&&t.client==='Standard';}) || state.templates[0];
+    var arr = list.filter(function(i){return i.templateId===t2.id;});
+    return arr.length+' instrument(s) under '+t2.name+': '+(arr.length?names(arr):'none')+'.';
+  }
+  // holding / waiting / bottleneck
+  if(/hold|wait|bottleneck|shipment|stuck|pending/.test(q)){
+    var r = list.filter(function(i){return i.status==='ready';});
+    var b = list.filter(function(i){return i.status==='at_bench';});
+    return 'Waiting on QC ('+r.length+'): '+(r.length?names(r):'none')+'.\nStill at the bench ('+b.length+'): '+(b.length?names(b):'none')+'.';
+  }
+  // counts by status
+  var stMap = [['approved','approved'],['ready','ready'],['returned','returned'],['bench','at_bench'],['progress','at_bench']];
+  for(var s=0;s<stMap.length;s++){ if(q.indexOf(stMap[s][0])>=0){ var arr2=list.filter(function(i){return i.status===stMap[s][1];}); return 'There are '+arr2.length+' instrument(s) '+statuses[stMap[s][1]].toLowerCase()+': '+(arr2.length?names(arr2):'none')+'.'; } }
+  if(/how many|count|total|instruments/.test(q)){
+    return 'Total instruments: '+list.length+' — '+count('ordered')+' ordered, '+count('kitting')+' in kitting, '+count('ready_bench')+' ready for bench, '+count('at_bench')+' at bench, '+count('ready')+' ready for QC, '+count('approved')+' approved, '+count('returned')+' returned, '+count('shipped')+' shipped.';
+  }
+  return 'Here is the current picture: '+list.length+' instruments — '+count('ordered')+' ordered, '+count('kitting')+' in kitting, '+count('ready_bench')+' ready for bench, '+count('at_bench')+' at bench, '+count('ready')+' ready for QC, '+count('approved')+' approved, '+count('returned')+' returned, '+count('shipped')+' shipped.\nYou can also ask: “How many are left in ORD-1042?”, “What is waiting on kitting?”, “Any shortages?”, “Which were returned and why?”, “Who serviced the most?”';
+}
+
+/* ============ Templates (editable) ============ */
+function renderTemplates(){
+  var h = '<div class="card"><h2>Spec templates</h2><div class="sub">Targets per model + client, in mm. Point targets (min = max) accept ±0.1 mm. Changes save on this device and apply to validation immediately.</div></div>';
+  state.templates.forEach(function(t){
+    h += '<div class="card"><h3>'+esc(t.name)+'</h3><div class="sub">Model '+esc(t.model)+' · '+esc(t.size||'')+' · Client '+esc(t.client)+' · Brand '+esc(t.brand||'')+'</div>'+
+      MEASURES.map(function(m){
+        return '<div class="row" style="align-items:end;margin-top:8px"><div style="flex:1.6"><label class="fl" style="margin:0">'+m.label+'</label></div>'+
+        '<div><input type="number" step="0.1" id="tp-'+t.id+'-'+m.key+'-min" value="'+t.targets[m.key][0]+'"></div>'+
+        '<div><input type="number" step="0.1" id="tp-'+t.id+'-'+m.key+'-max" value="'+t.targets[m.key][1]+'"></div></div>';
+      }).join('')+
+      '<div class="sub" style="margin-top:4px">Columns: min / max</div>'+
+      '<label class="fl">Parts kit — one part per line (copied to every new instrument at intake)</label>'+
+      '<textarea id="tp-'+t.id+'-kit">'+(t.kit||[]).map(esc).join('\n')+'</textarea>'+
+      '<button class="btn mt" data-savetpl="'+t.id+'">Save template</button></div>';
+  });
+  app.innerHTML = h;
+  app.querySelectorAll('[data-savetpl]').forEach(function(b){ b.onclick = function(){
+    var t = tpl(b.dataset.savetpl);
+    MEASURES.forEach(function(m){
+      var mn = parseFloat(document.getElementById('tp-'+t.id+'-'+m.key+'-min').value);
+      var mx = parseFloat(document.getElementById('tp-'+t.id+'-'+m.key+'-max').value);
+      if(!isNaN(mn)&&!isNaN(mx)) t.targets[m.key] = [Math.min(mn,mx), Math.max(mn,mx)];
+    });
+    var kitEl = document.getElementById('tp-'+t.id+'-kit');
+    if(kitEl) t.kit = kitEl.value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    save(); toast('Template saved: '+t.name);
+  };});
+}
+
+/* ============ Init ============ */
+load(); state.view = state.view||'work'; if(!state.orders) state.orders = [];
+document.querySelectorAll('#roles button').forEach(function(b){ b.onclick=function(){ state.role=b.dataset.role; ui.mode=null; ui.detailId=null; ui.compareId=null; state.view='work'; save(); render(); }; });
+document.getElementById('tab-work').onclick = function(){ state.view='work'; save(); render(); };
+document.getElementById('tab-templates').onclick = function(){ state.view='templates'; save(); render(); };
+document.getElementById('resetDemo').onclick = function(){ if(confirm('Reset all SetupQC demo data on this device?')){ localStorage.removeItem(LS_KEY); state = seedState(); ui.mode=null; ui.detailId=null; save(); render(); } };
+render();
+</script>
+</body>
+</html>
