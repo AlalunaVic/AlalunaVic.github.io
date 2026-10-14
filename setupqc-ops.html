@@ -166,15 +166,12 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 <script>
 'use strict';
 /* ============ SetupQC MVP — single-file demo ============ */
-var LS_KEY = 'setupqc_ops_v2';
+var LS_KEY = 'setupqc_ops_v3';
 var MEASURES = [
-  {key:'scoopT', label:'Fingerboard Scoop — Treble Side'},
-  {key:'scoopB', label:'Fingerboard Scoop — Bass Side'},
   {key:'nut',    label:'String Spacing at Nut'},
-  {key:'spacing',label:'String Spacing at Bridge'},
   {key:'feet',   label:'Bridge Thickness at Feet'},
   {key:'top',    label:'Bridge Thickness at Strings'},
-  {key:'width',  label:'Bridge Width at Feet'},
+  {key:'spacing',label:'String Spacing at Bridge'},
   {key:'treble', label:'String Height — Treble Side'},
   {key:'bass',   label:'String Height — Bass Side'}
 ];
@@ -183,20 +180,23 @@ var statuses = {ordered:'Ordered', kitting:'Kitting', ready_bench:'Ready for Ben
 
 /* Measurement standards — "Revelle Instrument Measurement Standards for Sweetwater" (doc. 2023-07-21).
    Two spec sets per instrument/size: Strobel book values (Standard) and Revelle-for-Sweetwater values. All mm.
-   Values per size are [min,max] pairs in MEASURES order: scoopT, scoopB, nut, spacing, feet, top, width, treble, bass. */
+   Values per size are [min,max] pairs in table order: scoopT, scoopB, nut, spacing, feet, top, width, treble, bass.
+   Only the six QC-card measurements (nut, spacing, feet, top, treble, bass) become inspection targets — they alone approve or reject.
+   Scoop and bridge width travel as reference data on each template (ref) and never gate approval. */
 var STANDARDS = {"violin":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.5,3.5],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.2,3.2],[1.0,1.0],[32.0,32.0],[2.7,2.7],[4.3,4.3]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.0,3.0],[0.9,0.9],[29.0,29.0],[2.5,2.5],[3.9,3.9]]},"sweetwater":{"4/4":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[34.0,34.0],[5.0,5.0],[1.3,1.6],[41.0,41.0],[3.5,3.7],[5.5,5.7]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.8,4.2],[1.0,1.3],[32.0,32.0],[2.7,2.9],[4.3,4.5]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.4,3.8],[0.9,1.2],[29.0,29.0],[2.5,2.7],[3.9,4.1]]}},"viola":{"sizes":["17\"","16-16.5\"","15-15.5\"","14\"","13\"","12\""],"strobel":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.5],[1.5,1.5],[50.0,50.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[37.0,37.0],[5.3,5.3],[1.5,1.5],[48.0,48.0],[4.3,4.3],[6.3,6.3]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[36.0,36.0],[5.0,5.0],[1.4,1.4],[46.0,48.0],[4.0,4.0],[6.0,6.0]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.6,3.6],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]]},"sweetwater":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[6.1,6.5],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.9,6.3],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.9],[1.5,1.5],[46.0,46.0],[4.5,4.5],[6.5,6.5]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.8,5.2],[1.3,1.6],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]]}},"cello":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.0,11.0],[2.6,2.6],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.0,10.0],[2.4,2.4],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.3,9.3],[2.2,2.2],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[8.6,8.6],[2.0,2.0],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[7.9,7.9],[1.9,1.9],[65.0,65.0],[2.9,2.9],[4.7,4.7]]},"sweetwater":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.8,12.2],[2.6,2.9],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.8,11.2],[2.4,2.7],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.8,10.2],[2.2,2.5],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[9.3,9.7],[2.0,2.3],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[8.5,8.9],[1.9,2.2],[65.0,65.0],[2.9,2.9],[4.7,4.7]]}}};
-var STD_KEYS = ['scoopT','scoopB','nut','spacing','feet','top','width','treble','bass'];
-function stdTargets(inst, size, spec){ var a = STANDARDS[inst][spec][size]; var o = {}; STD_KEYS.forEach(function(k, ix){ o[k] = a[ix]; }); return o; }
+function stdTargets(inst, size, spec){ var a = STANDARDS[inst][spec][size]; return {nut:a[2], spacing:a[3], feet:a[4], top:a[5], treble:a[7], bass:a[8]}; }
+function stdRef(inst, size, spec){ var a = STANDARDS[inst][spec][size]; return {scoopT:a[0], scoopB:a[1], width:a[6]}; }
+function pairText(p){ return p[0]===p[1] ? (p[0]+' mm') : (p[0]+'\u2013'+p[1]+' mm'); }
 function defaultTemplates(){
   var T = [
     {id:'tpl-sw', model:'REV25', client:'Sweetwater', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Sweetwater Spec',
-     targets:stdTargets('violin','4/4','sweetwater'),
+     targets:stdTargets('violin','4/4','sweetwater'), ref:stdRef('violin','4/4','sweetwater'),
      kit:['Bridge blank','String set','Tailpiece']},
     {id:'tpl-std', model:'REV25', client:'Standard', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Standard (Strobel)',
-     targets:stdTargets('violin','4/4','strobel'),
+     targets:stdTargets('violin','4/4','strobel'), ref:stdRef('violin','4/4','strobel'),
      kit:['Bridge blank','String set','Tailpiece']},
     {id:'tpl-sr52', model:'SR52E13H', client:'Stock', brand:'Scherl & Roth', size:'Viola 13\u2033', name:'SR52E13H \u00b7 Viola 13\u2033 — Standard Spec',
-     targets:stdTargets('viola','13"','strobel'),
+     targets:stdTargets('viola','13"','strobel'), ref:stdRef('viola','13"','strobel'),
      kit:['Bridge blank — Despiau Superieur (France)','Tailpiece — Wittner Ultra','String set — viola 13\u2033']}
   ];
   var skip = {'violin|4/4|sweetwater':1, 'violin|4/4|strobel':1, 'viola|13"|strobel':1};
@@ -209,7 +209,7 @@ function defaultTemplates(){
         T.push({id:'tpl-g-'+inst+'-'+size.replace(/[^0-9a-z]+/gi,'')+'-'+spec,
           model:instName+' '+disp, client: spec==='sweetwater' ? 'Sweetwater' : 'Standard', brand:'', size:instName+' '+disp,
           name:instName+' '+disp+(spec==='sweetwater' ? ' — Sweetwater Spec' : ' — Standard (Strobel)'),
-          targets:stdTargets(inst, size, spec), kit:['Bridge blank','String set','Tailpiece']});
+          targets:stdTargets(inst, size, spec), ref:stdRef(inst, size, spec), kit:['Bridge blank','String set','Tailpiece']});
       });
     });
   });
@@ -969,7 +969,7 @@ function answerQuery(qRaw){
 
 /* ============ Templates (editable) ============ */
 function renderTemplates(){
-  var h = '<div class="card"><h2>Spec templates</h2><div class="sub">Targets per model + client, in mm. Point targets (min = max) accept ±0.1 mm. Changes save on this device and apply to validation immediately.</div></div>';
+  var h = '<div class="card"><h2>Spec templates</h2><div class="sub">Inspection targets per model + client, in mm — these six QC-card measurements are the only approval criteria. Point targets (min = max) accept ±0.1 mm. Changes save on this device and apply to validation immediately.</div></div>';
   state.templates.forEach(function(t){
     h += '<div class="card"><h3>'+esc(t.name)+'</h3><div class="sub">Model '+esc(t.model)+' · '+esc(t.size||'')+' · Client '+esc(t.client)+' · Brand '+esc(t.brand||'')+'</div>'+
       MEASURES.map(function(m){
@@ -978,6 +978,7 @@ function renderTemplates(){
         '<div><input type="number" step="0.1" id="tp-'+t.id+'-'+m.key+'-max" value="'+t.targets[m.key][1]+'"></div></div>';
       }).join('')+
       '<div class="sub" style="margin-top:4px">Columns: min / max</div>'+
+      (t.ref ? '<div class="sub" style="margin-top:6px">Reference only — not inspection criteria (Revelle/Strobel standards table, 2023-07-21): fingerboard scoop, treble side '+pairText(t.ref.scoopT)+' · bass side '+pairText(t.ref.scoopB)+' · bridge width at feet '+pairText(t.ref.width)+'.</div>' : '')+
       '<label class="fl">Parts kit — one part per line (copied to every new instrument at intake)</label>'+
       '<textarea id="tp-'+t.id+'-kit">'+(t.kit||[]).map(esc).join('\n')+'</textarea>'+
       '<button class="btn mt" data-savetpl="'+t.id+'">Save template</button></div>';
