@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SetupQC — Digital Setup &amp; Quality Control</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <style>
 :root{
   --bg:#101014; --bg2:#17171d; --card:#1d1d25; --card2:#24242e; --line:#33333f;
@@ -92,8 +93,10 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 .linkbtn{background:none; border:none; color:var(--dim); font-size:12.5px; text-decoration:underline; padding:4px}
 #printArea{display:none}
 @media print{
+  @page{margin:6mm}
   body>*{display:none !important}
   body>#printArea{display:block !important; color:#000; background:#fff; padding:24px; font-family:Georgia,serif}
+  body>#printArea .svclabel{margin:0}
 }
 .cert{border:2.5px solid #8a6d1f; padding:26px; max-width:680px; margin:0 auto; color:#111}
 .cert h1{font-size:22px; text-align:center; margin:0; color:#8a6d1f; letter-spacing:1px}
@@ -106,6 +109,28 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 .cert .sig div{border-top:1px solid #333; padding-top:5px; width:45%; text-align:center}
 .labelprint{border:1.5px dashed #333; padding:18px; max-width:340px; margin:0 auto; text-align:center; color:#111; font-family:Arial,sans-serif}
 .labelprint .big{font-family:monospace; font-size:32px; font-weight:800; letter-spacing:2px}
+.btn.scan{background:#2c2110; color:var(--gold2); border:1.5px solid var(--gold)}
+#scanner{position:fixed; inset:0; background:rgba(8,8,10,.97); z-index:200; display:none; flex-direction:column; align-items:center; padding:20px 16px; overflow:auto}
+#scanner video{width:100%; max-width:420px; border-radius:12px; border:1.5px solid var(--gold); background:#000; margin-top:12px}
+.kitpart{background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:8px}
+.kitpart .kp-name{font-size:14px; font-weight:600; margin-bottom:6px}
+.kitpart select{margin-bottom:6px}
+.kp-row{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid var(--line); font-size:13.5px}
+.kp-row:last-child{border-bottom:none}
+/* ——— Classic internal service label (Scherl & Roth style), true size 90 × 38 mm ——— */
+.svclabel{width:90mm; max-width:100%; height:38mm; margin:0 auto; background:#f6efdb; color:#1c1a14; font-family:Georgia,'Times New Roman',serif; border:1.5px solid #2a2519; padding:1.6mm; box-sizing:border-box}
+.svc-in{position:relative; border:1px solid #2a2519; height:100%; padding:1.8mm 3mm; box-sizing:border-box; display:flex; flex-direction:column}
+.svc-brand{text-align:center; font-size:13.5pt; letter-spacing:3px; font-weight:600; line-height:1.1}
+.svc-year{position:absolute; top:1.8mm; right:3mm; font-style:italic; font-size:10pt}
+.svc-mid{display:flex; justify-content:space-between; align-items:center; flex:1; gap:3mm}
+.svc-model{font-size:10pt}
+.svc-model u{font-weight:700}
+.svc-right{display:flex; align-items:center; gap:2.5mm}
+.svc-sn{background:#fff; border:1px solid #bbb; border-radius:2mm; padding:1mm 2.4mm; font-family:Arial,sans-serif; font-weight:700; font-size:10.5pt; white-space:nowrap}
+.svc-qr{text-align:center}
+.svc-qr svg{display:block; margin:0 auto}
+.svc-code{font-family:ui-monospace,Menlo,monospace; font-size:6.5pt; font-weight:700; letter-spacing:.5px; margin-top:.5mm}
+.svc-bottom{text-align:center; font-size:8.5pt; letter-spacing:2.5px}
 </style>
 </head>
 <body>
@@ -129,7 +154,7 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 <script>
 'use strict';
 /* ============ SetupQC MVP — single-file demo ============ */
-var LS_KEY = 'setupqc_v1';
+var LS_KEY = 'setupqc_v2';
 var MEASURES = [
   {key:'nut',    label:'String Spacing at Nut'},
   {key:'feet',   label:'Bridge Thickness at Feet'},
@@ -143,33 +168,58 @@ var statuses = {at_bench:'At Bench', ready:'Ready for QC', approved:'Approved', 
 
 function defaultTemplates(){
   return [
-    {id:'tpl-sw', model:'REV25', client:'Sweetwater', name:'REV25 — Sweetwater Spec',
-     targets:{nut:[16.5,16.5], feet:[5,5], top:[1.3,1.6], spacing:[34,34], treble:[3.5,3.7], bass:[5.5,5.7]}},
-    {id:'tpl-std', model:'REV25', client:'Standard', name:'REV25 — Standard',
-     targets:{nut:[16.5,16.5], feet:[4.5,4.5], top:[1.2,1.8], spacing:[33.5,33.5], treble:[3.3,3.8], bass:[5.3,5.8]}}
+    {id:'tpl-sw', model:'REV25', client:'Sweetwater', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Sweetwater Spec',
+     targets:{nut:[16.5,16.5], feet:[5,5], top:[1.3,1.6], spacing:[34,34], treble:[3.5,3.7], bass:[5.5,5.7]},
+     kit:['Bridge blank','String set','Tailpiece']},
+    {id:'tpl-std', model:'REV25', client:'Standard', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Standard',
+     targets:{nut:[16.5,16.5], feet:[4.5,4.5], top:[1.2,1.8], spacing:[33.5,33.5], treble:[3.3,3.8], bass:[5.3,5.8]},
+     kit:['Bridge blank','String set','Tailpiece']},
+    {id:'tpl-sr52', model:'SR52E13H', client:'Stock', brand:'Scherl & Roth', size:'Viola 13″', name:'SR52E13H · Viola 13″ — Standard Spec',
+     targets:{nut:[15,15], feet:[3.9,3.9], top:[1.2,1.2], spacing:[31,31], treble:[3.2,3.2], bass:[5.1,5.1]},
+     kit:['Bridge blank — Despiau Superieur (France)','Tailpiece — Wittner Ultra','String set — viola 13″']}
   ];
 }
+function P(n,s,nt){ return {name:n, state:s||'pending', note:nt||''}; }
+function tplParts(t){ return (t.kit||[]).map(function(n){ return P(n); }); }
+function partsSummary(i){
+  var ins=[], subs=[];
+  (i.parts||[]).forEach(function(p){
+    if(p.state==='installed') ins.push(p.name);
+    if(p.state==='substituted') subs.push(p.name+(p.note?' → '+p.note:''));
+  });
+  return {installed:ins, subs:subs};
+}
+function subsText(i){ return partsSummary(i).subs.join('; '); }
 function mkMeasures(o){ var m={}; MEASURES.forEach(function(x){ m[x.key]=(o&&o[x.key]!=null)?o[x.key]:null; }); return m; }
 function daysAgo(n, h){ var d=new Date(Date.now()-n*864e5); d.setHours(h||10,15,0,0); return d.toISOString(); }
 function seedState(){
   var t = defaultTemplates();
   var inst = [
-    {id:'i1', code:'QC-A7K2P', serial:'RV25-88412', templateId:'tpl-sw', status:'approved', createdAt:daysAgo(4),
+    {id:'i1', code:'QC-A7K2P', serial:'RV25-88412', templateId:'tpl-sw', brand:'Revelle', status:'approved', createdAt:daysAgo(4),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
      luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(4,11)},
      qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.1,top:1.5,spacing:34,treble:3.6,bass:5.7}), decision:'approved', reason:'', at:daysAgo(3,9), attempts:1},
      history:[['Intake — record created',daysAgo(4)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(4,11)],['QC approved by D. Blouin',daysAgo(3,9)]]},
-    {id:'i2', code:'QC-M3X8Q', serial:'RV25-88437', templateId:'tpl-sw', status:'ready', createdAt:daysAgo(1),
+    {id:'i2', code:'QC-M3X8Q', serial:'RV25-88437', templateId:'tpl-sw', brand:'Revelle', status:'ready', createdAt:daysAgo(1),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
      luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.4,spacing:34,treble:3.5,bass:5.5}), newBridge:false, subs:'Dominant G string', photos:[], submittedAt:daysAgo(0,12)},
      qc:null,
      history:[['Intake — record created',daysAgo(1)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(0,12)]]},
-    {id:'i3', code:'QC-T9W4E', serial:'RV25-88451', templateId:'tpl-std', status:'at_bench', createdAt:daysAgo(0,9),
+    {id:'i3', code:'QC-T9W4E', serial:'RV25-88451', templateId:'tpl-std', brand:'Revelle', status:'at_bench', createdAt:daysAgo(0,9),
+     parts:[P('Bridge blank','installed'),P('String set'),P('Tailpiece')], kitIncomplete:{flag:false,note:''},
      luthier:{name:'', measures:mkMeasures({nut:16.5,feet:4.5}), newBridge:false, subs:'', photos:[], submittedAt:null},
      qc:null,
      history:[['Intake — record created',daysAgo(0,9)]]},
-    {id:'i4', code:'QC-R5D7N', serial:'RV25-88390', templateId:'tpl-sw', status:'returned', createdAt:daysAgo(6),
+    {id:'i4', code:'QC-R5D7N', serial:'RV25-88390', templateId:'tpl-sw', brand:'Revelle', status:'returned', createdAt:daysAgo(6),
+     parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
      luthier:{name:'J. Moreno', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(5,14)},
      qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.0,top:1.6,spacing:34,treble:3.6,bass:5.9}), decision:'returned', reason:'Bass string height measures 5.9 mm — out of spec (5.5–5.7). Lower the bridge on the bass side and resubmit.', at:daysAgo(5,16), attempts:1},
-     history:[['Intake — record created',daysAgo(6)],['Submitted by J. Moreno — Ready for QC',daysAgo(5,14)],['QC returned by D. Blouin: bass height 5.9 out of spec',daysAgo(5,16)]]}
+     history:[['Intake — record created',daysAgo(6)],['Submitted by J. Moreno — Ready for QC',daysAgo(5,14)],['QC returned by D. Blouin: bass height 5.9 out of spec',daysAgo(5,16)]]},
+    {id:'i5', code:'QC-K8R2M', serial:'16264', templateId:'tpl-sr52', brand:'Scherl & Roth', status:'at_bench', createdAt:daysAgo(0,8),
+     parts:tplParts(t[2]), kitIncomplete:{flag:false,note:''},
+     luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null},
+     qc:null,
+     history:[['Intake — record created (kit: Despiau blank, Wittner Ultra tailpiece, string set)',daysAgo(0,8)]]}
   ];
   return {templates:t, instruments:inst, role:'luthier', view:'work'};
 }
@@ -189,6 +239,59 @@ function inRange(t, v){ if(v==null||v===''||isNaN(v)) return null; v=parseFloat(
 function targetText(t){ return t[0]===t[1] ? ('Target '+t[0]+' mm (±0.1)') : ('Target '+t[0]+' – '+t[1]+' mm'); }
 function toast(msg){ var el=document.getElementById('toast'); if(!el){ el=document.createElement('div'); el.id='toast'; el.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#2c2c38;border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:9px;font-size:14px;z-index:99;max-width:88vw;text-align:center'; document.body.appendChild(el);} el.textContent=msg; el.style.display='block'; clearTimeout(el._h); el._h=setTimeout(function(){el.style.display='none';},2800); }
 function qrSVG(text, px){ if(typeof qrcode==='undefined') return '<div class="sm">(QR unavailable offline — code below)</div>'; try{ var q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:5, margin:2, scalable:true}).replace('<svg ','<svg width="'+(px||140)+'" height="'+(px||140)+'" '); }catch(e){ return ''; } }
+/* ============ In-app QR scanner (reads the internal label's small QR) ============ */
+var scanStream = null, scanRAF = null;
+function startScan(){
+  var ov = document.getElementById('scanner');
+  if(!ov){
+    ov = document.createElement('div'); ov.id = 'scanner';
+    ov.innerHTML = '<div style="color:var(--gold2);font-weight:700;font-size:17px;margin:8px 0 4px">📷 Scan the internal label</div>'+
+      '<div class="sub" style="text-align:center;max-width:340px">Point the camera at the label QR — through the f-hole, or on the hang tag. The code opens the instrument record.</div>'+
+      '<video id="scanVideo" playsinline muted></video><canvas id="scanCanvas" style="display:none"></canvas>'+
+      '<div id="scanMsg" class="sub" style="margin-top:10px;text-align:center;max-width:340px"></div>'+
+      '<button class="btn dark" id="scanClose" style="max-width:340px;margin-top:14px">Cancel</button>';
+    document.body.appendChild(ov);
+    ov.querySelector('#scanClose').onclick = stopScan;
+  }
+  ov.style.display = 'flex';
+  var msg = ov.querySelector('#scanMsg'); msg.textContent = 'Opening camera…';
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof jsQR === 'undefined'){
+    msg.textContent = 'Camera scanning is not available here (it needs HTTPS and camera permission). No problem — use the search box to find the instrument by its code (QC-…) or serial.';
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(stream){
+    scanStream = stream;
+    var v = ov.querySelector('#scanVideo'); v.srcObject = stream; v.play();
+    msg.textContent = 'Looking for a code…';
+    var cv = ov.querySelector('#scanCanvas'), ctx = cv.getContext('2d');
+    var tick = function(){
+      if(!scanStream) return;
+      if(v.readyState === v.HAVE_ENOUGH_DATA && v.videoWidth){
+        cv.width = v.videoWidth; cv.height = v.videoHeight;
+        ctx.drawImage(v, 0, 0, cv.width, cv.height);
+        try{
+          var img = ctx.getImageData(0, 0, cv.width, cv.height);
+          var res = jsQR(img.data, img.width, img.height);
+          if(res && res.data){
+            var code = res.data.trim().toUpperCase();
+            var hit = state.instruments.find(function(x){ return x.code.toUpperCase() === code || String(x.serial).toUpperCase() === code; });
+            if(hit){ stopScan(); openInstrument(hit.id); toast('Opened '+hit.code+' — serial '+hit.serial); return; }
+            msg.textContent = 'Read "'+res.data+'" — no instrument with that code on this device. Type it in the search box to double-check.';
+          }
+        }catch(e){}
+      }
+      scanRAF = requestAnimationFrame(tick);
+    };
+    tick();
+  }).catch(function(){
+    msg.textContent = 'Camera permission was denied, or no camera is available. No problem — use the search box to find the instrument by its code (QC-…) or serial.';
+  });
+}
+function stopScan(){
+  if(scanRAF) cancelAnimationFrame(scanRAF); scanRAF = null;
+  if(scanStream){ scanStream.getTracks().forEach(function(tr){ tr.stop(); }); scanStream = null; }
+  var ov = document.getElementById('scanner'); if(ov) ov.style.display = 'none';
+}
 /* ============ Rendering ============ */
 var app = document.getElementById('app');
 var ui = {detailId:null, mode:null, compareId:null}; // mode: 'luthier' | 'label' | 'blind' | 'compare' | 'cert'
@@ -209,19 +312,33 @@ function render(){
 function chip(st){ return '<span class="chip '+({at_bench:'bench',ready:'ready',approved:'approved',returned:'returned'})[st]+'">'+statuses[st]+'</span>'; }
 function instButton(i){
   var t = tpl(i.templateId);
-  return '<button class="inst" data-open="'+i.id+'"><div><div class="t1">'+esc(t.model)+' · <span class="code">'+i.code+'</span></div>'+
-    '<div class="t2">Serial '+esc(i.serial)+' · '+esc(t.client)+' · '+(i.luthier&&i.luthier.name?('by '+esc(i.luthier.name)):'not yet serviced')+'</div></div>'+chip(i.status)+'</button>';
+  return '<button class="inst" data-open="'+i.id+'" data-search="'+esc((i.code+' '+i.serial+' '+(i.brand||'')).toLowerCase())+'"><div><div class="t1">'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+i.code+'</span></div>'+
+    '<div class="t2">Serial '+esc(i.serial)+' · '+esc(t.size||'')+' · '+esc(t.client)+' · '+(i.luthier&&i.luthier.name?('by '+esc(i.luthier.name)):'not yet serviced')+'</div></div>'+chip(i.status)+'</button>';
+}
+function toolBar(){
+  return '<button class="btn scan mb" id="scanBtn">📷 Scan label</button>'+
+    '<input type="text" id="listSearch" placeholder="🔎 Find by code (QC-…) or serial" style="margin-bottom:12px">';
+}
+function wireListTools(){
+  var sb = document.getElementById('scanBtn'); if(sb) sb.onclick = startScan;
+  var si = document.getElementById('listSearch');
+  if(si) si.addEventListener('input', function(){
+    var q = si.value.trim().toLowerCase();
+    app.querySelectorAll('.inst').forEach(function(b){ b.style.display = (!q || (b.dataset.search||'').indexOf(q)>=0) ? '' : 'none'; });
+  });
 }
 function renderList(){
   var list = state.instruments;
   var h = '';
   if(state.role==='qc'){
+    h += toolBar();
     var q = list.filter(function(i){return i.status==='ready';});
     h += '<div class="card"><h2>QC Queue</h2><div class="sub">Instruments waiting for blind verification. You will enter your own measurements first — the luthier\'s values stay hidden until you submit.</div></div>';
     h += q.length ? q.map(instButton).join('') : '<div class="banner info">The queue is empty. Nothing is waiting for inspection.</div>';
     var done = list.filter(function(i){return i.status==='approved'||i.status==='returned';});
     if(done.length){ h += '<div class="sub mb" style="margin-top:14px">Already inspected:</div>' + done.map(instButton).join(''); }
   } else {
+    h += toolBar();
     h += '<button class="btn mb" id="newBtn">+ New instrument</button>';
     h += '<div class="card" id="newCard" style="display:none"><h2>New instrument — intake</h2>'+
       '<label class="fl">Serial number (from the internal label)</label><input type="text" id="nf-serial" placeholder="e.g. RV25-88500">'+
@@ -232,6 +349,7 @@ function renderList(){
     h += list.length ? list.map(instButton).join('') : '<div class="banner info">No instruments yet.</div>';
   }
   app.innerHTML = h;
+  wireListTools();
   var nb = document.getElementById('newBtn');
   if(nb) nb.onclick = function(){ document.getElementById('newCard').style.display='block'; nb.style.display='none'; document.getElementById('nf-serial').focus(); };
   var nc = document.getElementById('nf-create');
@@ -241,7 +359,9 @@ function renderList(){
 function createInstrument(){
   var serial = document.getElementById('nf-serial').value.trim();
   if(!serial){ toast('Enter the serial number first.'); return; }
-  var ni = {id:uid(), code:genCode(), serial:serial, templateId:document.getElementById('nf-tpl').value, status:'at_bench', createdAt:new Date().toISOString(),
+  var tNew = tpl(document.getElementById('nf-tpl').value);
+  var ni = {id:uid(), code:genCode(), serial:serial, templateId:tNew.id, brand:tNew.brand||'', status:'at_bench', createdAt:new Date().toISOString(),
+    parts:tplParts(tNew), kitIncomplete:{flag:false, note:''},
     luthier:{name:'', measures:mkMeasures(null), newBridge:false, subs:'', photos:[], submittedAt:null}, qc:null,
     history:[['Intake — record created', new Date().toISOString()]]};
   state.instruments.unshift(ni); save();
@@ -276,21 +396,37 @@ function wireLive(prefix, t){
 }
 function readMeasures(prefix){ var m={}; MEASURES.forEach(function(x){ var el=document.getElementById(prefix+'-'+x.key); var v=el?parseFloat(el.value):NaN; m[x.key]=isNaN(v)?null:v; }); return m; }
 
+function kitHTML(i, readOnly){
+  var dis = readOnly ? ' disabled' : '';
+  var h = '<div style="margin-top:16px"><h3>Parts kit — from the sealed bag</h3>'+
+    '<div class="sub">Each instrument arrives with its own kit: spec card, internal label and the exact parts to install. Mark what actually went into the instrument.</div>'+
+    '<label class="switch"><input type="checkbox" id="kp-incomplete" '+((i.kitIncomplete&&i.kitIncomplete.flag)?'checked':'')+dis+'> Kit incomplete — a part was missing from the bag</label>'+
+    '<input type="text" id="kp-inote" value="'+esc(i.kitIncomplete?i.kitIncomplete.note:'')+'" placeholder="Missing-part note (if flagged)"'+dis+'>';
+  (i.parts||[]).forEach(function(p, idx){
+    h += '<div class="kitpart"><div class="kp-name">'+esc(p.name)+'</div>'+
+      '<select id="kp-state-'+idx+'"'+dis+'>'+
+      ['pending','installed','substituted'].map(function(s){ return '<option value="'+s+'"'+(p.state===s?' selected':'')+'>'+({pending:'Pending',installed:'Installed',substituted:'Substituted'})[s]+'</option>'; }).join('')+
+      '</select>'+
+      '<input type="text" id="kp-note-'+idx+'" value="'+esc(p.note||'')+'" placeholder="If substituted: what was used instead?"'+dis+'></div>';
+  });
+  return h + '</div>';
+}
 function renderLuthierForm(i){
   if(!i){ ui.mode=null; return render(); }
   var t = tpl(i.templateId);
   var readOnly = (state.role==='manager');
   var h = backBtn();
   if(i.status==='returned' && i.qc){ h += '<div class="banner ret"><strong>Returned by QC'+(i.qc.name?' ('+esc(i.qc.name)+')':'')+':</strong> '+esc(i.qc.reason)+'</div>'; }
-  h += '<div class="card"><h2>'+esc(t.model)+' · <span class="code">'+i.code+'</span> '+chip(i.status)+'</h2>'+
-    '<div class="sub">Serial '+esc(i.serial)+' · Template: '+esc(t.name)+' · Intake '+fmtDate(i.createdAt)+'</div>'+
+  h += '<div class="card"><h2>'+esc(i.brand||t.brand||'')+' '+esc(t.model)+' · <span class="code">'+i.code+'</span> '+chip(i.status)+'</h2>'+
+    '<div class="sub">Serial '+esc(i.serial)+' · '+esc(t.size||'')+' · Template: '+esc(t.name)+' · Intake '+fmtDate(i.createdAt)+'</div>'+
     '<div class="row mt"><button class="btn dark sm" id="labelBtn">🏷️ Label / QR tag</button>'+
     (readOnly?'':'')+'</div></div>';
   h += '<div class="card"><h3>Setup measurements — “Actual” (mm)</h3>'+
     '<div class="sub">Fields turn green inside spec, red outside. Out-of-spec values block submission — fix them at the bench, not on paper.</div>'+
     measureFields('lu', i.luthier.measures, t, true) +
+    kitHTML(i, readOnly) +
     '<label class="switch"><input type="checkbox" id="lu-newbridge" '+(i.luthier.newBridge?'checked':'')+(readOnly?' disabled':'')+'> New bridge used</label>'+
-    '<label class="fl">Substitutions</label><input type="text" id="lu-subs" value="'+esc(i.luthier.subs||'')+'" placeholder="e.g. Dominant G string" '+(readOnly?'disabled':'')+'>'+
+    '<label class="fl">Substitutions</label><input type="text" id="lu-subs" value="'+esc(i.luthier.subs || subsText(i) || '')+'" placeholder="e.g. Dominant G string" '+(readOnly?'disabled':'')+'>'+
     '<label class="fl">Photos (arrival / bridge / finished)</label>'+
     (readOnly?'':'<input type="file" id="lu-photo" accept="image/*" multiple>')+
     '<div class="photos" id="lu-photos">'+(i.luthier.photos||[]).map(function(p){return '<img src="'+p+'">';}).join('')+'</div>'+
@@ -312,9 +448,20 @@ function renderLuthierForm(i){
     if(bad.length){ toast('Out of spec: '+bad.map(function(x){return x.label;}).join(', ')+'. Correct at the bench before submitting.'); return; }
     var name = document.getElementById('lu-name').value.trim();
     if(!name){ toast('Sign your work — enter “Serviced by”.'); return; }
+    var newParts = [], missNote = false;
+    (i.parts||[]).forEach(function(p, idx){
+      var stEl = document.getElementById('kp-state-'+idx), ntEl = document.getElementById('kp-note-'+idx);
+      var st = stEl ? stEl.value : p.state, nt = ntEl ? ntEl.value.trim() : (p.note||'');
+      if(st==='substituted' && !nt) missNote = true;
+      newParts.push({name:p.name, state:st, note:nt});
+    });
+    if(missNote){ toast('A substituted part needs a note — what was used instead?'); return; }
+    i.parts = newParts;
+    var kiEl = document.getElementById('kp-incomplete'), knEl = document.getElementById('kp-inote');
+    i.kitIncomplete = {flag: kiEl ? kiEl.checked : false, note: knEl ? knEl.value.trim() : ''};
     i.luthier.measures = m; i.luthier.name = name;
     i.luthier.newBridge = document.getElementById('lu-newbridge').checked;
-    i.luthier.subs = document.getElementById('lu-subs').value.trim();
+    i.luthier.subs = document.getElementById('lu-subs').value.trim() || subsText(i);
     i.luthier.submittedAt = new Date().toISOString();
     if(i.status==='returned'){ i.qc = null; i.history.push(['Reworked and resubmitted by '+name, i.luthier.submittedAt]); }
     else i.history.push(['Submitted by '+name+' — Ready for QC', i.luthier.submittedAt]);
@@ -345,25 +492,30 @@ function historyHTML(i){
   if(!i.history || !i.history.length) return '';
   return '<div class="hist"><strong>History</strong>'+i.history.map(function(x){return '<div>· '+esc(x[0])+' — '+fmtDate(x[1])+'</div>';}).join('')+'</div>';
 }
+function servicedLabelHTML(i){
+  var t = tpl(i.templateId);
+  var brand = (i.brand || t.brand || '').toUpperCase();
+  var year = new Date(i.createdAt || Date.now()).getFullYear();
+  var sizeNum = (t.size || '').replace(/^(Violin|Viola|Cello)\s*/, '');
+  return '<div class="svclabel"><div class="svc-in">'+
+    '<div class="svc-brand">'+esc(brand)+'</div><div class="svc-year">'+year+'</div>'+
+    '<div class="svc-mid"><div class="svc-model"><em>Model:</em> <u>'+esc(t.model)+' '+esc(sizeNum)+'</u></div>'+
+    '<div class="svc-right"><div class="svc-sn">SN:'+esc(i.serial)+'</div>'+
+    '<div class="svc-qr">'+qrSVG(i.code, 54)+'<div class="svc-code">'+i.code+'</div></div></div></div>'+
+    '<div class="svc-bottom">PROUDLY SERVICED IN THE USA</div></div></div>';
+}
 function renderLabel(i){
   if(!i){ ui.mode=null; return render(); }
-  var t = tpl(i.templateId);
   app.innerHTML = backBtn() +
-   '<div class="card"><h2>Instrument label &amp; hang tag</h2>'+
-   '<div class="sub">The QR encodes <strong>only the short code</strong> — small payload, prints at ~10–12&nbsp;mm on the internal label. The same code in big print is the f-hole-readable backup.</div>'+
-   '<div class="qrbox mt"><div class="sm">'+esc(t.model)+' · '+esc(t.client)+' · Serial '+esc(i.serial)+'</div>'+
-   qrSVG(i.code, 150)+
-   '<div class="big">'+i.code+'</div><div class="sm">SetupQC — scan or read this code to open the full record</div></div>'+
-   '<div class="row mt"><button class="btn" id="printLabel">🖨️ Print label / tag</button>'+
-   '<button class="btn dark" id="toForm">Open record</button></div></div>';
+   '<div class="card"><h2>Internal service label</h2>'+
+   '<div class="sub">The Connolly service label that goes inside the instrument through the f-hole — same label as today, now carrying the small QR. The QR encodes <strong>only the short code</strong>, and the code is printed right under it as the eye-readable backup. Scanning it from inside SetupQC opens this record. Preview is true size: 90 × 38&nbsp;mm.</div>'+
+   '<div style="background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:16px 6px; margin-top:12px; overflow:hidden">'+servicedLabelHTML(i)+'</div>'+
+   '<div class="row mt"><button class="btn" id="printLabel">🖨️ Print label (90 × 38 mm)</button>'+
+   '<button class="btn dark" id="toForm">Open record</button></div>'+
+   '<div class="sub mt">The same print works as the case hang tag — the big-print fallback code is <span class="code">'+i.code+'</span>.</div></div>';
   wireBack();
   document.getElementById('toForm').onclick = function(){ ui.mode='luthier'; render(); };
-  document.getElementById('printLabel').onclick = function(){
-    printHTML('<div class="labelprint"><div style="font-size:13px;letter-spacing:1px">'+esc(t.model)+' · '+esc(t.client)+'</div>'+
-      '<div style="font-size:12px;color:#444">Serial '+esc(i.serial)+'</div>'+
-      '<div style="margin:10px auto;width:120px">'+qrSVG(i.code,120)+'</div>'+
-      '<div class="big">'+i.code+'</div><div style="font-size:11px;color:#444">SetupQC — scan or read this code</div></div>');
-  };
+  document.getElementById('printLabel').onclick = function(){ printHTML(servicedLabelHTML(i)); };
 }
 function printHTML(html){ var pa=document.getElementById('printArea'); pa.innerHTML=html; setTimeout(function(){ window.print(); },60); }
 /* ============ QC: blind verification + comparison ============ */
@@ -417,6 +569,13 @@ function renderCompare(i){
       '<div class="row mt"><button class="btn" id="qc-approve">✓ Approve</button><button class="btn danger" id="qc-return">Return for rework</button></div>';
   }
   h += historyHTML(i) + '</div>';
+  if(i.parts && i.parts.length){
+    h += '<div class="card"><h3>Parts kit</h3>'+
+      ((i.kitIncomplete && i.kitIncomplete.flag) ? '<div class="banner ret">⚠ Kit flagged incomplete at intake'+(i.kitIncomplete.note?': '+esc(i.kitIncomplete.note):'')+'</div>' : '')+
+      i.parts.map(function(p){
+        return '<div class="kp-row"><span>'+(p.state==='installed'?'✅':p.state==='substituted'?'🔁':'⏳')+' '+esc(p.name)+'</span><span class="sub">'+p.state+(p.state==='substituted'&&p.note?' → '+esc(p.note):'')+'</span></div>';
+      }).join('')+'</div>';
+  }
   if(i.luthier.photos && i.luthier.photos.length) h += '<div class="card"><h3>Photos</h3><div class="photos">'+i.luthier.photos.map(function(p){return '<img src="'+p+'">';}).join('')+'</div></div>';
   app.innerHTML = h;
   wireBack();
@@ -442,10 +601,16 @@ function certHTML(i){
   var rows = MEASURES.map(function(m){
     return '<tr><td>'+m.label+'</td><td>'+targetText(t.targets[m.key]).replace('Target ','')+'</td><td>'+i.luthier.measures[m.key]+'</td><td>'+(i.qc?i.qc.measures[m.key]:'—')+'</td></tr>';
   }).join('');
+  var ps = partsSummary(i);
+  var partsRows = (i.parts||[]).map(function(p){
+    return '· '+esc(p.name)+' — '+(p.state==='substituted' ? 'SUBSTITUTED'+(p.note?' → '+esc(p.note):'') : p.state);
+  }).join('<br>');
   return '<div class="cert"><h1>QUALITY CONTROL CERTIFICATE</h1><h2>Instrument Setup &amp; Inspection Record — SetupQC</h2>'+
    '<div class="meta"><span><strong>Model:</strong> '+esc(t.model)+'</span><span><strong>Client spec:</strong> '+esc(t.client)+'</span></div>'+
    '<div class="meta"><span><strong>Serial number:</strong> '+esc(i.serial)+'</span><span><strong>Record code:</strong> '+i.code+'</span></div>'+
    '<div class="meta"><span><strong>New bridge used:</strong> '+(i.luthier.newBridge?'YES':'NO')+'</span><span><strong>Substitutions:</strong> '+esc(i.luthier.subs||'None')+'</span></div>'+
+   '<div style="font-size:13px; margin:8px 0"><strong>Parts kit:</strong><br>'+(partsRows||'—')+
+   ((i.kitIncomplete && i.kitIncomplete.flag) ? '<br><strong>⚠ Kit incomplete at intake:</strong> '+esc(i.kitIncomplete.note||'a part was missing') : '')+'</div>'+
    '<table><tr><th>Measurement</th><th>Target (mm)</th><th>Luthier (mm)</th><th>QC verified (mm)</th></tr>'+rows+'</table>'+
    '<div class="meta"><span>All measurements verified by independent blind re-measurement.</span></div>'+
    '<div class="sig"><div>Serviced by<br><strong>'+esc(i.luthier.name)+'</strong><br>'+fmtDate(i.luthier.submittedAt)+'</div>'+
@@ -471,8 +636,9 @@ function renderManager(){
   h += '<div class="card"><h2>Ask your data</h2><div class="sub">Plain-language questions, answered honestly from the records on this device (demo engine — on the production version this layer runs on local Ollama inside your building). Try: “How many are ready for QC?” · “Which instruments were returned and why?” · “Who serviced the most?” · “How many Sweetwater?”</div>'+
    '<div class="row mt"><input type="text" id="ask-q" placeholder="Ask about your instruments…"><button class="btn sm" id="ask-btn" style="flex:0 0 84px">Ask</button></div>'+
    '<div class="asklog" id="ask-log"></div></div>';
-  h += '<div class="sub mb">All instruments (tap to view):</div>' + (list.length? list.map(instButton).join('') : '<div class="banner info">No instruments yet.</div>');
+  h += '<div class="sub mb">All instruments (tap to view):</div><input type="text" id="listSearch" placeholder="🔎 Find by code (QC-…) or serial" style="margin-bottom:12px">' + (list.length? list.map(instButton).join('') : '<div class="banner info">No instruments yet.</div>');
   app.innerHTML = h;
+  wireListTools();
   app.querySelectorAll('[data-open]').forEach(function(b){ b.onclick=function(){ ui.detailId=b.dataset.open; ui.mode='luthier'; render(); }; });
   var run = function(){ var q=document.getElementById('ask-q').value; document.getElementById('ask-log').textContent = answerQuery(q); };
   document.getElementById('ask-btn').onclick = run;
@@ -522,13 +688,15 @@ function answerQuery(qRaw){
 function renderTemplates(){
   var h = '<div class="card"><h2>Spec templates</h2><div class="sub">Targets per model + client, in mm. Point targets (min = max) accept ±0.1 mm. Changes save on this device and apply to validation immediately.</div></div>';
   state.templates.forEach(function(t){
-    h += '<div class="card"><h3>'+esc(t.name)+'</h3><div class="sub">Model '+esc(t.model)+' · Client '+esc(t.client)+'</div>'+
+    h += '<div class="card"><h3>'+esc(t.name)+'</h3><div class="sub">Model '+esc(t.model)+' · '+esc(t.size||'')+' · Client '+esc(t.client)+' · Brand '+esc(t.brand||'')+'</div>'+
       MEASURES.map(function(m){
         return '<div class="row" style="align-items:end;margin-top:8px"><div style="flex:1.6"><label class="fl" style="margin:0">'+m.label+'</label></div>'+
         '<div><input type="number" step="0.1" id="tp-'+t.id+'-'+m.key+'-min" value="'+t.targets[m.key][0]+'"></div>'+
         '<div><input type="number" step="0.1" id="tp-'+t.id+'-'+m.key+'-max" value="'+t.targets[m.key][1]+'"></div></div>';
       }).join('')+
       '<div class="sub" style="margin-top:4px">Columns: min / max</div>'+
+      '<label class="fl">Parts kit — one part per line (copied to every new instrument at intake)</label>'+
+      '<textarea id="tp-'+t.id+'-kit">'+(t.kit||[]).map(esc).join('\n')+'</textarea>'+
       '<button class="btn mt" data-savetpl="'+t.id+'">Save template</button></div>';
   });
   app.innerHTML = h;
@@ -539,6 +707,8 @@ function renderTemplates(){
       var mx = parseFloat(document.getElementById('tp-'+t.id+'-'+m.key+'-max').value);
       if(!isNaN(mn)&&!isNaN(mx)) t.targets[m.key] = [Math.min(mn,mx), Math.max(mn,mx)];
     });
+    var kitEl = document.getElementById('tp-'+t.id+'-kit');
+    if(kitEl) t.kit = kitEl.value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
     save(); toast('Template saved: '+t.name);
   };});
 }
