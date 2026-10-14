@@ -154,30 +154,54 @@ table.cmp th{color:var(--dim); font-size:11.5px; text-transform:uppercase; lette
 <script>
 'use strict';
 /* ============ SetupQC MVP — single-file demo ============ */
-var LS_KEY = 'setupqc_v2';
+var LS_KEY = 'setupqc_v3';
 var MEASURES = [
+  {key:'scoopT', label:'Fingerboard Scoop — Treble Side'},
+  {key:'scoopB', label:'Fingerboard Scoop — Bass Side'},
   {key:'nut',    label:'String Spacing at Nut'},
+  {key:'spacing',label:'String Spacing at Bridge'},
   {key:'feet',   label:'Bridge Thickness at Feet'},
   {key:'top',    label:'Bridge Thickness at Strings'},
-  {key:'spacing',label:'String Spacing at Bridge'},
+  {key:'width',  label:'Bridge Width at Feet'},
   {key:'treble', label:'String Height — Treble Side'},
   {key:'bass',   label:'String Height — Bass Side'}
 ];
 var CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 var statuses = {at_bench:'At Bench', ready:'Ready for QC', approved:'Approved', returned:'Returned'};
 
+/* Measurement standards — "Revelle Instrument Measurement Standards for Sweetwater" (doc. 2023-07-21).
+   Two spec sets per instrument/size: Strobel book values (Standard) and Revelle-for-Sweetwater values. All mm.
+   Values per size are [min,max] pairs in MEASURES order: scoopT, scoopB, nut, spacing, feet, top, width, treble, bass. */
+var STANDARDS = {"violin":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.5,3.5],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.2,3.2],[1.0,1.0],[32.0,32.0],[2.7,2.7],[4.3,4.3]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.0,3.0],[0.9,0.9],[29.0,29.0],[2.5,2.5],[3.9,3.9]]},"sweetwater":{"4/4":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[34.0,34.0],[5.0,5.0],[1.3,1.6],[41.0,41.0],[3.5,3.7],[5.5,5.7]],"3/4":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"1/2":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]],"1/4":[[0.5,0.5],[1.0,1.0],[13.0,13.0],[26.0,26.0],[3.8,4.2],[1.0,1.3],[32.0,32.0],[2.7,2.9],[4.3,4.5]],"1/8":[[0.5,0.5],[1.0,1.0],[12.0,12.0],[24.0,24.0],[3.4,3.8],[0.9,1.2],[29.0,29.0],[2.5,2.7],[3.9,4.1]]}},"viola":{"sizes":["17\"","16-16.5\"","15-15.5\"","14\"","13\"","12\""],"strobel":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.5],[1.5,1.5],[50.0,50.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[37.0,37.0],[5.3,5.3],[1.5,1.5],[48.0,48.0],[4.3,4.3],[6.3,6.3]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[16.5,16.5],[36.0,36.0],[5.0,5.0],[1.4,1.4],[46.0,48.0],[4.0,4.0],[6.0,6.0]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.2,4.2],[1.3,1.3],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[3.9,3.9],[1.2,1.2],[38.0,38.0],[3.2,3.2],[5.1,5.1]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[3.6,3.6],[1.1,1.1],[35.0,35.0],[3.0,3.0],[4.7,4.7]]},"sweetwater":{"17\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[6.1,6.5],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"16-16.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.9,6.3],[1.5,1.5],[48.0,48.0],[4.5,4.5],[6.5,6.5]],"15-15.5\"":[[0.5,0.5],[1.0,1.0],[17.0,17.0],[38.0,38.0],[5.5,5.9],[1.5,1.5],[46.0,46.0],[4.5,4.5],[6.5,6.5]],"14\"":[[0.5,0.5],[1.0,1.0],[16.3,16.3],[33.5,33.5],[4.8,5.2],[1.3,1.6],[41.0,41.0],[3.5,3.5],[5.5,5.5]],"13\"":[[0.5,0.5],[1.0,1.0],[15.0,15.0],[31.0,31.0],[4.5,4.9],[1.2,1.5],[38.0,38.0],[3.2,3.5],[5.1,5.3]],"12\"":[[0.5,0.5],[1.0,1.0],[14.0,14.0],[29.0,29.0],[4.1,4.5],[1.1,1.4],[35.0,35.0],[3.0,3.2],[4.7,4.9]]}},"cello":{"sizes":["4/4","3/4","1/2","1/4","1/8"],"strobel":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.0,11.0],[2.6,2.6],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.0,10.0],[2.4,2.4],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.3,9.3],[2.2,2.2],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[8.6,8.6],[2.0,2.0],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[7.9,7.9],[1.9,1.9],[65.0,65.0],[2.9,2.9],[4.7,4.7]]},"sweetwater":{"4/4":[[1.0,1.0],[1.5,1.5],[22.0,22.0],[47.0,47.0],[11.8,12.2],[2.6,2.9],[90.0,90.0],[4.0,4.0],[6.5,6.5]],"3/4":[[1.0,1.0],[1.5,1.5],[20.0,20.0],[43.0,43.0],[10.8,11.2],[2.4,2.7],[83.0,83.0],[3.7,3.7],[6.0,6.0]],"1/2":[[1.0,1.0],[1.5,1.5],[19.0,19.0],[40.0,40.0],[9.8,10.2],[2.2,2.5],[77.0,77.0],[3.4,3.4],[5.5,5.5]],"1/4":[[1.0,1.0],[1.5,1.5],[17.0,17.0],[37.0,37.0],[9.3,9.7],[2.0,2.3],[70.0,70.0],[3.1,3.1],[5.1,5.1]],"1/8":[[1.0,1.0],[1.5,1.5],[16.0,16.0],[34.0,34.0],[8.5,8.9],[1.9,2.2],[65.0,65.0],[2.9,2.9],[4.7,4.7]]}}};
+var STD_KEYS = ['scoopT','scoopB','nut','spacing','feet','top','width','treble','bass'];
+function stdTargets(inst, size, spec){ var a = STANDARDS[inst][spec][size]; var o = {}; STD_KEYS.forEach(function(k, ix){ o[k] = a[ix]; }); return o; }
 function defaultTemplates(){
-  return [
+  var T = [
     {id:'tpl-sw', model:'REV25', client:'Sweetwater', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Sweetwater Spec',
-     targets:{nut:[16.5,16.5], feet:[5,5], top:[1.3,1.6], spacing:[34,34], treble:[3.5,3.7], bass:[5.5,5.7]},
+     targets:stdTargets('violin','4/4','sweetwater'),
      kit:['Bridge blank','String set','Tailpiece']},
-    {id:'tpl-std', model:'REV25', client:'Standard', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Standard',
-     targets:{nut:[16.5,16.5], feet:[4.5,4.5], top:[1.2,1.8], spacing:[33.5,33.5], treble:[3.3,3.8], bass:[5.3,5.8]},
+    {id:'tpl-std', model:'REV25', client:'Standard', brand:'Revelle', size:'Violin 4/4', name:'REV25 — Standard (Strobel)',
+     targets:stdTargets('violin','4/4','strobel'),
      kit:['Bridge blank','String set','Tailpiece']},
-    {id:'tpl-sr52', model:'SR52E13H', client:'Stock', brand:'Scherl & Roth', size:'Viola 13″', name:'SR52E13H · Viola 13″ — Standard Spec',
-     targets:{nut:[15,15], feet:[3.9,3.9], top:[1.2,1.2], spacing:[31,31], treble:[3.2,3.2], bass:[5.1,5.1]},
-     kit:['Bridge blank — Despiau Superieur (France)','Tailpiece — Wittner Ultra','String set — viola 13″']}
+    {id:'tpl-sr52', model:'SR52E13H', client:'Stock', brand:'Scherl & Roth', size:'Viola 13\u2033', name:'SR52E13H \u00b7 Viola 13\u2033 — Standard Spec',
+     targets:stdTargets('viola','13"','strobel'),
+     kit:['Bridge blank — Despiau Superieur (France)','Tailpiece — Wittner Ultra','String set — viola 13\u2033']}
   ];
+  var skip = {'violin|4/4|sweetwater':1, 'violin|4/4|strobel':1, 'viola|13"|strobel':1};
+  ['violin','viola','cello'].forEach(function(inst){
+    var instName = inst==='violin' ? 'Violin' : (inst==='viola' ? 'Viola' : 'Cello');
+    STANDARDS[inst].sizes.forEach(function(size){
+      ['strobel','sweetwater'].forEach(function(spec){
+        if(skip[inst+'|'+size+'|'+spec]) return;
+        var disp = size.replace(/"/g, '\u2033');
+        T.push({id:'tpl-g-'+inst+'-'+size.replace(/[^0-9a-z]+/gi,'')+'-'+spec,
+          model:instName+' '+disp, client: spec==='sweetwater' ? 'Sweetwater' : 'Standard', brand:'', size:instName+' '+disp,
+          name:instName+' '+disp+(spec==='sweetwater' ? ' — Sweetwater Spec' : ' — Standard (Strobel)'),
+          targets:stdTargets(inst, size, spec), kit:['Bridge blank','String set','Tailpiece']});
+      });
+    });
+  });
+  return T;
 }
 function P(n,s,nt){ return {name:n, state:s||'pending', note:nt||''}; }
 function tplParts(t){ return (t.kit||[]).map(function(n){ return P(n); }); }
@@ -197,23 +221,23 @@ function seedState(){
   var inst = [
     {id:'i1', code:'QC-A7K2P', serial:'RV25-88412', templateId:'tpl-sw', brand:'Revelle', status:'approved', createdAt:daysAgo(4),
      parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
-     luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(4,11)},
-     qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.1,top:1.5,spacing:34,treble:3.6,bass:5.7}), decision:'approved', reason:'', at:daysAgo(3,9), attempts:1},
+     luthier:{name:'Victor Alaluna', measures:mkMeasures({scoopT:0.5,scoopB:1,width:41,nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(4,11)},
+     qc:{name:'D. Blouin', measures:mkMeasures({scoopT:0.5,scoopB:1,width:41,nut:16.5,feet:5.1,top:1.5,spacing:34,treble:3.6,bass:5.7}), decision:'approved', reason:'', at:daysAgo(3,9), attempts:1},
      history:[['Intake — record created',daysAgo(4)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(4,11)],['QC approved by D. Blouin',daysAgo(3,9)]]},
     {id:'i2', code:'QC-M3X8Q', serial:'RV25-88437', templateId:'tpl-sw', brand:'Revelle', status:'ready', createdAt:daysAgo(1),
      parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
-     luthier:{name:'Victor Alaluna', measures:mkMeasures({nut:16.5,feet:5.0,top:1.4,spacing:34,treble:3.5,bass:5.5}), newBridge:false, subs:'Dominant G string', photos:[], submittedAt:daysAgo(0,12)},
+     luthier:{name:'Victor Alaluna', measures:mkMeasures({scoopT:0.5,scoopB:1,width:41,nut:16.5,feet:5.0,top:1.4,spacing:34,treble:3.5,bass:5.5}), newBridge:false, subs:'Dominant G string', photos:[], submittedAt:daysAgo(0,12)},
      qc:null,
      history:[['Intake — record created',daysAgo(1)],['Submitted by Victor Alaluna — Ready for QC',daysAgo(0,12)]]},
     {id:'i3', code:'QC-T9W4E', serial:'RV25-88451', templateId:'tpl-std', brand:'Revelle', status:'at_bench', createdAt:daysAgo(0,9),
      parts:[P('Bridge blank','installed'),P('String set'),P('Tailpiece')], kitIncomplete:{flag:false,note:''},
-     luthier:{name:'', measures:mkMeasures({nut:16.5,feet:4.5}), newBridge:false, subs:'', photos:[], submittedAt:null},
+     luthier:{name:'', measures:mkMeasures({nut:16.3,feet:4.2}), newBridge:false, subs:'', photos:[], submittedAt:null},
      qc:null,
      history:[['Intake — record created',daysAgo(0,9)]]},
     {id:'i4', code:'QC-R5D7N', serial:'RV25-88390', templateId:'tpl-sw', brand:'Revelle', status:'returned', createdAt:daysAgo(6),
      parts:[P('Bridge blank','installed'),P('String set','installed'),P('Tailpiece','installed')], kitIncomplete:{flag:false,note:''},
-     luthier:{name:'J. Moreno', measures:mkMeasures({nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(5,14)},
-     qc:{name:'D. Blouin', measures:mkMeasures({nut:16.5,feet:5.0,top:1.6,spacing:34,treble:3.6,bass:5.9}), decision:'returned', reason:'Bass string height measures 5.9 mm — out of spec (5.5–5.7). Lower the bridge on the bass side and resubmit.', at:daysAgo(5,16), attempts:1},
+     luthier:{name:'J. Moreno', measures:mkMeasures({scoopT:0.5,scoopB:1,width:41,nut:16.5,feet:5.0,top:1.5,spacing:34,treble:3.6,bass:5.6}), newBridge:true, subs:'', photos:[], submittedAt:daysAgo(5,14)},
+     qc:{name:'D. Blouin', measures:mkMeasures({scoopT:0.5,scoopB:1,width:41,nut:16.5,feet:5.0,top:1.6,spacing:34,treble:3.6,bass:5.9}), decision:'returned', reason:'Bass string height measures 5.9 mm — out of spec (5.5–5.7). Lower the bridge on the bass side and resubmit.', at:daysAgo(5,16), attempts:1},
      history:[['Intake — record created',daysAgo(6)],['Submitted by J. Moreno — Ready for QC',daysAgo(5,14)],['QC returned by D. Blouin: bass height 5.9 out of spec',daysAgo(5,16)]]},
     {id:'i5', code:'QC-K8R2M', serial:'16264', templateId:'tpl-sr52', brand:'Scherl & Roth', status:'at_bench', createdAt:daysAgo(0,8),
      parts:tplParts(t[2]), kitIncomplete:{flag:false,note:''},
