@@ -159,6 +159,11 @@
         <p>Try it: the label on the left is real. Its code belongs to instrument SW-05 of this batch, and scanning it lands on that instrument&rsquo;s row in the table above.</p>
       </div>
     </div>
+    <div style="margin-top:24px; border-top:1px solid #e4ddcb; padding-top:18px;">
+      <p style="font-size:14.5px; margin-bottom:10px;"><b>And on the label that goes inside the instrument</b> &mdash; Connolly&rsquo;s own service label, exactly as it is used today, with one addition: the QR and the instrument&rsquo;s QC code in the corner. Same paper, same layout &mdash; scan it through the f-hole, or read the code, and the instrument&rsquo;s full record opens: who serviced it, for which customer, to which spec, with every measurement. Its digital passport, sealed inside the instrument itself.</p>
+      <img id="labelimg" alt="Connolly interior label with QR code, instrument SW-05" style="width:100%; max-width:600px; border:1px solid #ddd5c2; border-radius:4px;">
+      <p style="font-size:12.5px; color:#66635a; margin-top:6px;">Proposed interior label &mdash; Scherl &amp; Roth service label with SetupQC code, shown for instrument SW-05 (serial 16732) of this batch, before it is glued inside.</p>
+    </div>
   </section>
 
   <section class="card notes">
@@ -174,8 +179,10 @@
 </div>
 
 <script src="qr-sw05.js"></script>
+<script src="interior-label.js"></script>
 <script>
   if (window.QR_SW05) { document.getElementById('qrimg').src = window.QR_SW05; }
+  if (window.LABEL_SW05) { document.getElementById('labelimg').src = window.LABEL_SW05; }
 </script>
 </body>
 </html>
