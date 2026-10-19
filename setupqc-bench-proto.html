@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SetupQC Bench Prototype — SR43E4H</title>
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; background:#101820; color:#e8e4d8; line-height:1.5;}
+  .wrap{max-width:1180px; margin:0 auto; padding:20px 16px 48px;}
+  header{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:baseline; border-bottom:3px solid #b08d46; padding-bottom:12px;}
+  h1{font-family:Georgia,serif; font-weight:normal; font-size:26px; color:#fff;}
+  .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#c9a86a;}
+  .proto{font-size:11px; letter-spacing:1.6px; color:#9fb2c8; text-transform:uppercase; border:1px solid #3a4a5c; padding:3px 10px; border-radius:20px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:18px; margin-top:18px;}
+  .panel{background:#18222e; border:1px solid #2c3c50; border-radius:12px; padding:18px;}
+  .panel h2{font-family:Georgia,serif; font-weight:normal; font-size:20px; color:#fff; margin-bottom:2px;}
+  .panel .who{font-size:11px; letter-spacing:2.4px; text-transform:uppercase; color:#c9a86a; margin-bottom:10px;}
+  .chips{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:12px 0;}
+  .chipbtn{background:#223146; border:2px solid #31465f; color:#e8e4d8; border-radius:8px; padding:8px 2px; font-size:13px; font-weight:700; cursor:pointer; text-align:center;}
+  .chipbtn small{display:block; font-weight:400; font-size:10px; color:#9fb2c8;}
+  .chipbtn.working{border-color:#b08d46; background:#3a2f1a;}
+  .chipbtn.done{border-color:#2e7d4f; background:#173326;}
+  .chipbtn.sel{outline:2px solid #c9a86a;}
+  .row{display:flex; gap:8px;}
+  input[type=text],input[type=number]{background:#0d141d; border:1px solid #31465f; color:#fff; border-radius:8px; padding:10px; font-size:15px; width:100%;}
+  button.act{background:#b08d46; color:#101820; border:none; border-radius:8px; padding:11px 16px; font-size:15px; font-weight:800; cursor:pointer;}
+  button.big{width:100%; font-size:19px; padding:16px; margin-top:12px;}
+  button.start{background:#2e7d4f; color:#fff;}
+  button.finish{background:#b08d46;}
+  button.ghost{background:transparent; color:#9fb2c8; border:1px solid #31465f;}
+  .card{background:#0d141d; border:1px solid #2c3c50; border-radius:10px; padding:16px; margin-top:12px;}
+  .card h3{font-family:Georgia,serif; font-weight:normal; font-size:24px; color:#fff;}
+  .muted{color:#9fb2c8; font-size:13px;}
+  .clock{font-size:44px; font-variant-numeric:tabular-nums; color:#ffd98a; text-align:center; margin:8px 0; font-weight:700; letter-spacing:2px;}
+  .mgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px;}
+  .mgrid label{font-size:11px; color:#9fb2c8; display:block;}
+  .mgrid input{margin-top:3px; padding:8px; font-size:14px;}
+  .verdict{text-align:center; font-weight:800; letter-spacing:1px; margin-top:10px; font-size:15px;}
+  .pass{color:#6fe39a;} .inc{color:#ffd98a;}
+  .bar{height:14px; background:#0d141d; border-radius:8px; overflow:hidden; border:1px solid #2c3c50; margin:10px 0 4px;}
+  .bar i{display:block; height:100%; background:#2e7d4f; width:0%; transition:width .5s;}
+  .counts{display:flex; gap:16px; font-size:14px; flex-wrap:wrap;}
+  .counts b{color:#fff;}
+  .live{display:inline-block; width:10px; height:10px; border-radius:50%; background:#ff5252; margin-right:7px; animation:pl 1.6s infinite;}
+  @keyframes pl{0%{box-shadow:0 0 0 0 rgba(255,82,82,.5);} 70%{box-shadow:0 0 0 9px rgba(255,82,82,0);} 100%{box-shadow:0 0 0 0 rgba(255,82,82,0);}}
+  .feed{margin-top:12px; font-size:13.5px; max-height:280px; overflow:auto;}
+  .feed div{padding:7px 2px; border-bottom:1px solid #223146;}
+  .feed .t{color:#c9a86a; font-variant-numeric:tabular-nums;}
+  .status{font-size:11px; letter-spacing:1.6px; text-transform:uppercase;}
+  .st-pending{color:#9fb2c8;} .st-working{color:#ffd98a;} .st-done{color:#6fe39a;}
+  footer{margin-top:22px; font-size:12px; color:#5f7285; text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="kicker">SetupQC</div>
+      <h1>Bench &amp; Manager — Live Prototype</h1>
+    </div>
+    <div class="proto">Internal prototype · Not for distribution</div>
+    <div style="margin-left:auto; font-size:14px;">Batch <b>SR43E4H</b> · 10 cellos · Due <b>Mon Oct 26, 2026</b></div>
+  </header>
+
+  <div class="grid">
+    <!-- LUTHIER PANEL -->
+    <section class="panel">
+      <div class="who">At the bench · Luthier view</div>
+      <h2>Work an instrument</h2>
+      <p class="muted">Scan the label or type the code / serial, then start. The clock and the record start together.</p>
+      <div class="row" style="margin-top:10px;">
+        <input type="text" id="find" placeholder="Type code or serial — e.g. CE-03">
+        <button class="act" id="findbtn" type="button">Find</button>
+      </div>
+      <div class="chips" id="benchchips"></div>
+      <div class="card" id="workcard">
+        <p class="muted">Select an instrument to open its work order.</p>
+      </div>
+    </section>
+
+    <!-- MANAGER PANEL -->
+    <section class="panel">
+      <div class="who">Manager view · Live</div>
+      <h2><span class="live"></span>Batch progress</h2>
+      <div class="counts" id="counts"></div>
+      <div class="bar"><i id="barfill"></i></div>
+      <div class="chips" id="mgrchips"></div>
+      <div class="who" style="margin-top:14px;">Activity</div>
+      <div class="feed" id="feed"></div>
+    </section>
+  </div>
+
+  <footer>Prototype seeded with the real batch picked up October 19, 2026 (SR43E4H, 10 cellos). Serials bind at first start, from the interior label — demo state is stored in this browser only.</footer>
+  <div style="text-align:center; margin-top:10px;"><button class="act ghost" id="reset" type="button">Reset prototype</button></div>
+</div>
+
+<script>
+var KEY = 'sqc_proto_v1';
+var bc = ('BroadcastChannel' in window) ? new BroadcastChannel('sqc-proto') : null;
+
+function seed(){
+  var items = [];
+  for (var i=1;i<=10;i++){
+    items.push({code:'CE-'+('0'+i).slice(-2), serial:'', status:'pending', startedAt:0, elapsed:0, measures:{}, verdict:''});
+  }
+  return {items:items, feed:[{t:Date.now(), msg:'Batch SR43E4H picked up — 10 cellos at the bench, return Mon Oct 26.'}], sel:null};
+}
+function load(){ try{ var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.items.length===10) return s; }catch(e){} return seed(); }
+function save(post){ localStorage.setItem(KEY, JSON.stringify(state)); if (post && bc) bc.postMessage('upd'); render(); }
+var state = load();
+var sel = state.sel || null;
+
+function fmt(ms){ var s = Math.floor(ms/1000); var h = Math.floor(s/3600); var m = Math.floor((s%3600)/60); var ss = s%60;
+  function p(n){ return ('0'+n).slice(-2); }
+  return (h>0? p(h)+':' : '') + p(m)+':'+p(ss); }
+function now(){ return Date.now(); }
+function elapsedOf(it){ if (it.status==='working') return now()-it.startedAt; return it.elapsed||0; }
+function findItem(q){ q = (q||'').trim().toUpperCase(); if(!q) return null;
+  for (var i=0;i<state.items.length;i++){ var it = state.items[i];
+    if (it.code.toUpperCase()===q || (it.serial && it.serial.toUpperCase()===q)) return it; } return null; }
+function log(msg){ state.feed.unshift({t:now(), msg:msg}); if (state.feed.length>40) state.feed.length=40; }
+function stTxt(it){ return it.status==='working' ? 'AT THE BENCH' : it.status==='done' ? 'DONE · QC PENDING' : 'WAITING'; }
+function stCls(it){ return it.status==='working' ? 'st-working' : it.status==='done' ? 'st-done' : 'st-pending'; }
+
+function chipsHTML(mgr){
+  return state.items.map(function(it){
+    var cls = 'chipbtn' + (it.status==='working'?' working':'') + (it.status==='done'?' done':'') + (!mgr && sel===it.code ? ' sel':'');
+    var small = it.status==='pending' ? 'waiting' : it.status==='working' ? fmt(elapsedOf(it)) : fmt(it.elapsed);
+    return '<button type="button" class="'+cls+'" data-code="'+it.code+'">'+it.code+'<small>'+small+'</small></button>';
+  }).join('');
+}
+
+function render(){
+  document.getElementById('benchchips').innerHTML = chipsHTML(false);
+  document.getElementById('mgrchips').innerHTML = chipsHTML(true);
+  var done = state.items.filter(function(i){return i.status==='done';}).length;
+  var work = state.items.filter(function(i){return i.status==='working';}).length;
+  document.getElementById('counts').innerHTML =
+    '<span>Done <b>'+done+'</b> / 10</span><span>At the bench <b>'+work+'</b></span><span>Waiting <b>'+(10-done-work)+'</b></span>';
+  document.getElementById('barfill').style.width = (done*10)+'%';
+  document.getElementById('feed').innerHTML = state.feed.map(function(f){
+    var d = new Date(f.t); var hh=('0'+d.getHours()).slice(-2), mm=('0'+d.getMinutes()).slice(-2);
+    return '<div><span class="t">'+hh+':'+mm+'</span> — '+f.msg+'</div>';
+  }).join('');
+  renderCard();
+}
+
+function renderCard(){
+  var card = document.getElementById('workcard');
+  var it = sel ? findItem(sel) : null;
+  if (!it){ card.innerHTML = '<p class="muted">Select an instrument to open its work order.</p>'; return; }
+  var h = '<h3>'+it.code+' · Cello</h3>';
+  h += '<div class="status '+stCls(it)+'">'+stTxt(it)+'</div>';
+  if (it.serial){ h += '<p class="muted" style="margin-top:6px;">Serial Nº <b style="color:#fff;">'+it.serial+'</b> · Scherl &amp; Roth SR43 4/4 · Spec: Connolly cello card (from the sign-out sheet)</p>'; }
+  else { h += '<div class="row" style="margin-top:10px;"><input type="text" id="serial" placeholder="Serial from the interior label"><button class="act" id="bind" type="button">Bind</button></div><p class="muted" style="margin-top:4px;">The serial binds the first time you start this instrument.</p>'; }
+  if (it.status==='pending'){
+    h += '<button class="act big start" id="start" type="button">▶&nbsp; Start working</button>';
+  } else if (it.status==='working'){
+    h += '<div class="clock" data-clock="'+it.code+'">'+fmt(elapsedOf(it))+'</div>';
+    var labels = [['nut','Nut (mm)'],['feet','Bridge feet'],['top','Bridge top'],['spacing','Spacing'],['a','A string height'],['c','C string height']];
+    h += '<div class="mgrid">' + labels.map(function(L){
+      var v = it.measures[L[0]] || '';
+      return '<div><label>'+L[1]+'</label><input type="number" step="0.1" data-m="'+L[0]+'" value="'+v+'"></div>';
+    }).join('') + '</div>';
+    h += '<button class="act big finish" id="finish" type="button">Finish setup</button>';
+  } else {
+    h += '<div class="clock" style="color:#6fe39a;">'+fmt(it.elapsed)+'</div>';
+    h += '<div class="verdict '+(it.verdict.indexOf('PASS')===0?'pass':'inc')+'">'+it.verdict+'</div>';
+    h += '<button class="act ghost" id="reopen" type="button" style="margin-top:12px;">Reopen (demo)</button>';
+  }
+  card.innerHTML = h;
+  var b;
+  if ((b=document.getElementById('bind'))) b.onclick = function(){
+    var v = document.getElementById('serial').value.trim(); if(!v) return;
+    it.serial = v; save(true); };
+  if ((b=document.getElementById('start'))) b.onclick = function(){
+    it.status='working'; it.startedAt = now(); log(it.code+' started at the bench'+(it.serial? ' — serial '+it.serial : '')+'.'); save(true); };
+  if ((b=document.getElementById('finish'))) b.onclick = function(){
+    var filled = 0;
+    document.querySelectorAll('[data-m]').forEach(function(inp){ it.measures[inp.getAttribute('data-m')] = inp.value; if (inp.value!=='') filled++; });
+    it.elapsed = now() - it.startedAt; it.status='done';
+    it.verdict = filled===6 ? '✓ PASS — READY FOR QC' : 'DONE — MEASURES INCOMPLETE ('+filled+'/6)';
+    log(it.code+' finished · '+fmt(it.elapsed)+' · '+(filled===6?'PASS, ready for QC.':'measures incomplete.'));
+    save(true); };
+  if ((b=document.getElementById('reopen'))) b.onclick = function(){
+    it.status='pending'; it.elapsed=0; it.verdict=''; log(it.code+' reopened (demo).'); save(true); };
+}
+
+document.getElementById('benchchips').addEventListener('click', function(e){
+  var b = e.target.closest('[data-code]'); if(!b) return;
+  sel = b.getAttribute('data-code'); state.sel = sel; save(false); render();
+});
+document.getElementById('mgrchips').addEventListener('click', function(e){
+  var b = e.target.closest('[data-code]'); if(!b) return;
+  sel = b.getAttribute('data-code'); state.sel = sel; save(false); render();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+document.getElementById('findbtn').onclick = function(){
+  var it = findItem(document.getElementById('find').value);
+  if (it){ sel = it.code; state.sel = sel; save(false); render(); }
+  else { alert('Not in this batch — check the code or serial.'); }
+};
+document.getElementById('reset').onclick = function(){
+  state = seed(); sel = null; state.sel = null; save(true);
+};
+if (bc) bc.onmessage = function(){ state = load(); render(); };
+setInterval(function(){
+  var dirty = false;
+  document.querySelectorAll('[data-clock]').forEach(function(el){
+    var it = findItem(el.getAttribute('data-clock')); if (it) el.textContent = fmt(elapsedOf(it));
+  });
+  document.querySelectorAll('#mgrchips .chipbtn, #benchchips .chipbtn').forEach(function(el){
+    var it = findItem(el.getAttribute('data-code'));
+    if (it && it.status==='working'){ var s = el.querySelector('small'); if (s) s.textContent = fmt(elapsedOf(it)); dirty = true; }
+  });
+}, 1000);
+render();
+</script>
+</body>
+</html>
