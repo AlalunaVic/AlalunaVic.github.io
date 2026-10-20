@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SetupQC Bench Prototype — SR43E4H + Sample Batch</title>
+<title>SetupQC Bench Prototype — Floor Board + Reminders</title>
 <style>
   *{box-sizing:border-box; margin:0; padding:0;}
   body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; background:#101820; color:#e8e4d8; line-height:1.5;}
@@ -27,13 +27,15 @@
   .chipbtn.demo{border-style:dashed;}
   .chipbtn.sel{outline:2px solid #c9a86a;}
   .row{display:flex; gap:8px;}
-  input[type=text],input[type=number]{background:#0d141d; border:1px solid #31465f; color:#fff; border-radius:8px; padding:10px; font-size:15px; width:100%;}
+  input[type=text],input[type=number],input[type=date]{background:#0d141d; border:1px solid #31465f; color:#fff; border-radius:8px; padding:10px; font-size:15px; width:100%; color-scheme:dark;}
   button.act{background:#b08d46; color:#101820; border:none; border-radius:8px; padding:11px 16px; font-size:15px; font-weight:800; cursor:pointer;}
   button.big{width:100%; font-size:19px; padding:16px; margin-top:12px;}
   button.start{background:#2e7d4f; color:#fff;}
   button.finish{background:#b08d46;}
   button.qcpass{background:#4a7db5; color:#fff;}
   button.ghost{background:transparent; color:#9fb2c8; border:1px solid #31465f;}
+  button.small{padding:7px 12px; font-size:13px;}
+  button:disabled{opacity:.45; cursor:default;}
   .card{background:#0d141d; border:1px solid #2c3c50; border-radius:10px; padding:16px; margin-top:12px;}
   .card h3{font-family:Georgia,serif; font-weight:normal; font-size:24px; color:#fff;}
   .muted{color:#9fb2c8; font-size:13px;}
@@ -54,6 +56,26 @@
   .feed .t{color:#c9a86a; font-variant-numeric:tabular-nums;}
   .status{font-size:11px; letter-spacing:1.6px; text-transform:uppercase;}
   .st-pending{color:#9fb2c8;} .st-working{color:#ffd98a;} .st-qc{color:#8fc1ff;} .st-done{color:#6fe39a;}
+  .floorline{font-family:Georgia,serif; font-size:16.5px; color:#e8e4d8; background:#0d141d; border:1px solid #2c3c50; border-radius:10px; padding:12px 14px; margin-bottom:12px;}
+  .floorline b{color:#ffd98a;}
+  .lrow{background:#0d141d; border:1px solid #2c3c50; border-radius:10px; padding:13px 14px; margin-top:10px;}
+  .lrow .nm{font-family:Georgia,serif; font-size:18px; color:#fff;}
+  .lrow .sub{font-size:13px; color:#9fb2c8;}
+  .pill{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.6px; padding:2px 9px; border-radius:20px; margin:5px 5px 0 0; border:1px solid #31465f; color:#9fb2c8;}
+  .pill.ready{border-color:#2e7d4f; color:#6fe39a;}
+  .pill.qc{border-color:#4a7db5; color:#8fc1ff;}
+  .pill.bench{border-color:#b08d46; color:#ffd98a;}
+  .lrow .ret{font-size:13.5px; margin-top:7px;}
+  .ontrack{color:#6fe39a; font-weight:800; letter-spacing:.6px;}
+  .warnchip{color:#ffd98a; font-weight:800; letter-spacing:.6px;}
+  .lrow .last{font-size:12px; color:#5f7285; margin-top:3px;}
+  .alertcard{background:#3a2f1a; border:2px solid #b08d46; border-radius:10px; padding:14px; margin-top:12px; font-size:14px;}
+  .alertcard .ttl{font-weight:800; color:#ffd98a; letter-spacing:.4px;}
+  .remcard{border-radius:10px; padding:14px; margin-top:12px; font-size:14.5px;}
+  .remcard.gold{background:#3a2f1a; border:2px solid #b08d46;}
+  .remcard.green{background:#173326; border:2px solid #2e7d4f;}
+  .remcard.amber{background:#2c2417; border:2px solid #8c6d2f;}
+  .newfn{font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:#101820; background:#ffd98a; border-radius:12px; padding:2px 8px; font-weight:800; margin-left:8px; vertical-align:middle;}
   footer{margin-top:22px; font-size:12px; color:#5f7285; text-align:center;}
 </style>
 </head>
@@ -65,7 +87,7 @@
       <h1>Bench &amp; Manager — Live Prototype</h1>
     </div>
     <div class="proto">Internal prototype · Not for distribution</div>
-    <div style="margin-left:auto; font-size:14px;">Batch <b>SR43E4H</b> · 10 cellos · Due <b>Mon Oct 26, 2026</b><br><span style="color:#ffd98a; font-size:12.5px;">+ Sample batch · 6 violins · DEMO data</span></div>
+    <div style="margin-left:auto; font-size:14px;">Batch <b>SR43E4H</b> · 10 cellos · Due <b id="headdue">Mon Oct 26, 2026</b><br><span style="color:#ffd98a; font-size:12.5px;">+ Sample batch · 6 violins · DEMO data</span></div>
   </header>
 
   <div class="grid">
@@ -74,6 +96,7 @@
       <div class="who">At the bench · Luthier view</div>
       <h2>Work an instrument</h2>
       <p class="muted">Scan the label or type the code / serial, then start. The clock and the record start together.</p>
+      <div id="remindercard"></div>
       <div class="row" style="margin-top:10px;">
         <input type="text" id="find" placeholder="Type code or serial — e.g. CE-03 or VN-03">
         <button class="act" id="findbtn" type="button">Find</button>
@@ -90,7 +113,11 @@
     <!-- MANAGER PANEL -->
     <section class="panel">
       <div class="who">Manager view · Live</div>
-      <h2><span class="live"></span>Batch progress</h2>
+      <h2><span class="live"></span>The floor, right now</h2>
+      <div class="floorline" id="floorline"></div>
+      <div id="alerts"></div>
+      <div id="floorrows"></div>
+      <div class="who" style="margin-top:18px;">Bench detail — Victor Alaluna</div>
       <div class="batchlbl">Batch SR43E4H — 10 cellos · real batch</div>
       <div class="counts" id="counts"></div>
       <div class="bar"><i id="barfill"></i></div>
@@ -104,14 +131,15 @@
     </section>
   </div>
 
-  <footer>Prototype seeded with the real batch picked up October 19, 2026 (SR43E4H, 10 cellos). The sample batch of violins carries DEMO data only, seeded in different stages so the live board can be seen in motion — it is not Connolly inventory. Serials bind at first start, from the interior label — demo state is stored in this browser only.</footer>
+  <footer>Prototype seeded with the real batch picked up October 19, 2026 (SR43E4H, 10 cellos). The sample batch of violins and the other luthiers&rsquo; rows carry DEMO data only, seeded so the live floor board and the delivery-date reminder flow can be seen in motion — they are not Connolly inventory. Serials bind at first start, from the interior label — demo state is stored in this browser only.</footer>
   <div style="text-align:center; margin-top:10px;"><button class="act ghost" id="reset" type="button">Reset prototype</button></div>
 </div>
 
 <script>
-var KEY = 'sqc_proto_v2';
+var KEY = 'sqc_proto_v3';
 var bc = ('BroadcastChannel' in window) ? new BroadcastChannel('sqc-proto') : null;
 var MIN = 60000;
+var changeMode = false;
 
 function seed(){
   var t = Date.now();
@@ -126,6 +154,10 @@ function seed(){
   items.push({code:'VN-04', kind:'violin', demo:true, serial:'SAMPLE 2604', status:'qc', startedAt:0, elapsed:35*MIN, measures:vm, verdict:'✓ PASS — IN TRIPLE CHECK'});
   items.push({code:'VN-05', kind:'violin', demo:true, serial:'SAMPLE 2605', status:'qc', startedAt:0, elapsed:44*MIN, measures:vm, verdict:'✓ PASS — IN TRIPLE CHECK'});
   items.push({code:'VN-06', kind:'violin', demo:true, serial:'SAMPLE 2606', status:'pending', startedAt:0, elapsed:0, measures:{}, verdict:''});
+  var others = [
+    {name:'Chris', sub:'2 double basses', ready:1, qc:0, bench:1, waiting:0, due:'2026-10-23', last:'Finished a bass 20 min ago', reminder:'none', requested:''},
+    {name:"Dan's brother", sub:'1 violin', ready:0, qc:0, bench:1, waiting:0, due:'2026-10-22', last:'Started a violin this morning', reminder:'none', requested:''}
+  ];
   var feed = [
     {t:t-2*MIN,  msg:'VN-04 is in triple check — blind re-check under way. (sample)'},
     {t:t-12*MIN, msg:'VN-03 started at the bench — serial SAMPLE 2603. (sample)'},
@@ -135,9 +167,9 @@ function seed(){
     {t:t-74*MIN, msg:'Sample batch checked in — 6 violins, DEMO data for illustration.'},
     {t:t-90*MIN, msg:'Batch SR43E4H picked up — 10 cellos at the bench, return Mon Oct 26.'}
   ];
-  return {items:items, feed:feed, sel:null};
+  return {items:items, others:others, feed:feed, sel:null, due:'2026-10-26', reminder:{status:'none', requested:''}};
 }
-function load(){ try{ var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.items.length===16) return s; }catch(e){} return seed(); }
+function load(){ try{ var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.items.length===16 && s.others) return s; }catch(e){} return seed(); }
 function save(post){ localStorage.setItem(KEY, JSON.stringify(state)); if (post && bc) bc.postMessage('upd'); render(); }
 var state = load();
 var sel = state.sel || null;
@@ -145,6 +177,8 @@ var sel = state.sel || null;
 function fmt(ms){ var s = Math.floor(ms/1000); var h = Math.floor(s/3600); var m = Math.floor((s%3600)/60); var ss = s%60;
   function p(n){ return ('0'+n).slice(-2); }
   return (h>0? p(h)+':' : '') + p(m)+':'+p(ss); }
+function fmtShort(iso){ var d = new Date(iso+'T12:00:00'); return d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'}); }
+function fmtLong(iso){ var d = new Date(iso+'T12:00:00'); return d.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric', year:'numeric'}); }
 function now(){ return Date.now(); }
 function elapsedOf(it){ if (it.status==='working') return now()-it.startedAt; return it.elapsed||0; }
 function findItem(q){ q = (q||'').trim().toUpperCase(); if(!q) return null;
@@ -154,6 +188,9 @@ function log(msg){ state.feed.unshift({t:now(), msg:msg}); if (state.feed.length
 function stTxt(it){ return it.status==='working' ? 'AT THE BENCH' : it.status==='qc' ? 'IN QC · TRIPLE CHECK' : it.status==='done' ? 'READY FOR RETURN' : 'WAITING'; }
 function stCls(it){ return it.status==='working' ? 'st-working' : it.status==='qc' ? 'st-qc' : it.status==='done' ? 'st-done' : 'st-pending'; }
 function batchItems(demo){ return state.items.filter(function(i){ return !!i.demo===demo; }); }
+function stageCounts(list){ var c = {ready:0, qc:0, bench:0, waiting:0};
+  list.forEach(function(i){ if (i.status==='done') c.ready++; else if (i.status==='qc') c.qc++; else if (i.status==='working') c.bench++; else c.waiting++; });
+  return c; }
 
 function chipsHTML(list, mgr){
   return list.map(function(it){
@@ -163,14 +200,163 @@ function chipsHTML(list, mgr){
   }).join('');
 }
 function countsHTML(list){
-  var done = list.filter(function(i){return i.status==='done';}).length;
-  var qc = list.filter(function(i){return i.status==='qc';}).length;
-  var work = list.filter(function(i){return i.status==='working';}).length;
-  var wait = list.length - done - qc - work;
-  return '<span>Ready <b>'+done+'</b> / '+list.length+'</span><span>In QC <b>'+qc+'</b></span><span>At the bench <b>'+work+'</b></span><span>Waiting <b>'+wait+'</b></span>';
+  var c = stageCounts(list);
+  return '<span>Ready <b>'+c.ready+'</b> / '+list.length+'</span><span>In QC <b>'+c.qc+'</b></span><span>At the bench <b>'+c.bench+'</b></span><span>Waiting <b>'+c.waiting+'</b></span>';
+}
+function pillsHTML(c){
+  var h = '';
+  if (c.ready) h += '<span class="pill ready">READY '+c.ready+'</span>';
+  if (c.qc) h += '<span class="pill qc">IN QC '+c.qc+'</span>';
+  if (c.bench) h += '<span class="pill bench">AT THE BENCH '+c.bench+'</span>';
+  if (c.waiting) h += '<span class="pill">WAITING '+c.waiting+'</span>';
+  return h;
+}
+function remindBtnHTML(key, status){
+  if (status==='sent') return '<button class="act ghost small" type="button" disabled>Reminder sent — waiting…</button>';
+  if (status==='change_requested') return '<button class="act ghost small" type="button" disabled>Date change requested ⚠</button>';
+  if (status==='confirmed') return '<button class="act ghost small" type="button" data-remind="'+key+'">Send reminder again</button>';
+  return '<button class="act ghost small" type="button" data-remind="'+key+'">Send delivery reminder</button>';
+}
+function remindStateLine(status, dueIso){
+  if (status==='confirmed') return ' · <span class="ontrack">DELIVERY CONFIRMED ✓</span>';
+  if (status==='change_requested') return ' · <span class="warnchip">CHANGE REQUESTED ⚠</span>';
+  if (status==='approved') return ' · <span class="ontrack">NEW DATE APPROVED ✓</span>';
+  if (status==='declined') return ' · <span class="warnchip">ORIGINAL DATE STANDS</span>';
+  return ' · <span class="ontrack">ON TRACK</span>';
+}
+
+function renderFloor(){
+  var cellos = batchItems(false);
+  var cc = stageCounts(cellos);
+  var total = cellos.length, ready = cc.ready, bench = cc.bench, qc = cc.qc;
+  state.others.forEach(function(o){ total += o.ready+o.qc+o.bench+o.waiting; ready += o.ready; bench += o.bench; qc += o.qc; });
+  var pendingChanges = (state.reminder.status==='change_requested' ? 1 : 0) + state.others.filter(function(o){ return o.reminder==='change_requested'; }).length;
+  var tail = pendingChanges ? ' · <b>'+pendingChanges+' date change'+(pendingChanges>1?'s':'')+' awaiting decision</b>' : ' · all returns <b>on schedule</b>';
+  document.getElementById('floorline').innerHTML = 'On the floor right now: <b>'+total+' instruments</b> · <b>'+ready+' ready</b> · <b>'+qc+' in QC</b> · <b>'+bench+' at the bench</b>'+tail;
+  document.getElementById('headdue').textContent = fmtShort(state.due) + ', ' + state.due.slice(0,4);
+
+  var h = '';
+  h += '<div class="lrow"><div class="nm">Victor Alaluna</div><div class="sub">Batch SR43E4H · 10 cellos in progress</div>'
+     + '<div>'+pillsHTML(cc)+'</div>'
+     + '<div class="ret">Return: <b>'+fmtShort(state.due)+'</b>'+remindStateLine(state.reminder.status, state.due)+'</div>'
+     + '<div class="last">Last activity: batch picked up Mon Oct 19 · return date set at handoff</div>'
+     + '<div style="margin-top:8px;">'+remindBtnHTML('victor', state.reminder.status)+'</div></div>';
+  state.others.forEach(function(o, idx){
+    h += '<div class="lrow"><div class="nm">'+o.name+'</div><div class="sub">'+o.sub+' in progress · <span style="color:#ffd98a;">demo row</span></div>'
+       + '<div>'+pillsHTML(o)+'</div>'
+       + '<div class="ret">Return: <b>'+fmtShort(o.due)+'</b>'+remindStateLine(o.reminder, o.due)+'</div>'
+       + '<div class="last">Last activity: '+o.last+'</div>'
+       + '<div style="margin-top:8px;">'+remindBtnHTML('o'+idx, o.reminder)+'</div></div>';
+  });
+  document.getElementById('floorrows').innerHTML = h;
+  document.querySelectorAll('[data-remind]').forEach(function(b){
+    b.onclick = function(){ sendReminder(b.getAttribute('data-remind')); };
+  });
+
+  var a = '';
+  if (state.reminder.status==='change_requested'){
+    a += '<div class="alertcard"><span class="ttl">⚠ Delivery date change requested</span><br>Victor Alaluna (Batch SR43E4H): <b>'+fmtShort(state.due)+'</b> → <b>'+fmtShort(state.reminder.requested)+'</b>.<br><span class="muted">Alert sent to Dan (warehouse) and the manager — their call.</span><div style="margin-top:9px; display:flex; gap:8px; flex-wrap:wrap;"><button class="act small" type="button" id="approve-v">Approve new date</button><button class="act ghost small" type="button" id="keep-v">Keep '+fmtShort(state.due)+'</button></div></div>';
+  }
+  state.others.forEach(function(o, idx){
+    if (o.reminder==='change_requested'){
+      a += '<div class="alertcard"><span class="ttl">⚠ Delivery date change requested</span><br>'+o.name+': <b>'+fmtShort(o.due)+'</b> → <b>'+fmtShort(o.requested)+'</b>. <span class="muted">(sample)</span><br><span class="muted">Alert sent to Dan (warehouse) and the manager — their call.</span><div style="margin-top:9px; display:flex; gap:8px; flex-wrap:wrap;"><button class="act small" type="button" data-approve="o'+idx+'">Approve new date</button><button class="act ghost small" type="button" data-keep="o'+idx+'">Keep '+fmtShort(o.due)+'</button></div></div>';
+    }
+  });
+  document.getElementById('alerts').innerHTML = a;
+  var av = document.getElementById('approve-v'); if (av) av.onclick = function(){ decide('victor', true); };
+  var kv = document.getElementById('keep-v'); if (kv) kv.onclick = function(){ decide('victor', false); };
+  document.querySelectorAll('[data-approve]').forEach(function(b){ b.onclick = function(){ decide(b.getAttribute('data-approve'), true); }; });
+  document.querySelectorAll('[data-keep]').forEach(function(b){ b.onclick = function(){ decide(b.getAttribute('data-keep'), false); }; });
+}
+
+function sendReminder(key){
+  if (key==='victor'){
+    state.reminder = {status:'sent', requested:''};
+    log('Delivery reminder sent to Victor Alaluna — scheduled: '+fmtLong(state.due)+'.');
+    save(true);
+  } else {
+    var o = state.others[parseInt(key.slice(1), 10)];
+    o.reminder = 'sent';
+    log('Delivery reminder sent to '+o.name+' — scheduled: '+fmtLong(o.due)+'. (sample)');
+    save(true);
+    setTimeout(function(){
+      var oo = state.others[parseInt(key.slice(1), 10)];
+      if (oo.reminder!=='sent') return;
+      if (oo.name==='Chris'){
+        oo.reminder = 'confirmed';
+        log(oo.name+' confirmed the delivery date — '+fmtShort(oo.due)+' ✓. (sample)');
+      } else {
+        var d = new Date(oo.due+'T12:00:00'); d.setDate(d.getDate()+1);
+        oo.requested = d.toISOString().slice(0,10);
+        oo.reminder = 'change_requested';
+        log(oo.name+' requested a date change: '+fmtShort(oo.due)+' → '+fmtShort(oo.requested)+' — alert to Dan + manager. (sample)');
+      }
+      save(true);
+    }, 6000);
+  }
+}
+function decide(key, approve){
+  if (key==='victor'){
+    if (approve){
+      state.due = state.reminder.requested;
+      state.reminder = {status:'approved', requested:''};
+      log('Date change approved — Victor Alaluna now delivers '+fmtLong(state.due)+'.');
+    } else {
+      state.reminder = {status:'declined', requested:''};
+      log('Date change declined — Victor Alaluna keeps '+fmtLong(state.due)+'.');
+    }
+  } else {
+    var o = state.others[parseInt(key.slice(1), 10)];
+    if (approve){
+      o.due = o.requested; o.reminder = 'approved'; o.requested = '';
+      log('Date change approved — '+o.name+' now delivers '+fmtLong(o.due)+'. (sample)');
+    } else {
+      o.reminder = 'declined'; o.requested = '';
+      log('Date change declined — '+o.name+' keeps '+fmtLong(o.due)+'. (sample)');
+    }
+  }
+  save(true);
+}
+
+function renderReminder(){
+  var box = document.getElementById('remindercard');
+  var r = state.reminder;
+  if (r.status==='none'){ box.innerHTML=''; return; }
+  if (r.status==='sent'){
+    var h = '<div class="remcard gold"><b>🔔 Delivery reminder</b><span class="newfn">New function · preview</span><br>Batch SR43E4H — 10 cellos. Do not forget: your scheduled delivery date is <b>'+fmtLong(state.due)+'</b>.';
+    if (changeMode){
+      h += '<div class="row" style="margin-top:10px;"><input type="date" id="newdate" value="'+state.due+'"><button class="act" type="button" id="reqchange">Request change</button><button class="act ghost" type="button" id="cancelchange">Cancel</button></div><p class="muted" style="margin-top:6px;">Dan and the manager get an alert and decide — the date only moves if they approve it.</p>';
+    } else {
+      h += '<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"><button class="act" type="button" id="confirmday" style="background:#2e7d4f; color:#fff;">Confirm day</button><button class="act ghost" type="button" id="changeday">Change day</button></div>';
+    }
+    h += '</div>';
+    box.innerHTML = h;
+    var b;
+    if ((b=document.getElementById('confirmday'))) b.onclick = function(){
+      state.reminder = {status:'confirmed', requested:''};
+      log('Victor Alaluna confirmed the delivery date — '+fmtLong(state.due)+' ✓.');
+      save(true); };
+    if ((b=document.getElementById('changeday'))) b.onclick = function(){ changeMode = true; render(); };
+    if ((b=document.getElementById('cancelchange'))) b.onclick = function(){ changeMode = false; render(); };
+    if ((b=document.getElementById('reqchange'))) b.onclick = function(){
+      var v = document.getElementById('newdate').value;
+      if (!v || v===state.due){ changeMode = false; render(); return; }
+      state.reminder = {status:'change_requested', requested:v};
+      changeMode = false;
+      log('Victor Alaluna requested a date change: '+fmtShort(state.due)+' → '+fmtShort(v)+' — alert to Dan + manager.');
+      save(true); };
+    return;
+  }
+  if (r.status==='confirmed'){ box.innerHTML = '<div class="remcard green">✓ <b>Delivery confirmed</b> — '+fmtLong(state.due)+'.</div>'; return; }
+  if (r.status==='change_requested'){ box.innerHTML = '<div class="remcard amber">⏳ <b>Change requested:</b> '+fmtShort(state.due)+' → '+fmtShort(r.requested)+' — waiting for Dan / the manager to decide.</div>'; return; }
+  if (r.status==='approved'){ box.innerHTML = '<div class="remcard green">✓ <b>New delivery date approved</b> — '+fmtLong(state.due)+'.</div>'; return; }
+  if (r.status==='declined'){ box.innerHTML = '<div class="remcard amber">The original date stands — <b>'+fmtLong(state.due)+'</b>.</div>'; return; }
+  box.innerHTML = '';
 }
 
 function render(){
+  renderFloor();
+  renderReminder();
   var real = batchItems(false), demo = batchItems(true);
   document.getElementById('benchchips').innerHTML = chipsHTML(real, false);
   document.getElementById('benchchips2').innerHTML = chipsHTML(demo, false);
@@ -257,6 +443,7 @@ document.getElementById('findbtn').onclick = function(){
   else { alert('Not in these batches — check the code or serial.'); }
 };
 document.getElementById('reset').onclick = function(){
+  changeMode = false;
   state = seed(); sel = null; state.sel = null; save(true);
 };
 if (bc) bc.onmessage = function(){ state = load(); render(); };
