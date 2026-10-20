@@ -26,7 +26,15 @@
   .tl:last-child{padding-bottom:2px;}
   .tl::before{content:""; position:absolute; left:-29.5px; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; border:3px solid #b08d46;}
   .tl.done::before{background:#1e6b3a; border-color:#1e6b3a;}
-  .tl.now::before{background:#b08d46; border-color:#8c6d2f;}
+  .tl.now::before{background:#b08d46; border-color:#8c6d2f; animation:tlpulse 1.6s infinite;}
+  @keyframes tlpulse{0%{box-shadow:0 0 0 0 rgba(176,141,70,.45);} 70%{box-shadow:0 0 0 9px rgba(176,141,70,0);} 100%{box-shadow:0 0 0 0 rgba(176,141,70,0);}}
+  .livestats{display:flex; flex-wrap:wrap; gap:8px 22px; font-size:13.5px; color:#44423a; border-top:1px solid #e4ddcb; margin-top:12px; padding-top:10px;}
+  .livestats b{color:#14263c;}
+  .lsdot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:1px;}
+  .lsdot.gold{background:#b08d46; animation:tlpulse 1.6s infinite;}
+  .lsdot.gray{background:#c9c2ae;}
+  .lsdot.blue{background:#4a7db5;}
+  .lsdot.green{background:#1e6b3a;}
   .tl .when{font-size:12px; letter-spacing:1.4px; text-transform:uppercase; color:#8c6d2f;}
   .tl h3{font-family:Georgia,serif; font-size:17px; color:#14263c; font-weight:normal;}
   .tl p{font-size:14px; color:#44423a; max-width:640px;}
@@ -68,6 +76,12 @@
       <div><b>Picked up:</b> Monday, October 19, 2026</div>
       <div><b>Return:</b> Thursday, October 22, 2026</div>
       <div><span class="chip">AT THE BENCH</span></div>
+    </div>
+    <div class="livestats" id="livestats">
+      <span><span class="lsdot gold"></span>At the bench <b>0</b></span>
+      <span><span class="lsdot blue"></span>In QC <b>0</b></span>
+      <span><span class="lsdot green"></span>Ready <b>0</b></span>
+      <span><span class="lsdot gray"></span>Waiting <b>10</b></span>
     </div>
     <div class="timeline">
       <div class="tl done">
