@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183d35">
+  <meta name="description" content="Luthier workbench, quality control, and workshop management in one place.">
+  <title>SetupQC — Luthier workshop</title>
+  <link rel="stylesheet" href="../css/workshop.css">
+</head>
+<body>
+  <a class="skip-link" href="#view-content">Skip to content</a>
+  <div class="app-layout">
+    <aside class="sidebar" aria-label="Workshop navigation">
+      <a class="brand" href="./setupqc.html" aria-label="SetupQC, workshop home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 40" fill="none"><path d="M13 3h6M15 3v9m2-9v9M11 12c-4 1-5 4-3 7 2 2 1 4-1 6-4 5 0 11 9 11s13-6 9-11c-2-2-3-4-1-6 2-3 1-6-3-7M13 13h6M12 26h8M16 13v20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 20c-2 1-1 3 0 4m10-4c2 1 1 3 0 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-copy"><strong>Setup<span>QC</span></strong><small>Luthier workshop</small></span>
+      </a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="primary-nav" aria-label="Workshop views">
+        <button type="button" class="nav-item active" data-view="luthier" aria-label="Workbench" aria-current="page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14.5 4 5.5 5.5-9.5 9.5H5v-5.5L14.5 4ZM12 6.5l5.5 5.5M5 19l-1 1"/></svg><span>Workbench</span><span class="nav-count" id="nav-blocked-count" title="Blocks and rework">0</span></button>
+        <button type="button" class="nav-item" data-view="qc" aria-label="Quality control"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5H6a1 1 0 0 0-1 1v14h14V6a1 1 0 0 0-1-1h-3M9 3h6v4H9V3Zm0 10 2 2 4-4"/></svg><span>Quality control</span><span class="nav-count" id="nav-qc-count">0</span></button>
+        <button type="button" class="nav-item" data-view="manager" aria-label="Management"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V4m0 16h17M8 16v-5m5 5V7m5 9V4"/></svg><span>Management</span></button>
+        <button type="button" class="nav-item" data-view="history" aria-label="Activity log"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8a9 9 0 1 1-1 6M4 3v5h5m3-1v5l3 2"/></svg><span>Activity log</span></button>
+      </nav>
+      <div class="sidebar-note"><span class="sidebar-note-icon" aria-hidden="true">6</span><div><strong>Measure. Verify. Deliver.</strong><p>Six actual measurements.<br>Every step leaves a record.</p></div></div>
+      <div class="sidebar-bottom">
+        <div class="device-label"><span class="status-dot" aria-hidden="true"></span><strong>On this computer</strong></div>
+        <p>Workshop and management views share updates between tabs in this browser.</p>
+        <a class="classic-link" href="./setupqc-classic.html">Previous version <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+    <div class="main-shell">
+      <header class="utility-bar">
+        <div class="workspace-picker"><label for="workspace-mode">WORKSPACE</label><select id="workspace-mode" aria-label="Data workspace"><option value="real">Workshop · real records</option><option value="demo">Demo</option></select></div>
+        <div class="utility-actions"><span class="connection-badge" id="sync-status" role="status"><span class="status-dot" aria-hidden="true"></span>Changes saved</span><div class="operator-field"><label for="operator-name">SIGNATURE NAME</label><input type="text" id="operator-name" maxlength="80" placeholder="Your name" autocomplete="name" aria-label="Name of the person performing the work"></div></div>
+      </header>
+      <main class="main-content" id="main-content">
+        <div class="page-heading"><div class="page-intro"><p class="eyebrow" id="page-kicker">YOUR WORKSHOP, ORGANIZED</p><h1 id="page-title">Workbench</h1><p class="page-description" id="page-description">Every instrument, from intake to delivery.</p></div><div class="page-actions"><button type="button" class="btn btn-ghost icon-button" id="export-btn" title="Export backup" aria-label="Export a data backup"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg></button><button type="button" class="btn btn-ghost icon-button" id="import-btn" title="Import backup" aria-label="Import a data backup"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M4 16v4h16v-4"/></svg></button><input id="import-file" type="file" accept="application/json,.json" hidden><button type="button" class="btn btn-primary" id="new-instrument-btn"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Receive instrument</button></div></div>
+        <section id="view-content" aria-label="Work area"><div class="empty-state loading-state"><div class="loading-ring" aria-hidden="true"></div><p>Preparing the workbench…</p></div></section>
+        <noscript><div class="alert danger">Enable JavaScript to use instrument records and quality control.</div></noscript>
+        <footer class="workspace-footer"><span>SetupQC <span class="footer-divider">/</span> Every instrument matters.</span><span>Local storage · Keep a workshop backup</span></footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="instrument-dialog" class="instrument-dialog" aria-label="Instrument record"><div id="instrument-dialog-content"></div></dialog>
+  <dialog id="intake-dialog" class="intake-dialog" aria-labelledby="intake-title">
+    <form id="intake-form">
+      <div class="modal-heading"><div><p class="eyebrow">01 / WORKSHOP INTAKE</p><h2 id="intake-title">Receive instrument</h2><p>One record for the entire journey.</p></div><button type="button" id="intake-close" class="btn btn-ghost icon-button" aria-label="Close instrument intake"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+      <div id="intake-error" class="alert danger" role="alert" hidden></div>
+      <div class="form-grid intake-fields">
+        <div class="form-field full-width"><label for="intake-serial">Serial number <span class="required-marker" aria-hidden="true">*</span></label><input type="text" id="intake-serial" name="serial" required maxlength="100" autocomplete="off" placeholder="Read the serial from the interior label"><small>The serial identifies the instrument and must be unique.</small></div>
+        <div class="form-field full-width"><label for="intake-template">Model, client, and size <span class="required-marker" aria-hidden="true">*</span></label><select id="intake-template" name="templateId" required><option value="">Select a specification profile</option></select><small>Measurements are checked against this profile.</small></div>
+        <div class="form-field"><label for="intake-batch">Batch or order</label><input type="text" id="intake-batch" name="batch" maxlength="100" placeholder="e.g. October batch"></div>
+        <div class="form-field"><label for="intake-due">Committed return date</label><input type="date" id="intake-due" name="dueDate"></div>
+        <div class="form-field full-width"><label for="intake-assignee">Assigned luthier</label><input type="text" id="intake-assignee" name="assignee" maxlength="80" autocomplete="off" placeholder="Name of the person doing the setup"></div>
+        <div class="form-field full-width"><label for="intake-notes">Intake notes</label><textarea id="intake-notes" name="notes" rows="3" maxlength="4000" placeholder="Arrival condition, parts, or special instructions"></textarea></div>
+      </div>
+      <div class="modal-footer"><span class="muted text-small">Record actual measurements at the bench.</span><div class="button-group"><button type="button" id="intake-cancel" class="btn btn-secondary">Cancel</button><button type="submit" class="btn btn-primary">Create record</button></div></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="print-area" aria-hidden="true"></div>
+  <script type="module" src="../js/workshop/app.js"></script>
+</body>
+</html>
