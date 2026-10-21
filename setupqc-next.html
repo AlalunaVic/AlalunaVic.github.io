@@ -30,6 +30,23 @@
   .cdot.gold{background:#a7844b; animation:tlpulse 1.6s infinite;}
   .cdot.hollow{background:transparent; border:2px solid #b9c2b2; width:7px; height:7px;}
   .cnote{font-size:13px; color:#768174; margin-top:10px;}
+  .counter{font:inherit; text-align:left; cursor:pointer;}
+  .counter:hover{border-color:#a7844b;}
+  .counter.active{border-color:#a7844b; box-shadow:0 0 0 2px #f7f0df;}
+  .tap-hint{font-size:12.5px; color:#a7844b; letter-spacing:1.2px; text-transform:uppercase; margin-top:10px;}
+  .stage-panel{margin-top:10px; border:1px solid #e1e6db; border-radius:12px; background:#fff; padding:16px 18px 10px;}
+  .stage-panel h3{font-family:Georgia,serif; font-weight:normal; color:#19382c; font-size:18px; margin-bottom:6px;}
+  .irow{display:flex; flex-wrap:wrap; gap:2px 18px; justify-content:space-between; align-items:baseline; padding:9px 2px; border-top:1px solid #eef1e8;}
+  .irow.first{border-top:none;}
+  .iser{font-weight:700; color:#19382c;}
+  .imeta{color:#55614f; font-size:13.5px; margin-left:10px;}
+  .iside{text-align:right;}
+  .istage{display:block; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:#2c6148;}
+  .iluth{display:block; font-size:13px; color:#768174;}
+  .flag{flex-basis:100%; background:#f7f0df; border:1px solid #e5d9b8; border-radius:8px; padding:8px 12px; font-size:13.5px; color:#5c4a1f; margin-top:6px;}
+  .flag b{color:#8c6d2f;}
+  .empty-note{font-size:14px; color:#768174; padding:4px 2px 8px;}
+
   .timeline{margin-top:16px; border-left:3px solid #e1e6db; padding-left:20px;}
   .tl{position:relative; padding:0 0 16px;}
   .tl:last-child{padding-bottom:2px;}
@@ -80,11 +97,16 @@
       <div><span class="chip">AT THE BENCH</span></div>
     </div>
     <div class="counters" id="livestats">
-      <div class="counter"><div class="num">10</div><div class="lab"><span class="cdot green"></span>Total</div></div>
-      <div class="counter"><div class="num">5</div><div class="lab"><span class="cdot gold"></span>In progress</div></div>
-      <div class="counter"><div class="num">5</div><div class="lab"><span class="cdot green"></span>Finished</div></div>
-      <div class="counter"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></div>
-      <div class="counter"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></div>
+      <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">10</div><div class="lab"><span class="cdot green"></span>Total</div></button>
+      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">5</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
+      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">5</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
+      <button type="button" class="counter" data-stage="qc" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></button>
+      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
+    </div>
+    <p class="tap-hint">Select any stage to see its instruments</p>
+    <div class="stage-panel" id="stage-panel" hidden>
+      <h3 id="stage-title"></h3>
+      <div id="stage-rows"></div>
     </div>
     <p class="cnote">Five cellos have completed their bench setup; their triple check and final QC are completed before Thursday&rsquo;s return. The other five are now at the bench.</p>
     <div class="timeline">
@@ -153,6 +175,51 @@
 <script src="next-label.js"></script>
 <script>
   if (window.LABEL_SW05) { document.getElementById('labelimg').src = window.LABEL_SW05; }
+</script>
+
+<script>
+  const FLAG_NOTE = "<b>Luthier's note — incorrect accessory bag.</b> This cello arrived with 3/4 fittings instead of 4/4 (bridge and strings). The cello itself measures 4/4. Corrected at the bench: a 4/4 bridge from the luthier's own stock was fitted; the correct 4/4 strings are fitted at Connolly on Thursday.";
+  const META = "Scherl & Roth SR43 \u00b7 4/4 \u00b7 RMI";
+  const row = (serial, stage, flag) => ({ serial, stage, flag: !!flag });
+  const FINISHED = [row("16570","Bench setup complete"), row("16576","Bench setup complete"), row("16693","Bench setup complete", true), row("16580","Bench setup complete"), row("16586","Bench setup complete")];
+  const PROGRESS = [row("16691","At the bench", true), row("16575","At the bench"), row("16573","At the bench"), row("16562","At the bench"), row(null,"At the bench")];
+  const STAGES = {
+    total:    { title: "All ten cellos \u2014 Batch SR43E4H", rows: [...FINISHED, ...PROGRESS] },
+    progress: { title: "In progress \u2014 at the bench now", rows: PROGRESS },
+    finished: { title: "Finished \u2014 bench setup complete", rows: FINISHED },
+    qc:       { title: "Awaiting final QC", rows: [], empty: "No cellos are at this stage yet. Each finished cello passes through its triple check and final QC before it is ready to pack." },
+    ready:    { title: "Ready to pack", rows: [], empty: "Nothing is packed yet. Cellos arrive here after their final QC \u2014 ready for Thursday's 9\u201311 AM return." }
+  };
+  const panel = document.getElementById('stage-panel');
+  const titleEl = document.getElementById('stage-title');
+  const rowsEl = document.getElementById('stage-rows');
+  let openStage = null;
+  function render(stage) {
+    const data = STAGES[stage];
+    titleEl.textContent = data.title;
+    if (!data.rows.length) { rowsEl.innerHTML = '<p class="empty-note">' + data.empty + '</p>'; return; }
+    rowsEl.innerHTML = data.rows.map((r, i) => {
+      const ser = r.serial ? 'Serial N\u00ba ' + r.serial : 'Tenth cello';
+      const meta = r.serial ? META : 'Serial to be confirmed \u2014 its inside label is photographed at loading';
+      return '<div class="irow' + (i === 0 ? ' first' : '') + '"><div><span class="iser">' + ser + '</span><span class="imeta">' + meta + '</span></div>' +
+        '<div class="iside"><span class="istage">' + r.stage + '</span><span class="iluth">Luthier: Victor Alaluna</span></div>' +
+        (r.flag ? '<div class="flag">' + FLAG_NOTE + '</div>' : '') + '</div>';
+    }).join('');
+  }
+  document.querySelectorAll('.counter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const stage = btn.dataset.stage;
+      if (openStage === stage) {
+        panel.hidden = true; openStage = null;
+        btn.classList.remove('active'); btn.setAttribute('aria-expanded', 'false');
+        return;
+      }
+      document.querySelectorAll('.counter').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-expanded', 'false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-expanded', 'true');
+      openStage = stage; render(stage); panel.hidden = false;
+      panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  });
 </script>
 </body>
 </html>
