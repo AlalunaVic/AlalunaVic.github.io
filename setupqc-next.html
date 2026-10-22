@@ -182,7 +182,7 @@
   const META = "Scherl & Roth SR43 \u00b7 4/4 \u00b7 RMI";
   const row = (serial, stage, flag) => ({ serial, stage, flag: !!flag });
   const FINISHED = [row("16570","Bench setup complete"), row("16576","Bench setup complete"), row("16693","Bench setup complete", true), row("16580","Bench setup complete"), row("16586","Bench setup complete")];
-  const PROGRESS = [row("16691","At the bench", true), row("16575","At the bench"), row("16573","At the bench"), row("16562","At the bench"), row(null,"At the bench")];
+  const PROGRESS = [row("16691","At the bench", true), row("16575","At the bench"), row("16573","At the bench"), row("16562","At the bench"), row("16569","At the bench")];
   const STAGES = {
     total:    { title: "All ten cellos \u2014 Batch SR43E4H", rows: [...FINISHED, ...PROGRESS] },
     progress: { title: "In progress \u2014 at the bench now", rows: PROGRESS },
