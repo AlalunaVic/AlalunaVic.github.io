@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183d35">
+<title>SetupQC — Facturas</title>
+<link rel="stylesheet" href="../css/workshop.css">
+<style>
+  .page-wrap{max-width:860px;margin:0 auto;padding:18px 16px 60px}
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .topbar a.back{color:var(--green);text-decoration:none;font-weight:600}
+  .inv-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:var(--shadow);cursor:pointer}
+  .inv-card h3{margin:0 0 4px;color:var(--ink-strong);font-size:17px}
+  .lot-meta{color:var(--muted);font-size:13px;line-height:1.55}
+  .chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700}
+  .chip.paid{background:var(--green-light);color:var(--green-dark)}
+  .chip.sent{background:var(--gold-light);color:#7a5c1e}
+  .chip.pending{background:var(--blue-light);color:var(--blue)}
+  .total{font-size:19px;font-weight:800;color:var(--ink-strong)}
+  .doc{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow)}
+  .doc .brand-line{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--gold);padding-bottom:12px}
+  .doc .va{font-family:Georgia,serif;font-size:26px;color:var(--gold);font-weight:700}
+  .doc table{width:100%;border-collapse:collapse;margin-top:14px}
+  .doc th{text-align:left;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line);padding:6px 4px}
+  .doc td{padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
+  .doc td.r,.doc th.r{text-align:right}
+  .doc .grand{font-size:19px;font-weight:800;color:var(--ink-strong);text-align:right;padding-top:12px}
+  .hidden{display:none}
+  .note{font-size:13px;color:var(--muted)}
+  h1{color:var(--ink-strong);margin:4px 0 2px;font-size:24px}
+  .sub{color:var(--muted);margin:0 0 8px}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="topbar"><a class="back" href="./setupqc.html">← SetupQC</a><span class="note">·</span><a class="back" href="./lotes.html">Revisar lotes →</a></div>
+  <h1>Facturas</h1>
+  <p class="sub">La factura generada para cada lote, con su estado.</p>
+  <div id="list-view"></div>
+  <div id="detail-view" class="hidden"></div>
+</div>
+
+<script>
+const INVOICES = [
+  { n:"202026-01", date:null, client:"Connolly Music", lot:"Lotes SR44E4H + SR43E4H (par)",
+    lines:[{desc:"SR44E4H — Cello setup", qty:9, rate:75},{desc:"SR43E4H — Cello setup", qty:2, rate:75}],
+    status:"pending", statusLabel:"Por generar", note:"Se genera al entregar — martes 27 oct 2026 (11 cellos)." },
+  { n:"192026-01", date:"2026-10-22", client:"Connolly Music", lot:"Lote SR43E4H (8 de 10)",
+    lines:[{desc:"SR43E4H — Cello setup", qty:8, rate:75}],
+    status:"sent", statusLabel:"Enviada · depósito pendiente", note:"Enviada a Dan Blouin el 22 oct 2026." },
+  { n:"182026-01", date:"2026-10-22", client:"Connolly Music", lot:"Lote SR41E4H",
+    lines:[{desc:"SR41E4H — Violin setup", qty:20, rate:30}],
+    status:"sent", statusLabel:"Enviada · depósito pendiente", note:"Enviada a Dan Blouin el 22 oct 2026." },
+  { n:"172026-01", date:"2026-10-08", client:"Connolly Music", lot:"Trabajos de setup — octubre",
+    lines:[{desc:"Instrument setup services", qty:1, rate:705}],
+    status:"paid", statusLabel:"Pagada", note:"Depositada el 13 oct 2026." }
+];
+const money = v => "$" + v.toLocaleString("en-US",{minimumFractionDigits:2});
+const fmt = iso => iso ? new Date(iso+"T12:00:00").toLocaleDateString("es",{day:"numeric",month:"short",year:"numeric"}) : "—";
+const total = inv => inv.lines.reduce((s,l)=>s+l.qty*l.rate,0);
+
+function renderList(){
+  document.getElementById("detail-view").classList.add("hidden");
+  const lv = document.getElementById("list-view"); lv.classList.remove("hidden");
+  lv.innerHTML = INVOICES.map((inv,i)=>`<div class="inv-card" onclick="openInv(${i})">
+    <h3>Factura ${inv.n}</h3>
+    <div class="lot-meta">${inv.client} · ${inv.lot}<br>Fecha: <strong>${fmt(inv.date)}</strong> · <span class="total">${money(total(inv))}</span></div>
+    <p style="margin:8px 0 0"><span class="chip ${inv.status}">${inv.statusLabel}</span></p></div>`).join("");
+}
+function openInv(i){
+  const inv = INVOICES[i];
+  document.getElementById("list-view").classList.add("hidden");
+  const dv = document.getElementById("detail-view"); dv.classList.remove("hidden");
+  dv.innerHTML = `<p><a href="#" onclick="renderList();return false" style="color:var(--green);font-weight:600;text-decoration:none">← Todas las facturas</a></p>
+  <div class="doc">
+    <div class="brand-line"><div><div class="va">VA</div><div style="font-family:Georgia,serif;font-size:17px;color:var(--ink-strong)">Victor Alaluna</div><div class="note">Maestro Luthier</div></div>
+    <div style="text-align:right"><div style="font-size:19px;font-weight:800;color:var(--ink-strong)">INVOICE ${inv.n}</div><div class="note">Fecha: ${fmt(inv.date)}</div><div class="note">Estado: ${inv.statusLabel}</div></div></div>
+    <p style="margin:14px 0 0"><strong>Bill to:</strong> ${inv.client}<br><span class="note">${inv.lot}</span></p>
+    <table><tr><th>DESCRIPTION</th><th class="r">QTY</th><th class="r">RATE</th><th class="r">AMOUNT</th></tr>
+    ${inv.lines.map(l=>`<tr><td>${l.desc}</td><td class="r">${l.qty}</td><td class="r">${money(l.rate)}</td><td class="r">${money(l.qty*l.rate)}</td></tr>`).join("")}
+    </table>
+    <div class="grand">Total: ${money(total(inv))}</div>
+    <p class="note" style="margin-top:14px">${inv.note}<br>Vista de consulta — el PDF oficial es el documento enviado por correo a Connolly.</p>
+  </div>`;
+  window.scrollTo(0,0);
+}
+renderList();
+</script>
+</body>
+</html>

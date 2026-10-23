@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#183d35">
+<title>SetupQC — Revisar lotes</title>
+<link rel="stylesheet" href="../css/workshop.css">
+<style>
+  .page-wrap{max-width:860px;margin:0 auto;padding:18px 16px 60px}
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .topbar a.back{color:var(--green);text-decoration:none;font-weight:600}
+  .lot-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:var(--shadow);cursor:pointer}
+  .lot-card h3{margin:0 0 4px;color:var(--ink-strong);font-size:17px}
+  .lot-meta{color:var(--muted);font-size:13px;line-height:1.55}
+  .chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.02em}
+  .chip.ok{background:var(--green-light);color:var(--green-dark)}
+  .chip.partial{background:var(--gold-light);color:#7a5c1e}
+  .chip.work{background:var(--blue-light);color:var(--blue)}
+  .chip.ready{background:#f3e8f7;color:#6b3fa0}
+  .sec-title{color:var(--gold);text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;margin:22px 0 6px}
+  .photo-slot{border:1.5px dashed var(--sage);border-radius:var(--radius);padding:10px;text-align:center;background:var(--surface-soft)}
+  .photo-slot img{max-width:100%;border-radius:8px}
+  .btn{display:inline-block;border:0;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer;font-size:15px}
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-secondary{background:var(--surface);border:1.5px solid var(--green);color:var(--green)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .unit-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
+  .unit-row input{width:22px;height:22px;accent-color:var(--green)}
+  canvas.sig{width:100%;height:190px;border:1.5px solid var(--sage);border-radius:10px;background:#fff;touch-action:none}
+  .field{margin:12px 0}
+  .field label{display:block;font-weight:600;margin-bottom:5px;color:var(--ink-strong)}
+  .field input[type=text]{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;background:#fff}
+  .receipt{background:#fff;border:2px solid var(--green);border-radius:var(--radius);padding:18px;margin-top:16px}
+  .receipt img.sigimg{max-width:260px;border-bottom:1px solid var(--line)}
+  .hidden{display:none}
+  .note{font-size:13px;color:var(--muted)}
+  h1{color:var(--ink-strong);margin:4px 0 2px;font-size:24px}
+  .sub{color:var(--muted);margin:0 0 8px}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="topbar"><a class="back" href="./setupqc.html">← SetupQC</a><span class="note">·</span><a class="back" href="./facturas.html">Facturas →</a></div>
+  <h1>Revisar lotes</h1>
+  <p class="sub">Hoja de salida, entrega y firma de recibido — lote por lote.</p>
+  <div id="list-view"></div>
+  <div id="detail-view" class="hidden"></div>
+</div>
+
+<script>
+const LOTS = [
+  {
+    id: "sr44-2026-10", title: "Lote SR44E4H — 9 cellos", client: "Connolly Music",
+    detail: "Kit IN444 · Puente BGCD9D90 · Cordal incluido · Cuerdas IMC-5PCS · $75 por cello",
+    pickup: "2026-10-22", pickupPhotoNote: "Foto de la hoja de salida: registrada en el archivo de Jarvis ✓",
+    due: "2026-10-27", status: "work", statusLabel: "En el taller",
+    units: ["SR44-01","SR44-02","SR44-03","SR44-04","SR44-05","SR44-06","SR44-07","SR44-08","SR44-09"],
+    unitsNote: "Los seriales se registran de la etiqueta interior a medida que cada cello entra al banco.",
+    deliveries: [], invoice: "202026-01 (al entregar)"
+  },
+  {
+    id: "sr43-2026-10", title: "Lote SR43E4H — 10 cellos", client: "Connolly Music",
+    detail: "Spec Standard (RMI) · $75 por cello · El par 16693/16691 recibió bolsas nuevas con etiquetas y cartillas corregidas de Connolly",
+    pickup: "2026-10-19", pickupPhotoNote: "Foto de la hoja de salida: registrada en el archivo de Jarvis ✓",
+    due: "2026-10-27", status: "partial", statusLabel: "Entrega parcial — faltan 2",
+    units: ["SN 16693","SN 16691"],
+    unitsNote: "Quedan por entregar solo estos dos. Los otros 8 se entregaron el 22 oct 2026.",
+    deliveries: [{date:"2026-10-22", count:8, note:"8 de 10 entregados en Connolly (registro previo a la hoja digital)."}],
+    invoice: "192026-01 (8 cellos) · el par va en la 202026-01"
+  },
+  {
+    id: "sr41-2026-10", title: "Lote SR41E4H — 20 violines", client: "Connolly Music",
+    detail: "Spec Sweetwater · $30 por violín · 20/20 PASS",
+    pickup: null, pickupPhotoNote: "",
+    due: "2026-10-19", status: "ok", statusLabel: "Entregado",
+    units: [], unitsNote: "",
+    deliveries: [{date:"2026-10-19", count:20, note:"Lote completo entregado (registro previo a la hoja digital)."}],
+    invoice: "182026-01"
+  }
+];
+
+const store = {
+  load(){ try { return JSON.parse(localStorage.getItem("setupqc.lotes.v1")||"{}"); } catch(e){ return {}; } },
+  save(d){ localStorage.setItem("setupqc.lotes.v1", JSON.stringify(d)); }
+};
+function fmt(iso){ if(!iso) return "—"; const d=new Date(iso+"T12:00:00"); return d.toLocaleDateString("es",{weekday:"short",day:"numeric",month:"short",year:"numeric"}); }
+
+function renderList(){
+  const db = store.load();
+  document.getElementById("detail-view").classList.add("hidden");
+  const lv = document.getElementById("list-view"); lv.classList.remove("hidden");
+  lv.innerHTML = LOTS.map(l=>{
+    const signed = db.deliveries && db.deliveries[l.id];
+    const st = signed ? ["ok","Entregado · firmado"] : [l.status, l.statusLabel];
+    return `<div class="lot-card" onclick="openLot('${l.id}')">
+      <h3>${l.title}</h3>
+      <div class="lot-meta">${l.client} · ${l.detail}<br>
+      Salida: <strong>${fmt(l.pickup)}</strong> · Entrega: <strong>${fmt(l.due)}</strong></div>
+      <p style="margin:8px 0 0"><span class="chip ${st[0]}">${st[1]}</span></p>
+    </div>`;
+  }).join("");
+}
+
+let currentLot = null, sigCtx = null, sigDrawn = false;
+
+function openLot(id){
+  currentLot = LOTS.find(l=>l.id===id);
+  const db = store.load();
+  const photo = db.photos && db.photos[id];
+  const signed = db.deliveries && db.deliveries[id];
+  const dv = document.getElementById("detail-view");
+  document.getElementById("list-view").classList.add("hidden");
+  dv.classList.remove("hidden");
+  let h = `<p><a class="back" href="#" onclick="renderList();return false" style="color:var(--green);font-weight:600;text-decoration:none">← Todos los lotes</a></p>
+  <h1 style="font-size:21px">${currentLot.title}</h1>
+  <p class="sub">${currentLot.client} · ${currentLot.detail}</p>
+
+  <p class="sec-title">Hoja de salida · ${fmt(currentLot.pickup)}</p>
+  <div class="photo-slot" id="photo-slot">
+    ${photo ? `<img src="${photo}" alt="Hoja de salida">` : `<p class="note" style="margin:6px">${currentLot.pickupPhotoNote || "Sin foto adjunta todavía."}<br>Adjunta la foto desde este teléfono y quedará guardada aquí.</p>`}
+    <p style="margin:8px 0 2px"><label class="btn btn-secondary" style="font-size:14px;padding:8px 14px">📷 Adjuntar foto de la hoja<input type="file" accept="image/*" hidden onchange="attachPhoto(event)"></label></p>
+    <p class="note" style="margin:2px">La foto queda en este teléfono; la copia maestra la guarda Jarvis.</p>
+  </div>
+
+  <p class="sec-title">Entregas</p>`;
+  currentLot.deliveries.forEach(d=>{
+    h += `<div class="unit-row"><span>✅</span><span><strong>${fmt(d.date)}</strong> — ${d.count} instrumento(s).<br><span class="note">${d.note}</span></span></div>`;
+  });
+  if (signed){
+    h += `<div class="receipt"><strong>✅ Entrega registrada y firmada</strong><br>
+      <span class="note">${new Date(signed.at).toLocaleString("es")} · Recibió: <strong>${signed.receiver}</strong> · ${signed.units.length} instrumento(s): ${signed.units.join(", ")}</span>
+      <p style="margin:10px 0 0"><img class="sigimg" src="${signed.signature}" alt="Firma de recibido"></p>
+      <p style="margin:12px 0 0"><button class="btn btn-secondary" onclick="shareReceipt()">Compartir constancia</button></p></div>`;
+  } else if (currentLot.units.length){
+    h += `<p style="margin:14px 0 0"><button class="btn btn-primary" onclick="openSign()">✍️ Registrar entrega con firma</button></p>
+    <div id="sign-zone" class="hidden">
+      <p class="sec-title">Hoja digital de entrega · ${fmt(currentLot.due)}</p>
+      <p class="note" style="margin:0 0 4px">${currentLot.unitsNote||""}</p>
+      <div id="unit-list">${currentLot.units.map(u=>`<label class="unit-row"><input type="checkbox" value="${u}" checked><span>${u}</span></label>`).join("")}</div>
+      <div class="field"><label for="receiver">Nombre de quien recibe</label><input type="text" id="receiver" placeholder="Ej.: Dan Blouin" autocomplete="off"></div>
+      <div class="field"><label>Firma de recibido (con el dedo)</label><canvas class="sig" id="sig"></canvas>
+      <p style="margin:6px 0 0"><button class="btn btn-ghost" onclick="clearSig()">Borrar firma</button></p></div>
+      <p><button class="btn btn-primary" style="width:100%;padding:14px" onclick="confirmDelivery()">Confirmar entrega</button></p>
+      <p class="note">Al confirmar, el lote queda registrado como entregado con fecha, hora, nombre y firma — en este teléfono.</p>
+    </div>`;
+  }
+  dv.innerHTML = h;
+  window.scrollTo(0,0);
+}
+
+function attachPhoto(ev){
+  const file = ev.target.files[0]; if(!file) return;
+  const img = new Image();
+  img.onload = ()=>{
+    const max = 1500, r = Math.min(1, max/Math.max(img.width,img.height));
+    const c = document.createElement("canvas"); c.width = img.width*r; c.height = img.height*r;
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    const db = store.load(); db.photos = db.photos||{}; db.photos[currentLot.id] = c.toDataURL("image/jpeg",0.82);
+    store.save(db); openLot(currentLot.id);
+  };
+  img.src = URL.createObjectURL(file);
+}
+
+function openSign(){
+  document.getElementById("sign-zone").classList.remove("hidden");
+  const cv = document.getElementById("sig");
+  const dpr = window.devicePixelRatio||1;
+  cv.width = cv.clientWidth*dpr; cv.height = 190*dpr;
+  sigCtx = cv.getContext("2d"); sigCtx.scale(dpr,dpr);
+  sigCtx.lineWidth = 2.4; sigCtx.lineCap = "round"; sigCtx.strokeStyle = "#19382c";
+  sigDrawn = false; let down=false, last=null;
+  const pos = e=>{ const r=cv.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; };
+  cv.onpointerdown = e=>{ down=true; last=pos(e); cv.setPointerCapture(e.pointerId); };
+  cv.onpointermove = e=>{ if(!down) return; const p=pos(e); sigCtx.beginPath(); sigCtx.moveTo(last.x,last.y); sigCtx.lineTo(p.x,p.y); sigCtx.stroke(); last=p; sigDrawn=true; };
+  cv.onpointerup = cv.onpointercancel = ()=>{ down=false; };
+  document.getElementById("sign-zone").scrollIntoView({behavior:"smooth"});
+}
+function clearSig(){ const cv=document.getElementById("sig"); sigCtx.clearRect(0,0,cv.width,cv.height); sigDrawn=false; }
+
+function confirmDelivery(){
+  const receiver = document.getElementById("receiver").value.trim();
+  const units = [...document.querySelectorAll("#unit-list input:checked")].map(i=>i.value);
+  if(!units.length){ alert("Marca al menos un instrumento."); return; }
+  if(!receiver){ alert("Escribe el nombre de quien recibe."); return; }
+  if(!sigDrawn){ alert("Falta la firma de recibido."); return; }
+  const sig = document.getElementById("sig").toDataURL("image/png");
+  const db = store.load(); db.deliveries = db.deliveries||{};
+  db.deliveries[currentLot.id] = { at:new Date().toISOString(), receiver, units, signature:sig };
+  store.save(db); openLot(currentLot.id);
+}
+
+function shareReceipt(){
+  const db = store.load(); const s = db.deliveries[currentLot.id]; if(!s) return;
+  const text = `SetupQC — Constancia de entrega\n${currentLot.title}\nEntregado: ${new Date(s.at).toLocaleString("es")}\nRecibió: ${s.receiver}\nInstrumentos: ${s.units.join(", ")}`;
+  if (navigator.share){ navigator.share({title:"Constancia de entrega", text}).catch(()=>{}); }
+  else { window.print(); }
+}
+
+renderList();
+</script>
+</body>
+</html>
