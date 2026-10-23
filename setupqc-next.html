@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SetupQC — The Next Batch, Visible End to End</title>
+<title>SetupQC — Your Batches, Visible End to End</title>
 <style>
   *{box-sizing:border-box; margin:0; padding:0;}
   body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; background:#f5f4ef; color:#31463b; line-height:1.55;}
@@ -43,8 +43,6 @@
   .iside{text-align:right;}
   .istage{display:block; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:#2c6148;}
   .iluth{display:block; font-size:13px; color:#768174;}
-  .flag{flex-basis:100%; background:#f7f0df; border:1px solid #e5d9b8; border-radius:8px; padding:8px 12px; font-size:13.5px; color:#5c4a1f; margin-top:6px;}
-  .flag b{color:#8c6d2f;}
   .empty-note{font-size:14px; color:#768174; padding:4px 2px 8px;}
 
   .timeline{margin-top:16px; border-left:3px solid #e1e6db; padding-left:20px;}
@@ -57,21 +55,22 @@
   .tl .when{font-size:12px; letter-spacing:1.4px; text-transform:uppercase; color:#a7844b;}
   .tl h3{font-family:Georgia,serif; font-size:17px; color:#19382c; font-weight:normal;}
   .tl p{font-size:14px; color:#55614f; max-width:640px;}
-  .views{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:18px; margin-top:12px;}
-  .phone{border:2px solid #19452f; border-radius:22px; padding:18px 18px 14px; background:#fffdf8; max-width:360px; margin:0 auto; width:100%;}
-  .phone .who{font-size:11px; letter-spacing:2.2px; text-transform:uppercase; color:#a7844b; text-align:center;}
-  .phone h3{font-family:Georgia,serif; text-align:center; font-size:18px; color:#19382c; margin:6px 0 2px; font-weight:normal;}
-  .phone .ser{text-align:center; font-size:13px; color:#55534c;}
-  .seal{margin:14px auto 10px; width:118px; height:118px; border:2.5px solid #2c6148; border-radius:50%; color:#2c6148; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-size:11px; letter-spacing:1.6px; font-weight:700; line-height:1.5; transform:rotate(-6deg);}
-  .seal span{font-size:19px; letter-spacing:2px;}
-  .kv{font-size:13.5px; border-top:1px solid #e1e6db; padding:7px 2px; display:flex; justify-content:space-between; gap:10px;}
-  .kv b{color:#19382c;}
-  .lock{color:#a7844b;}
-  .fine{font-size:12px; color:#768174; text-align:center; margin-top:8px;}
-  .labelimg{width:100%; max-width:600px; border:1px solid #e1e6db; border-radius:4px; display:block;}
+
+  .logrow{display:flex; flex-wrap:wrap; gap:4px 16px; justify-content:space-between; align-items:baseline; padding:11px 2px; border-top:1px solid #eef1e8;}
+  .logrow.first{border-top:none;}
+  .logrow .what{font-weight:700; color:#19382c;}
+  .logrow .det{color:#55614f; font-size:13.5px; flex-basis:100%;}
+  .logrow .inv{font-size:13px; color:#768174; white-space:nowrap;}
+  table.inv{width:100%; border-collapse:collapse; margin-top:8px;}
+  table.inv th{text-align:left; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:#768174; border-bottom:1px solid #e1e6db; padding:7px 4px;}
+  table.inv td{padding:10px 4px; border-bottom:1px solid #eef1e8; font-size:14.5px;}
+  table.inv td.r, table.inv th.r{text-align:right;}
+  .lookup{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+  .lookup input{flex:1; min-width:200px; padding:12px 14px; border:1.5px solid #e1e6db; border-radius:10px; font-size:16px;}
+  .lookup button{background:#2c6148; color:#fff; border:0; border-radius:10px; padding:12px 22px; font-weight:700; font-size:15px; cursor:pointer;}
+  .lookup-result{margin-top:12px; font-size:15px;}
   .close{background:#19452f; color:#f2e7d5; border-radius:12px; padding:24px; margin-top:22px; text-align:center;}
   .close p{font-family:Georgia,serif; font-size:19px; line-height:1.5; max-width:640px; margin:0 auto;}
-  .close .sig{margin-top:10px; font-size:13px; color:#d2b078; letter-spacing:1.6px; text-transform:uppercase;}
   footer{margin-top:26px; text-align:center; font-size:12.5px; color:#768174;}
 </style>
 </head>
@@ -79,8 +78,8 @@
 <header>
   <div class="wrap">
     <div class="kicker">SetupQC · Prepared for Connolly Music</div>
-    <h1>The Next Batch, Visible End to End</h1>
-    <p class="sub">A short preview: the follow-up view, and the answer to who can see what.</p>
+    <h1>Your Batches, Visible End to End</h1>
+    <p class="sub">Pickups, deliveries and the status of every instrument — the working record, from sign-out to signed return.</p>
   </div>
 </header>
 
@@ -89,12 +88,12 @@
   <section class="card">
     <div class="ask">Want to know where your batch is?</div>
     <h2>Follow-up, <span class="gold">from pickup to return</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up &mdash; sign-out sheet first, then each instrument as its setup begins. This is the batch picked up at Thursday&rsquo;s visit, right after the SR43 return:</p>
+    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up — sign-out sheet first, then each instrument as its setup begins. This is the batch picked up at Thursday&rsquo;s visit, right after the SR43 return:</p>
     <div class="batchhead">
       <div><b>Batch SR44E4H</b> &mdash; 9 cellos</div>
       <div><b>Picked up:</b> Thursday, October 22, 2026</div>
       <div><b>Return:</b> Tuesday, October 27, 2026</div>
-      <div><span class="chip">JUST PICKED UP</span></div>
+      <div><span class="chip">AT THE WORKSHOP</span></div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">9</div><div class="lab"><span class="cdot green"></span>Total</div></button>
@@ -108,12 +107,12 @@
       <h3 id="stage-title"></h3>
       <div id="stage-rows"></div>
     </div>
-    <p class="cnote">The nine cellos were logged at pickup today &mdash; sign-out sheet photographed and on file (kit IN444 · bridge BGCD9D90 · strings IMC-5PCS). Each cello&rsquo;s serial is registered from its inside label as its setup begins.</p>
+    <p class="cnote">The nine cellos were logged at pickup on Thursday — sign-out sheet photographed and on file (kit IN444 · bridge BGCD9D90 · strings IMC-5PCS). Each cello&rsquo;s serial is registered from its inside label as its setup begins.</p>
     <div class="timeline">
       <div class="tl done">
         <div class="when">Thu Oct 22 · Previous batch returned</div>
         <h3>Batch SR43E4H &mdash; 8 of 10 delivered</h3>
-        <p>Eight cellos were delivered this morning. The two flagged units &mdash; Serial N&ordm; 16693 and Serial N&ordm; 16691, the pair that arrived with the incorrect 3/4 accessory bag &mdash; remain at the workshop and will be delivered separately once completed, exactly as noted on this page from the day the issue was found.</p>
+        <p>Eight cellos were delivered on Thursday. The two remaining units — Serial Nº 16693 and Serial Nº 16691, the pair that arrived with the incorrect 3/4 accessory bag — are being completed at the workshop: Connolly has supplied new bags with corrected 4/4 labels and cards, and the pair returns together with the SR44 batch on Tuesday, October 27.</p>
       </div>
       <div class="tl done">
         <div class="when">Thu Oct 22 · Pickup</div>
@@ -122,65 +121,85 @@
       </div>
       <div class="tl now">
         <div class="when">This week · At the bench</div>
-        <h3>Setups begin</h3>
-        <p>Each cello is set up to its customer&rsquo;s spec and measured as the work is finished &mdash; its record grows with the work, not after it. Serials appear here as each inside label is photographed.</p>
+        <h3>Setups under way</h3>
+        <p>Each cello is set up to its customer&rsquo;s spec and measured as the work is finished — its record grows with the work, not after it. Serials appear here as each inside label is photographed.</p>
       </div>
       <div class="tl">
         <div class="when">Before return · Quality control</div>
-        <h3>Triple check &amp; digital certificate</h3>
-        <p>Final measurements, a blind re-check, and a pre-pack check. The batch&rsquo;s digital certificate lives in the software, ready to view with its record.</p>
+        <h3>Triple check before packing</h3>
+        <p>Final measurements and a blind re-check, cello by cello, before anything is packed — the same triple check Connolly asked for on the last batch.</p>
       </div>
       <div class="tl">
         <div class="when">Tue Oct 27 · Return</div>
-        <h3>Delivered back, on the date set at pickup</h3>
-        <p>The return date agreed at handoff is the date on this page from day one. If it ever had to move, you would see it here first &mdash; and hear it from the luthier before, not after.</p>
+        <h3>Eleven cellos delivered back, on the date set at pickup</h3>
+        <p>The nine SR44 plus the two remaining SR43. The delivery is signed on site and logged in the record below the same day — and the return date agreed at handoff is the date on this page from day one.</p>
       </div>
     </div>
   </section>
 
   <section class="card">
-    <div class="ask">Wondering who else can see this?</div>
-    <h2>One label, <span class="gold">two very different views</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">The QR on the instrument&rsquo;s own label opens only the public view &mdash; by design, there is no internal data behind it. The full record lives behind Connolly&rsquo;s own key.</p>
-    <div class="views">
-      <div class="phone">
-        <div class="who">Anyone scans the label</div>
-        <h3>Scherl &amp; Roth SR41 · 4/4</h3>
-        <div class="ser">Serial Nº 16732</div>
-        <div class="seal"><span>✓</span>VERIFIED<br>SETUP</div>
-        <div class="kv"><span>Setup &amp; inspection</span><b>Passed</b></div>
-        <div class="kv"><span>Date</span><b>October 19, 2026</b></div>
-        <p class="fine">Provenance only. No measurements, no customers,<br>no internal notes &mdash; nothing to protect.</p>
+    <div class="ask">The paper trail, without the paper</div>
+    <h2>Pickup &amp; delivery <span class="gold">log</span></h2>
+    <p style="font-size:14.5px; color:#55614f;">Every sign-out and every delivery, in order — with the invoice that belongs to each batch.</p>
+    <div style="margin-top:8px;">
+      <div class="logrow first">
+        <div><span class="chip">SCHEDULED</span> <span class="what">Tue, October 27, 2026 — Delivery at Connolly</span></div>
+        <div class="inv">Invoice 202026-01 · $825.00</div>
+        <div class="det">11 cellos returned: the 9 SR44E4H plus the 2 remaining SR43E4H (Serial Nº 16693 and 16691). The delivery is signed on site and this entry becomes the delivery record.</div>
       </div>
-      <div class="phone">
-        <div class="who">Connolly scans with its key</div>
-        <h3>Instrument record · SW-05</h3>
-        <div class="ser">Serial Nº 16732 · Sweetwater spec</div>
-        <div class="kv" style="margin-top:14px;"><span>Result</span><span class="chip green">PASS</span></div>
-        <div class="kv"><span>Six measurements</span><b>Recorded <span class="lock">🔒</span></b></div>
-        <div class="kv"><span>Digital certificate</span><b>In the software <span class="lock">🔒</span></b></div>
-        <div class="kv"><span>Batch notes</span><b>Internal <span class="lock">🔒</span></b></div>
-        <div class="kv"><span>Pickup &amp; return dates</span><b>Tracked <span class="lock">🔒</span></b></div>
-        <p class="fine">Full record, by key only &mdash; and revocable,<br>the way today&rsquo;s demo link was closed after the showing.</p>
+      <div class="logrow">
+        <div><span class="chip green">PICKUP</span> <span class="what">Thu, October 22, 2026 — Sign-out at Connolly</span></div>
+        <div class="inv">Batch SR44E4H · 9 cellos</div>
+        <div class="det">Sign-out sheet on file, prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS. Return date set at handoff: Tuesday, October 27, 2026.</div>
+      </div>
+      <div class="logrow">
+        <div><span class="chip green">DELIVERED</span> <span class="what">Thu, October 22, 2026 — Delivered at Connolly</span></div>
+        <div class="inv">Invoice 192026-01 · $600.00</div>
+        <div class="det">Batch SR43E4H — 8 of 10 cellos handed over. The remaining pair (Serial Nº 16693 and 16691) stayed at the workshop to be completed, and returns October 27.</div>
+      </div>
+      <div class="logrow">
+        <div><span class="chip green">DELIVERED</span> <span class="what">Mon, October 19, 2026 — Delivered at Connolly</span></div>
+        <div class="inv">Invoice 182026-01 · $600.00</div>
+        <div class="det">Batch SR41E4H — 20 violins, complete. Every unit passed its final check before packing.</div>
+      </div>
+      <div class="logrow">
+        <div><span class="chip green">PICKUP</span> <span class="what">Mon, October 19, 2026 — Sign-out at Connolly</span></div>
+        <div class="inv">Batch SR43E4H · 10 cellos</div>
+        <div class="det">Sign-out sheet on file, prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS.</div>
       </div>
     </div>
-    <div style="margin-top:20px;">
-      <img id="labelimg" class="labelimg" alt="The interior label with its QR code">
-      <p style="font-size:12.5px; color:#66635a; margin-top:6px;">The label that goes inside the instrument &mdash; your own service label, with the instrument&rsquo;s code in the corner. This one belongs to the violin scanned at the showing.</p>
+  </section>
+
+  <section class="card">
+    <div class="ask">Billing, batch by batch</div>
+    <h2>Invoices</h2>
+    <table class="inv">
+      <tr><th>Invoice</th><th>Date</th><th>Batch</th><th class="r">Total</th><th class="r">Status</th></tr>
+      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">$825.00</td><td class="r">Issued on delivery</td></tr>
+      <tr><td><b>192026-01</b></td><td>Oct 22, 2026</td><td>SR43E4H ×8</td><td class="r">$600.00</td><td class="r">Sent</td></tr>
+      <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">$600.00</td><td class="r">Sent</td></tr>
+      <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">$705.00</td><td class="r">Paid · Oct 13</td></tr>
+    </table>
+    <p class="cnote">One invoice per delivery, generated against the final manifest — what was delivered is what is billed.</p>
+  </section>
+
+  <section class="card">
+    <div class="ask">Looking for one instrument?</div>
+    <h2>Check an instrument <span class="gold">by serial number</span></h2>
+    <p style="font-size:14.5px; color:#55614f;">Type the serial from the inside label. You&rsquo;ll see its batch and exactly where it stands — no internal data, just its status.</p>
+    <div class="lookup">
+      <input type="text" id="serial-input" inputmode="numeric" placeholder="e.g. 16693" aria-label="Serial number">
+      <button type="button" id="serial-btn">Check status</button>
     </div>
+    <div class="lookup-result" id="serial-result"></div>
   </section>
 
   <section class="close">
-    <p>Phase one is already running on my bench. The next batch can go out with its ID, its record, and its return date &mdash; from day one.</p>
+    <p>Every batch leaves with its sign-out record, its status visible while it is here, and its delivery signed on return — from day one.</p>
   </section>
 
-  <footer>Preview prepared for Connolly Music · October 19, 2026 · Updated October 22, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
+  <footer>Prepared for Connolly Music · October 19, 2026 · Updated October 23, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
 </div>
-
-<script src="next-label.js"></script>
-<script>
-  if (window.LABEL_SW05) { document.getElementById('labelimg').src = window.LABEL_SW05; }
-</script>
 
 <script>
   const META = "Scherl & Roth SR44 \u00b7 4/4 \u00b7 Connolly Music";
@@ -189,7 +208,7 @@
   const STAGES = {
     total:    { title: "All nine cellos \u2014 Batch SR44E4H", rows: WAITING },
     progress: { title: "In progress \u2014 at the bench now", rows: [], empty: "No cello is at the bench yet. Setups begin this week, in sign-out order; each one moves here the moment its work starts." },
-    finished: { title: "Finished \u2014 bench setup complete", rows: [], empty: "Nothing finished yet \u2014 the batch was picked up today, Thursday, October 22." },
+    finished: { title: "Finished \u2014 bench setup complete", rows: [], empty: "Nothing finished yet \u2014 the batch was picked up on Thursday, October 22." },
     qc:       { title: "Awaiting final QC", rows: [], empty: "No cellos are at this stage yet. Each finished cello passes through its triple check and final QC before it is ready to pack." },
     ready:    { title: "Ready to pack", rows: [], empty: "Nothing is packed yet. Cellos arrive here after their final QC, ready for the return." }
   };
@@ -205,8 +224,7 @@
       const ser = r.serial ? 'Serial N\u00ba ' + r.serial : 'Unit ' + r.code;
       const meta = r.serial ? META : 'Serial to be registered \u2014 photographed from its inside label as setup begins';
       return '<div class="irow' + (i === 0 ? ' first' : '') + '"><div><span class="iser">' + ser + '</span><span class="imeta">' + meta + '</span></div>' +
-        '<div class="iside"><span class="istage">' + r.stage + '</span><span class="iluth">Luthier: Victor Alaluna</span></div>' +
-        (r.flag ? '<div class="flag">' + FLAG_NOTE + '</div>' : '') + '</div>';
+        '<div class="iside"><span class="istage">' + r.stage + '</span><span class="iluth">Luthier: Victor Alaluna</span></div></div>';
     }).join('');
   }
   document.querySelectorAll('.counter').forEach(btn => {
@@ -223,6 +241,32 @@
       panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     });
   });
+
+  const REGISTRY = {
+    "16570": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16576": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16580": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16586": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16575": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16573": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16562": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16569": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
+    "16693": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "At the workshop — being completed with its corrected 4/4 label and card. Returns Tuesday, October 27, 2026" },
+    "16691": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "At the workshop — being completed with its corrected 4/4 label and card. Returns Tuesday, October 27, 2026" }
+  };
+  const resultEl = document.getElementById('serial-result');
+  function checkSerial() {
+    const q = document.getElementById('serial-input').value.trim();
+    if (!q) { resultEl.innerHTML = ''; return; }
+    const hit = REGISTRY[q];
+    if (hit) {
+      resultEl.innerHTML = '<b style="color:#19382c;">Serial Nº ' + q + '</b> · ' + hit.model + ' · Batch ' + hit.batch + '<br><span style="color:#2c6148; font-weight:700;">' + hit.status + '</span>';
+    } else {
+      resultEl.innerHTML = 'No instrument with serial <b>' + q.replace(/</g,'&lt;') + '</b> is in the current batches. Serials are registered as each setup begins — if your instrument was just picked up, check back shortly.';
+    }
+  }
+  document.getElementById('serial-btn').addEventListener('click', checkSerial);
+  document.getElementById('serial-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkSerial(); });
 </script>
 </body>
 </html>
