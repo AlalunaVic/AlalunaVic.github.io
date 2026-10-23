@@ -76,6 +76,9 @@
   .vpanel .cap{font-size:12.5px; color:#768174; margin-top:8px;}
   .sigline{font-size:14.5px; color:#31463b; margin-top:8px;}
   .sigline b{color:#19382c;}
+  .btnrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; flex-basis:100%;}
+  .strip-head{font-family:Georgia,serif; font-size:17px; color:#19382c;}
+  .strip-sub{color:#55614f; font-size:13.5px; flex-basis:100%;}
   .close{background:#19452f; color:#f2e7d5; border-radius:12px; padding:24px; margin-top:22px; text-align:center;}
   .close p{font-family:Georgia,serif; font-size:19px; line-height:1.5; max-width:640px; margin:0 auto;}
   footer{margin-top:26px; text-align:center; font-size:12.5px; color:#768174;}
@@ -147,55 +150,68 @@
   <section class="card">
     <div class="ask">The paper trail, without the paper</div>
     <h2>Pickup &amp; delivery <span class="gold">log</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">Every sign-out and every delivery, in order — with the invoice that belongs to each batch.</p>
+    <p style="font-size:14.5px; color:#55614f;">One strip per batch — its pickup sheet, its delivery record, and its invoice.</p>
     <div style="margin-top:8px;">
       <div class="logrow first">
-        <div><span class="chip">SCHEDULED</span> <span class="what">Tue, October 27, 2026 — Delivery at Connolly</span></div>
-        <div class="inv">Invoice 202026-01</div>
-        <div class="det">11 cellos returned: the 9 SR44E4H plus the 2 remaining SR43E4H (Serial Nº 16693 and 16691). The delivery is signed on site and this entry becomes the delivery record.</div>
-        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-oct27')">Delivery ▸</button></div>
-        <div class="vpanel" id="p-oct27" hidden>
-          <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b>. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
+        <div><span class="strip-head">Thu, October 22, 2026 — Batch SR44E4H · 9 cellos</span></div>
+        <div><span class="chip">AT THE WORKSHOP</span></div>
+        <div class="strip-sub">Picked up at Connolly · Return Tuesday, October 27, 2026 · Sign-out sheet prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
+        <div class="btnrow">
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr44-pickup')">Pickup</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr44-delivery')">Delivery</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr44-invoice')">Invoice</button>
         </div>
-      </div>
-      <div class="logrow">
-        <div><span class="chip green">PICKUP</span> <span class="what">Thu, October 22, 2026 — Sign-out at Connolly</span></div>
-        <div class="inv">Batch SR44E4H · 9 cellos</div>
-        <div class="det">Sign-out sheet on file, prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS. Return date set at handoff: Tuesday, October 27, 2026.</div>
-        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-pickup-sr44')">Pick up ▸</button></div>
-        <div class="vpanel" id="p-pickup-sr44" hidden>
+        <div class="vpanel" id="s-sr44-pickup" data-strip="sr44" hidden>
           <img id="img-sr44" alt="Sign-out sheet — Batch SR44E4H, October 22, 2026">
           <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Thursday, October 22, 2026.</div>
         </div>
-      </div>
-      <div class="logrow">
-        <div><span class="chip green">DELIVERED</span> <span class="what">Thu, October 22, 2026 — Delivered at Connolly</span></div>
-        <div class="inv">Invoice 192026-01</div>
-        <div class="det">Batch SR43E4H — 8 of 10 cellos handed over. The remaining pair (Serial Nº 16693 and 16691) stayed at the workshop to be completed, and returns October 27.</div>
-        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-del-sr43')">Delivery ▸</button></div>
-        <div class="vpanel" id="p-del-sr43" hidden>
-          <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 · <b>Batch SR43E4H</b> · 8 cellos received at Connolly.</div>
-          <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
+        <div class="vpanel" id="s-sr44-delivery" data-strip="sr44" hidden>
+          <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b> — 9 cellos returned. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
+        </div>
+        <div class="vpanel" id="s-sr44-invoice" data-strip="sr44" hidden>
+          <div class="sigline"><b>Invoice 202026-01</b> — issued on delivery, Tuesday, October 27, 2026. One invoice covers this batch plus the two remaining SR43 cellos delivered the same day.</div>
         </div>
       </div>
       <div class="logrow">
-        <div><span class="chip green">DELIVERED</span> <span class="what">Mon, October 19, 2026 — Delivered at Connolly</span></div>
-        <div class="inv">Invoice 182026-01</div>
-        <div class="det">Batch SR41E4H — 20 violins, complete. Every unit passed its final check before packing.</div>
-        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-del-sr41')">Delivery ▸</button></div>
-        <div class="vpanel" id="p-del-sr41" hidden>
+        <div><span class="strip-head">Mon, October 19, 2026 — Batch SR43E4H · 10 cellos</span></div>
+        <div><span class="chip">8 DELIVERED · 2 TO GO</span></div>
+        <div class="strip-sub">Picked up at Connolly · Sign-out sheet prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
+        <div class="btnrow">
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr43-pickup')">Pickup</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr43-delivery')">Delivery</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr43-invoice')">Invoice</button>
+        </div>
+        <div class="vpanel" id="s-sr43-pickup" data-strip="sr43" hidden>
+          <img id="img-sr43" alt="Sign-out sheet — Batch SR43E4H, October 19, 2026">
+          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Monday, October 19, 2026.</div>
+        </div>
+        <div class="vpanel" id="s-sr43-delivery" data-strip="sr43" hidden>
+          <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 — 8 of 10 cellos received at Connolly.</div>
+          <div class="sigline"><b>Remaining pair</b> (Serial Nº 16693 and 16691): returns <b>Tuesday, October 27, 2026</b>, signed on site — its photo and signed receipt will appear here.</div>
+          <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
+        </div>
+        <div class="vpanel" id="s-sr43-invoice" data-strip="sr43" hidden>
+          <div class="sigline"><b>Invoice 192026-01</b> — sent October 22, 2026, for the 8 cellos delivered that day. The final pair is billed on <b>invoice 202026-01</b> with the October 27 delivery.</div>
+        </div>
+      </div>
+      <div class="logrow">
+        <div><span class="strip-head">Mon, October 19, 2026 — Batch SR41E4H · 20 violins</span></div>
+        <div><span class="chip green">DELIVERED</span></div>
+        <div class="strip-sub">Sweetwater spec · Every unit passed its final check before packing · Delivered complete</div>
+        <div class="btnrow">
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr41-pickup')">Pickup</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr41-delivery')">Delivery</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-sr41-invoice')">Invoice</button>
+        </div>
+        <div class="vpanel" id="s-sr41-pickup" data-strip="sr41" hidden>
+          <div class="sigline"><b>Pickup record:</b> 20 violins received at the workshop ahead of the October 19 delivery. This batch&rsquo;s sign-out sheet is on file at the workshop; its photo has not been digitized.</div>
+        </div>
+        <div class="vpanel" id="s-sr41-delivery" data-strip="sr41" hidden>
           <div class="sigline"><b>Delivered:</b> Monday, October 19, 2026 · <b>Batch SR41E4H</b> · 20 violins received at Connolly, complete.</div>
           <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
         </div>
-      </div>
-      <div class="logrow">
-        <div><span class="chip green">PICKUP</span> <span class="what">Mon, October 19, 2026 — Sign-out at Connolly</span></div>
-        <div class="inv">Batch SR43E4H · 10 cellos</div>
-        <div class="det">Sign-out sheet on file, prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS.</div>
-        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-pickup-sr43')">Pick up ▸</button></div>
-        <div class="vpanel" id="p-pickup-sr43" hidden>
-          <img id="img-sr43" alt="Sign-out sheet — Batch SR43E4H, October 19, 2026">
-          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Monday, October 19, 2026.</div>
+        <div class="vpanel" id="s-sr41-invoice" data-strip="sr41" hidden>
+          <div class="sigline"><b>Invoice 182026-01</b> — sent October 22, 2026, for this batch.</div>
         </div>
       </div>
     </div>
@@ -243,7 +259,9 @@
   if (window.SHEET_SR44) { document.getElementById('img-sr44').src = window.SHEET_SR44; }
   function togglePanel(id) {
     const p = document.getElementById(id);
-    p.hidden = !p.hidden;
+    const wasHidden = p.hidden;
+    document.querySelectorAll('.vpanel[data-strip="' + p.dataset.strip + '"]').forEach(x => { x.hidden = true; });
+    p.hidden = !wasHidden;
     if (!p.hidden) { p.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
   }
 </script>
