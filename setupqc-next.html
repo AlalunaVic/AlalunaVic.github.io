@@ -69,6 +69,13 @@
   .lookup input{flex:1; min-width:200px; padding:12px 14px; border:1.5px solid #e1e6db; border-radius:10px; font-size:16px;}
   .lookup button{background:#2c6148; color:#fff; border:0; border-radius:10px; padding:12px 22px; font-weight:700; font-size:15px; cursor:pointer;}
   .lookup-result{margin-top:12px; font-size:15px;}
+  .vbtn{background:#fff; border:1.5px solid #2c6148; color:#2c6148; border-radius:20px; padding:5px 16px; font-weight:700; font-size:13px; cursor:pointer; letter-spacing:.4px;}
+  .vbtn:hover{background:#edf5e9;}
+  .vpanel{flex-basis:100%; margin-top:10px; border:1px solid #e1e6db; border-radius:10px; background:#fafbf8; padding:14px;}
+  .vpanel img{width:100%; max-width:640px; border:1px solid #ddd5c2; border-radius:6px; display:block;}
+  .vpanel .cap{font-size:12.5px; color:#768174; margin-top:8px;}
+  .sigline{font-size:14.5px; color:#31463b; margin-top:8px;}
+  .sigline b{color:#19382c;}
   .close{background:#19452f; color:#f2e7d5; border-radius:12px; padding:24px; margin-top:22px; text-align:center;}
   .close p{font-family:Georgia,serif; font-size:19px; line-height:1.5; max-width:640px; margin:0 auto;}
   footer{margin-top:26px; text-align:center; font-size:12.5px; color:#768174;}
@@ -144,28 +151,52 @@
     <div style="margin-top:8px;">
       <div class="logrow first">
         <div><span class="chip">SCHEDULED</span> <span class="what">Tue, October 27, 2026 — Delivery at Connolly</span></div>
-        <div class="inv">Invoice 202026-01 · $825.00</div>
+        <div class="inv">Invoice 202026-01</div>
         <div class="det">11 cellos returned: the 9 SR44E4H plus the 2 remaining SR43E4H (Serial Nº 16693 and 16691). The delivery is signed on site and this entry becomes the delivery record.</div>
+        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-oct27')">Delivery ▸</button></div>
+        <div class="vpanel" id="p-oct27" hidden>
+          <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b>. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
+        </div>
       </div>
       <div class="logrow">
         <div><span class="chip green">PICKUP</span> <span class="what">Thu, October 22, 2026 — Sign-out at Connolly</span></div>
         <div class="inv">Batch SR44E4H · 9 cellos</div>
         <div class="det">Sign-out sheet on file, prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS. Return date set at handoff: Tuesday, October 27, 2026.</div>
+        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-pickup-sr44')">Pick up ▸</button></div>
+        <div class="vpanel" id="p-pickup-sr44" hidden>
+          <img id="img-sr44" alt="Sign-out sheet — Batch SR44E4H, October 22, 2026">
+          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Thursday, October 22, 2026.</div>
+        </div>
       </div>
       <div class="logrow">
         <div><span class="chip green">DELIVERED</span> <span class="what">Thu, October 22, 2026 — Delivered at Connolly</span></div>
-        <div class="inv">Invoice 192026-01 · $600.00</div>
+        <div class="inv">Invoice 192026-01</div>
         <div class="det">Batch SR43E4H — 8 of 10 cellos handed over. The remaining pair (Serial Nº 16693 and 16691) stayed at the workshop to be completed, and returns October 27.</div>
+        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-del-sr43')">Delivery ▸</button></div>
+        <div class="vpanel" id="p-del-sr43" hidden>
+          <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 · <b>Batch SR43E4H</b> · 8 cellos received at Connolly.</div>
+          <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
+        </div>
       </div>
       <div class="logrow">
         <div><span class="chip green">DELIVERED</span> <span class="what">Mon, October 19, 2026 — Delivered at Connolly</span></div>
-        <div class="inv">Invoice 182026-01 · $600.00</div>
+        <div class="inv">Invoice 182026-01</div>
         <div class="det">Batch SR41E4H — 20 violins, complete. Every unit passed its final check before packing.</div>
+        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-del-sr41')">Delivery ▸</button></div>
+        <div class="vpanel" id="p-del-sr41" hidden>
+          <div class="sigline"><b>Delivered:</b> Monday, October 19, 2026 · <b>Batch SR41E4H</b> · 20 violins received at Connolly, complete.</div>
+          <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
+        </div>
       </div>
       <div class="logrow">
         <div><span class="chip green">PICKUP</span> <span class="what">Mon, October 19, 2026 — Sign-out at Connolly</span></div>
         <div class="inv">Batch SR43E4H · 10 cellos</div>
         <div class="det">Sign-out sheet on file, prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS.</div>
+        <div style="flex-basis:100%"><button type="button" class="vbtn" onclick="togglePanel('p-pickup-sr43')">Pick up ▸</button></div>
+        <div class="vpanel" id="p-pickup-sr43" hidden>
+          <img id="img-sr43" alt="Sign-out sheet — Batch SR43E4H, October 19, 2026">
+          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Monday, October 19, 2026.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -174,11 +205,11 @@
     <div class="ask">Billing, batch by batch</div>
     <h2>Invoices</h2>
     <table class="inv">
-      <tr><th>Invoice</th><th>Date</th><th>Batch</th><th class="r">Total</th><th class="r">Status</th></tr>
-      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">$825.00</td><td class="r">Issued on delivery</td></tr>
-      <tr><td><b>192026-01</b></td><td>Oct 22, 2026</td><td>SR43E4H ×8</td><td class="r">$600.00</td><td class="r">Sent</td></tr>
-      <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">$600.00</td><td class="r">Sent</td></tr>
-      <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">$705.00</td><td class="r">Paid · Oct 13</td></tr>
+      <tr><th>Invoice</th><th>Date</th><th>Batch</th><th class="r">Status</th></tr>
+      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">Issued on delivery</td></tr>
+      <tr><td><b>192026-01</b></td><td>Oct 22, 2026</td><td>SR43E4H ×8</td><td class="r">Sent</td></tr>
+      <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">Sent</td></tr>
+      <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">Paid · Oct 13</td></tr>
     </table>
     <p class="cnote">One invoice per delivery, generated against the final manifest — what was delivered is what is billed.</p>
   </section>
@@ -201,6 +232,21 @@
   <footer>Prepared for Connolly Music · October 19, 2026 · Updated October 23, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
 </div>
 
+<script src="next-sheets-a1.js"></script>
+<script src="next-sheets-a2.js"></script>
+<script src="next-sheets-a3.js"></script>
+<script src="next-sheets-b1.js"></script>
+<script src="next-sheets-b2.js"></script>
+<script src="next-sheets-b3.js"></script>
+<script>
+  if (window.SHEET_SR43) { document.getElementById('img-sr43').src = window.SHEET_SR43; }
+  if (window.SHEET_SR44) { document.getElementById('img-sr44').src = window.SHEET_SR44; }
+  function togglePanel(id) {
+    const p = document.getElementById(id);
+    p.hidden = !p.hidden;
+    if (!p.hidden) { p.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  }
+</script>
 <script>
   const META = "Scherl & Roth SR44 \u00b7 4/4 \u00b7 Connolly Music";
   const row = (code, stage) => ({ code, serial: null, stage, flag: false });
