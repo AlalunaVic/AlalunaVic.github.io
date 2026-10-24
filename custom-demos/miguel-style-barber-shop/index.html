@@ -1,146 +1,55 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Miguel Style Barber Shop — Reserva por WhatsApp</title>
-<style>:root{--acc:#c8404f}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#101010;color:#f2ede4;line-height:1.55}
-a{color:inherit}
-.top{position:sticky;top:0;z-index:50;background:rgba(12,12,12,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--acc);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.top .brand{font-family:Georgia,serif;font-size:19px;letter-spacing:.4px}
-.btn{display:inline-block;background:var(--acc);color:#141414;font-weight:800;border:0;border-radius:999px;padding:11px 20px;font-size:15px;cursor:pointer;text-decoration:none}
-.btn.wa{background:#22c064;color:#fff}
-.hero{position:relative;min-height:52vh;display:flex;align-items:flex-end;background:#000}
-.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.62}
-.hero .inner{position:relative;padding:64px 20px 26px;max-width:960px;margin:0 auto;width:100%}
-.kicker{font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--acc);font-weight:700}
-h1{font-family:Georgia,serif;font-weight:normal;font-size:40px;line-height:1.12;margin:6px 0 8px;color:#fff}
-.sub{color:#e6ddcb;font-size:16.5px;max-width:640px}
-.chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1.5px solid var(--acc);color:#fff;border-radius:999px;padding:4px 13px;font-size:13px;font-weight:600;background:rgba(0,0,0,.35)}
-.wrap{max-width:960px;margin:0 auto;padding:0 18px 70px}
-section{margin-top:34px}
-h2{font-family:Georgia,serif;font-weight:normal;font-size:26px;color:#fff;margin-bottom:4px}
-h2 .gold{color:var(--acc)}
-.lead{color:#cbbfa5;font-size:14.5px;margin-bottom:10px}
-.svc{display:flex;justify-content:space-between;gap:14px;padding:12px 2px;border-bottom:1px solid #2a2a2a;align-items:baseline}
-.svc .nm{font-size:16px;color:#fff}
-.svc .ds{font-size:13px;color:#a99f8a}
-.svc .pr{font-family:Georgia,serif;font-size:18px;color:var(--acc);white-space:nowrap}
-.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.gallery img{width:100%;border-radius:12px;display:block;aspect-ratio:4/3;object-fit:cover;background:#1c1c1c}
-@media(max-width:560px){.gallery{grid-template-columns:1fr}}
-.card{background:#181818;border:1px solid #2c2c2c;border-radius:14px;padding:20px;margin-top:12px}
-label{display:block;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:#cbbfa5;margin:12px 0 5px;font-weight:700}
-select,input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #3a3a3a;background:#0f0f0f;color:#fff;font-size:16px}
-.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid #262626;font-size:15px}
-.kv b{color:#fff}
-.note{font-size:13px;color:#a99f8a;margin-top:10px}
-.chatfab{position:fixed;right:16px;bottom:16px;z-index:60;background:#22c064;color:#fff;border:0;border-radius:999px;padding:13px 19px;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer}
-.chatbox{position:fixed;right:16px;bottom:76px;z-index:60;width:min(92vw,360px);background:#171717;border:1.5px solid var(--acc);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
-.chatbox .hd{background:var(--acc);color:#141414;font-weight:800;padding:11px 14px;font-size:15px}
-.chatlog{max-height:300px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
-.msg{padding:9px 12px;border-radius:12px;font-size:14.5px;max-width:88%}
-.msg.bot{background:#242424;color:#f2ede4;align-self:flex-start}
-.msg.me{background:#22c064;color:#fff;align-self:flex-end}
-.chatrow{display:flex;gap:6px;padding:10px;border-top:1px solid #2c2c2c}
-.chatrow input{flex:1;padding:10px}
-.chatrow button{background:var(--acc);border:0;border-radius:10px;padding:0 16px;font-weight:800;cursor:pointer}
-.qreps{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 10px}
-.qrep{border:1.5px solid var(--acc);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
-footer{margin-top:40px;border-top:1px solid #2a2a2a;padding-top:16px;font-size:12.5px;color:#8d8471;text-align:center}
-.qrbox{text-align:center;margin-top:14px}
-.qrbox img{background:#fff;padding:8px;border-radius:10px}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#141614"><title>Miguel Style Barber Shop | Tu barbería de barrio en Fords, New Jersey</title><meta name="description" content="Cortes para hombre, niños y mujer, delineados de precisión y detalle de barba. La barbería del barrio, sin prisa y con detalle."><link rel="canonical" href="https://alalunavic.github.io/custom-demos/miguel-style-barber-shop/"><meta property="og:title" content="Miguel Style Barber Shop | A cut above in Fords, New Jersey"><meta property="og:description" content="Cortes para hombre, niños y mujer, delineados de precisión y detalle de barba. La barbería del barrio, sin prisa y con detalle."><meta property="og:type" content="website"><meta property="og:image" content="https://alalunavic.github.io/demos-for-business/images/barber-hero.webp"><link rel="icon" href="/demos-for-business/favicon.svg" type="image/svg+xml"><link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/demos-for-business/_astro/_business_.DGK6_BGL.css"></head> <body class="dark" style="--accent:#d8a775;--bg:#141614"><a href="#main" class="skip-link">Skip to content</a> <div class="demo-strip"><a href="/custom-demos/">← Colección personalizada</a><span>Negocio real · Demo interactiva</span></div><header class="business-header wrap"><a class="wordmark" href="/demos-for-business/barbershop/"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 8 14 12M6 16 20 4M9 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path></svg><span>MIGUEL STYLE<small>BARBERÍA · FORDS, NJ</small></span></a><nav aria-label="Main navigation"><a href="#services">Servicios</a><a href="#gallery">El trabajo</a><a href="#visit">Visítanos</a></nav><a class="button nav-cta" href="#request">Reservar<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a></header><main id="main"><section class="barber-hero"><img class="hero-image kb-hero" src="" data-img="barber-hero.webp" alt="Interior real de Miguel Style Barber Shop, en Fords" width="1600" height="1100" fetchpriority="high"><div class="hero-shade"></div><div class="wrap hero-content"><div class="hero-eyebrow"><span></span> FORDS, NEW JERSEY</div><h1>Tu barbería<br>de barrio,<br><em>con estilo.</em></h1><p>Cortes para hombre, niños y mujer, delineados de precisión y detalle de barba. La barbería del barrio, sin prisa y con detalle.</p><div class="hero-actions"><a class="button" href="#request">Reserva tu cita <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a><a class="quiet-link" href="#services">Ver los servicios <span>↘</span></a></div><div class="hero-footnote"><span class="little-star">✳︎</span><span>BUEN CORTE. BUENA COMPAÑÍA.<small>Classic craft. Your kind of barbershop.</small></span></div></div><span class="hero-side-label">HECHO CON CUIDADO. LUCIDO CON CONFIANZA.</span><a class="scroll-cue" href="#services">DESLIZA PARA EXPLORAR <span>↓</span></a></section> <div class="brand-ticker" aria-hidden="true"><span>CORTES DE PRECISIÓN</span><b>✳︎</b><span>AFEITADOS CLÁSICOS</span><b>✳︎</b><span>ESTILO FRESCO</span><b>✳︎</b><span>BUENA COMPAÑÍA</span></div> <section id="services" class="services-section section-pad"><div class="wrap"><div class="section-heading"><div><span class="eyebrow">LOS SERVICIOS</span><h2>Como en casa.<br><em>Como nuevo.</em></h2></div><div><p>El detalle de siempre. Servicio sin complicaciones.<br>Encuentra tu servicio.</p><span class="subtle-note">Servicios de la casa</span></div></div><div class="barber-services"><a class="barber-service" href="#request" data-select-service="0"><span class="service-number">01</span><div><h3>Corte de cabello</h3><p>El corte de la casa, con acabado a navaja en los contornos.</p><span class="duration">Hombre</span></div><div class="service-price">Reservar<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></div></a><a class="barber-service" href="#request" data-select-service="1"><span class="service-number">02</span><div><h3>Delineado de precisión</h3><p>Contornos limpios y marcados, como deben ser.</p><span class="duration">Shape up</span></div><div class="service-price">Reservar<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></div></a><a class="barber-service" href="#request" data-select-service="2"><span class="service-number">03</span><div><h3>Detalle de barba y bigote</h3><p>Perfilado y arreglo completo, con calma.</p><span class="duration">Barba</span></div><div class="service-price">Reservar<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></div></a><a class="barber-service" href="#request" data-select-service="3"><span class="service-number">04</span><div><h3>Corte de niños</h3><p>Paciencia y buen trato para los pequeños de la casa.</p><span class="duration">Niños</span></div><div class="service-price">Reservar<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></div></a></div></div></section> <section id="gallery" class="barber-gallery section-pad"><div class="wrap"><div class="section-heading"><div><span class="eyebrow">EL TOQUE FINAL</span><h2>El detalle hace<br><em>la diferencia.</em></h2></div><p>Un poco de inspiración para tu próxima visita.<br>Trabajo real. Estilo propio.</p></div><div class="gallery-grid"><figure><img src="" data-img="barber-cut-1.webp" alt="Trabajo real de la casa" width="650" height="800" loading="lazy"><figcaption><span>01 / EL ESTILO</span><b>Textura y carácter</b></figcaption></figure><figure><img src="" data-img="barber-cut-2.webp" alt="Detalle y calma en cada corte" width="650" height="800" loading="lazy"><figcaption><span>02 / EL ESTILO</span><b>Limpio y cuidado</b></figcaption></figure><figure><img src="" data-img="barber-cut-3.webp" alt="La fachada de la barbería en New Brunswick Ave" width="650" height="800" loading="lazy"><figcaption><span>03 / EL ESTILO</span><b>El clásico, renovado</b></figcaption></figure></div></div></section> <section class="team-section section-pad"><div class="wrap">
+<span class="eyebrow">EL SISTEMA TRABAJA SOLO</span>
+<h2>Mientras atiendes,<br><em>esto trabaja por ti.</em></h2>
+<p style="max-width:560px">Un cliente escribe de noche. El asistente de Miguel Style responde al instante con tus datos reales, toma la solicitud y te la deja lista en tu WhatsApp. Sin que toques el teléfono.</p>
+<div class="sim-phone"><div class="sim-hd">WhatsApp · Miguel Style</div>
+<div class="sim-body"><div class="sim-msg sim-in"><p>Hola, ¿a qué hora abren mañana?</p><span>9:12 PM</span></div><div class="sim-msg sim-out"><p>¡Hola! Mañana abrimos de 8:00 AM a 8:00 PM. ¿Te reservo una cita?</p><span>9:12 PM</span></div><div class="sim-msg sim-in"><p>Sí — corte a las 10:00 AM con Miguel</p><span>9:13 PM</span></div><div class="sim-msg sim-out"><p>¡Listo! Tu solicitud le llegó a la barbería por WhatsApp. Te confirman por aquí.</p><span>9:13 PM</span></div></div></div>
+<p class="sim-cap">El cliente reservó desde su casa, de noche. La barbería solo confirma.</p>
+</div></section> <section id="request" class="request-section section-pad"><div class="wrap request-layout"><div class="request-copy"><span class="eyebrow">HAZ UN ESPACIO PARA TI</span><h2>Tu próximo gran look empieza aquí.</h2><p>Elige tus preferencias. Preparamos un mensaje de WhatsApp para que la barbería lo revise y confirme.</p><div class="request-promise"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13 8L3 21l1.5-5A9 9 0 1 1 21 11.5Z"></path></svg><span>Una conversación y una confirmación.<small>Sin pagos ni cuentas.</small></span></div><p class="small-note">Esta demo usa el número REAL de la barbería: tu solicitud llega a su WhatsApp de verdad.</p></div><form class="request-form" data-request data-business="Miguel Style Barber Shop" data-title="Solicitud de cita" data-whatsapp="17324868390" data-demo="true"><div class="form-grid"><label class="field"><span>Tu servicio<span aria-hidden="true"> *</span></span><select name="service" required data-label="Tu servicio"><option value="">Elige tu servicio</option><option>Corte de cabello</option><option>Delineado de precisión</option><option>Detalle de barba y bigote</option><option>Corte de niños</option></select></label><label class="field"><span>Tu barbero<span aria-hidden="true"> *</span></span><select name="barber" required data-label="Tu barbero"><option value="">Elige tu barbero</option><option>Sin preferencia</option><option>Miguel (dueño)</option><option>Aldermi</option></select></label><label class="field"><span>Día preferido<span aria-hidden="true"> *</span></span><input type="date" name="date" required data-label="Día preferido"></label><label class="field"><span>Hora preferida<span aria-hidden="true"> *</span></span><select name="time" required data-label="Hora preferida"><option value="">Elige la hora</option><option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option><option>7:00 PM</option></select></label><label class="field"><span>Tu nombre<span aria-hidden="true"> *</span></span><input type="text" name="name" required placeholder="First and last name" data-label="Tu nombre" maxlength="100" autocomplete="name"></label><label class="field"><span>Tu teléfono<span aria-hidden="true"> *</span></span><input type="tel" name="phone" required placeholder="Tu número de teléfono" data-label="Tu teléfono" maxlength="100" autocomplete="tel" inputmode="tel"></label></div><p class="form-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"></path></svg> El día y la hora son tu preferencia. La barbería confirma la disponibilidad.</p><p class="form-error" role="alert" data-form-error></p><button class="button submit-button" type="submit">Ver mi solicitud en WhatsApp <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></button><small class="privacy-note">Tus datos quedan en tu navegador hasta que abres WhatsApp.</small></form></div></section> <dialog class="request-dialog" data-request-dialog aria-labelledby="dialog-title-barbershop"><button class="dialog-close" type="button" data-close aria-label="Close message preview">×</button><span class="eyebrow">LISTO PARA ENVIAR</span><h2 id="dialog-title-barbershop">Tu solicitud, lista.</h2><p>Demostración con el número real de la barbería. La cita se confirma cuando la barbería responde.</p><pre data-message></pre><a class="button" data-whatsapp-link target="_blank" rel="noopener noreferrer">Abrir WhatsApp <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a><button class="text-button" data-copy type="button">Copiar mensaje</button><p role="status" data-copy-status></p></dialog><section class="visit-section section-pad" id="visit"><div class="wrap"><div class="section-heading"><div><span class="eyebrow">TU BARRIO, TU LUGAR</span><h2>Pásate por aquí.</h2></div><p>Carácter de barrio.<br>Y mucha atención al detalle.</p></div><div class="visit-grid"><div class="map-art"><div class="map-road road-one"></div><div class="map-road road-two"></div><div class="map-road road-three"></div><span class="map-label">NEW JERSEY</span><div class="map-marker"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0ZM15 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path></svg><b>Fords</b><small>Ubicación real del negocio</small></div><a href="https://www.google.com/maps/search/?api=1&query=Miguel+Style+Barber+Shop+577+New+Brunswick+Ave+Fords+NJ" target="_blank" rel="noopener noreferrer" class="map-open">Cómo llegar ↗</a></div><div class="visit-info"><h3>Fords, New Jersey</h3><p>577 New Brunswick Ave · Fords, NJ 08863<br><small>Dirección real — aquí está la barbería.</small></p><dl class="hours"><div><dt>Lunes — Viernes</dt><dd>8:00 AM — 8:00 PM</dd></div><div><dt>Sábado</dt><dd>8:00 AM — 8:00 PM</dd></div><div><dt>Domingo</dt><dd>10:00 AM — 4:00 PM</dd></div></dl><a class="contact-phone" href="tel:+17324868390"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a13 13 0 0 1-7-7l2-2-2-5Z"></path></svg> (732) 486-8390</a><small>Número real de la barbería</small></div><div class="qr-card"><img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://alalunavic.github.io/custom-demos/miguel-style-barber-shop/" alt="QR code opening Miguel Style Barber Shop demo" width="128" height="128" loading="lazy"><h3>Llévanos contigo.</h3><p>Escanea para abrir esta demo en tu teléfono.</p><a href="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://alalunavic.github.io/custom-demos/miguel-style-barber-shop/" download="barbershop-qr.png">Download QR ↗</a></div></div></div></section></main><footer class="business-footer wrap"><div class="footer-brand">MIGUEL STYLE<p>Buen corte. Buena compañía.</p></div><div><p>Negocio real. Fotografías reales del negocio; precios a confirmar al reservar (demo con datos públicos).</p><p>© 2026 Miguel Style Barber Shop · <a href="/custom-demos/">Ver las demos personalizadas ↗</a></p></div></footer><div class="mobile-actions"><a href="tel:+17324868390" aria-label="Llamar al número real de la barbería"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a13 13 0 0 1-7-7l2-2-2-5Z"></path></svg> Llamar</a><a href="https://wa.me/17324868390?text=Hola%20Miguel%20Style%20Barber%20Shop%2C%20quiero%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13 8L3 21l1.5-5A9 9 0 1 1 21 11.5Z"></path></svg> WhatsApp</a><a href="#request">Reservar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></a></div><script type="module" src="/demos-for-business/_astro/Base.astro_astro_type_script_index_0_lang.BWbEJeun.js"></script><script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("img[data-img]").forEach(function(im){var u=window.IMGS[im.getAttribute("data-img")];if(u){im.src=u;}});});</script><script>window.IMGS={};function I(k,s){window.IMGS[k]=(window.IMGS[k]||"")+s;}</script><script src="img-a.js"></script><script src="img-b.js"></script><script src="img-c.js"></script><script src="img-d.js"></script><script src="img-e.js"></script><script src="img-f.js"></script><script src="img-g.js"></script><script>window.IMGS["barber-cut-1.webp"]=window.IMGS["barber-hero.webp"];</script><script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("img[data-img]").forEach(function(im){var u=window.IMGS[im.getAttribute("data-img")];if(u){im.src=u;}});});</script><style>
+.sim-phone{max-width:380px;margin:26px 0 8px;background:#0b141a;border:1px solid #2a3942;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.sim-hd{background:#1f2c34;color:#e9edef;font-weight:700;padding:12px 16px;font-size:14.5px}
+.sim-body{padding:14px 12px 18px;display:flex;flex-direction:column;gap:8px;background:#0b141a}
+.sim-msg{max-width:85%;padding:8px 11px 5px;border-radius:10px;font-size:14px;line-height:1.4;opacity:0;animation:simin .5s forwards}
+.sim-msg p{margin:0;color:#e9edef}.sim-msg span{display:block;text-align:right;font-size:10.5px;color:#8696a0;margin-top:2px}
+.sim-in{background:#005c4b;align-self:flex-end;border-top-right-radius:2px}
+.sim-out{background:#1f2c34;align-self:flex-start;border-top-left-radius:2px}
+.sim-body .sim-msg:nth-child(1){animation-delay:.4s}.sim-body .sim-msg:nth-child(2){animation-delay:1.6s}
+.sim-body .sim-msg:nth-child(3){animation-delay:2.9s}.sim-body .sim-msg:nth-child(4){animation-delay:4s}
+.sim-body .sim-msg:nth-child(5){animation-delay:5.2s}
+@keyframes simin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sim-cap{font-size:13.5px;opacity:.75;max-width:520px}
+.kb-hero{animation:kbmove 16s ease-in-out infinite alternate}
+@keyframes kbmove{from{transform:scale(1.02)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
+</style><button id="kbFab" onclick="kbToggle()">💬 Pregúntale al asistente</button>
+<div id="kbBox" hidden>
+<div class="kb-hd">Asistente de Miguel Style Barber Shop<span>Responde con los datos reales del negocio</span></div>
+<div class="kb-log" id="kbLog"><div class="kb-m bot">¡Hola! Soy el asistente de Miguel Style Barber Shop. Pregúntame por horarios, servicios o cómo reservar.</div></div>
+<div class="kb-row"><input id="kbIn" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')kbSend()"><button onclick="kbSend()">Enviar</button></div>
+</div>
+<style>
+#kbFab{position:fixed;right:16px;bottom:86px;z-index:80;background:#22c064;color:#fff;border:0;border-radius:999px;padding:13px 19px;font-weight:800;font-size:15px;box-shadow:0 10px 28px rgba(0,0,0,.4);cursor:pointer;font-family:inherit}
+#kbBox{position:fixed;right:16px;bottom:150px;z-index:80;width:min(92vw,370px);background:#141414;border:1.5px solid #8a6d1f;border-radius:16px;overflow:hidden;box-shadow:0 20px 55px rgba(0,0,0,.55);font-family:-apple-system,'Segoe UI',sans-serif}
+.kb-hd{background:#c9a227;color:#141414;font-weight:800;padding:11px 14px;font-size:15px}
+.kb-hd span{display:block;font-weight:600;font-size:11.5px;opacity:.8}
+.kb-log{max-height:320px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.kb-m{padding:9px 12px;border-radius:12px;font-size:14.5px;line-height:1.45;max-width:88%;white-space:pre-wrap}
+.kb-m.bot{background:#242424;color:#f2ede4;align-self:flex-start}
+.kb-m.me{background:#22c064;color:#fff;align-self:flex-end}
+.kb-row{display:flex;gap:6px;padding:10px;border-top:1px solid #2c2c2c}
+.kb-row input{flex:1;padding:10px;border-radius:10px;border:1.5px solid #3a3a3a;background:#0f0f0f;color:#fff;font-size:15px}
+.kb-row button{background:#c9a227;border:0;border-radius:10px;padding:0 15px;font-weight:800;cursor:pointer}
 </style>
-</head>
-<body>
-<header class="top"><span class="brand">Miguel Style Barber Shop</span><a class="btn wa" href="#reservar">Reservar</a></header>
-<div class="hero"><img class="bg" data-img="hero" alt="Miguel Style Barber Shop">
-  <div class="inner"><div class="kicker">Barbería · Fords, NJ</div><h1>Miguel Style Barber Shop</h1>
-  <p class="sub">La barbería del barrio: cortes para hombre, niños y mujer, delineados de precisión y detalle de barba — sin prisa y con el detalle que nos hizo los favoritos de Fords.</p>
-  <div class="chips"><span class="chip">577 New Brunswick Ave, Fords</span><span class="chip">Se habla español</span></div></div>
-</div>
-<div class="wrap">
-<section><h2>Servicios <span class="gold">y precios</span></h2>
-<p class="lead">Nuestros servicios de siempre.</p>
-<div class="svc"><div><div class="nm">Corte de cabello — hombre</div><div class="ds">El corte de la casa, con acabado a navaja en contornos.</div></div></div>
-<div class="svc"><div><div class="nm">Corte de niños</div><div class="ds">Paciencia y buen trato para los pequeños.</div></div></div>
-<div class="svc"><div><div class="nm">Corte de mujer</div><div class="ds">También somos salón unisex.</div></div></div>
-<div class="svc"><div><div class="nm">Delineado de precisión (shape up)</div><div class="ds">Contornos limpios y marcados.</div></div></div>
-<div class="svc"><div><div class="nm">Detalle de barba y bigote</div><div class="ds">Perfilado y arreglo completo.</div></div></div>
-<div class="svc"><div><div class="nm">Afeitado clásico</div><div class="ds">El afeitado tradicional de barbería.</div></div></div>
-<p class="note">Los precios se confirman al reservar por WhatsApp — respuesta rápida en horario de trabajo.</p></section>
-
-<section><h2>El <span class="gold">local</span></h2>
-<div class="gallery"><img data-img="hero" alt="Interior — Miguel Style Barber Shop"><img data-img="foto2" alt="Miguel Style Barber Shop"></div></section>
-
-<section id="reservar"><h2>Reserva tu <span class="gold">cita</span></h2>
-<p class="lead">Elige servicio, día y hora — la solicitud llega al WhatsApp de la barbería y te confirman ahí mismo. Sin registro, sin descargas.</p>
-<div class="card">
-<label for="f-svc">Servicio</label><select id="f-svc"><option>Corte de cabello — hombre</option><option>Corte de niños</option><option>Corte de mujer</option><option>Delineado de precisión (shape up)</option><option>Detalle de barba y bigote</option><option>Afeitado clásico</option></select>
-<label for="f-barber">Barbero</label><select id="f-barber"><option>Sin preferencia</option><option>Miguel (dueño)</option><option>Aldermi</option></select>
-<label for="f-date">Día</label><input type="date" id="f-date">
-<label for="f-time">Hora</label><select id="f-time"><option>8:00 AM</option><option>8:30 AM</option><option>9:00 AM</option><option>9:30 AM</option><option>10:00 AM</option><option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option><option>12:00 PM</option><option>12:30 PM</option><option>1:00 PM</option><option>1:30 PM</option><option>2:00 PM</option><option>2:30 PM</option><option>3:00 PM</option><option>3:30 PM</option><option>4:00 PM</option><option>4:30 PM</option><option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option><option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option></select>
-<label for="f-name">Tu nombre</label><input type="text" id="f-name" placeholder="Ej.: Carlos M." autocomplete="name">
-<p style="margin-top:16px"><button class="btn wa" style="width:100%;padding:14px" onclick="book()">Confirmar por WhatsApp</button></p>
-<p class="note">Horario: Lun–Sáb 8 AM–8 PM · Dom 10 AM–4 PM. También aceptamos clientes sin cita, según disponibilidad.</p>
-</div></section>
-
-<section><h2>Visítanos</h2>
-<div class="kv"><span>Dirección</span><b>577 New Brunswick Ave, Fords, NJ 08863</b></div>
-<div class="kv"><span>Teléfono</span><b><a href="tel:17324868390">(732) 486-8390</a></b></div>
-<div class="kv"><span>Lunes a sábado</span><b>8:00 AM – 8:00 PM</b></div>
-<div class="kv"><span>Domingo</span><b>10:00 AM – 4:00 PM</b></div>
-<p style="margin-top:14px"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Miguel+Style+Barber+Shop+577+New+Brunswick+Ave+Fords+NJ" target="_blank" rel="noopener">Cómo llegar</a></p>
-<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://alalunavic.github.io/custom-demos/miguel-style-barber-shop/" alt="QR de esta página" width="170" height="170"><p class="note">QR para el mostrador — el cliente escanea y reserva.</p></div>
-</section>
-
-<footer>Demostración preparada para Miguel Style Barber Shop con sus datos públicos (dirección, horario, servicios y teléfono).<br>La cita se confirma cuando la barbería responde por WhatsApp.</footer>
-</div>
-
-<button class="chatfab" onclick="toggleChat()">💬 Pregúntale al asistente</button>
-<div class="chatbox" id="chatbox" hidden>
-  <div class="hd">Asistente de Miguel Style Barber Shop</div>
-  <div class="chatlog" id="chatlog"><div class="msg bot">¡Hola! Soy el asistente de Miguel Style Barber Shop. Te ayudo con horarios, precios, servicios y tu reserva. ¿En qué te ayudo?</div></div>
-  <div class="qreps"><button class="qrep" onclick="ask('horario')">Horario</button><button class="qrep" onclick="ask('precios')">Precios</button><button class="qrep" onclick="ask('reservar')">Reservar</button><button class="qrep" onclick="ask('direccion')">Dirección</button></div>
-  <div class="chatrow"><input id="chat-in" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Enviar</button></div>
-</div>
-
-<script>window.IMGS={};function I(k,s){window.IMGS[k]=(window.IMGS[k]||"")+s;}</script>
-<script src="img-a.js"></script><script src="img-b.js"></script><script src="img-c.js"></script><script src="img-d.js"></script><script src="img-e.js"></script>
 <script>
-document.querySelectorAll('img[data-img]').forEach(im=>{const u=window.IMGS[im.getAttribute('data-img')];if(u)im.src=u;});
-const WA="17324868390";
-function fmtDate(v){if(!v)return"";const d=new Date(v+"T12:00:00");return d.toLocaleDateString("es",{weekday:"long",day:"numeric",month:"long"});}
-function book(){
-  const s=document.getElementById('f-svc').value, br=document.getElementById('f-barber').value,
-        d=document.getElementById('f-date').value, t=document.getElementById('f-time').value,
-        n=document.getElementById('f-name').value.trim();
-  if(!d){alert("Elige el día de tu cita.");return;}
-  if(!n){alert("Escribe tu nombre para la reserva.");return;}
-  const msg="Hola, quiero reservar una cita en Miguel Style Barber Shop.\n\nServicio: "+s+"\nBarbero: "+br+"\nDía: "+fmtDate(d)+"\nHora: "+t+"\nNombre: "+n+"\n\n¿Me confirman la cita, por favor?";
-  window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");
+const KB=[{"k": ["horario", "hora", "abren", "cierran", "abierto", "cuando"], "a": "Abrimos de lunes a sábado de 8:00 AM a 8:00 PM y domingo de 10:00 AM a 4:00 PM. ¡Te esperamos!"}, {"k": ["domingo"], "a": "Los domingo abrimos de 10:00 AM a 4:00 PM."}, {"k": ["direccion", "donde", "ubicacion", "llegar", "queda"], "a": "Estamos en 577 New Brunswick Ave, Fords, NJ 08863 — en la misma avenida, con estacionamiento en la calle."}, {"k": ["precio", "cuesta", "cuanto", "cuánto", "cobran"], "a": "Nuestros precios se confirman al reservar por WhatsApp — escríbenos al (732) 486-8390 y te respondemos enseguida con el precio exacto de tu servicio. Sin sorpresas."}, {"k": ["reserv", "cita", "turno", "agendar"], "a": "Para reservar, usa el formulario de esta página: eliges servicio, barbero, día y hora, y tu solicitud llega directo a nuestro WhatsApp. Te confirmamos ahí mismo."}, {"k": ["sin cita", "walk", "sin reserv", "espera"], "a": "Sí, aceptamos clientes sin cita según disponibilidad. Con reserva aseguras tu hora y no esperas."}, {"k": ["servicios", "ofrecen", "hacen"], "a": "Hacemos corte de cabello para hombre, corte de niños, corte de mujer, delineado de precisión (shape up), detalle de barba y bigote y afeitado clásico."}, {"k": ["barba", "bigote"], "a": "Claro — detalle de barba y bigote es de nuestros servicios de siempre. Reserva tu cita en el formulario o por WhatsApp."}, {"k": ["afeit"], "a": "Sí, hacemos afeitado clásico de barbería. Reserva por WhatsApp y te guardamos la silla."}, {"k": ["nino", "niño", "nina", "niña", "hijo"], "a": "Sí, cortamos el cabello a niños — con paciencia y buen trato, como se merece la familia."}, {"k": ["mujer", "dama", "unisex"], "a": "Sí, somos barbería unisex: también hacemos corte de mujer."}, {"k": ["barbero", "miguel", "aldermi", "quien"], "a": "Te puede atender Miguel — el dueño, que también trabaja en la silla — o Aldermi. Al reservar puedes pedir tu barbero favorito."}, {"k": ["espanol", "español", "spanish"], "a": "¡Claro que sí! Hablamos español."}, {"k": ["telefono", "numero", "llamar", "whatsapp"], "a": "Nuestro número es (732) 486-8390 — llamada o WhatsApp, como prefieras."}, {"k": ["tarjeta", "efectivo", "pago"], "a": "La forma de pago te la confirmamos por WhatsApp al reservar — escríbenos y salimos de dudas en un minuto."}, {"k": ["hola", "buenas", "hey"], "a": "¡Hola! Bienvenido a Miguel Style Barber Shop. Te ayudo con horarios, servicios y reservas. ¿Qué necesitas?"}];
+const KBWA="17324868390";
+function kbNorm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function kbReply(q){
+  const n=kbNorm(q);let best=null,score=0;
+  for(const e of KB){let s=0;for(const k of e.k){if(n.includes(kbNorm(k)))s+=k.length;}if(s>score){score=s;best=e;}}
+  if(best&&score>=4)return best.a;
+  return "Eso te lo confirmamos por WhatsApp en un momento — escríbenos aquí: https://wa.me/"+KBWA;
 }
-const FAQ=[
-    [["horario","hora","abren","cierran","abierto"],"Abrimos de lunes a sábado de 8:00 AM a 8:00 PM y domingo de 10:00 AM a 4:00 PM."],
-    [["precio","cuesta","cuanto","cuánto"],"Los precios se confirman al reservar por WhatsApp — escríbenos y te respondemos enseguida con el precio exacto de tu servicio."],
-    [["reserv","cita","turno"],"Para reservar: usa el formulario de esta página (sección Reserva tu cita) y tu solicitud llega directo a nuestro WhatsApp. Te confirmamos ahí mismo."],
-    [["direccion","dirección","donde","dónde","llegar","ubicacion"],"Estamos en 577 New Brunswick Ave, Fords, NJ 08863 — estacionamiento en la calle."],
-    [["sin cita","walk","espera"],"Sí, aceptamos clientes sin cita según disponibilidad. Con reserva aseguras tu hora."],
-    [["espanol","español"],"¡Claro! Hablamos español."],
-    [["nino","niño","nina","niña","mujer"],"Sí — cortes para niños y para mujer; somos barbería unisex."]
-  ];
-function reply(q){
-  q=q.toLowerCase();
-  for(const [keys,ans] of FAQ){ if(keys.some(k=>q.includes(k))) return ans; }
-  return "Eso te lo confirmamos por WhatsApp en un momento — toca aquí y te atendemos: https://wa.me/"+WA;
-}
-function addMsg(txt,me){const l=document.getElementById('chatlog');const d=document.createElement('div');d.className='msg '+(me?'me':'bot');d.textContent=txt;l.appendChild(d);l.scrollTop=l.scrollHeight;}
-function ask(q){addMsg(q,true);setTimeout(()=>addMsg(reply(q),false),250);}
-function sendChat(){const i=document.getElementById('chat-in');const v=i.value.trim();if(!v)return;i.value='';addMsg(v,true);setTimeout(()=>addMsg(reply(v),false),250);}
-function toggleChat(){const c=document.getElementById('chatbox');c.hidden=!c.hidden;}
-</script>
-</body>
-</html>
+function kbAdd(t,me){const l=document.getElementById('kbLog');const d=document.createElement('div');d.className='kb-m '+(me?'me':'bot');d.textContent=t;l.appendChild(d);l.scrollTop=l.scrollHeight;}
+function kbSend(){const i=document.getElementById('kbIn');const v=i.value.trim();if(!v)return;i.value='';kbAdd(v,true);setTimeout(()=>kbAdd(kbReply(v),false),300);}
+function kbToggle(){const b=document.getElementById('kbBox');b.hidden=!b.hidden;}
+</script></body></html>
