@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Made Man Barber Shop — Reserva por WhatsApp</title>
+<style>:root{--acc:#c9a227}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#101010;color:#f2ede4;line-height:1.55}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:50;background:rgba(12,12,12,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--acc);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top .brand{font-family:Georgia,serif;font-size:19px;letter-spacing:.4px}
+.btn{display:inline-block;background:var(--acc);color:#141414;font-weight:800;border:0;border-radius:999px;padding:11px 20px;font-size:15px;cursor:pointer;text-decoration:none}
+.btn.wa{background:#22c064;color:#fff}
+.hero{position:relative;min-height:52vh;display:flex;align-items:flex-end;background:#000}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.62}
+.hero .inner{position:relative;padding:64px 20px 26px;max-width:960px;margin:0 auto;width:100%}
+.kicker{font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--acc);font-weight:700}
+h1{font-family:Georgia,serif;font-weight:normal;font-size:40px;line-height:1.12;margin:6px 0 8px;color:#fff}
+.sub{color:#e6ddcb;font-size:16.5px;max-width:640px}
+.chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--acc);color:#fff;border-radius:999px;padding:4px 13px;font-size:13px;font-weight:600;background:rgba(0,0,0,.35)}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px 70px}
+section{margin-top:34px}
+h2{font-family:Georgia,serif;font-weight:normal;font-size:26px;color:#fff;margin-bottom:4px}
+h2 .gold{color:var(--acc)}
+.lead{color:#cbbfa5;font-size:14.5px;margin-bottom:10px}
+.svc{display:flex;justify-content:space-between;gap:14px;padding:12px 2px;border-bottom:1px solid #2a2a2a;align-items:baseline}
+.svc .nm{font-size:16px;color:#fff}
+.svc .ds{font-size:13px;color:#a99f8a}
+.svc .pr{font-family:Georgia,serif;font-size:18px;color:var(--acc);white-space:nowrap}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gallery img{width:100%;border-radius:12px;display:block;aspect-ratio:4/3;object-fit:cover;background:#1c1c1c}
+@media(max-width:560px){.gallery{grid-template-columns:1fr}}
+.card{background:#181818;border:1px solid #2c2c2c;border-radius:14px;padding:20px;margin-top:12px}
+label{display:block;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:#cbbfa5;margin:12px 0 5px;font-weight:700}
+select,input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #3a3a3a;background:#0f0f0f;color:#fff;font-size:16px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid #262626;font-size:15px}
+.kv b{color:#fff}
+.note{font-size:13px;color:#a99f8a;margin-top:10px}
+.chatfab{position:fixed;right:16px;bottom:16px;z-index:60;background:#22c064;color:#fff;border:0;border-radius:999px;padding:13px 19px;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer}
+.chatbox{position:fixed;right:16px;bottom:76px;z-index:60;width:min(92vw,360px);background:#171717;border:1.5px solid var(--acc);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.chatbox .hd{background:var(--acc);color:#141414;font-weight:800;padding:11px 14px;font-size:15px}
+.chatlog{max-height:300px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{padding:9px 12px;border-radius:12px;font-size:14.5px;max-width:88%}
+.msg.bot{background:#242424;color:#f2ede4;align-self:flex-start}
+.msg.me{background:#22c064;color:#fff;align-self:flex-end}
+.chatrow{display:flex;gap:6px;padding:10px;border-top:1px solid #2c2c2c}
+.chatrow input{flex:1;padding:10px}
+.chatrow button{background:var(--acc);border:0;border-radius:10px;padding:0 16px;font-weight:800;cursor:pointer}
+.qreps{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 10px}
+.qrep{border:1.5px solid var(--acc);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
+footer{margin-top:40px;border-top:1px solid #2a2a2a;padding-top:16px;font-size:12.5px;color:#8d8471;text-align:center}
+.qrbox{text-align:center;margin-top:14px}
+.qrbox img{background:#fff;padding:8px;border-radius:10px}
+</style>
+</head>
+<body>
+<header class="top"><span class="brand">The Made Man Barber Shop</span><a class="btn wa" href="#reservar">Reservar</a></header>
+<div class="hero"><img class="bg" data-img="hero" alt="The Made Man Barber Shop">
+  <div class="inner"><div class="kicker">Barbería premium · Fords, NJ</div><h1>The Made Man Barber Shop</h1>
+  <p class="sub">El concepto clásico con un giro ultramoderno: cortes de autor, toalla caliente y navaja clásica. Calificada 4.9 por sus clientes.</p>
+  <div class="chips"><span class="chip">★ 4.9 · 169 reseñas</span><span class="chip">457 New Brunswick Ave, Fords</span><span class="chip">Se habla español</span></div></div>
+</div>
+<div class="wrap">
+<section><h2>Servicios <span class="gold">y precios</span></h2>
+<p class="lead">Precios oficiales de la casa.</p>
+<div class="svc"><div><div class="nm">Corte The Made Man</div><div class="ds">Tijera y máquina, toalla caliente y acabado a navaja.</div></div><div class="pr">$45</div></div>
+<div class="svc"><div><div class="nm">Corte con Barbero Senior</div><div class="ds">Con nuestros barberos más experimentados.</div></div><div class="pr">$50</div></div>
+<div class="svc"><div><div class="nm">Corte a tijera</div><div class="ds">Solo tijera, con lavado y toalla caliente.</div></div><div class="pr">$55</div></div>
+<div class="svc"><div><div class="nm">Buzz cut</div><div class="ds">Un solo largo de máquina, con toalla caliente.</div></div><div class="pr">$35</div></div>
+<div class="svc"><div><div class="nm">Corte de niños (3 a 12 años)</div><div class="ds">Ambiente seguro y paciente para ellos.</div></div><div class="pr">$35</div></div>
+<div class="svc"><div><div class="nm">Arreglo de barba</div><div class="ds">Perfilado con navaja y toalla caliente.</div></div><div class="pr">$27</div></div>
+<div class="svc"><div><div class="nm">Afeitado clásico / cabeza</div><div class="ds">Navaja tradicional, toallas frías y calientes, masaje.</div></div><div class="pr">$45</div></div>
+<div class="svc"><div><div class="nm">Shape up / limpieza de cuello</div><div class="ds">Contornos perfectos entre cortes.</div></div><div class="pr">$20</div></div>
+<div class="svc"><div><div class="nm">Corte + barba</div><div class="ds">El combo de la casa: corte, lavado, estilo y barba.</div></div><div class="pr">$70</div></div>
+<div class="svc"><div><div class="nm">Corte + afeitado</div><div class="ds">Corte más afeitado clásico con masaje facial.</div></div><div class="pr">$80</div></div>
+<div class="svc"><div><div class="nm">Diseño de cejas</div><div class="ds">Forma y simetría con precisión.</div></div><div class="pr">$15</div></div>
+<div class="svc"><div><div class="nm">Facial</div><div class="ds">Limpieza, exfoliación y mascarilla revitalizante.</div></div><div class="pr">$50</div></div>
+<p class="note">Precios tomados de la lista pública del negocio. La cita se confirma por WhatsApp.</p></section>
+
+<section><h2>El <span class="gold">local</span></h2>
+<div class="gallery"><img data-img="hero" alt="Interior — The Made Man Barber Shop"><img data-img="foto2" alt="The Made Man Barber Shop"></div></section>
+
+<section id="reservar"><h2>Reserva tu <span class="gold">cita</span></h2>
+<p class="lead">Elige servicio, día y hora — la solicitud llega al WhatsApp de la barbería y te confirman ahí mismo. Sin registro, sin descargas.</p>
+<div class="card">
+<label for="f-svc">Servicio</label><select id="f-svc"><option>Corte The Made Man</option><option>Corte con Barbero Senior</option><option>Corte a tijera</option><option>Buzz cut</option><option>Corte de niños (3 a 12 años)</option><option>Arreglo de barba</option><option>Afeitado clásico / cabeza</option><option>Shape up / limpieza de cuello</option><option>Corte + barba</option><option>Corte + afeitado</option><option>Diseño de cejas</option><option>Facial</option></select>
+<label for="f-barber">Barbero</label><select id="f-barber"><option>Primer barbero disponible</option></select>
+<label for="f-date">Día</label><input type="date" id="f-date">
+<label for="f-time">Hora</label><select id="f-time"><option>10:00 AM</option><option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option><option>12:00 PM</option><option>12:30 PM</option><option>1:00 PM</option><option>1:30 PM</option><option>2:00 PM</option><option>2:30 PM</option><option>3:00 PM</option><option>3:30 PM</option><option>4:00 PM</option><option>4:30 PM</option><option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option><option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option></select>
+<label for="f-name">Tu nombre</label><input type="text" id="f-name" placeholder="Ej.: Carlos M." autocomplete="name">
+<p style="margin-top:16px"><button class="btn wa" style="width:100%;padding:14px" onclick="book()">Confirmar por WhatsApp</button></p>
+<p class="note">Horario: Lun–Vie 10 AM–8 PM · Sáb 9 AM–5 PM · Dom 9 AM–1 PM. Trabajamos con cita — reserva en segundos por WhatsApp.</p>
+</div></section>
+
+<section><h2>Visítanos</h2>
+<div class="kv"><span>Dirección</span><b>457 New Brunswick Ave, Fords, NJ 08863</b></div>
+<div class="kv"><span>Teléfono</span><b><a href="tel:18482033370">(848) 203-3370</a></b></div>
+<div class="kv"><span>Lunes a viernes</span><b>10:00 AM – 8:00 PM</b></div>
+<div class="kv"><span>Sábado</span><b>9:00 AM – 5:00 PM</b></div>
+<div class="kv"><span>Domingo</span><b>9:00 AM – 1:00 PM</b></div>
+<p style="margin-top:14px"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=The+Made+Man+Barber+Shop+457+New+Brunswick+Ave+Fords+NJ" target="_blank" rel="noopener">Cómo llegar</a></p>
+<div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://alalunavic.github.io/custom-demos/the-made-man/" alt="QR de esta página" width="170" height="170"><p class="note">QR para el mostrador — el cliente escanea y reserva.</p></div>
+</section>
+
+<footer>Demostración preparada para The Made Man Barber Shop con sus datos públicos (dirección, horario, servicios y teléfono).<br>La cita se confirma cuando la barbería responde por WhatsApp.</footer>
+</div>
+
+<button class="chatfab" onclick="toggleChat()">💬 Pregúntale al asistente</button>
+<div class="chatbox" id="chatbox" hidden>
+  <div class="hd">Asistente de The Made Man Barber Shop</div>
+  <div class="chatlog" id="chatlog"><div class="msg bot">¡Hola! Soy el asistente de The Made Man Barber Shop. Te ayudo con horarios, precios, servicios y tu reserva. ¿En qué te ayudo?</div></div>
+  <div class="qreps"><button class="qrep" onclick="ask('horario')">Horario</button><button class="qrep" onclick="ask('precios')">Precios</button><button class="qrep" onclick="ask('reservar')">Reservar</button><button class="qrep" onclick="ask('direccion')">Dirección</button></div>
+  <div class="chatrow"><input id="chat-in" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Enviar</button></div>
+</div>
+
+<script>window.IMGS={};function I(k,s){window.IMGS[k]=(window.IMGS[k]||"")+s;}</script>
+<script src="img-a.js"></script><script src="img-b.js"></script><script src="img-c.js"></script><script src="img-d.js"></script><script src="img-e.js"></script>
+<script>
+document.querySelectorAll('img[data-img]').forEach(im=>{const u=window.IMGS[im.getAttribute('data-img')];if(u)im.src=u;});
+const WA="18482033370";
+function fmtDate(v){if(!v)return"";const d=new Date(v+"T12:00:00");return d.toLocaleDateString("es",{weekday:"long",day:"numeric",month:"long"});}
+function book(){
+  const s=document.getElementById('f-svc').value, br=document.getElementById('f-barber').value,
+        d=document.getElementById('f-date').value, t=document.getElementById('f-time').value,
+        n=document.getElementById('f-name').value.trim();
+  if(!d){alert("Elige el día de tu cita.");return;}
+  if(!n){alert("Escribe tu nombre para la reserva.");return;}
+  const msg="Hola, quiero reservar una cita en The Made Man Barber Shop.\n\nServicio: "+s+"\nBarbero: "+br+"\nDía: "+fmtDate(d)+"\nHora: "+t+"\nNombre: "+n+"\n\n¿Me confirman la cita, por favor?";
+  window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");
+}
+const FAQ=[
+    [["horario","hora","abren","cierran","abierto","domingo"],"Abrimos de lunes a viernes de 10:00 AM a 8:00 PM, sábado de 9:00 AM a 5:00 PM y domingo de 9:00 AM a 1:00 PM."],
+    [["precio","cuesta","cuanto","cuánto"],"Nuestros precios: corte The Made Man $45 · barbero senior $50 · a tijera $55 · buzz $35 · niños $35 · barba $27 · afeitado $45 · shape up $20 · corte + barba $70 · corte + afeitado $80 · cejas $15 · facial $50."],
+    [["reserv","cita","turno"],"Trabajamos con cita: usa el formulario de esta página y tu solicitud llega a nuestro WhatsApp. Te confirmamos ahí mismo."],
+    [["direccion","dirección","donde","dónde","llegar","ubicacion"],"Estamos en 457 New Brunswick Ave, Fords, NJ 08863 — estacionamiento en la calle."],
+    [["sin cita","walk"],"Trabajamos con cita para cuidar tu tiempo — reserva por WhatsApp y llegas directo a la silla."],
+    [["espanol","español"],"Sí, te atendemos en español por WhatsApp."]
+  ];
+function reply(q){
+  q=q.toLowerCase();
+  for(const [keys,ans] of FAQ){ if(keys.some(k=>q.includes(k))) return ans; }
+  return "Eso te lo confirmamos por WhatsApp en un momento — toca aquí y te atendemos: https://wa.me/"+WA;
+}
+function addMsg(txt,me){const l=document.getElementById('chatlog');const d=document.createElement('div');d.className='msg '+(me?'me':'bot');d.textContent=txt;l.appendChild(d);l.scrollTop=l.scrollHeight;}
+function ask(q){addMsg(q,true);setTimeout(()=>addMsg(reply(q),false),250);}
+function sendChat(){const i=document.getElementById('chat-in');const v=i.value.trim();if(!v)return;i.value='';addMsg(v,true);setTimeout(()=>addMsg(reply(v),false),250);}
+function toggleChat(){const c=document.getElementById('chatbox');c.hidden=!c.hidden;}
+</script>
+</body>
+</html>
