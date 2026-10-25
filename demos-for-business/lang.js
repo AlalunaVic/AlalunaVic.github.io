@@ -10,7 +10,7 @@
     "Thoughtful design you can see, touch, and try.": "Diseño pensado para verse, tocarse y probarse.",
     "DESIGNED TO BE EXPLORED": "DISEÑADO PARA EXPLORARSE",
     "BEST EXPERIENCED ON YOUR PHONE": "SE DISFRUTA MEJOR EN TU TELÉFONO",
-    "EVERY DEMO. ONE COMPLETE SYSTEM.": "CADA DEMO. UN SISTEMA COMPLETO.",
+    "EVERY BUSINESS. ONE COMPLETE SYSTEM.": "CADA NEGOCIO. UN SISTEMA COMPLETO.",
     "WhatsApp built in. Orders matched to your trade.": "WhatsApp integrado. Órdenes según tu tipo de negocio.",
     "An AI assistant that serves your customers — and automates your business.": "Un asistente con IA que atiende a tus clientes — y automatiza tu negocio.",
     "INCLUDED WITH EVERY WEBSITE": "INCLUIDO EN CADA SITIO WEB",
