@@ -31,16 +31,15 @@
     "A clean space. A lighter day.": "Un espacio limpio. Un día más ligero.",
     "Good food. Your favorite people.": "Buena comida. Tu gente favorita.",
     "A little fresh. A lot of happy.": "Un poco de frescura. Mucha felicidad.",
-    "Open demo": "Abrir demo",
+    "View example": "Ver ejemplo",
     "MADE FOR THE NEIGHBORHOOD.": "HECHO PARA EL BARRIO.",
     "A good website should feel": "Un buen sitio web debe sentirse",
     "as individual as the business behind it.": "tan único como el negocio que representa.",
-    "FICTIONAL BRANDS. REAL INTERACTIONS.": "MARCAS FICTICIAS. INTERACCIONES REALES.",
     "Back to top": "Volver arriba",
     "Skip to content": "Saltar al contenido"
   };
-  var TITLE_EN = "Demos for business | A better first impression";
-  var TITLE_ES = "Demos para negocios | Una mejor primera impresión";
+  var TITLE_EN = "Artificial Intelligence for Business | A better first impression";
+  var TITLE_ES = "Inteligencia Artificial para Negocios | Una mejor primera impresión";
   var originals = [];
   var applied = false;
 
