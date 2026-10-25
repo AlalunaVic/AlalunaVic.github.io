@@ -36,8 +36,6 @@
     "A good website should feel": "Un buen sitio web debe sentirse",
     "as individual as the business behind it.": "tan único como el negocio que representa.",
     "FICTIONAL BRANDS. REAL INTERACTIONS.": "MARCAS FICTICIAS. INTERACCIONES REALES.",
-    "Fictional businesses · Illustrative services, prices, and locations.": "Negocios ficticios · Servicios, precios y ubicaciones ilustrativos.",
-    "Requests require business confirmation. No payments are processed.": "Las solicitudes requieren confirmación del negocio. No se procesan pagos.",
     "Back to top": "Volver arriba",
     "Skip to content": "Saltar al contenido"
   };
