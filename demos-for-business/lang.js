@@ -14,7 +14,7 @@
     "EVERY BUSINESS. ONE COMPLETE SYSTEM.": "CADA NEGOCIO. UN SISTEMA COMPLETO.",
     "WhatsApp built in. Orders matched to your trade.": "WhatsApp integrado. Órdenes según tu tipo de negocio.",
     "An AI assistant that serves your customers — and automates your business.": "Un asistente con IA que atiende a tus clientes — y automatiza tu negocio.",
-    "INCLUDED WITH EVERY WEBSITE": "INCLUIDO EN CADA SITIO WEB",
+    "INCLUDED WITH EVERY WEBSITE, WHATEVER YOUR TRADE": "INCLUIDO EN CADA SITIO WEB, SIN IMPORTAR TU RUBRO",
     "Artificial Intelligence": "Inteligencia Artificial",
     "for business": "para negocios",
     "THE COLLECTION": "LA COLECCIÓN",
