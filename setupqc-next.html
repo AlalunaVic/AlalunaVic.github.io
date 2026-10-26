@@ -104,6 +104,7 @@
       <div><b>Picked up:</b> Thursday, October 22, 2026</div>
       <div><b>Return:</b> Tuesday, October 27, 2026</div>
       <div><span class="chip">AT THE WORKSHOP</span></div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Monday, October 26, 2026 &middot; 3:25 PM EDT</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Total</div></button>
@@ -223,7 +224,7 @@
     <h2>Invoices</h2>
     <table class="inv">
       <tr><th>Invoice</th><th>Date</th><th>Batch</th><th class="r">Status</th></tr>
-      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">Issued on delivery</td></tr>
+      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">Scheduled &mdash; issued on delivery</td></tr>
       <tr><td><b>192026-01</b></td><td>Oct 22, 2026</td><td>SR43E4H ×8</td><td class="r">Sent</td></tr>
       <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">Sent</td></tr>
       <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">Paid · Oct 13</td></tr>
@@ -271,12 +272,12 @@
   const row = (code, stage) => ({ code, serial: null, stage, flag: false });
   const FIN = [
     { code: "SR43-pair-1", name: "Serial N\u00ba 16584", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 final QC tonight", flag: false },
-    { code: "SR43-pair-2", name: "SR43 \u2014 second cello of the remaining pair", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 bench setup complete", flag: false },
+    { code: "SR43-pair-2", name: "SR43 \u2014 second cello of the remaining pair", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 final QC tonight", flag: false },
     { code: "SR44-01", serial: "17136", stage: "Finished \u2014 final QC tonight", flag: false },
-    row("SR44-02", "Finished \u2014 bench setup complete"),
-    row("SR44-03", "Finished \u2014 bench setup complete"),
-    row("SR44-04", "Finished \u2014 bench setup complete"),
-    row("SR44-05", "Finished \u2014 bench setup complete")
+    row("SR44-02", "Finished \u2014 final QC tonight"),
+    row("SR44-03", "Finished \u2014 final QC tonight"),
+    row("SR44-04", "Finished \u2014 final QC tonight"),
+    row("SR44-05", "Finished \u2014 final QC tonight")
   ];
   const PROG = ["SR44-06","SR44-07","SR44-08","SR44-09"].map(c => row(c, "At the bench \u2014 setup under way"));
   const STAGES = {
