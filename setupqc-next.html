@@ -107,8 +107,8 @@
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">9</div><div class="lab"><span class="cdot green"></span>Total</div></button>
-      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
-      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
+      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">4</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
+      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">5</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
       <button type="button" class="counter" data-stage="qc" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></button>
       <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
     </div>
@@ -117,12 +117,13 @@
       <h3 id="stage-title"></h3>
       <div id="stage-rows"></div>
     </div>
+    <p class="cnote"><b style="color:#19382c;">Progress — Monday, October 26:</b> five of these nine cellos are finished at the bench and four are under way. Together with the two remaining SR43 cellos — also complete — <b style="color:#19382c;">7 of the 11 cellos arriving tomorrow are done</b>, and the last 4 finish this afternoon. Final QC and the triple check run tonight, before packing.</p>
     <p class="cnote">The nine cellos were logged at pickup on Thursday — sign-out sheet photographed and on file (kit IN444 · bridge BGCD9D90 · strings IMC-5PCS). Each cello&rsquo;s serial is registered from its inside label as its setup begins.</p>
     <div class="timeline">
       <div class="tl done">
         <div class="when">Thu Oct 22 · Previous batch returned</div>
         <h3>Batch SR43E4H &mdash; 8 of 10 delivered</h3>
-        <p>Eight cellos were delivered on Thursday. The two remaining units — Serial Nº 16693 and Serial Nº 16691, the pair that arrived with the incorrect 3/4 accessory bag — are being completed at the workshop: Connolly has supplied new bags with corrected 4/4 labels and cards, and the pair returns together with the SR44 batch on Tuesday, October 27.</p>
+        <p>Eight cellos were delivered on Thursday. The two remaining units — the pair that arrived with the incorrect 3/4 accessory bag — are now complete at the workshop: Connolly supplied new bags with corrected 4/4 labels and cards, and the pair returns together with the SR44 batch on Tuesday, October 27.</p>
       </div>
       <div class="tl done">
         <div class="when">Thu Oct 22 · Pickup</div>
@@ -131,8 +132,8 @@
       </div>
       <div class="tl now">
         <div class="when">This week · At the bench</div>
-        <h3>Setups under way</h3>
-        <p>Each cello is set up to its customer&rsquo;s spec and measured as the work is finished — its record grows with the work, not after it. Serials appear here as each inside label is photographed.</p>
+        <h3>Setups under way — 7 of tomorrow&rsquo;s 11 already complete</h3>
+        <p>Five of the nine SR44 cellos are finished and the remaining four are at the bench this afternoon; the two remaining SR43 cellos are complete. Each cello is set up to its customer&rsquo;s spec and measured as the work is finished — its record grows with the work, not after it.</p>
       </div>
       <div class="tl">
         <div class="when">Before return · Quality control</div>
@@ -187,7 +188,7 @@
         </div>
         <div class="vpanel" id="s-sr43-delivery" data-strip="sr43" hidden>
           <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 — 8 of 10 cellos received at Connolly.</div>
-          <div class="sigline"><b>Remaining pair</b> (Serial Nº 16693 and 16691): returns <b>Tuesday, October 27, 2026</b>, signed on site — its photo and signed receipt will appear here.</div>
+          <div class="sigline"><b>Remaining pair:</b> both cellos are complete at the workshop and return <b>Tuesday, October 27, 2026</b>, signed on site — their photo and signed receipt will appear here.</div>
           <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
         </div>
         <div class="vpanel" id="s-sr43-invoice" data-strip="sr43" hidden>
@@ -235,7 +236,7 @@
     <h2>Check an instrument <span class="gold">by serial number</span></h2>
     <p style="font-size:14.5px; color:#55614f;">Type the serial from the inside label. You&rsquo;ll see its batch and exactly where it stands — no internal data, just its status.</p>
     <div class="lookup">
-      <input type="text" id="serial-input" inputmode="numeric" placeholder="e.g. 16693" aria-label="Serial number">
+      <input type="text" id="serial-input" inputmode="numeric" placeholder="e.g. 16584" aria-label="Serial number">
       <button type="button" id="serial-btn">Check status</button>
     </div>
     <div class="lookup-result" id="serial-result"></div>
@@ -245,7 +246,7 @@
     <p>Every batch leaves with its sign-out record, its status visible while it is here, and its delivery signed on return — from day one.</p>
   </section>
 
-  <footer>Prepared for Connolly Music · October 19, 2026 · Updated October 23, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
+  <footer>Prepared for Connolly Music · October 19, 2026 · Updated October 26, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
 </div>
 
 <script src="next-sheets-a1.js"></script>
@@ -268,11 +269,18 @@
 <script>
   const META = "Scherl & Roth SR44 \u00b7 4/4 \u00b7 Connolly Music";
   const row = (code, stage) => ({ code, serial: null, stage, flag: false });
-  const WAITING = ["SR44-01","SR44-02","SR44-03","SR44-04","SR44-05","SR44-06","SR44-07","SR44-08","SR44-09"].map(c => row(c, "Picked up \u2014 awaiting setup"));
+  const FIN = [
+    { code: "SR44-01", serial: "17136", stage: "Finished \u2014 final QC tonight", flag: false },
+    row("SR44-02", "Finished \u2014 bench setup complete"),
+    row("SR44-03", "Finished \u2014 bench setup complete"),
+    row("SR44-04", "Finished \u2014 bench setup complete"),
+    row("SR44-05", "Finished \u2014 bench setup complete")
+  ];
+  const PROG = ["SR44-06","SR44-07","SR44-08","SR44-09"].map(c => row(c, "At the bench \u2014 setup under way"));
   const STAGES = {
-    total:    { title: "All nine cellos \u2014 Batch SR44E4H", rows: WAITING },
-    progress: { title: "In progress \u2014 at the bench now", rows: [], empty: "No cello is at the bench yet. Setups begin this week, in sign-out order; each one moves here the moment its work starts." },
-    finished: { title: "Finished \u2014 bench setup complete", rows: [], empty: "Nothing finished yet \u2014 the batch was picked up on Thursday, October 22." },
+    total:    { title: "All nine cellos \u2014 Batch SR44E4H", rows: FIN.concat(PROG) },
+    progress: { title: "In progress \u2014 at the bench now", rows: PROG, empty: "No cello is at the bench right now." },
+    finished: { title: "Finished \u2014 bench setup complete", rows: FIN, empty: "Nothing finished yet \u2014 the batch was picked up on Thursday, October 22." },
     qc:       { title: "Awaiting final QC", rows: [], empty: "No cellos are at this stage yet. Each finished cello passes through its triple check and final QC before it is ready to pack." },
     ready:    { title: "Ready to pack", rows: [], empty: "Nothing is packed yet. Cellos arrive here after their final QC, ready for the return." }
   };
@@ -315,8 +323,8 @@
     "16573": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
     "16562": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
     "16569": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
-    "16693": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "At the workshop — being completed with its corrected 4/4 label and card. Returns Tuesday, October 27, 2026" },
-    "16691": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "At the workshop — being completed with its corrected 4/4 label and card. Returns Tuesday, October 27, 2026" }
+    "16584": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Setup complete at the workshop — returns Tuesday, October 27, 2026, with the SR44 batch" },
+    "17136": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete — final QC tonight. Returns Tuesday, October 27, 2026" }
   };
   const resultEl = document.getElementById('serial-result');
   function checkSerial() {
