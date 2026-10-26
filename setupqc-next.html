@@ -104,7 +104,7 @@
       <div><b>Picked up:</b> Thursday, October 22, 2026</div>
       <div><b>Return:</b> Tuesday, October 27, 2026</div>
       <div><span class="chip">AT THE WORKSHOP</span></div>
-      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Monday, October 26, 2026 &middot; 3:25 PM EDT</div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Monday, October 26, 2026 &middot; 3:47 PM EDT</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Total</div></button>
@@ -164,8 +164,7 @@
           <button type="button" class="vbtn" onclick="togglePanel('s-sr44-invoice')">Invoice</button>
         </div>
         <div class="vpanel" id="s-sr44-pickup" data-strip="sr44" hidden>
-          <img id="img-sr44" alt="Sign-out sheet — Batch SR44E4H, October 22, 2026">
-          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Thursday, October 22, 2026.</div>
+          <div class="sigline"><b>Pickup record on file:</b> sign-out sheet signed at handoff, Connolly Music, Thursday, October 22, 2026 &mdash; kit IN444 &middot; bridge BGCD9D90 &middot; tailpiece included &middot; strings IMC-5PCS. The signed sheet is held at the workshop; a copy is available to Connolly on request.</div>
         </div>
         <div class="vpanel" id="s-sr44-delivery" data-strip="sr44" hidden>
           <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b> — 9 cellos returned. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
@@ -184,8 +183,7 @@
           <button type="button" class="vbtn" onclick="togglePanel('s-sr43-invoice')">Invoice</button>
         </div>
         <div class="vpanel" id="s-sr43-pickup" data-strip="sr43" hidden>
-          <img id="img-sr43" alt="Sign-out sheet — Batch SR43E4H, October 19, 2026">
-          <div class="cap">The sign-out sheet for this pickup — signed at handoff, Connolly Music, Monday, October 19, 2026.</div>
+          <div class="sigline"><b>Pickup record on file:</b> sign-out sheet signed at handoff, Connolly Music, Monday, October 19, 2026 &mdash; kit IN434 &middot; bridge BGCD9D90 &middot; tailpiece included &middot; strings IMC-5PCS. The signed sheet is held at the workshop; a copy is available to Connolly on request.</div>
         </div>
         <div class="vpanel" id="s-sr43-delivery" data-strip="sr43" hidden>
           <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 — 8 of 10 cellos received at Connolly.</div>
@@ -250,15 +248,7 @@
   <footer>Prepared for Connolly Music · October 19, 2026 · Updated October 26, 2026 · SetupQC — setup &amp; quality control, by Victor Alaluna.</footer>
 </div>
 
-<script src="next-sheets-a1.js"></script>
-<script src="next-sheets-a2.js"></script>
-<script src="next-sheets-a3.js"></script>
-<script src="next-sheets-b1.js"></script>
-<script src="next-sheets-b2.js"></script>
-<script src="next-sheets-b3.js"></script>
 <script>
-  if (window.SHEET_SR43) { document.getElementById('img-sr43').src = window.SHEET_SR43; }
-  if (window.SHEET_SR44) { document.getElementById('img-sr44').src = window.SHEET_SR44; }
   function togglePanel(id) {
     const p = document.getElementById(id);
     const wasHidden = p.hidden;
