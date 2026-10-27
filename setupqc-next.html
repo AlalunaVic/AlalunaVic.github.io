@@ -104,14 +104,14 @@
       <div><b>Picked up:</b> Thursday, October 22, 2026</div>
       <div><b>Return:</b> Tuesday, October 27, 2026</div>
       <div><span class="chip">AT THE WORKSHOP</span></div>
-      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Monday, October 26, 2026 &middot; 3:47 PM EDT</div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 7:20 AM EDT</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Total</div></button>
-      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">4</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
-      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">7</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
+      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
+      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
       <button type="button" class="counter" data-stage="qc" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></button>
-      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
+      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
     </div>
     <p class="tap-hint">Select any stage to see its instruments</p>
     <div class="stage-panel" id="stage-panel" hidden>
@@ -170,7 +170,7 @@
           <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b> — 9 cellos returned. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
         </div>
         <div class="vpanel" id="s-sr44-invoice" data-strip="sr44" hidden>
-          <div class="sigline"><b>Invoice 202026-01</b> — issued on delivery, Tuesday, October 27, 2026. One invoice covers this batch plus the two remaining SR43 cellos delivered the same day.</div>
+          <div class="sigline"><b>Invoice 202026-01</b> — sent to Connolly Music on the morning of Tuesday, October 27, 2026. One invoice covers this batch plus the two remaining SR43 cellos delivered the same day.</div>
         </div>
       </div>
       <div class="logrow">
@@ -222,7 +222,7 @@
     <h2>Invoices</h2>
     <table class="inv">
       <tr><th>Invoice</th><th>Date</th><th>Batch</th><th class="r">Status</th></tr>
-      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">Scheduled &mdash; issued on delivery</td></tr>
+      <tr><td><b>202026-01</b></td><td>On delivery · Oct 27</td><td>SR44E4H ×9 + SR43E4H ×2</td><td class="r">Sent Oct 27, 2026</td></tr>
       <tr><td><b>192026-01</b></td><td>Oct 22, 2026</td><td>SR43E4H ×8</td><td class="r">Sent</td></tr>
       <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">Sent</td></tr>
       <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">Paid · Oct 13</td></tr>
@@ -261,18 +261,18 @@
   const META = "Scherl & Roth SR44 \u00b7 4/4 \u00b7 Connolly Music";
   const row = (code, stage) => ({ code, serial: null, stage, flag: false });
   const FIN = [
-    { code: "SR43-pair-1", name: "Serial N\u00ba 16584", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 final QC tonight", flag: false },
-    { code: "SR43-pair-2", name: "SR43 \u2014 second cello of the remaining pair", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 final QC tonight", flag: false },
-    { code: "SR44-01", serial: "17136", stage: "Finished \u2014 final QC tonight", flag: false },
-    row("SR44-02", "Finished \u2014 final QC tonight"),
-    row("SR44-03", "Finished \u2014 final QC tonight"),
-    row("SR44-04", "Finished \u2014 final QC tonight"),
-    row("SR44-05", "Finished \u2014 final QC tonight")
+    { code: "SR43-pair-1", name: "Serial N\u00ba 16584", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 passed final QC", flag: false },
+    { code: "SR43-pair-2", name: "SR43 \u2014 second cello of the remaining pair", meta: "Scherl & Roth SR43 \u00b7 4/4 \u00b7 Connolly Music", stage: "Finished \u2014 passed final QC", flag: false },
+    { code: "SR44-01", serial: "17136", stage: "Finished \u2014 passed final QC", flag: false },
+    row("SR44-02", "Finished \u2014 passed final QC"),
+    row("SR44-03", "Finished \u2014 passed final QC"),
+    row("SR44-04", "Finished \u2014 passed final QC"),
+    row("SR44-05", "Finished \u2014 passed final QC")
   ];
   const PROG = ["SR44-06","SR44-07","SR44-08","SR44-09"].map(c => row(c, "At the bench \u2014 setup under way"));
   const STAGES = {
     total:    { title: "All eleven cellos \u2014 delivery of Tuesday, October 27", rows: FIN.concat(PROG) },
-    progress: { title: "In progress \u2014 at the bench now", rows: PROG, empty: "No cello is at the bench right now." },
+    progress: { title: "Finished \u2014 passed final QC", rows: PROG, empty: "No cello is at the bench right now." },
     finished: { title: "Finished \u2014 bench setup complete", rows: FIN, empty: "Nothing finished yet \u2014 the batch was picked up on Thursday, October 22." },
     qc:       { title: "Awaiting final QC", rows: [], empty: "No cellos are at this stage yet. Each finished cello passes through its triple check and final QC before it is ready to pack." },
     ready:    { title: "Ready to pack", rows: [], empty: "Nothing is packed yet. Cellos arrive here after their final QC, ready for the return." }
@@ -316,8 +316,12 @@
     "16573": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
     "16562": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
     "16569": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Delivered to Connolly — October 22, 2026" },
-    "16584": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Setup complete at the workshop — returns Tuesday, October 27, 2026, with the SR44 batch" },
-    "17136": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete — final QC tonight. Returns Tuesday, October 27, 2026" }
+    "16584": { model: "Scherl & Roth SR43 · cello 4/4", batch: "SR43E4H", status: "Setup complete at the workshop — delivered Tuesday, October 27, 2026, with the SR44 batch" },
+    "17136": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete — passed final QC. Delivered Tuesday, October 27, 2026" }
+    "17014": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete \u2014 passed final QC. Delivered Tuesday, October 27, 2026" },
+    "17137": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete \u2014 passed final QC. Delivered Tuesday, October 27, 2026" },
+    "17140": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete \u2014 passed final QC. Delivered Tuesday, October 27, 2026" },
+    "17149": { model: "Scherl & Roth SR44 · cello 4/4", batch: "SR44E4H", status: "Setup complete \u2014 passed final QC. Delivered Tuesday, October 27, 2026" },
   };
   const resultEl = document.getElementById('serial-result');
   function checkSerial() {
