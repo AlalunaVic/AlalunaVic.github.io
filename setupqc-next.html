@@ -98,20 +98,20 @@
   <section class="card">
     <div class="ask">Want to know where your batch is?</div>
     <h2>Follow-up, <span class="gold">from pickup to return</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up — sign-out sheet first, then each instrument as its setup begins. This is tomorrow&rsquo;s delivery &mdash; the batch picked up at Thursday&rsquo;s visit, plus the two SR43 cellos held back from the previous one:</p>
+    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up — sign-out sheet first, then each instrument as its setup begins. Delivered this morning &mdash; the batch picked up at Thursday&rsquo;s visit, plus the two SR43 cellos held back from the previous one:</p>
     <div class="batchhead">
       <div><b>Delivery of Tuesday, October 27</b> &mdash; 11 cellos: Batch SR44E4H &times;9 + the two remaining SR43E4H</div>
       <div><b>Picked up:</b> Thursday, October 22, 2026</div>
-      <div><b>Return:</b> Tuesday, October 27, 2026</div>
-      <div><span class="chip">AT THE WORKSHOP</span></div>
-      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 7:20 AM EDT</div>
+      <div><b>Delivered:</b> Tuesday, October 27, 2026</div>
+      <div><span class="chip green">DELIVERED</span></div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 10:25 AM EDT</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Total</div></button>
       <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
       <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
       <button type="button" class="counter" data-stage="qc" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></button>
-      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
+      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">11</div><div class="lab"><span class="cdot green"></span>Delivered</div></button>
     </div>
     <p class="tap-hint">Select any stage to see its instruments</p>
     <div class="stage-panel" id="stage-panel" hidden>
@@ -156,8 +156,8 @@
     <div style="margin-top:8px;">
       <div class="logrow first">
         <div><span class="strip-head">Thu, October 22, 2026 — Batch SR44E4H · 9 cellos</span></div>
-        <div><span class="chip">AT THE WORKSHOP</span></div>
-        <div class="strip-sub">Picked up at Connolly · Return Tuesday, October 27, 2026 · Sign-out sheet prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
+        <div><span class="chip green">DELIVERED</span></div>
+        <div class="strip-sub">Picked up at Connolly · Returned Tuesday, October 27, 2026 · Sign-out sheet prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
         <div class="btnrow">
           <button type="button" class="vbtn" onclick="togglePanel('s-sr44-pickup')">Pickup</button>
           <button type="button" class="vbtn" onclick="togglePanel('s-sr44-delivery')">Delivery</button>
@@ -167,15 +167,34 @@
           <div class="sigline"><b>Pickup record on file:</b> sign-out sheet signed at handoff, Connolly Music, Thursday, October 22, 2026 &mdash; kit IN444 &middot; bridge BGCD9D90 &middot; tailpiece included &middot; strings IMC-5PCS. The signed sheet is held at the workshop; a copy is available to Connolly on request.</div>
         </div>
         <div class="vpanel" id="s-sr44-delivery" data-strip="sr44" hidden>
-          <div class="sigline">Scheduled for <b>Tuesday, October 27, 2026</b> — 9 cellos returned. On delivery, this panel will hold the photo of the handover and the signed receipt — name, date and time.</div>
+          <div class="sigline"><b>Delivered Tuesday, October 27, 2026</b> — 9 cellos returned and signed for at Connolly Music, together with the two remaining SR43 cellos (11 in total).</div>
         </div>
         <div class="vpanel" id="s-sr44-invoice" data-strip="sr44" hidden>
           <div class="sigline"><b>Invoice 202026-01</b> — sent to Connolly Music on the morning of Tuesday, October 27, 2026. One invoice covers this batch plus the two remaining SR43 cellos delivered the same day.</div>
         </div>
       </div>
       <div class="logrow">
+        <div><span class="strip-head">Tue, October 27, 2026 — New pickup &middot; 10 cellos</span></div>
+        <div><span class="chip">AT THE WORKSHOP</span></div>
+        <div class="strip-sub">Picked up at Connolly right after this morning&rsquo;s delivery &middot; Sign-out sheet prepared by JC: REV550 &times;2 &middot; SR43E3H &times;5 &middot; SR55E3H &times;2 &middot; REV650 &times;1</div>
+        <div class="btnrow">
+          <button type="button" class="vbtn" onclick="togglePanel('s-new-pickup')">Pickup</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-new-delivery')">Delivery</button>
+          <button type="button" class="vbtn" onclick="togglePanel('s-new-invoice')">Invoice</button>
+        </div>
+        <div class="vpanel" id="s-new-pickup" data-strip="new" hidden>
+          <div class="sigline"><b>Pickup record on file:</b> sign-out sheet signed at handover, Connolly Music, Tuesday, October 27, 2026 &mdash; REV550 (kit INAS2C &middot; bridge BGCD9D90) &times;2 &middot; SR43E3H (kit IN433 &middot; bridge BGCD9D82) &times;5 &middot; SR55E3H (kit IN553 &middot; bridge BGCD9D82) &times;2 &middot; REV650 (bridge BGCD9D90) &times;1. The signed sheet is held at the workshop; a copy is available to Connolly on request.</div>
+        </div>
+        <div class="vpanel" id="s-new-delivery" data-strip="new" hidden>
+          <div class="sigline">Setups begin at the workshop this week. The return date will be posted here as soon as it is confirmed with Connolly.</div>
+        </div>
+        <div class="vpanel" id="s-new-invoice" data-strip="new" hidden>
+          <div class="sigline">Issued on delivery, as usual &mdash; one invoice for the batch, at the contracted setup rates.</div>
+        </div>
+      </div>
+      <div class="logrow">
         <div><span class="strip-head">Mon, October 19, 2026 — Batch SR43E4H · 10 cellos</span></div>
-        <div><span class="chip">8 DELIVERED · 2 TO GO</span></div>
+        <div><span class="chip green">10 DELIVERED</span></div>
         <div class="strip-sub">Picked up at Connolly · Sign-out sheet prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
         <div class="btnrow">
           <button type="button" class="vbtn" onclick="togglePanel('s-sr43-pickup')">Pickup</button>
@@ -187,7 +206,7 @@
         </div>
         <div class="vpanel" id="s-sr43-delivery" data-strip="sr43" hidden>
           <div class="sigline"><b>Delivered:</b> Thursday, October 22, 2026 — 8 of 10 cellos received at Connolly.</div>
-          <div class="sigline"><b>Remaining pair:</b> both cellos are complete at the workshop and return <b>Tuesday, October 27, 2026</b>, signed on site — their photo and signed receipt will appear here.</div>
+          <div class="sigline"><b>Final pair:</b> delivered <b>Tuesday, October 27, 2026</b> with the SR44 batch, signed on site — the batch is now complete, 10 of 10.</div>
           <div class="cap">Deliveries before October 27 are on the visit record; from October 27 on, each delivery panel holds the handover photo and the signed receipt.</div>
         </div>
         <div class="vpanel" id="s-sr43-invoice" data-strip="sr43" hidden>
