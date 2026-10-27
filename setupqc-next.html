@@ -98,27 +98,33 @@
   <section class="card">
     <div class="ask">Want to know where your batch is?</div>
     <h2>Follow-up, <span class="gold">from pickup to return</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up — sign-out sheet first, then each instrument as its setup begins. The batch now at the workshop &mdash; picked up this morning, on the same visit that returned the previous one:</p>
+    <p style="font-size:14.5px; color:#55614f;">Every batch is logged the day it is picked up. The batch now at the workshop:</p>
     <div class="batchhead">
       <div><b>At the workshop now</b> &mdash; 10 cellos: REV550 &times;2 &middot; SR43E3H &times;5 &middot; SR55E3H &times;2 &middot; REV650 &times;1</div>
       <div><b>Picked up:</b> Tuesday, October 27, 2026</div>
       <div><b>Return:</b> Thursday, October 29, 2026</div>
       <div><span class="chip">AT THE WORKSHOP</span></div>
-      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 10:55 AM EDT</div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 11:05 AM EDT</div>
+    </div>
+    <div style="margin-top:14px;">
+      <div style="height:10px; background:#e7eadf; border-radius:99px; overflow:hidden;"><div style="height:100%; width:0%; background:#2c6148;"></div></div>
+      <div style="font-size:12.5px; color:#768174; margin-top:6px;">0 of 10 finished &middot; setups begin today &middot; return Thursday, October 29</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">10</div><div class="lab"><span class="cdot green"></span>Total</div></button>
       <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">10</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
       <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
-      <button type="button" class="counter" data-stage="qc" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot hollow"></span>Awaiting final QC</div></button>
-      <button type="button" class="counter" data-stage="ready" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Ready to pack</div></button>
     </div>
     <p class="tap-hint">Select any stage to see its instruments</p>
     <div class="stage-panel" id="stage-panel" hidden>
       <h3 id="stage-title"></h3>
       <div id="stage-rows"></div>
     </div>
-    <p class="cnote"><b style="color:#19382c;">Progress — Tuesday, October 27:</b> the previous batch went back this morning — <b style="color:#19382c;">all 11 cellos delivered</b> and signed for at Connolly. The new batch of 10 is already at the workshop and its setups begin today.</p>
+    <div class="btnrow" style="margin-top:14px;">
+      <button type="button" class="vbtn" onclick="togglePanel('feat-journey')">Details</button>
+    </div>
+    <div class="vpanel" id="feat-journey" data-strip="feat" hidden>
+<p class="cnote"><b style="color:#19382c;">Progress — Tuesday, October 27:</b> the previous batch went back this morning — <b style="color:#19382c;">all 11 cellos delivered</b> and signed for at Connolly. The new batch of 10 is already at the workshop and its setups begin today.</p>
     <p class="cnote">The ten cellos were logged at pickup this morning — sign-out sheet photographed and on file (prepared by JC &middot; kits INAS2C / IN433 / IN553 &middot; bridges BGCD9D90 / BGCD9D82). Each cello&rsquo;s serial is registered from its inside label as its setup begins.</p>
     <div class="timeline">
       <div class="tl done">
@@ -146,7 +152,9 @@
         <h3>Ten cellos delivered back, on the date set at pickup</h3>
         <p>The delivery is signed on site and logged in the record below the same day — and the return date agreed at handoff is the date on this page from day one: Thursday, October 29, 2026.</p>
       </div>
+    
     </div>
+</div>
   </section>
 
   <section class="card">
@@ -157,7 +165,7 @@
       <div class="logrow first">
         <div><span class="strip-head">Tue, October 27, 2026 — New pickup &middot; 10 cellos</span></div>
         <div><span class="chip">AT THE WORKSHOP</span></div>
-        <div class="strip-sub">Picked up at Connolly right after this morning&rsquo;s delivery &middot; Sign-out sheet prepared by JC: REV550 &times;2 &middot; SR43E3H &times;5 &middot; SR55E3H &times;2 &middot; REV650 &times;1</div>
+        <div class="strip-sub">Picked up at Connolly &middot; Return Thursday, October 29, 2026</div>
         <div class="btnrow">
           <button type="button" class="vbtn" onclick="togglePanel('s-new-pickup')">Pickup</button>
           <button type="button" class="vbtn" onclick="togglePanel('s-new-delivery')">Delivery</button>
@@ -176,7 +184,7 @@
       <div class="logrow">
         <div><span class="strip-head">Thu, October 22, 2026 — Batch SR44E4H · 9 cellos</span></div>
         <div><span class="chip green">DELIVERED</span></div>
-        <div class="strip-sub">Picked up at Connolly · Returned Tuesday, October 27, 2026 · Sign-out sheet prepared by JC: kit IN444 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
+        <div class="strip-sub">Picked up at Connolly &middot; Returned Tuesday, October 27, 2026</div>
         <div class="btnrow">
           <button type="button" class="vbtn" onclick="togglePanel('s-sr44-pickup')">Pickup</button>
           <button type="button" class="vbtn" onclick="togglePanel('s-sr44-delivery')">Delivery</button>
@@ -195,7 +203,7 @@
       <div class="logrow">
         <div><span class="strip-head">Mon, October 19, 2026 — Batch SR43E4H · 10 cellos</span></div>
         <div><span class="chip green">10 DELIVERED</span></div>
-        <div class="strip-sub">Picked up at Connolly · Sign-out sheet prepared by JC: kit IN434 · bridge BGCD9D90 · tailpiece included · strings IMC-5PCS</div>
+        <div class="strip-sub">Picked up at Connolly &middot; Completed Tuesday, October 27, 2026</div>
         <div class="btnrow">
           <button type="button" class="vbtn" onclick="togglePanel('s-sr43-pickup')">Pickup</button>
           <button type="button" class="vbtn" onclick="togglePanel('s-sr43-delivery')">Delivery</button>
@@ -246,13 +254,12 @@
       <tr><td><b>182026-01</b></td><td>Oct 22, 2026</td><td>SR41E4H ×20</td><td class="r">Sent</td></tr>
       <tr><td><b>172026-01</b></td><td>Oct 8, 2026</td><td>Setup work — October</td><td class="r">Paid · Oct 13</td></tr>
     </table>
-    <p class="cnote">One invoice per delivery, generated against the final manifest — what was delivered is what is billed.</p>
-  </section>
+      </section>
 
   <section class="card">
     <div class="ask">Looking for one instrument?</div>
     <h2>Check an instrument <span class="gold">by serial number</span></h2>
-    <p style="font-size:14.5px; color:#55614f;">Type the serial from the inside label. You&rsquo;ll see its batch and exactly where it stands — no internal data, just its status.</p>
+    <p style="font-size:14.5px; color:#55614f;">Type the serial from the inside label to see its batch and where it stands.</p>
     <div class="lookup">
       <input type="text" id="serial-input" inputmode="numeric" placeholder="e.g. 16584" aria-label="Serial number">
       <button type="button" id="serial-btn">Check status</button>
