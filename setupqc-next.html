@@ -104,16 +104,16 @@
       <div><b>Picked up:</b> Tuesday, October 27, 2026</div>
       <div><b>Return:</b> Thursday, October 29, 2026</div>
       <div><span class="chip">AT THE WORKSHOP</span></div>
-      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Tuesday, October 27, 2026 &middot; 11:05 AM EDT</div>
+      <div style="flex-basis:100%; font-size:12.5px; color:#768174;">Last updated: Wednesday, October 28, 2026 &middot; 2:29 PM EDT</div>
     </div>
     <div style="margin-top:14px;">
-      <div style="height:10px; background:#e7eadf; border-radius:99px; overflow:hidden;"><div style="height:100%; width:0%; background:#2c6148;"></div></div>
-      <div style="font-size:12.5px; color:#768174; margin-top:6px;">0 of 10 finished &middot; setups begin today &middot; return Thursday, October 29</div>
+      <div style="height:10px; background:#e7eadf; border-radius:99px; overflow:hidden;"><div style="height:100%; width:10%; background:#2c6148;"></div></div>
+      <div style="font-size:12.5px; color:#768174; margin-top:6px;">1 of 10 finished &middot; return Thursday, October 29</div>
     </div>
     <div class="counters" id="livestats">
       <button type="button" class="counter" data-stage="total" aria-expanded="false"><div class="num">10</div><div class="lab"><span class="cdot green"></span>Total</div></button>
-      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">10</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
-      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">0</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
+      <button type="button" class="counter" data-stage="progress" aria-expanded="false"><div class="num">9</div><div class="lab"><span class="cdot gold"></span>In progress</div></button>
+      <button type="button" class="counter" data-stage="finished" aria-expanded="false"><div class="num">1</div><div class="lab"><span class="cdot green"></span>Finished</div></button>
     </div>
     <p class="tap-hint">Select any stage to see its instruments</p>
     <div class="stage-panel" id="stage-panel" hidden>
@@ -301,8 +301,8 @@
   ];
   const STAGES = {
     total:    { title: "All ten cellos \u2014 picked up Tuesday, October 27 \u00b7 return Thursday, October 29", rows: ALL10 },
-    progress: { title: "In progress \u2014 at the workshop", rows: ALL10 },
-    finished: { title: "Finished \u2014 bench setup complete", rows: [], empty: "Nothing finished yet \u2014 the batch was picked up this morning, Tuesday, October 27." },
+    progress: { title: "In progress \u2014 at the workshop", rows: ALL10.filter(r => r.code !== "REV650-1") },
+    finished: { title: "Finished \u2014 bench setup complete", rows: ALL10.filter(r => r.code === "REV650-1") },
     qc:       { title: "Awaiting final QC", rows: [], empty: "No cellos are at this stage yet. Each finished cello passes through its triple check and final QC before it is ready to pack." },
     ready:    { title: "Ready to pack", rows: [], empty: "Nothing is packed yet. Cellos arrive here after their final QC, ready for the return." }
   };
