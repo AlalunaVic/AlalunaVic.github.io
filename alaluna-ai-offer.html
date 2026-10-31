@@ -32,7 +32,7 @@
   .card li { padding:5px 0 5px 20px; position:relative; font-size:14px; border-top:1px solid var(--line); }
   .card li:first-child { border-top:none; }
   .card li::before { content:"\2713"; color:var(--gold); font-weight:800; position:absolute; left:0; }
-  h3.sec { font-size:20px; margin:30px 0 12px; color:var(--gold); }
+  h3.sec { font-size:20px; margin:30px 0 12px; color:var(--gold); break-after:avoid; }
   .steps { display:grid; gap:10px; }
   @media (min-width:700px){ .steps { grid-template-columns:repeat(3,1fr); } }
   @media (min-width:1020px){ .steps { grid-template-columns:repeat(5,1fr); } }
@@ -52,6 +52,14 @@
   .wabtn { display:inline-block; background:var(--wa); color:#fff; font-weight:800; padding:14px 30px; border-radius:999px; text-decoration:none; font-size:18px; margin-top:14px; box-shadow:0 4px 14px rgba(0,0,0,.4); }
   .phone { text-align:center; font-size:20px; font-weight:800; color:var(--gold); margin-top:12px; letter-spacing:.5px; }
   .foot { text-align:center; color:var(--mut); font-size:12px; margin-top:24px; }
+  .guar { background:linear-gradient(135deg,#1d3566,#152852); border:2px solid var(--gold); border-radius:16px; padding:20px 22px; margin:0 0 22px; text-align:center; break-inside:avoid; }
+  .guar .big { font-size:22px; font-weight:800; line-height:1.25; }
+  .guar .big span { color:var(--gold); }
+  .guar p { color:var(--mut); font-size:15px; margin-top:6px; }
+  .soon { background:transparent; border:1px dashed var(--gold2); }
+  .soon .price { font-size:22px; }
+  .note { color:var(--mut); font-size:13px; margin-top:10px; }
+  @media print { body { zoom:0.74; padding:22px 18px 10px; } .grid { grid-template-columns:1fr 1fr 1fr; } .steps { grid-template-columns:repeat(5,1fr); } h3.sec { margin-top:18px; } .band { margin-top:14px; } }
   @page { size: Letter; margin: 0; }
 </style>
 </head>
@@ -67,53 +75,52 @@
 
   <div class="kicker">AI-powered digital services · New Jersey</div>
   <h1>More clients.<br><span class="gold">Fewer missed messages.</span></h1>
-  <p class="sub">Your website, your orders or bookings, and your customer care in one place. No tech jargon, no waiting weeks — and everything stays in your name.</p>
+  <p class="sub">Your website, your orders or bookings, and your customer care in one place. No tech jargon, no waiting weeks, and everything stays in your name.</p>
+
+  <div class="guar">
+    <div class="big">I'll show you your website <span>finished, with your name on it,</span> before you pay a dollar.</div>
+    <p>If you don't like it, you pay nothing. If you do, it goes live that same week.</p>
+  </div>
 
   <div class="grid">
     <div class="card">
       <h2>DIGITAL PRESENCE</h2>
-      <div class="price">$349</div>
+      <div class="price">$349 <small>one-time</small></div>
       <div class="promo">Launch offer: $249 — first 3 businesses only</div>
-      <ul><li>Professional website with your brand, perfect on mobile</li><li>Menu or catalog, hours, photos, and map</li><li>WhatsApp button and a print-ready QR code</li><li>Up to 5 sections and 1 round of revisions</li><li>Ready in 24–72 business hours from your materials</li><li>Your domain and your accounts, under your control</li></ul>
+      <ul><li>Professional website with your brand, perfect on mobile</li><li>Menu or services, prices, photos, hours and map</li><li>Orders or bookings sent straight to your WhatsApp</li><li>QR code ready for your counter, tables or window</li><li>Google Business Profile set up so people find you on Maps</li><li>Live within 72 business hours of your approval</li><li>It's yours forever. No required monthly fee</li></ul>
     </div>
     <div class="card hot">
-      <span class="tag">The favorite</span>
-      <h2>WEB + DIGITAL AVATAR</h2>
-      <div class="price">$449</div>
-      <div class="promo">You save $49 vs. buying separately</div>
-      <ul><li>Everything in Digital Presence</li><li>1 video with a <b>digital avatar</b> (30–60 sec): an AI presenter who shows your business on camera — a different way to present it, without recording yourself</li><li>With a virtual presenter or a standard ad</li><li>Ready for TikTok, Instagram, and WhatsApp</li></ul>
+      <span class="tag">Most popular</span>
+      <h2>COMPLETE BUSINESS</h2>
+      <div class="price">$599 <small>+ $49/mo</small></div>
+      <div class="promo">First month free · cancel anytime</div>
+      <ul><li>Everything in Digital Presence</li><li><b>24/7 assistant on your website:</b> answers hours, prices and menu instantly, and sends the order or booking to your WhatsApp</li><li>1 <b>digital avatar</b> video that presents your business, ready for Instagram, TikTok and WhatsApp</li><li><b>Unlimited updates:</b> menu, prices, photos and promotions whenever you ask, done within 24 hours</li><li>I make sure your website always works</li></ul>
     </div>
-    <div class="card">
-      <h2>SMART BUSINESS</h2>
-      <div class="price">$899 <small>setup</small></div>
-      <div class="promo">+ $79/month with the active plan</div>
-      <ul><li>Everything in Web + Digital Avatar</li><li>AI assistant on your WhatsApp</li><li>Answers questions about services, hours, and prices</li><li>Helps prepare orders, appointments, and inquiries</li><li>Hands the conversation to a person when needed</li></ul>
+    <div class="card soon">
+      <span class="tag">Coming soon</span>
+      <h2>AI ASSISTANT ON YOUR WHATSAPP</h2>
+      <div class="price">Founders list</div>
+      <div class="promo">Spots for the first 5 Complete Business clients</div>
+      <ul><li>Answers your customers on WhatsApp even when you're busy</li><li>Takes orders, bookings and questions using your information</li><li>Hands the chat to you when a person is needed</li><li>Founder pricing guaranteed at launch</li></ul>
     </div>
   </div>
 
-  <div class="card hot" style="margin-top:14px;">
-    <span class="tag">Combo · All inclusive</span>
-    <h2>ALL-INCLUSIVE COMBO</h2>
-    <table><tr><td>Website (Digital Presence)</td><td class="p">$349</td></tr><tr><td>2 digital-avatar videos</td><td class="p">$298</td></tr><tr><td>AI assistant on your WhatsApp (setup)</td><td class="p">$450</td></tr><tr><td>Google Business Profile set up</td><td class="p">$99</td></tr><tr><td>1-hour consulting session</td><td class="p">$75</td></tr><tr><td>First month of operation included</td><td class="p">$39</td></tr><tr><td><b>Total value if bought separately</b></td><td class="p"><b>$1,310</b></td></tr></table>
-    <div class="price">$1,000 <small>· $500 to start, $500 on delivery</small></div>
-  </div>
-
-  <h3 class="sec">Extra services</h3>
-  <table><tr><td>Pro Flyer — one-page design ready for WhatsApp and print, with your QR code</td><td class="p">$99</td></tr><tr><td>Additional digital-avatar video</td><td class="p">$149</td></tr><tr><td>Package of 3 digital-avatar videos</td><td class="p">$379</td></tr><tr><td>1:1 personalized consulting (per hour)</td><td class="p">$75</td></tr><tr><td>Peace-of-Mind Plan: I keep your website up to date</td><td class="p">$39/month</td></tr><tr><td>Custom app for your business (bookings, orders, customers)</td><td class="p">from $1,500</td></tr></table>
+  <h3 class="sec">Extras</h3>
+  <table><tr><td>Additional digital avatar video (30–60 sec)</td><td class="p">$149</td></tr><tr><td>Print-ready menu or flyer with your QR code</td><td class="p">$99</td></tr><tr><td>One-on-one consulting (per hour)</td><td class="p">$75</td></tr></table>
 
   <h3 class="sec">This simple</h3>
-  <div class="steps"><div class="step"><b>1 · We talk</b>15 minutes on WhatsApp. You tell me about your business and what you want to achieve.</div><div class="step"><b>2 · Free demo with your business</b>I prepare a sample with your name, your photos, and your services. No cost, no obligation.</div><div class="step"><b>3 · 50% to start</b>With your approval we start with half. The rest is due on delivery.</div><div class="step"><b>4 · Built in 24–72 business hours</b>I work from your complete materials and show you the progress.</div><div class="step"><b>5 · Delivery & training</b>You receive your access, your guide, and a session so you know how to use everything.</div></div>
+  <div class="steps"><div class="step"><b>1 · See your website</b>I show you your page already built with your name, menu and photos. Free.</div><div class="step"><b>2 · Tell me what to change</b>We adjust it until you love it.</div><div class="step"><b>3 · Approve: 50%</b>You only pay half once you like what you see.</div><div class="step"><b>4 · Live in 72 h: 50%</b>It goes live under your name and you pay the rest.</div><div class="step"><b>5 · Quick walkthrough</b>Ten minutes and you're set. Any questions, on WhatsApp.</div></div>
 
-  <div class="band"><b>Payment methods:</b> Zelle, card, payment link, or cash. Always 50% to start and 50% on delivery.</div>
-  <div class="band trust"><b>No forced contracts</b> &nbsp;·&nbsp; <b>Your domain and accounts in your name</b> &nbsp;·&nbsp; <b>Clear prices from the start</b></div>
+  <div class="band"><b>Payment:</b> Zelle, card, payment link or cash. 50% when you approve your website, 50% once it's live.</div>
+  <div class="band trust"><b>No forced contracts</b> &nbsp;·&nbsp; <b>Your website and domain in your name</b> &nbsp;·&nbsp; <b>Clear prices from day one</b></div>
 
   <h3 class="sec">Clear terms, no fine print</h3>
-  <ul class="terms"><li>Build time runs from the moment I receive your complete materials.</li><li>External domain, hosting, or messaging may have separate costs — always quoted before we start.</li><li>If you don't continue with the plan, your site, your domain, and your data stay yours; the assistant and managed features turn off.</li><li>The assistant operates with usage limits based on your volume. The Google profile depends on Google's verification.</li><li>Prices in USD. New services are quoted separately, always before starting.</li></ul>
+  <ul class="terms"><li>The 72 hours start once you approve your website and I have your final details (menu, prices, photos).</li><li>A domain (yourbusiness.com) costs about $15 a year and is registered in your name; I quote it before we start.</li><li>If you cancel the monthly plan, your website stays yours and stays online; the assistant and included updates stop.</li><li>Your Google profile depends on Google's own verification.</li><li>Prices in US dollars. Any new feature is quoted separately, before we start.</li></ul>
 
-  <div class="band demo">This isn't theory: it's the same system I use in my own business → <b>samedaybowrehair.com</b></div>
+  <div class="band demo">I run a local business too. See how mine works → <b>samedaybowrehair.com</b></div>
 
-  <p class="cta">Ready for your business to look as good as your work?</p>
-  <div style="text-align:center;"><a class="wabtn" href="https://wa.me/18484331021">Message me on WhatsApp</a></div>
+  <p class="cta">Want to see your website before you decide?</p>
+  <div style="text-align:center;"><a class="wabtn" href="https://wa.me/18484331021?text=Hi%20Victor%2C%20I%27d%20like%20to%20see%20my%20business%20website">Message me on WhatsApp</a></div>
   <div class="phone">+1 (848) 433-1021</div>
 
   <p class="foot">Alaluna AI Solutions · AI-powered digital services · New Jersey · 2026</p>

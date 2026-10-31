@@ -32,7 +32,7 @@
   .card li { padding:5px 0 5px 20px; position:relative; font-size:14px; border-top:1px solid var(--line); }
   .card li:first-child { border-top:none; }
   .card li::before { content:"\2713"; color:var(--gold); font-weight:800; position:absolute; left:0; }
-  h3.sec { font-size:20px; margin:30px 0 12px; color:var(--gold); }
+  h3.sec { font-size:20px; margin:30px 0 12px; color:var(--gold); break-after:avoid; }
   .steps { display:grid; gap:10px; }
   @media (min-width:700px){ .steps { grid-template-columns:repeat(3,1fr); } }
   @media (min-width:1020px){ .steps { grid-template-columns:repeat(5,1fr); } }
@@ -52,6 +52,14 @@
   .wabtn { display:inline-block; background:var(--wa); color:#fff; font-weight:800; padding:14px 30px; border-radius:999px; text-decoration:none; font-size:18px; margin-top:14px; box-shadow:0 4px 14px rgba(0,0,0,.4); }
   .phone { text-align:center; font-size:20px; font-weight:800; color:var(--gold); margin-top:12px; letter-spacing:.5px; }
   .foot { text-align:center; color:var(--mut); font-size:12px; margin-top:24px; }
+  .guar { background:linear-gradient(135deg,#1d3566,#152852); border:2px solid var(--gold); border-radius:16px; padding:20px 22px; margin:0 0 22px; text-align:center; break-inside:avoid; }
+  .guar .big { font-size:22px; font-weight:800; line-height:1.25; }
+  .guar .big span { color:var(--gold); }
+  .guar p { color:var(--mut); font-size:15px; margin-top:6px; }
+  .soon { background:transparent; border:1px dashed var(--gold2); }
+  .soon .price { font-size:22px; }
+  .note { color:var(--mut); font-size:13px; margin-top:10px; }
+  @media print { body { zoom:0.74; padding:22px 18px 10px; } .grid { grid-template-columns:1fr 1fr 1fr; } .steps { grid-template-columns:repeat(5,1fr); } h3.sec { margin-top:18px; } .band { margin-top:14px; } }
   @page { size: Letter; margin: 0; }
 </style>
 </head>
@@ -69,51 +77,50 @@
   <h1>Más clientes.<br><span class="gold">Menos mensajes perdidos.</span></h1>
   <p class="sub">Tu web, tus pedidos o reservas y tu atención en un solo lugar. Sin tecnicismos, sin esperas de semanas, y todo queda a tu nombre.</p>
 
+  <div class="guar">
+    <div class="big">Te muestro tu web <span>terminada, con tu nombre,</span> antes de que pagues un dólar.</div>
+    <p>Si no te gusta, no pagas nada. Si te gusta, la publicamos esa misma semana.</p>
+  </div>
+
   <div class="grid">
     <div class="card">
       <h2>PRESENCIA DIGITAL</h2>
-      <div class="price">$349</div>
+      <div class="price">$349 <small>pago único</small></div>
       <div class="promo">Lanzamiento: $249 — solo los primeros 3 negocios</div>
-      <ul><li>Web profesional con tu marca, perfecta en el celular</li><li>Menú o catálogo, horarios, fotos y mapa</li><li>Botón de WhatsApp y código QR listo para imprimir</li><li>Hasta 5 secciones y 1 ronda de ajustes</li><li>Lista en 24–72 horas hábiles desde tus materiales</li><li>Tu dominio y tus cuentas, bajo tu control</li></ul>
+      <ul><li>Web profesional con tu marca, perfecta en el celular</li><li>Menú o servicios, precios, fotos, horario y mapa</li><li>Pedidos o reservas que te llegan directo a tu WhatsApp</li><li>Código QR listo para el mostrador, las mesas o tu vitrina</li><li>Perfil de Google configurado para que te encuentren en Maps</li><li>Publicada en 72 horas hábiles desde que la apruebas</li><li>Es tuya para siempre. Sin mensualidad obligatoria</li></ul>
     </div>
     <div class="card hot">
       <span class="tag">El favorito</span>
-      <h2>WEB + AVATAR DIGITAL</h2>
-      <div class="price">$449</div>
-      <div class="promo">Te ahorras $49 vs. por separado</div>
-      <ul><li>Todo lo de Presencia Digital</li><li>1 video con <b>avatar digital</b> (30–60 seg): un presentador con IA que muestra tu negocio en cámara — una manera diferente de presentarlo, sin que tengas que grabarte</li><li>Con presentador virtual o anuncio normal</li><li>Listo para TikTok, Instagram y WhatsApp</li></ul>
+      <h2>NEGOCIO COMPLETO</h2>
+      <div class="price">$599 <small>+ $49/mes</small></div>
+      <div class="promo">Primer mes gratis · cancelas cuando quieras</div>
+      <ul><li>Todo lo de Presencia Digital</li><li><b>Asistente en tu web, 24/7:</b> responde horarios, precios y menú al instante, y pasa el pedido o la cita a tu WhatsApp</li><li>1 video con <b>avatar digital</b> que presenta tu negocio, listo para Instagram, TikTok y WhatsApp</li><li><b>Cambios sin límite:</b> menú, precios, fotos y promociones cuando me lo pidas, listos en 24 horas</li><li>Yo me encargo de que tu web funcione siempre</li></ul>
     </div>
-    <div class="card">
-      <h2>NEGOCIO INTELIGENTE</h2>
-      <div class="price">$899 <small>instalación</small></div>
-      <div class="promo">+ $79/mes con el plan activo</div>
-      <ul><li>Todo lo de Web + Avatar Digital</li><li>Asistente con IA en tu WhatsApp</li><li>Responde servicios, horarios y precios</li><li>Ayuda a preparar pedidos, citas y consultas</li><li>Pasa la conversación a una persona cuando hace falta</li></ul>
+    <div class="card soon">
+      <span class="tag">Próximamente</span>
+      <h2>ASISTENTE IA EN TU WHATSAPP</h2>
+      <div class="price">Lista de fundadores</div>
+      <div class="promo">Cupos para los primeros 5 negocios del plan Negocio Completo</div>
+      <ul><li>Responde a tus clientes en WhatsApp aunque estés ocupado</li><li>Toma pedidos, citas y consultas con tu información</li><li>Te pasa la conversación cuando hace falta una persona</li><li>Precio de fundador garantizado al lanzarse</li></ul>
     </div>
   </div>
 
-  <div class="card hot" style="margin-top:14px;">
-    <span class="tag">Combo · Todo incluido</span>
-    <h2>COMBO TODO INCLUIDO</h2>
-    <table><tr><td>Página web (Presencia Digital)</td><td class="p">$349</td></tr><tr><td>2 videos con avatar digital</td><td class="p">$298</td></tr><tr><td>Asistente con IA en tu WhatsApp (instalación)</td><td class="p">$450</td></tr><tr><td>Perfil de Google configurado</td><td class="p">$99</td></tr><tr><td>Sesión de asesoría de 1 hora</td><td class="p">$75</td></tr><tr><td>Primer mes de operación incluido</td><td class="p">$39</td></tr><tr><td><b>Valor total por separado</b></td><td class="p"><b>$1,310</b></td></tr></table>
-    <div class="price">$1,000 <small>· $500 para empezar, $500 contra entrega</small></div>
-  </div>
-
-  <h3 class="sec">Servicios extra</h3>
-  <table><tr><td>Flyer Pro — diseño de una página listo para WhatsApp e impresión, con tu código QR</td><td class="p">$99</td></tr><tr><td>Video con avatar digital adicional</td><td class="p">$149</td></tr><tr><td>Paquete de 3 videos con avatar digital</td><td class="p">$379</td></tr><tr><td>Asesoría personalizada 1:1 (por hora)</td><td class="p">$75</td></tr><tr><td>Plan Tranquilidad: mantengo tu página al día</td><td class="p">$39/mes</td></tr><tr><td>App a medida para tu negocio (reservas, pedidos, clientes)</td><td class="p">desde $1,500</td></tr></table>
+  <h3 class="sec">Extras</h3>
+  <table><tr><td>Video adicional con avatar digital (30–60 seg)</td><td class="p">$149</td></tr><tr><td>Menú o flyer impreso con tu código QR, listo para imprimir</td><td class="p">$99</td></tr><tr><td>Asesoría personalizada 1:1 (por hora)</td><td class="p">$75</td></tr></table>
 
   <h3 class="sec">Así de simple</h3>
-  <div class="steps"><div class="step"><b>1 · Conversamos</b>15 minutos por WhatsApp. Me cuentas de tu negocio y qué quieres lograr.</div><div class="step"><b>2 · Demo gratis con tu negocio</b>Te preparo una muestra con tu nombre, tus fotos y tus servicios. Sin costo ni compromiso.</div><div class="step"><b>3 · 50% para empezar</b>Con tu aprobación arrancamos con la mitad. El resto es contra entrega.</div><div class="step"><b>4 · Construcción en 24–72 horas hábiles</b>Trabajo sobre tus materiales completos y te muestro el avance.</div><div class="step"><b>5 · Entrega y capacitación</b>Recibes tus accesos, tu guía y una sesión para que sepas usar todo.</div></div>
+  <div class="steps"><div class="step"><b>1 · Ves tu web</b>Te muestro tu página ya hecha con tu nombre, tu menú y tus fotos. Gratis.</div><div class="step"><b>2 · Me dices qué cambiar</b>Ajustamos lo que quieras hasta que te encante.</div><div class="step"><b>3 · Apruebas: 50%</b>Solo pagas la mitad cuando ya te gusta lo que ves.</div><div class="step"><b>4 · En línea en 72 h: 50%</b>La publicamos con tu nombre y pagas el resto.</div><div class="step"><b>5 · Te enseño a usarla</b>10 minutos y listo. Cualquier duda, por WhatsApp.</div></div>
 
-  <div class="band"><b>Formas de pago:</b> Zelle, tarjeta, enlace de pago o efectivo. Siempre 50% para empezar y 50% contra entrega.</div>
-  <div class="band trust"><b>Sin contratos forzosos</b> &nbsp;·&nbsp; <b>Tu dominio y tus cuentas a tu nombre</b> &nbsp;·&nbsp; <b>Precios claros desde el inicio</b></div>
+  <div class="band"><b>Formas de pago:</b> Zelle, tarjeta, enlace de pago o efectivo. 50% cuando apruebas tu web y 50% cuando ya está publicada.</div>
+  <div class="band trust"><b>Sin contratos forzosos</b> &nbsp;·&nbsp; <b>Tu web y tu dominio a tu nombre</b> &nbsp;·&nbsp; <b>Precios claros desde el inicio</b></div>
 
   <h3 class="sec">Condiciones claras, sin letra pequeña</h3>
-  <ul class="terms"><li>El tiempo de construcción corre desde que recibo tus materiales completos.</li><li>Dominio, hosting o mensajería externos pueden tener costos aparte — siempre cotizados antes de empezar.</li><li>Si no continúas con el plan, tu sitio, tu dominio y tus datos quedan tuyos; el asistente y las funciones administradas se apagan.</li><li>El asistente opera con límites de uso según tu volumen. El perfil de Google depende de la verificación de Google.</li><li>Precios en dólares. Los servicios nuevos se cotizan por separado, siempre antes de empezar.</li></ul>
+  <ul class="terms"><li>Las 72 horas corren desde que apruebas tu web y tengo tus datos finales (menú, precios, fotos).</li><li>El dominio (tunegocio.com) cuesta unos $15 al año y se registra a tu nombre; te lo cotizo antes de empezar.</li><li>Si cancelas la mensualidad, tu web sigue siendo tuya y sigue en línea; el asistente y los cambios incluidos se detienen.</li><li>El perfil de Google depende de la verificación que hace Google.</li><li>Precios en dólares. Cualquier función nueva se cotiza aparte y antes de empezar.</li></ul>
 
-  <div class="band demo">Esto no es teoría: es el mismo sistema que uso en mi propio negocio → <b>samedaybowrehair.com</b></div>
+  <div class="band demo">Yo también tengo un negocio local. Mira cómo funciona el mío → <b>samedaybowrehair.com</b></div>
 
-  <p class="cta">¿Listo para que tu negocio se vea tan bien como tu trabajo?</p>
-  <div style="text-align:center;"><a class="wabtn" href="https://wa.me/18484331021">Escríbeme por WhatsApp</a></div>
+  <p class="cta">¿Quieres ver tu web antes de decidir?</p>
+  <div style="text-align:center;"><a class="wabtn" href="https://wa.me/18484331021?text=Hola%20Victor%2C%20quiero%20ver%20la%20web%20de%20mi%20negocio">Escríbeme por WhatsApp</a></div>
   <div class="phone">+1 (848) 433-1021</div>
 
   <p class="foot">Alaluna AI Solutions · Servicios digitales con IA · New Jersey · 2026</p>
