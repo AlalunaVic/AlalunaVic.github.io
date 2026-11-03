@@ -108,11 +108,11 @@ html.intro body{overflow:hidden}
 .brand{transition:opacity .4s ease}
 .brand.big{font-size:24px}
 .brand.big .bow-loop{width:230px}
-.lockup{margin:0 0 22px;width:min(560px,100%)}
+.lockup{margin:0 0 22px;width:max-content;max-width:100%}
 .lockup .word{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:.14em;line-height:1;white-space:nowrap}
 .lockup .l{display:inline-block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,shine 7.8s linear infinite;animation-delay:calc(var(--i)*55ms + .2s),calc(var(--i)*70ms)}
 .lockup .sp{display:inline-block;width:.35em}
-.lockup .bow-loop{display:block;width:100%;height:auto;margin-top:-4%;mix-blend-mode:screen;pointer-events:none}
+.lockup .bow-loop{display:block;width:118%;max-width:none;height:auto;margin:-5% 0 0 -9%;mix-blend-mode:screen;pointer-events:none}
 @keyframes shine{0%{background-position:100% 0}55%,100%{background-position:0 0}}
 @keyframes rise{from{opacity:0;transform:translateY(.5em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
 html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
@@ -186,7 +186,7 @@ html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
 
 /* ---------- anatomy (signature) ---------- */
 .anatomy{padding:clamp(90px,11vw,150px) 0;background:radial-gradient(ellipse 70% 60% at 50% 55%,rgba(122,52,32,.22),transparent 70%),var(--ebony)}
-.bow-stage{position:relative;margin:0 auto;max-width:1240px}
+.bow-stage{position:relative;margin:0 auto;max-width:1240px;padding:40px 0 30px}
 .bow-svg{width:100%;height:auto;overflow:visible;display:block}
 .bow-svg .part{cursor:pointer}
 .bow-svg .part .mv{transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .5s ease;transform-box:view-box}
@@ -194,7 +194,7 @@ html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
 .bow-svg.has-sel .part.sel .mv{filter:drop-shadow(0 0 10px rgba(216,181,108,.55)) brightness(1.08)}
 .bow-svg.exploded .part .mv{filter:none}
 .bow-svg .part:hover .mv{filter:brightness(1.15)}
-.explode{position:absolute;right:0;top:-6px;border:1px solid var(--rule-dark);background:transparent;color:rgba(241,232,214,.8);padding:9px 16px;border-radius:999px;font-size:14px;cursor:pointer}
+.explode{position:absolute;right:0;top:0;border:1px solid var(--rule-dark);background:transparent;color:rgba(241,232,214,.8);padding:9px 16px;border-radius:999px;font-size:14px;cursor:pointer}
 .explode:hover,.explode[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
 .part-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:34px 0 30px}
 .part-tabs button{border:1px solid var(--rule-dark);background:transparent;padding:10px 16px;border-radius:999px;font-size:14.5px;color:rgba(241,232,214,.78);cursor:pointer;transition:all .25s ease}
@@ -1127,12 +1127,24 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
     button:{n:'The screw button',o:[60,-30],w:'The button at the end turns a screw inside the stick that moves the frog, tightening or loosening the hair. It’s often ebony with silver or gold rings and a pearl eye.',c:'That the screw turns smoothly and the eyelet threads aren’t stripped. Always loosen the hair when you put the bow away.'}
   };
   var panel=$('#partPanel'), bowSvg=$('#bowSvg'), exploded=false, current='head';
+  var FULL=[0,0,1400,360], FOCUS={head:[0,70,880,226],wind:[520,100,880,226],frog:[520,100,880,226],ring:[520,100,880,226],slide:[520,100,880,226],button:[520,100,880,226]};
+  var vb=FULL.slice(), vbAnim=null;
+  function zoomTo(t){
+    if(vbAnim) cancelAnimationFrame(vbAnim);
+    var from=vb.slice(), start=null, dur=reduce?1:950;
+    function step(ts){ if(!start) start=ts; var k=Math.min(1,(ts-start)/dur), e=1-Math.pow(1-k,3);
+      vb=from.map(function(v,i){return v+(t[i]-v)*e;}); bowSvg.setAttribute('viewBox',vb.join(' '));
+      if(k<1) vbAnim=requestAnimationFrame(step); }
+    vbAnim=requestAnimationFrame(step);
+  }
   function place(){
+    var sel=bowSvg.classList.contains('has-sel'), focus=!exploded&&sel&&FOCUS[current];
     $$('.bow-svg .part').forEach(function(g){
-      var k=g.dataset.part, o=PARTS[k].o, mv=$('.mv',g), on=exploded||k===current&&bowSvg.classList.contains('has-sel');
+      var k=g.dataset.part, o=PARTS[k].o, mv=$('.mv',g), on=exploded||k===current&&sel, f=focus?.6:1;
       g.classList.toggle('sel',k===current);
-      mv.style.transform=on?'translate('+o[0]+'px,'+o[1]+'px)':'translate(0,0)';
+      mv.style.transform=on?'translate('+o[0]*f+'px,'+o[1]*f+'px)':'translate(0,0)';
     });
+    zoomTo(focus||FULL);
   }
   function showPart(k,user){
     var P=PARTS[k]; if(!P) return; current=k;
