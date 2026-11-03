@@ -2,162 +2,283 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Same Day Bow Rehair | Drop it off this morning. Play it tonight. | New York &amp; New Jersey</title>
-<meta name="description" content="Same-day bow rehair for violin, viola, cello and bass in New York and New Jersey, by a fourth-generation luthier. Drop off in the morning, play it tonight. From $50, same day included.">
+<meta name="description" content="Same-day bow rehair for violin, viola, cello and bass in New York and New Jersey, by a fourth-generation luthier trained at El Sistema. Premium Mongolian hair, fair prices, and we redo it free if it isn't right.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#16100b">
+<link rel="canonical" href="https://samedaybowrehair.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Same Day Bow Rehair">
 <meta property="og:title" content="Same Day Bow Rehair | Drop it off this morning. Play it tonight.">
-<meta property="og:description" content="Same-day bow rehair in New York and New Jersey. From $50, same day included. Not right? We redo it, free.">
+<meta property="og:description" content="Same-day bow rehair in New York and New Jersey. Premium hair, fair prices. Not right? We redo it, free.">
 <meta property="og:url" content="https://samedaybowrehair.com/">
 <meta property="og:image" content="https://samedaybowrehair.com/https://samedaybowrehair.com/images/share-card.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Same Day Bow Rehair | Drop it off this morning. Play it tonight.">
-<meta name="twitter:description" content="Same-day bow rehair in New York and New Jersey. From $50, same day included.">
+<meta name="twitter:description" content="Same-day bow rehair in New York and New Jersey. Premium hair, fair prices.">
 <meta name="twitter:image" content="https://samedaybowrehair.com/https://samedaybowrehair.com/images/share-card.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="video" href="images/logo-intro.mp4" type="video/mp4">
+<script>
+/* ===== Site settings: paste your IDs here to switch on measurement ===== */
+window.SDBR = {
+  clarityId: "",     // Microsoft Clarity (free heatmaps + session recordings)
+  ga4Id: "",         // Google Analytics 4, e.g. "G-XXXXXXX"
+  metaPixelId: "",   // Meta (Facebook/Instagram) Pixel for retargeting
+  bookingUrl: "https://book.samedaybowrehair.com",
+  voiceAgentId: "agent_0101m6fh0jnaejh81926ksa82ssw"
+};
+/* Intro plays once per visit; decided before first paint so nothing flashes */
+(function(){
+  var d=document.documentElement, seen=false, reduce=false;
+  try{seen=sessionStorage.getItem('sdbr-intro')==='1';}catch(e){}
+  try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+  d.className+=' js'+(seen||reduce?'':' intro');
+})();
+</script>
 <style>
 :root{
   --ebony:#16100b;      /* bench, frog, fingerboard */
-  --ebony-2:#211810;
-  --ebony-3:#2d2117;
+  --ebony-2:#1f170f;
+  --ebony-3:#2b2016;
   --pernambuco:#7a3420; /* the stick */
+  --pern-hi:#a2502f;
   --rosin:#c98b32;      /* amber rosin */
-  --gold:#d8b56c;       /* logo bow line */
+  --gold:#d8b56c;       /* the logo's bow line */
   --ivory:#f1e8d6;      /* fresh horsehair */
-  --paper:#f7f1e4;
+  --paper:#f6efe1;
   --smoke:#a49783;
   --ink:#2a2018;
   --ink-soft:#5e5040;
-  --rule-dark:rgba(216,181,108,.22);
-  --rule-light:#ddd0b6;
+  --rule-dark:rgba(216,181,108,.2);
+  --rule-light:#dccfb4;
   --display:'Bodoni Moda',Didot,'Bodoni 72',Georgia,serif;
   --text:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
   --gutter:clamp(20px,5vw,56px);
-  --max:1200px;
+  --max:1240px;
+  --ease:cubic-bezier(.2,.7,.1,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--text);font-size:17px;line-height:1.6;background:var(--ebony);color:var(--ivory);-webkit-font-smoothing:antialiased}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--text);font-size:17px;line-height:1.6;background:var(--ebony);color:var(--ivory);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
-.skip{position:absolute;left:-9999px;top:8px;background:var(--gold);color:var(--ebony);padding:8px 14px;z-index:100}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--gold);color:var(--ebony);padding:8px 14px;z-index:300}
 .skip:focus{left:8px}
 
+/* ---------- intro: the animated logo ---------- */
+#intro{display:none}
+html.intro #intro{display:flex;position:fixed;inset:0;z-index:200;background:#000;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;transition:opacity .9s var(--ease),visibility .9s}
+html.intro body{overflow:hidden}
+#intro video{width:min(640px,86vw);height:auto;mix-blend-mode:screen}
+#intro .skipintro{position:absolute;right:22px;bottom:calc(22px + env(safe-area-inset-bottom));background:none;border:1px solid rgba(216,181,108,.35);color:rgba(241,232,214,.7);padding:9px 16px;border-radius:999px;font-size:13px;cursor:pointer}
+#intro.leaving{opacity:0;visibility:hidden}
+
 /* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--text);font-weight:600;font-size:16px;line-height:1;text-decoration:none;padding:17px 30px;border-radius:2px;border:1px solid transparent;cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--text);font-weight:600;font-size:16px;line-height:1;text-decoration:none;padding:18px 30px;border-radius:2px;border:1px solid transparent;cursor:pointer;overflow:hidden;transition:color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);isolation:isolate}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.btn:hover::before{transform:scaleX(1)}
 .btn-gold{background:var(--gold);color:var(--ebony)}
-.btn-gold:hover{background:#e6c784}
+.btn-gold::before{background:var(--ivory)}
 .btn-line{border-color:rgba(241,232,214,.4);color:var(--ivory);background:transparent}
+.btn-line::before{background:rgba(241,232,214,.1)}
 .btn-line:hover{border-color:var(--ivory)}
 .btn-ink{background:var(--ebony);color:var(--ivory)}
-.btn-ink:hover{background:var(--pernambuco)}
+.btn-ink::before{background:var(--pernambuco)}
 .btn svg{flex:none}
 
 /* ---------- header ---------- */
-.site-head{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .3s ease,border-color .3s ease;border-bottom:1px solid transparent}
-.site-head.solid{background:rgba(22,16,11,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:var(--rule-dark)}
+.progress{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--gold);transform-origin:left;transform:scaleX(0);z-index:60}
+.site-head{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .35s ease,border-color .35s ease,transform .45s var(--ease);border-bottom:1px solid transparent}
+.site-head.solid{background:rgba(22,16,11,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--rule-dark)}
+.site-head.away{transform:translateY(-100%)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:var(--max);margin:0 auto;padding:16px var(--gutter)}
 .brand{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;font-family:var(--display);font-size:19px;letter-spacing:.06em;line-height:1.1;color:var(--ivory)}
 .brand svg{margin-top:5px;width:150px;height:8px}
-.nav-links{display:flex;align-items:center;gap:30px}
-.nav-links a:not(.btn){font-size:15px;text-decoration:none;color:rgba(241,232,214,.78)}
-.nav-links a:not(.btn):hover{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a:not(.btn){position:relative;font-size:15px;text-decoration:none;color:rgba(241,232,214,.78);padding:4px 0}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease)}
+.nav-links a:not(.btn):hover{color:var(--ivory)}
+.nav-links a:not(.btn):hover::after{transform:scaleX(1)}
 .nav-links .btn{padding:12px 22px;font-size:15px}
 .nav-call{display:none;flex:none;white-space:nowrap;text-decoration:none;font-size:15px;color:var(--gold);font-weight:600;padding:8px 14px;border:1px solid var(--rule-dark);border-radius:999px}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 72px;overflow:hidden;background:
-  radial-gradient(ellipse 60% 70% at 78% 40%,rgba(201,139,50,.16),transparent 70%),var(--ebony)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(32px,5vw,72px);align-items:center}
-.hero-place{font-size:15px;color:var(--smoke);margin-bottom:26px;letter-spacing:.02em}
-.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,5.6vw,86px);line-height:1;letter-spacing:-.015em;color:var(--ivory)}
-.hero h1 .line{display:block}
-.hero h1 .line + .line{font-style:italic;color:var(--gold)}
-.hero-bow{display:block;width:min(560px,100%);height:28px;margin:26px 0 30px;overflow:visible}
-.hero-bow path,.hero-bow line{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round}
-.hero-bow .stick{stroke-dasharray:620;stroke-dashoffset:620;animation:draw 1.6s cubic-bezier(.6,.1,.2,1) .35s forwards}
-.hero-bow .hair{stroke:rgba(241,232,214,.55);stroke-width:1;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1.6s cubic-bezier(.6,.1,.2,1) .7s forwards}
-.hero-bow .frog{fill:var(--gold);stroke:none;opacity:0;animation:appear .5s ease 1.6s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes appear{to{opacity:1}}
-.hero-sub{font-size:clamp(17px,1.5vw,19px);color:rgba(241,232,214,.82);max-width:44ch;margin-bottom:34px}
-.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:38px}
-.hero-facts{display:flex;flex-wrap:wrap;gap:12px 34px;padding-top:24px;border-top:1px solid var(--rule-dark);max-width:560px}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 80px;overflow:hidden;background:radial-gradient(ellipse 55% 65% at 76% 42%,rgba(201,139,50,.17),transparent 70%),var(--ebony)}
+#dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
+.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(32px,5vw,72px);align-items:center}
+.hero-place{font-size:15px;color:var(--smoke);margin-bottom:26px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,5.8vw,90px);line-height:1;letter-spacing:-.015em}
+.hero h1 .mask{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .ln{display:block}
+.hero h1 .mask + .mask .ln{font-style:italic;color:var(--gold)}
+.hero-bow{display:block;width:min(560px,100%);height:28px;margin:24px 0 28px;overflow:visible}
+.hero-bow .stick{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round}
+.hero-bow .hair{fill:none;stroke:rgba(241,232,214,.55);stroke-width:1;stroke-linecap:round}
+.hero-bow .frog{fill:var(--gold)}
+.hero-sub{font-size:clamp(17px,1.45vw,19px);color:rgba(241,232,214,.84);max-width:46ch;margin-bottom:34px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:14px 36px;padding-top:24px;border-top:1px solid var(--rule-dark);max-width:580px}
 .hero-facts div{font-size:14px;color:var(--smoke);line-height:1.35}
-.hero-facts strong{display:block;font-family:var(--display);font-weight:400;font-size:22px;color:var(--ivory);margin-bottom:2px}
-
-.film{position:relative;justify-self:end;width:min(380px,100%);max-height:calc(100svh - 170px);aspect-ratio:9/16;border-radius:3px;overflow:hidden;background:var(--ebony-2);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px var(--rule-dark)}
+.hero-facts strong{display:block;font-family:var(--display);font-weight:400;font-size:23px;color:var(--ivory);margin-bottom:2px}
+.film{position:relative;justify-self:end;width:min(380px,100%);aspect-ratio:9/16;max-height:calc(100svh - 170px);border-radius:3px;overflow:hidden;background:var(--ebony-2);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px var(--rule-dark)}
 .film video{width:100%;height:100%;object-fit:cover}
-.film::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(to top,rgba(22,16,11,.88),transparent);pointer-events:none}
+.film::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(to top,rgba(22,16,11,.9),transparent);pointer-events:none}
 .film-cap{position:absolute;left:20px;right:20px;bottom:18px;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .film-cap p{font-size:14px;line-height:1.35;color:rgba(241,232,214,.86)}
 .film-cap p strong{display:block;font-family:var(--display);font-weight:500;font-size:20px;color:var(--ivory)}
-.sound{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(241,232,214,.45);background:rgba(22,16,11,.55);color:var(--ivory);font:600 13px/1 var(--text);cursor:pointer}
+.sound{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(241,232,214,.45);background:rgba(22,16,11,.55);font:600 13px/1 var(--text);cursor:pointer}
 .sound:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:1px;height:46px;background:linear-gradient(var(--gold),transparent);opacity:.7}
 
-/* ---------- worries (ivory paper) ---------- */
-.worries{background:var(--paper);color:var(--ink);padding:clamp(80px,11vw,140px) 0}
+/* ---------- manifesto ---------- */
+.manifesto{background:var(--ebony);padding:clamp(90px,13vw,180px) 0;border-top:1px solid var(--rule-dark)}
+.manifesto p{font-family:var(--display);font-size:clamp(28px,3.7vw,52px);line-height:1.22;letter-spacing:-.005em;max-width:24ch;margin:0 auto;text-align:center}
+.manifesto .w{transition:color .2s linear}
+.manifesto .sig{display:block;margin:40px auto 0;font-family:var(--text);font-size:15px;color:var(--smoke);text-align:center;letter-spacing:.02em}
+
+/* ---------- section heads ---------- */
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,5vw,66px);line-height:1.03;letter-spacing:-.012em}
 .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:end;margin-bottom:clamp(48px,7vw,84px)}
-.sec-head h2,.h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,5vw,64px);line-height:1.04;letter-spacing:-.01em}
-.sec-head p{font-size:18px;color:var(--ink-soft);max-width:46ch}
-.worry{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);padding:clamp(34px,4.5vw,52px) 0;border-top:1px solid var(--rule-light)}
-.worry:last-child{border-bottom:1px solid var(--rule-light)}
-.worry blockquote{font-family:var(--display);font-style:italic;font-size:clamp(26px,3.1vw,40px);line-height:1.16;color:var(--ink)}
+.sec-head p{font-size:18px;max-width:46ch}
+.on-dark .sec-head p{color:var(--smoke)}
+.on-light .sec-head p{color:var(--ink-soft)}
+.on-light{background:var(--paper);color:var(--ink)}
+
+/* ---------- worries ---------- */
+.worries{padding:clamp(90px,11vw,150px) 0}
+.worries-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,110px);align-items:start}
+.worries-head{position:sticky;top:120px}
+.worries-head p{color:var(--ink-soft);font-size:18px;margin-top:22px;max-width:36ch}
+.worries-head .btn{margin-top:30px}
+.worry{padding:0 0 clamp(40px,5vw,60px);margin-bottom:clamp(40px,5vw,60px);border-bottom:1px solid var(--rule-light)}
+.worry:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.worry blockquote{font-family:var(--display);font-style:italic;font-size:clamp(28px,3.2vw,42px);line-height:1.14;margin-bottom:22px}
 .worry blockquote::before{content:"\201C"}
 .worry blockquote::after{content:"\201D"}
-.worry .answer h3{font-family:var(--text);font-weight:600;font-size:19px;line-height:1.35;color:var(--pernambuco);margin-bottom:10px}
-.worry .answer p{color:var(--ink-soft);font-size:17px;max-width:48ch}
-.worry .answer p + p{margin-top:12px}
-.worry figure{margin-top:22px;max-width:420px}
-.worry figure img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:2px}
-.worry figure figcaption{font-size:14px;color:var(--ink-soft);margin-top:8px;font-style:italic}
+.worry h3{font-weight:600;font-size:19px;line-height:1.35;color:var(--pernambuco);margin-bottom:10px}
+.worry p{color:var(--ink-soft);max-width:54ch}
+.worry p + p{margin-top:12px}
+.worry figure{margin-top:24px;overflow:hidden;border-radius:2px}
+.worry figure img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.dudamel{margin-top:18px;padding:18px 20px;border-left:2px solid var(--gold);background:rgba(216,181,108,.12);color:var(--ink)!important;font-size:16px}
 
-/* ---------- the bow's day ---------- */
-.day{padding:clamp(80px,11vw,140px) 0;background:var(--ebony)}
-.day .sec-head p{color:var(--smoke)}
+/* ---------- anatomy (signature) ---------- */
+.anatomy{padding:clamp(90px,11vw,150px) 0;background:radial-gradient(ellipse 70% 60% at 50% 55%,rgba(122,52,32,.22),transparent 70%),var(--ebony)}
+.bow-stage{position:relative;margin:0 auto;max-width:1160px}
+.bow-svg{width:100%;height:auto;overflow:visible}
+.bow-svg .draw{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.hot::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--ebony);border:2px solid var(--gold);transition:transform .3s var(--ease),background-color .3s}
+.hot::after{content:"";position:absolute;inset:6px;border-radius:50%;border:1px solid var(--gold);opacity:0;animation:ping 2.6s var(--ease) infinite}
+.hot:hover::before,.hot[aria-pressed="true"]::before{background:var(--gold);transform:scale(1.15)}
+.hot[aria-pressed="true"]::after{animation:none}
+@keyframes ping{0%{opacity:.8;transform:scale(.6)}80%,100%{opacity:0;transform:scale(1.5)}}
+.part-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:34px 0 30px}
+.part-tabs button{border:1px solid var(--rule-dark);background:transparent;padding:10px 16px;border-radius:999px;font-size:14.5px;color:rgba(241,232,214,.78);cursor:pointer;transition:all .25s ease}
+.part-tabs button:hover{border-color:var(--gold);color:var(--ivory)}
+.part-tabs button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:var(--ebony)}
+.part-panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);max-width:1080px;margin:0 auto;padding:34px 0 0;border-top:1px solid var(--rule-dark);min-height:220px}
+.part-panel h3{font-family:var(--display);font-weight:400;font-size:clamp(32px,3.6vw,46px);line-height:1.05;color:var(--gold)}
+.part-panel .what{color:rgba(241,232,214,.84)}
+.part-panel .check{font-size:15.5px;color:var(--smoke);padding-left:18px;border-left:1px solid var(--gold)}
+.part-panel .check strong{display:block;color:var(--ivory);font-weight:600;margin-bottom:4px}
+.part-panel > *{transition:opacity .3s ease,transform .3s ease}
+.part-panel.swap > *{opacity:0;transform:translateY(8px)}
+
+/* ---------- quiz ---------- */
+.quiz{padding:clamp(90px,11vw,150px) 0}
+.quiz-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(40px,6vw,90px);align-items:start}
+.signs{list-style:none;display:grid;gap:10px}
+.sign{display:flex;gap:16px;align-items:flex-start;width:100%;text-align:left;padding:20px 22px;border:1px solid var(--rule-light);background:#fffaf0;border-radius:3px;cursor:pointer;transition:border-color .25s ease,background-color .25s ease,transform .25s var(--ease)}
+.sign:hover{border-color:var(--ink-soft)}
+.sign .box{flex:none;width:24px;height:24px;margin-top:2px;border:1.5px solid var(--ink-soft);border-radius:3px;display:grid;place-items:center;transition:all .25s ease}
+.sign .box svg{opacity:0;transform:scale(.4);transition:all .25s var(--ease)}
+.sign strong{display:block;font-weight:600;font-size:17px;line-height:1.35;color:var(--ink)}
+.sign span.d{display:block;font-size:15px;color:var(--ink-soft);margin-top:3px}
+.sign[aria-pressed="true"]{border-color:var(--pernambuco);background:#fff4e6}
+.sign[aria-pressed="true"] .box{background:var(--pernambuco);border-color:var(--pernambuco)}
+.sign[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.verdict{position:sticky;top:110px;background:var(--ebony);color:var(--ivory);padding:clamp(28px,3.5vw,44px);border-radius:3px}
+.meter{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin:4px 0 26px}
+.meter i{height:5px;background:rgba(241,232,214,.14);border-radius:2px;transition:background-color .35s ease}
+.meter i.on{background:var(--gold)}
+.meter.hot i.on{background:var(--rosin)}
+.verdict h3{font-family:var(--display);font-weight:400;font-size:clamp(28px,3vw,38px);line-height:1.1;margin-bottom:12px}
+.verdict p{color:rgba(241,232,214,.8);margin-bottom:26px}
+.verdict .small{font-size:14px;color:var(--smoke);margin:18px 0 0}
+
+/* ---------- hair school ---------- */
+.hair{padding:clamp(90px,11vw,150px) 0}
+.hair-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(40px,6vw,90px);align-items:center}
+.tablist{display:flex;gap:4px;border-bottom:1px solid var(--rule-dark);margin:34px 0 30px;overflow-x:auto}
+.tablist button{flex:none;background:none;border:0;padding:14px 18px 16px;font-size:16px;color:var(--smoke);cursor:pointer;position:relative}
+.tablist button::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease)}
+.tablist button[aria-selected="true"]{color:var(--ivory)}
+.tablist button[aria-selected="true"]::after{transform:scaleX(1)}
+.tabpanel h3{font-family:var(--display);font-weight:400;font-size:clamp(28px,3vw,38px);margin-bottom:6px}
+.tabpanel .tag{display:inline-block;font-size:13.5px;color:var(--gold);border:1px solid var(--rule-dark);border-radius:999px;padding:4px 12px;margin-bottom:16px}
+.tabpanel p{color:rgba(241,232,214,.8);max-width:52ch}
+.traits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px;max-width:520px}
+.traits div{font-size:14px;color:var(--smoke)}
+.traits .bar{height:3px;background:rgba(241,232,214,.12);margin-top:8px;border-radius:2px;overflow:hidden}
+.traits .bar i{display:block;height:100%;background:var(--gold);transform-origin:left;transition:transform .7s var(--ease)}
+.reel{position:relative;justify-self:center;width:min(340px,100%);aspect-ratio:9/16;border-radius:3px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px var(--rule-dark)}
+.reel video{width:100%;height:100%;object-fit:cover}
+
+/* ---------- day timeline ---------- */
+.day{padding:clamp(90px,11vw,150px) 0;background:var(--ebony-2);border-top:1px solid var(--rule-dark)}
 .timeline{position:relative}
-.stops{list-style:none}
 .timeline::before{content:"";position:absolute;left:calc(9ch + 21px);top:6px;bottom:6px;width:1px;background:var(--rule-dark)}
-.timeline .fill{position:absolute;left:calc(9ch + 21px);top:6px;width:1px;height:0;background:var(--gold);transition:height .15s linear}
-.stop{position:relative;display:grid;grid-template-columns:9ch minmax(0,1fr) minmax(0,300px);gap:0 42px;padding:0 0 clamp(48px,6vw,72px)}
+.timeline .fill{position:absolute;left:calc(9ch + 21px);top:6px;width:1px;height:0;background:var(--gold)}
+.stops{list-style:none}
+.stop{position:relative;display:grid;grid-template-columns:9ch minmax(0,1fr) minmax(0,320px);gap:0 42px;padding:0 0 clamp(52px,6vw,80px)}
 .stop:last-child{padding-bottom:0}
-.stop::after{content:"";position:absolute;left:calc(9ch + 16px);top:9px;width:11px;height:11px;border-radius:50%;background:var(--ebony);border:1px solid var(--gold)}
+.stop::after{content:"";position:absolute;left:calc(9ch + 16px);top:9px;width:11px;height:11px;border-radius:50%;background:var(--ebony-2);border:1px solid var(--gold);transition:background-color .3s}
 .stop.reached::after{background:var(--gold)}
 .stop time{font-family:var(--display);font-style:italic;font-size:21px;color:var(--gold);line-height:1.3;text-align:right}
-.stop h3{font-family:var(--display);font-weight:400;font-size:clamp(26px,2.8vw,34px);line-height:1.15;margin-bottom:10px}
+.stop h3{font-family:var(--display);font-weight:400;font-size:clamp(26px,2.8vw,36px);line-height:1.15;margin-bottom:10px}
 .stop p{color:rgba(241,232,214,.76);max-width:46ch}
-.stop .media{grid-column:3;grid-row:1}
-.stop .media img,.stop .media video{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px var(--rule-dark)}
-.stop .media.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stop .media.pair img{aspect-ratio:3/5}
+.stop .media{grid-column:3;grid-row:1;overflow:hidden;border-radius:2px}
+.stop .media img,.stop .media video{width:100%;aspect-ratio:4/5;object-fit:cover}
+.stop .media.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:visible}
+.stop .media.pair img{aspect-ratio:3/5;border-radius:2px}
+
+/* ---------- care tips ---------- */
+.care{padding:clamp(90px,11vw,150px) 0}
+.care-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;scrollbar-width:thin}
+.tip{scroll-snap-align:start;background:#fffaf0;border:1px solid var(--rule-light);border-radius:3px;padding:28px 26px 30px;display:flex;flex-direction:column;gap:14px;min-height:300px}
+.tip svg{width:46px;height:46px;stroke:var(--pernambuco);fill:none;stroke-width:1.4}
+.tip h3{font-family:var(--display);font-weight:400;font-size:25px;line-height:1.15}
+.tip p{color:var(--ink-soft);font-size:15.5px}
 
 /* ---------- prices ---------- */
-.prices{background:var(--ebony-2);padding:clamp(80px,11vw,140px) 0;border-top:1px solid var(--rule-dark)}
+.prices{padding:clamp(90px,11vw,150px) 0;border-top:1px solid var(--rule-dark)}
 .price-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,7vw,100px);align-items:start}
-.price-grid .h2{margin-bottom:20px}
-.price-grid .lede{color:var(--smoke);max-width:40ch;margin-bottom:32px}
+.price-grid .lede{color:var(--smoke);max-width:40ch;margin:20px 0 32px}
 .price-table{width:100%;border-collapse:collapse}
 .price-table th,.price-table td{padding:22px 0;border-bottom:1px solid var(--rule-dark);text-align:left;vertical-align:baseline}
 .price-table tr:first-child th,.price-table tr:first-child td{border-top:1px solid var(--gold)}
 .price-table th{font-family:var(--display);font-weight:400;font-size:clamp(24px,2.6vw,30px)}
 .price-table th small{display:block;font-family:var(--text);font-size:14px;color:var(--smoke);margin-top:2px}
-.price-table td{text-align:right;font-family:var(--display);font-size:clamp(28px,3vw,36px);color:var(--gold);white-space:nowrap}
-.price-notes{margin-top:26px;display:grid;gap:10px;font-size:15.5px;color:rgba(241,232,214,.78)}
-.price-notes p strong{color:var(--ivory);font-weight:600}
+.price-table td{text-align:right;font-family:var(--display);font-size:clamp(28px,3vw,38px);color:var(--gold);white-space:nowrap}
+.price-notes{margin-top:26px;display:grid;gap:10px;font-size:15.5px;color:rgba(241,232,214,.8)}
+.price-notes strong{color:var(--ivory);font-weight:600}
+.price-notes a{color:var(--gold)}
 .routes{margin-top:44px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule-dark);border:1px solid var(--rule-dark)}
-.routes div{background:var(--ebony-2);padding:22px 20px}
+.routes div{background:var(--ebony);padding:22px 20px}
 .routes h3{font-family:var(--display);font-weight:400;font-size:21px;margin-bottom:4px}
 .routes p{font-size:14.5px;color:var(--smoke);line-height:1.45}
 
 /* ---------- luthier ---------- */
-.maker{background:var(--paper);color:var(--ink);padding:clamp(80px,11vw,140px) 0}
+.maker{padding:clamp(90px,11vw,150px) 0}
 .maker-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(40px,7vw,100px);align-items:center}
 .maker-photos{position:relative;padding-bottom:18%}
 .maker-photos .main{width:86%;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
@@ -165,92 +286,119 @@ a{color:inherit}
 .maker-photos figure img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .maker-photos figcaption{font-family:var(--display);font-style:italic;font-size:14px;color:var(--ink-soft);margin-top:8px;line-height:1.3}
 .maker .h2{margin-bottom:26px}
-.maker-text p{color:var(--ink-soft);font-size:18px;max-width:52ch;margin-bottom:18px}
+.maker-text p{color:var(--ink-soft);font-size:18px;max-width:54ch;margin-bottom:18px}
 .creds{list-style:none;margin:30px 0 32px;border-top:1px solid var(--rule-light)}
-.creds li{padding:14px 0;border-bottom:1px solid var(--rule-light);font-size:16px;color:var(--ink)}
-.signature{font-family:var(--display);font-style:italic;font-size:36px;color:var(--pernambuco);line-height:1}
+.creds li{padding:14px 0;border-bottom:1px solid var(--rule-light);font-size:16px}
+.signature{font-family:var(--display);font-style:italic;font-size:38px;color:var(--pernambuco);line-height:1}
 
-/* ---------- guarantee ---------- */
-.promise{position:relative;padding:clamp(90px,12vw,160px) 0;text-align:center;overflow:hidden;background:var(--ebony)}
-.promise::before{content:"";position:absolute;inset:0;background:url(https://samedaybowrehair.com/images/workshop-clean.jpg) center/cover no-repeat;opacity:.28}
-.promise::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(22,16,11,.35),rgba(22,16,11,.92) 75%)}
+/* ---------- promise ---------- */
+.promise{position:relative;padding:clamp(100px,14vw,190px) 0;text-align:center;overflow:hidden;background:var(--ebony)}
+.promise .bg{position:absolute;inset:-12% 0;background:url(https://samedaybowrehair.com/images/workshop-clean.jpg) center/cover no-repeat;opacity:.3;will-change:transform}
+.promise::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(22,16,11,.3),rgba(22,16,11,.94) 75%)}
 .promise .wrap{position:relative;z-index:1}
-.promise p.big{font-family:var(--display);font-size:clamp(40px,6.6vw,92px);line-height:1.02;letter-spacing:-.015em;max-width:15ch;margin:0 auto}
-.promise p.big em{display:block;color:var(--gold)}
-.promise p.small{margin:28px auto 36px;max-width:48ch;color:rgba(241,232,214,.8)}
+.promise .big{font-family:var(--display);font-size:clamp(44px,7vw,100px);line-height:1;letter-spacing:-.015em;max-width:14ch;margin:0 auto}
+.promise .big em{display:block;color:var(--gold)}
+.promise .small{margin:30px auto 38px;max-width:52ch;font-size:18px;color:rgba(241,232,214,.84)}
+
+/* ---------- instagram ---------- */
+.social{padding:clamp(90px,11vw,140px) 0;border-top:1px solid var(--rule-dark)}
+.reels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.reels a{position:relative;display:block;aspect-ratio:9/16;overflow:hidden;border-radius:3px;background:var(--ebony-2);text-decoration:none}
+.reels video{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.reels a:hover video{transform:scale(1.04)}
+.reels span{position:absolute;left:16px;right:16px;bottom:14px;font-size:14.5px;color:var(--ivory);text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.reels a::after{content:"";position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(to top,rgba(0,0,0,.65),transparent)}
+.reels span{z-index:1}
+.social .sec-head .btn{justify-self:end}
 
 /* ---------- faq ---------- */
-.faq{background:var(--ebony-2);padding:clamp(80px,10vw,120px) 0;border-top:1px solid var(--rule-dark)}
+.faq{padding:clamp(90px,10vw,130px) 0;background:var(--ebony-2);border-top:1px solid var(--rule-dark)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,100px)}
-.faq-grid .aside p{color:var(--smoke);margin-top:18px;max-width:34ch}
+.faq-grid .aside p{color:var(--smoke);margin-top:18px;max-width:36ch}
 .faq-grid .aside a{color:var(--gold);font-weight:600}
 .faq details{border-top:1px solid var(--rule-dark)}
 .faq details:last-child{border-bottom:1px solid var(--rule-dark)}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:22px 0;font-size:18px;font-weight:500}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary span{flex:none;font-family:var(--display);font-size:26px;line-height:1;color:var(--gold);transition:transform .25s ease}
+.faq summary span{flex:none;font-family:var(--display);font-size:26px;line-height:1;color:var(--gold);transition:transform .3s var(--ease)}
 .faq details[open] summary span{transform:rotate(45deg)}
-.faq details p{color:rgba(241,232,214,.76);padding:0 0 24px;max-width:58ch}
+.faq details p{color:rgba(241,232,214,.76);padding:0 0 24px;max-width:60ch}
 
 /* ---------- final ---------- */
-.final{background:var(--gold);color:var(--ebony);padding:clamp(64px,8vw,96px) 0}
+.final{background:var(--gold);color:var(--ebony);padding:clamp(70px,9vw,110px) 0}
 .final .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.final h2{font-family:var(--display);font-weight:400;font-size:clamp(34px,4.6vw,58px);line-height:1.04;max-width:16ch}
+.final h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,5vw,64px);line-height:1.02;max-width:15ch}
 .final p{margin-top:12px;font-size:18px;color:rgba(22,16,11,.78)}
 .final .actions{display:flex;flex-wrap:wrap;gap:12px}
 .final .btn-line{border-color:rgba(22,16,11,.45);color:var(--ebony)}
-.final .btn-line:hover{border-color:var(--ebony)}
+.final .btn-line::before{background:rgba(22,16,11,.08)}
 
 /* ---------- footer ---------- */
-.site-foot{padding:56px 0 64px;background:var(--ebony);border-top:1px solid var(--rule-dark);font-size:15px;color:var(--smoke)}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.site-foot{padding:64px 0 72px;background:var(--ebony);border-top:1px solid var(--rule-dark);font-size:15px;color:var(--smoke)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
 .site-foot .brand{margin-bottom:14px}
 .site-foot h3{font-family:var(--text);font-size:14px;font-weight:600;color:var(--ivory);margin-bottom:10px}
 .site-foot a{text-decoration:none}
 .site-foot a:hover{color:var(--gold)}
 .site-foot p{line-height:1.8}
+.socials{display:flex;gap:10px;margin-top:16px}
+.socials a{width:42px;height:42px;border:1px solid var(--rule-dark);border-radius:50%;display:grid;place-items:center;transition:border-color .25s,background-color .25s}
+.socials a:hover{border-color:var(--gold);background:rgba(216,181,108,.1)}
+.socials svg{width:18px;height:18px;fill:var(--gold)}
+.legal{margin-top:44px;padding-top:22px;border-top:1px solid var(--rule-dark);font-size:13.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-/* ---------- floating + sticky ---------- */
-.wa-float{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--ebony-3);border:1px solid var(--gold);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+/* ---------- floating ---------- */
+.wa-float{position:fixed;left:22px;bottom:22px;z-index:60;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--ebony-3);border:1px solid var(--gold);box-shadow:0 12px 30px rgba(0,0,0,.4);transition:background-color .25s}
 .wa-float:hover{background:var(--pernambuco)}
 .mbar{display:none}
+elevenlabs-convai{z-index:70}
 
-/* ---------- motion preferences ---------- */
+/* ---------- reveal defaults (only hidden when JS motion is running) ---------- */
+html.motion .rv{opacity:0;transform:translateY(28px)}
+
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .hero-bow .stick,.hero-bow .hair{animation:none;stroke-dashoffset:0}
-  .hero-bow .frog{animation:none;opacity:1}
-  .timeline .fill{display:none}
-  .stop::after{background:var(--gold)}
+  .hot::after{animation:none}
+  .btn::before{transition:none}
+  #dust,.scroll-cue{display:none}
 }
 
 /* ---------- responsive ---------- */
-@media (max-width:980px){
+@media (max-width:1020px){
   .nav-links a:not(.btn){display:none}
   .hero-grid{grid-template-columns:1fr}
   .film{justify-self:start;width:min(340px,100%)}
-  .sec-head,.worry,.price-grid,.maker-grid,.faq-grid{grid-template-columns:1fr}
+  .sec-head,.worries-grid,.quiz-grid,.hair-grid,.price-grid,.maker-grid,.faq-grid{grid-template-columns:1fr}
   .sec-head{gap:16px}
-  .worry{gap:18px}
+  .worries-head,.verdict{position:static}
+  .part-panel{grid-template-columns:1fr;gap:16px}
   .stop{grid-template-columns:7ch minmax(0,1fr);gap:0 34px}
   .timeline::before,.timeline .fill{left:calc(7ch + 17px)}
   .stop::after{left:calc(7ch + 12px)}
-  .stop .media{grid-column:2;grid-row:auto;margin-top:22px;max-width:360px}
+  .stop .media{grid-column:2;grid-row:auto;margin-top:22px;max-width:380px}
   .stop time{font-size:18px}
+  .reel{justify-self:start}
   .foot-grid{grid-template-columns:1fr 1fr}
   .foot-grid > div:first-child{grid-column:1 / -1}
+  .social .sec-head .btn{justify-self:start}
 }
 @media (max-width:640px){
-  body{font-size:16px;padding-bottom:76px}
+  body{font-size:16px}
   .nav{padding-top:12px;padding-bottom:12px}
   .nav-links .btn{display:none}
   .nav-call{display:inline}
   .brand{font-size:16px}
   .brand svg{width:124px}
-  .hero{min-height:auto;padding:108px 0 56px}
+  .hero{min-height:auto;padding:108px 0 64px}
+  .scroll-cue{display:none}
   .hero-ctas .btn{flex:1 1 100%}
   .hero-facts{gap:16px 26px}
-  .film{width:100%;max-width:none;aspect-ratio:4/5}
+  .film{width:100%;max-width:none;aspect-ratio:4/5;max-height:none}
+  .manifesto p{text-align:left}
+  .manifesto .sig{text-align:left;margin-left:0}
+  .hot{width:36px;height:36px;margin:-18px 0 0 -18px}
+  .hot::before{width:13px;height:13px}
+  .part-tabs{justify-content:flex-start}
+  .traits{grid-template-columns:1fr 1fr 1fr;gap:12px}
   .stop{grid-template-columns:1fr;padding-left:30px}
   .timeline::before,.timeline .fill{left:5px}
   .stop::after{left:0}
@@ -258,11 +406,18 @@ a{color:inherit}
   .stop .media{grid-column:1;max-width:none}
   .stop .media img,.stop .media video{aspect-ratio:4/3}
   .stop .media.pair img{aspect-ratio:3/4}
+  .care-track{grid-auto-columns:82%;margin-right:calc(var(--gutter) * -1);padding-right:var(--gutter)}
   .routes{grid-template-columns:1fr}
+  .reels{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:70%;overflow-x:auto;scroll-snap-type:x mandatory}
+  .reels a{scroll-snap-align:start}
   .final .actions .btn{flex:1 1 100%}
+  .foot-grid{grid-template-columns:1fr}
   .wa-float{display:none}
-  .mbar{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(22,16,11,.96);border-top:1px solid var(--rule-dark);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 96px calc(10px + env(safe-area-inset-bottom)) 12px;background:rgba(22,16,11,.96);border-top:1px solid var(--rule-dark);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .mbar .btn{padding:15px 12px;font-size:15px}
+  .mbar .btn-gold{flex:1.4}
+  .mbar .btn-line{flex:1}
+  .site-foot{padding-bottom:110px}
 }
 </style>
 <script type="application/ld+json">
@@ -279,6 +434,7 @@ a{color:inherit}
   "areaServed":["New York","New Jersey"],
   "openingHours":"Mo-Sa 09:00-18:00",
   "priceRange":"$50 - $70",
+  "sameAs":["https://instagram.com/samedaybowrehair"],
   "makesOffer":[
     {"@type":"Offer","itemOffered":{"@type":"Service","name":"Violin bow rehair"},"price":"50","priceCurrency":"USD"},
     {"@type":"Offer","itemOffered":{"@type":"Service","name":"Viola bow rehair"},"price":"50","priceCurrency":"USD"},
@@ -292,17 +448,25 @@ a{color:inherit}
   "@context":"https://schema.org",
   "@type":"FAQPage",
   "mainEntity":[
-    {"@type":"Question","name":"How long does a bow rehair take?","acceptedAnswer":{"@type":"Answer","text":"Drop it off in the morning and it is ready that same afternoon. Express service of about two hours is available for $20 more."}},
+    {"@type":"Question","name":"How do I know my bow needs a rehair?","acceptedAnswer":{"@type":"Answer","text":"The bow slides or skates on the strings even with fresh rosin, many hairs have broken (often on one side), the ribbon looks thin, or the hair is stretched so the screw turns a lot and it still feels loose. Players who practice daily usually rehair every 6 to 12 months."}},
+    {"@type":"Question","name":"How long does a bow rehair take?","acceptedAnswer":{"@type":"Answer","text":"Drop it off in the morning and it is ready that same afternoon. An express service of about two hours is available for a small extra charge."}},
     {"@type":"Question","name":"How much does a same-day bow rehair cost?","acceptedAnswer":{"@type":"Answer","text":"$50 for violin or viola, $70 for cello or double bass. Same-day service is included in the price."}},
-    {"@type":"Question","name":"What if the rehair doesn't feel right?","acceptedAnswer":{"@type":"Answer","text":"You try the bow at pickup and we adjust it on the spot. If it still isn't right, we redo it free."}},
-    {"@type":"Question","name":"Where do you serve?","acceptedAnswer":{"@type":"Answer","text":"Drop-off in Woodbridge, NJ. We also pick up bows across New Jersey and New York City, and you can ship your bow to us."}},
-    {"@type":"Question","name":"Do you work with music shops and schools?","acceptedAnswer":{"@type":"Answer","text":"Yes. Shops, schools and youth orchestras can set up regular pickups with volume pricing."}}
+    {"@type":"Question","name":"What if the rehair doesn't feel right?","acceptedAnswer":{"@type":"Answer","text":"If after your concert or rehearsal something feels different, we redo it, free."}},
+    {"@type":"Question","name":"Where do you serve?","acceptedAnswer":{"@type":"Answer","text":"Drop-off in Woodbridge, NJ. We also pick up bows across New Jersey and New York City, and you can ship your bow to us."}}
   ]
 }
 </script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ INTRO: animated logo ============ -->
+<div id="intro" role="presentation">
+  <video id="introVid" src="images/logo-intro.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+  <button class="skipintro" type="button">Skip</button>
+</div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <header class="site-head" id="head">
   <nav class="nav" aria-label="Main">
@@ -311,13 +475,13 @@ a{color:inherit}
       <svg viewBox="0 0 150 8" aria-hidden="true"><path d="M2 5.5 Q75 1 146 4.2" fill="none" stroke="#d8b56c" stroke-width="1"/><rect x="2" y="4" width="10" height="3.4" rx=".6" fill="#d8b56c"/></svg>
     </a>
     <div class="nav-links">
-      <a href="#worries">Your questions</a>
+      <a href="#anatomy">Know your bow</a>
       <a href="#day">How it works</a>
       <a href="#prices">Prices</a>
       <a href="#luthier">Your luthier</a>
-      <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
+      <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_header">Book a rehair</a>
     </div>
-    <a class="nav-call" href="tel:+18484331021" aria-label="Call (848) 433-1021">Call us</a>
+    <a class="nav-call" href="tel:+18484331021" aria-label="Call (848) 433-1021" data-track="call_header">Call us</a>
   </nav>
 </header>
 
@@ -326,178 +490,346 @@ a{color:inherit}
 
 <!-- ============ HERO ============ -->
 <section class="hero" aria-labelledby="hero-title">
+  <canvas id="dust" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div>
-      <p class="hero-place">Bow rehair for violin, viola, cello and bass. New York and New Jersey.</p>
-      <h1 id="hero-title"><span class="line">Drop it off this morning.</span><span class="line">Play it tonight.</span></h1>
+      <p class="hero-place h-in">Bow rehair for violin, viola, cello and bass. New York and New Jersey.</p>
+      <h1 id="hero-title"><span class="mask"><span class="ln" data-ab-a="Drop it off this morning." data-ab-b="Two weeks without your bow?">Drop it off this morning.</span></span><span class="mask"><span class="ln" data-ab-a="Play it tonight." data-ab-b="Not here. Same day.">Play it tonight.</span></span></h1>
       <svg class="hero-bow" viewBox="0 0 560 28" aria-hidden="true">
-        <path class="stick" d="M10 20 C 150 8, 380 4, 548 9"/>
-        <line class="hair" x1="18" y1="24" x2="546" y2="13"/>
+        <path class="stick" pathLength="1" d="M10 20 C 150 8, 380 4, 548 9"/>
+        <path class="hair" pathLength="1" d="M18 24 L546 13"/>
         <rect class="frog" x="8" y="18" width="26" height="9" rx="1.5"/>
       </svg>
-      <p class="hero-sub">Your bow, rehaired by hand by a fourth-generation luthier with more than 25 years at the bench. Ready the same afternoon, and you try it before you leave.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
-        <a class="btn btn-line" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener">
+      <p class="hero-sub h-in">Your bow, rehaired by hand by a fourth-generation luthier trained at El Sistema, with more than 25 years at the bench. Ready the same afternoon, at a price every musician can reach.</p>
+      <div class="hero-ctas h-in">
+        <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_hero">Book a rehair</a>
+        <a class="btn btn-line" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_hero">
           <svg width="18" height="18" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
           Ask on WhatsApp
         </a>
       </div>
-      <div class="hero-facts">
+      <div class="hero-facts h-in">
         <div><strong>From $50</strong>same day included</div>
         <div><strong>25+ years</strong>at the bench</div>
-        <div><strong>Redo free</strong>if it isn't right</div>
+        <div><strong>Redo free</strong>we have your back</div>
       </div>
     </div>
-    <div class="film">
-      <video id="introVideo" src="images/victor-intro.mp4" poster="images/victor-intro-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Victor at his bench, talking about bow rehair"></video>
+    <div class="film h-in">
+      <video id="introVideo" src="images/victor-intro.mp4" poster="images/victor-intro-poster.jpg" muted loop playsinline preload="metadata" aria-label="Victor at his bench, talking about bow rehair"></video>
       <div class="film-cap">
         <p><strong>Victor Alaluna</strong>Your luthier</p>
         <button class="sound" id="soundBtn" type="button" aria-pressed="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path id="waves" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity=".35"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path class="waves" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity=".35"/></svg>
           <span>Sound on</span>
         </button>
       </div>
     </div>
   </div>
+  <span class="scroll-cue" aria-hidden="true"></span>
 </section>
 
-<!-- ============ WORRIES ============ -->
-<section class="worries" id="worries" aria-labelledby="worries-title">
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto" aria-label="Our promise">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 id="worries-title">Handing over your bow is hard. Here&rsquo;s what we hear most.</h2>
-      <p>Your bow is part of how you play. Before you let anyone touch it, these are fair questions to ask, and these are our answers.</p>
-    </div>
-
-    <article class="worry">
-      <blockquote>I can&rsquo;t be without my bow for two weeks.</blockquote>
-      <div class="answer">
-        <h3>You won&rsquo;t be. It comes back the same day.</h3>
-        <p>Same day is our standard service, not a paid upgrade. Drop it off in the morning, pick it up in the afternoon, play your own bow that evening.</p>
-        <p>Concert in a few hours? Express takes about two hours, for $20 more.</p>
-      </div>
-    </article>
-
-    <article class="worry">
-      <blockquote>What if something happens to my bow?</blockquote>
-      <div class="answer">
-        <h3>We check it with you before any tool touches it.</h3>
-        <p>At drop-off we look over the tip, the stick, the frog and the eyelet together, and note anything already there. You leave knowing exactly what condition your bow is in.</p>
-        <p>Victor has rehaired thousands of bows over 25 years, from student sticks to fine French pernambuco.</p>
-        <figure><img src="https://samedaybowrehair.com/images/victor-bench-hair.jpg" alt="Victor at the workbench, working on bow hair" loading="lazy" width="939" height="1400"><figcaption>Every bow is handled by Victor himself.</figcaption></figure>
-      </div>
-    </article>
-
-    <article class="worry">
-      <blockquote>Will the new hair be any good?</blockquote>
-      <div class="answer">
-        <h3>Premium Mongolian stallion hair, chosen and combed by hand.</h3>
-        <p>We set the hair length to your bow so the ribbon lies flat and even, with the right tension at the frog. Siberian hair is available as an upgrade; just ask.</p>
-        <figure><img src="images/bench-materials.jpg" alt="Hanks of white bow hair, rosin and hand tools on the workbench" loading="lazy" width="1600" height="1066"></figure>
-      </div>
-    </article>
-
-    <article class="worry">
-      <blockquote>What if it doesn&rsquo;t feel like my bow anymore?</blockquote>
-      <div class="answer">
-        <h3>You play it before you leave.</h3>
-        <p>At pickup you try the bow right there. If the tension, the balance or the feel is off, we adjust it on the spot. Still not right? We redo it, free.</p>
-      </div>
-    </article>
-
-    <article class="worry">
-      <blockquote>I&rsquo;ve never heard of this shop.</blockquote>
-      <div class="answer">
-        <h3>Fair. Here&rsquo;s who will have your bow.</h3>
-        <p>Victor Alaluna is a fourth-generation luthier. He worked as a luthier and teacher for El Sistema in Venezuela and on the instruments of the Simón Bolívar Symphony Orchestra; his family founded El Sistema&rsquo;s lutherie academy centers.</p>
-        <p>Now he works from his own bench in New Jersey, on bows only, all day.</p>
-      </div>
-    </article>
-
-    <article class="worry">
-      <blockquote>How much will it really cost?</blockquote>
-      <div class="answer">
-        <h3>$50 for violin or viola. $70 for cello or bass.</h3>
-        <p>Same day is included. Black hair, extra hair or small repairs are quoted at drop-off, before any work starts, so the price you agree to is the price you pay.</p>
-      </div>
-    </article>
+    <p id="manifesto">You deserve the most experienced hands on your bow, so it can truly bring out the best in your instrument. That&rsquo;s why we built a service just for bows: a fair price, within reach of every musician, with the same premium hair you&rsquo;re used to.</p>
+    <span class="sig">Victor Alaluna, luthier</span>
   </div>
 </section>
 
-<!-- ============ THE BOW'S DAY ============ -->
-<section class="day" id="day" aria-labelledby="day-title">
+<!-- ============ WORRIES ============ -->
+<section class="worries on-light" id="worries" aria-labelledby="worries-title">
+  <div class="wrap worries-grid">
+    <div class="worries-head">
+      <h2 class="h2" id="worries-title">Handing over your bow is hard.</h2>
+      <p>It&rsquo;s part of how you play. These are the questions musicians ask us before they trust anyone with it, and our honest answers.</p>
+      <a class="btn btn-ink" href="https://book.samedaybowrehair.com" data-track="book_worries">Book a rehair</a>
+    </div>
+    <div>
+      <article class="worry rv">
+        <blockquote>I can&rsquo;t be without my bow for two weeks.</blockquote>
+        <h3>You won&rsquo;t be. It comes back the same day.</h3>
+        <p>Same day is our standard service, not a paid upgrade. Drop it off in the morning, pick it up in the afternoon, play your own bow that evening.</p>
+        <p>Concert in a few hours? Ask about our express service. It takes about two hours, for a small extra charge.</p>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>What if something happens to my bow?</blockquote>
+        <h3>We check it with you before any tool touches it.</h3>
+        <p>At drop-off we look over the head, the stick, the frog and the eyelet together, and note anything already there. You leave knowing exactly what condition your bow is in, and it&rsquo;s handled by Victor alone, start to finish.</p>
+        <figure><img src="https://samedaybowrehair.com/images/victor-bench-hair.jpg" alt="Victor at the workbench, working on bow hair" loading="lazy" width="939" height="1400"></figure>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>My bow keeps skating on the strings. Is it me?</blockquote>
+        <h3>Probably not. Worn or stretched hair stops gripping.</h3>
+        <p>Old hair loses its texture and won&rsquo;t hold rosin, so the bow slides instead of biting. Sometimes it&rsquo;s just too much rosin. We&rsquo;ll tell you honestly which one it is, even if the answer is that you don&rsquo;t need us yet.</p>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>Will the new hair be any good?</blockquote>
+        <h3>Premium Mongolian stallion hair, chosen and combed by hand.</h3>
+        <p>No thin, over-bleached hair that turns brittle. We set the length to your bow so the ribbon lies flat and even, with the right tension at the frog. Siberian hair is available as an upgrade.</p>
+        <figure><img src="images/bench-materials.jpg" alt="Hanks of white bow hair, rosin and hand tools on the workbench" loading="lazy" width="1600" height="1066"></figure>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>I&rsquo;ve never heard of this shop.</blockquote>
+        <h3>Fair. Here&rsquo;s who will have your bow.</h3>
+        <p>Victor Alaluna is a fourth-generation luthier. He worked as a luthier and teacher for El Sistema in Venezuela and on the instruments of the Simón Bolívar Symphony Orchestra. His family founded El Sistema&rsquo;s lutherie academy centers.</p>
+        <p class="dudamel">El Sistema is the same program that produced great musicians and conductors like Gustavo Dudamel, now Music and Artistic Director of the New York Philharmonic, and still at the head of the Simón Bolívar Symphony Orchestra.</p>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>What if it feels different after the concert?</blockquote>
+        <h3>We have your back.</h3>
+        <p>We know we&rsquo;re handing you excellent work. Even so, if after your concert or your rehearsal with the orchestra something feels different, don&rsquo;t worry: bring it back and we redo it, free.</p>
+      </article>
+
+      <article class="worry rv">
+        <blockquote>How much will it really cost?</blockquote>
+        <h3>$50 for violin or viola. $70 for cello or bass.</h3>
+        <p>Same day is included. Black hair, extra hair or small repairs are quoted at drop-off, before any work starts, so the price you agree to is the price you pay.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KNOW YOUR BOW (interactive anatomy) ============ -->
+<section class="anatomy on-dark" id="anatomy" aria-labelledby="anatomy-title">
   <div class="wrap">
     <div class="sec-head">
-      <h2 id="day-title">One day at the bench.</h2>
-      <p>Everything is done by hand, start to finish, by the same person. Same day is possible because bows are all we do.</p>
+      <h2 class="h2" id="anatomy-title">Know your bow.</h2>
+      <p>Six parts decide how your bow feels on the string. Tap each one to see what it does, and what Victor checks before he touches it.</p>
     </div>
 
+    <div class="bow-stage" id="bowStage">
+      <svg class="bow-svg" viewBox="0 0 1200 240" aria-hidden="true">
+        <defs>
+          <linearGradient id="gStick" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b65a35"/><stop offset="1" stop-color="#5e2414"/></linearGradient>
+          <linearGradient id="gFrog" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2b2016"/><stop offset="1" stop-color="#090604"/></linearGradient>
+          <radialGradient id="gEye"><stop offset="0" stop-color="#f5efe6"/><stop offset=".55" stop-color="#b9c7c4"/><stop offset="1" stop-color="#8a7a6a"/></radialGradient>
+          <pattern id="pWind" width="4" height="12" patternUnits="userSpaceOnUse"><rect width="4" height="12" fill="#a9a39a"/><rect width="1.4" height="12" fill="#e8e2d8"/></pattern>
+        </defs>
+        <!-- hair -->
+        <path class="draw p-hair" pathLength="1" d="M74 141 L1000 168" stroke="#efe6d2" stroke-width="9" opacity=".92"/>
+        <path class="draw p-hair2" pathLength="1" d="M74 141 L1000 168" stroke="#fffaf0" stroke-width="1.2" opacity=".7"/>
+        <!-- stick -->
+        <path class="draw p-stick" pathLength="1" d="M78 72 Q600 128 1092 88" stroke="url(#gStick)" stroke-width="8"/>
+        <path class="draw p-stick2" pathLength="1" d="M80 70 Q600 125 1090 86" stroke="#d98a5c" stroke-width="1" opacity=".5"/>
+        <!-- head -->
+        <g class="fade p-head">
+          <path d="M80 66 L46 62 Q30 63 33 78 L52 150 L86 146 L84 92 Z" fill="url(#gStick)"/>
+          <path d="M52 150 L86 146 L85 139 L50 143 Z" fill="#efe6d2"/>
+          <path d="M46 62 Q30 63 33 78" fill="none" stroke="#efe6d2" stroke-width="2.4"/>
+        </g>
+        <!-- winding and grip -->
+        <g class="fade p-wind">
+          <path d="M880 100 L960 96 L960 108 L880 112 Z" fill="url(#pWind)"/>
+          <path d="M960 95 L992 93 L992 106 L960 108 Z" fill="#6b4a2c"/>
+        </g>
+        <!-- frog -->
+        <g class="fade p-frog">
+          <path d="M996 104 L1088 96 L1092 148 Q1072 196 1012 191 L1000 170 Z" fill="url(#gFrog)" stroke="#d8b56c" stroke-width="1"/>
+          <circle cx="1048" cy="140" r="10" fill="url(#gEye)" stroke="#d8b56c" stroke-width="1"/>
+          <rect x="990" y="156" width="14" height="24" rx="2" fill="#c9c3b6" stroke="#8b8478"/>
+          <path d="M1004 186 Q1050 194 1078 180" fill="none" stroke="#c9c3b6" stroke-width="3"/>
+        </g>
+        <!-- button -->
+        <g class="fade p-button">
+          <rect x="1092" y="80" width="46" height="17" rx="3" fill="url(#gFrog)"/>
+          <rect x="1096" y="80" width="5" height="17" fill="#c9c3b6"/>
+          <rect x="1129" y="80" width="5" height="17" fill="#c9c3b6"/>
+          <circle cx="1115" cy="88.5" r="3.2" fill="url(#gEye)"/>
+        </g>
+      </svg>
+      <button class="hot" type="button" data-part="head" style="left:5.2%;top:42%" aria-label="The head"></button>
+      <button class="hot" type="button" data-part="hair" style="left:40%;top:62.5%" aria-label="The hair"></button>
+      <button class="hot" type="button" data-part="stick" style="left:40.8%;top:41.5%" aria-label="The stick"></button>
+      <button class="hot" type="button" data-part="wind" style="left:76.5%;top:43.5%" aria-label="Winding and grip"></button>
+      <button class="hot" type="button" data-part="frog" style="left:87%;top:56%" aria-label="The frog"></button>
+      <button class="hot" type="button" data-part="button" style="left:94.6%;top:36.5%" aria-label="The screw button"></button>
+    </div>
+
+    <div class="part-tabs" role="tablist" aria-label="Parts of the bow">
+      <button role="tab" type="button" data-part="head" aria-selected="true">Head</button>
+      <button role="tab" type="button" data-part="hair" aria-selected="false">Hair</button>
+      <button role="tab" type="button" data-part="stick" aria-selected="false">Stick</button>
+      <button role="tab" type="button" data-part="wind" aria-selected="false">Winding &amp; grip</button>
+      <button role="tab" type="button" data-part="frog" aria-selected="false">Frog</button>
+      <button role="tab" type="button" data-part="button" aria-selected="false">Screw</button>
+    </div>
+
+    <div class="part-panel" id="partPanel" role="tabpanel" aria-live="polite">
+      <h3 id="pName">The head</h3>
+      <p class="what" id="pWhat">The carved tip of the bow. The hair is anchored inside it with a small wooden plug, fitted into a hollow called the mortise. A protective plate covers its face.</p>
+      <p class="check" id="pCheck"><strong>What Victor checks</strong>Cracks around the mortise. A cracked head is the most serious damage a bow can have, so it&rsquo;s the first thing we look at, with you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="quiz on-light" id="check" aria-labelledby="quiz-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h2" id="quiz-title">Does your bow need a rehair?</h2>
+      <p>A two-minute check you can do right now with your bow in hand. Tap everything that sounds familiar.</p>
+    </div>
+    <div class="quiz-grid">
+      <ul class="signs" id="signs">
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>It skates on the strings</strong><span class="d">Even with fresh rosin, the bow slides instead of gripping.</span></span></button></li>
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>Lots of broken hairs</strong><span class="d">Especially bunched on one side of the ribbon.</span></span></button></li>
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>The ribbon looks thin</strong><span class="d">You can see gaps, or it&rsquo;s narrower than it used to be.</span></span></button></li>
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>The hair is stretched</strong><span class="d">You turn the screw a long way and it still feels loose.</span></span></button></li>
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>It looks grey or greasy</strong><span class="d">Dark, shiny hair near the frog where your hand rests.</span></span></button></li>
+        <li><button class="sign" type="button" aria-pressed="false"><span class="box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2"><path d="M2 7.5 5.5 11 12 3"/></svg></span><span><strong>It&rsquo;s been 6 months or more</strong><span class="d">If you play most days, hair usually lasts 6 to 12 months.</span></span></button></li>
+      </ul>
+      <div class="verdict" aria-live="polite">
+        <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h3 id="vTitle">Tap the signs you notice.</h3>
+        <p id="vText">We&rsquo;ll tell you what they mean. When in doubt, bring the bow by: if it can wait, we&rsquo;ll say so.</p>
+        <a class="btn btn-gold" id="vBtn" href="https://book.samedaybowrehair.com" data-track="book_quiz">Book a rehair</a>
+        <p class="small">Missing hair on one side can let the stick bend sideways over time. Don&rsquo;t wait too long.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HAIR SCHOOL ============ -->
+<section class="hair on-dark" id="hair" aria-labelledby="hair-title">
+  <div class="wrap hair-grid">
+    <div>
+      <h2 class="h2" id="hair-title">Not all bow hair is the same.</h2>
+      <div class="tablist" role="tablist" aria-label="Types of bow hair">
+        <button role="tab" type="button" id="t-mon" aria-controls="hairPanel" aria-selected="true" data-hair="mon">Mongolian</button>
+        <button role="tab" type="button" id="t-sib" aria-controls="hairPanel" aria-selected="false" data-hair="sib">Siberian</button>
+        <button role="tab" type="button" id="t-blk" aria-controls="hairPanel" aria-selected="false" data-hair="blk">Black</button>
+      </div>
+      <div class="tabpanel" id="hairPanel" role="tabpanel" aria-live="polite">
+        <span class="tag" id="hTag">Included in every rehair</span>
+        <h3 id="hName">Mongolian white</h3>
+        <p id="hText">Strong, even stallion hair with a smooth, dependable grip. It&rsquo;s what most professional bows wear, and it suits violin and viola beautifully.</p>
+        <div class="traits">
+          <div>Grip<span class="bar"><i id="b1" style="transform:scaleX(.6)"></i></span></div>
+          <div>Thickness<span class="bar"><i id="b2" style="transform:scaleX(.55)"></i></span></div>
+          <div>Smoothness<span class="bar"><i id="b3" style="transform:scaleX(.85)"></i></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="reel">
+      <video src="images/reel-hair.mp4" poster="images/reel-hair-poster.jpg" muted loop playsinline preload="none" data-auto aria-label="Victor comparing Mongolian and Siberian hair"></video>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ONE DAY AT THE BENCH ============ -->
+<section class="day on-dark" id="day" aria-labelledby="day-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h2" id="day-title">One day at the bench.</h2>
+      <p>Everything is done by hand, start to finish, by the same person. Same day is possible because bows are all we do.</p>
+    </div>
     <div class="timeline" id="timeline">
       <span class="fill" aria-hidden="true"></span>
       <ol class="stops">
-      <li class="stop">
-        <time>Morning</time>
-        <div>
-          <h3>You drop it off</h3>
-          <p>Book a time, bring the bow to the workshop in Woodbridge, NJ, and we look it over together. Short on time? We can pick it up in NJ and New York City.</p>
-        </div>
-        <div class="media"><img src="images/victor-apron-violin.jpg" alt="Victor in his leather apron holding a violin in the workshop" loading="lazy" width="1000" height="1334"></div>
-      </li>
-      <li class="stop">
-        <time>Late morning</time>
-        <div>
-          <h3>Old hair out, new hair chosen</h3>
-          <p>The worn hair comes out and a fresh hank is selected, cleaned and combed straight, hair by hair.</p>
-        </div>
-        <div class="media pair">
-          <img src="https://samedaybowrehair.com/images/hair-combed-tip.jpg" alt="Combing new bow hair at the tip" loading="lazy" width="799" height="1400">
-          <img src="https://samedaybowrehair.com/images/tying-knot.jpg" alt="Tying the hair knot by hand" loading="lazy" width="700" height="1400">
-        </div>
-      </li>
-      <li class="stop">
-        <time>Midday</time>
-        <div>
-          <h3>Plugs cut to fit your bow</h3>
-          <p>The tip and frog plugs are carved for your bow&rsquo;s mortises, so the hair sits secure without stressing the wood.</p>
-        </div>
-        <div class="media pair">
-          <img src="https://samedaybowrehair.com/images/plug-detail.jpg" alt="Hand-cut plug fitted with hair" loading="lazy" width="700" height="1400">
-          <img src="https://samedaybowrehair.com/images/frog-hair-fit.jpg" alt="Fitting the hair through the frog" loading="lazy" width="773" height="1399">
-        </div>
-      </li>
-      <li class="stop">
-        <time>Afternoon</time>
-        <div>
-          <h3>You pick it up and play it</h3>
-          <p>Rehaired, tensioned and rosined. Try it on the spot and take it home tonight.</p>
-        </div>
-        <div class="media"><video src="images/pickup-handoff.mp4" poster="images/pickup-handoff-poster.jpg" muted loop playsinline preload="none" data-autoplay aria-label="Victor handing a freshly rehaired bow to a musician"></video></div>
-      </li>
-    </ol>
+        <li class="stop">
+          <time>Morning</time>
+          <div>
+            <h3>You drop it off</h3>
+            <p>Book a time, bring the bow to the workshop in Woodbridge, NJ, and we look it over together. Short on time? We can pick it up in NJ and New York City.</p>
+          </div>
+          <div class="media"><img src="images/victor-apron-violin.jpg" alt="Victor in his leather apron holding a violin in the workshop" loading="lazy" width="1000" height="1334"></div>
+        </li>
+        <li class="stop">
+          <time>Late morning</time>
+          <div>
+            <h3>Old hair out, new hair chosen</h3>
+            <p>The worn hair comes out and a fresh hank is selected, cleaned and combed straight, hair by hair.</p>
+          </div>
+          <div class="media pair">
+            <img src="https://samedaybowrehair.com/images/hair-combed-tip.jpg" alt="Combing new bow hair at the tip" loading="lazy" width="799" height="1400">
+            <img src="https://samedaybowrehair.com/images/tying-knot.jpg" alt="Tying the hair knot by hand" loading="lazy" width="700" height="1400">
+          </div>
+        </li>
+        <li class="stop">
+          <time>Midday</time>
+          <div>
+            <h3>Plugs cut to fit your bow</h3>
+            <p>The tip and frog plugs are carved for your bow&rsquo;s mortises, so the hair sits secure without stressing the wood.</p>
+          </div>
+          <div class="media pair">
+            <img src="https://samedaybowrehair.com/images/plug-detail.jpg" alt="Hand-cut plug fitted with hair" loading="lazy" width="700" height="1400">
+            <img src="https://samedaybowrehair.com/images/frog-hair-fit.jpg" alt="Fitting the hair through the frog" loading="lazy" width="773" height="1399">
+          </div>
+        </li>
+        <li class="stop">
+          <time>Afternoon</time>
+          <div>
+            <h3>You pick it up and play it</h3>
+            <p>Rehaired, tensioned and rosined. Try it on the spot and take it home tonight.</p>
+          </div>
+          <div class="media"><video src="images/pickup-handoff.mp4" poster="images/pickup-handoff-poster.jpg" muted loop playsinline preload="none" data-auto aria-label="Victor handing a freshly rehaired bow to a musician"></video></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARE ============ -->
+<section class="care on-light" id="care" aria-labelledby="care-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h2" id="care-title">Make your rehair last.</h2>
+      <p>Five habits that keep the hair gripping and the stick healthy. Swipe through.</p>
+    </div>
+    <div class="care-track" tabindex="0" aria-label="Bow care tips">
+      <article class="tip rv">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="10"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6"/></svg>
+        <h3>Loosen it every time</h3>
+        <p>Release the tension whenever you put the bow away. Hair left tight stretches, and the stick slowly loses its curve.</p>
+      </article>
+      <article class="tip rv">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 30c4-10 16-10 20 0"/><path d="M8 38h32"/><path d="M18 18l12 12M30 18 18 30"/></svg>
+        <h3>Keep fingers off the hair</h3>
+        <p>Skin oil kills grip. Hold the bow by the stick and frog, never by the ribbon.</p>
+      </article>
+      <article class="tip rv">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="16" width="24" height="16" rx="3"/><path d="M8 24h4M36 24h4"/></svg>
+        <h3>Rosin lightly</h3>
+        <p>A few strokes is enough. Too much rosin makes the bow squeak and skate, and it&rsquo;s easy to mistake for worn hair.</p>
+      </article>
+      <article class="tip rv">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 8c6 8 10 13 10 19a10 10 0 0 1-20 0c0-6 4-11 10-19z"/></svg>
+        <h3>Watch heat and humidity</h3>
+        <p>Hair shrinks in dry air and stretches in humid air. Never leave the case in a hot car or by a radiator.</p>
+      </article>
+      <article class="tip rv">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="26" rx="7" ry="10"/><path d="M24 16v-6M17 20l-6-4M31 20l6-4M17 30l-6 3M31 30l6 3"/></svg>
+        <h3>Air out the case</h3>
+        <p>Tiny &ldquo;bow bugs&rdquo; feed on hair in closed, dark cases. Open it and use the bow regularly; if hairs snap overnight, call us.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- ============ PRICES ============ -->
-<section class="prices" id="prices" aria-labelledby="prices-title">
+<section class="prices on-dark" id="prices" aria-labelledby="prices-title">
   <div class="wrap price-grid">
     <div>
-      <h2 class="h2" id="prices-title">Clear prices. Same day included.</h2>
+      <h2 class="h2" id="prices-title">A fair price. Same day included.</h2>
       <p class="lede">No rush fee. You get your exact total by WhatsApp before anything is due.</p>
-      <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
+      <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_prices">Book a rehair</a>
     </div>
     <div>
       <table class="price-table">
-        <caption class="skip">Bow rehair prices</caption>
+        <caption class="vh">Bow rehair prices</caption>
         <tr><th scope="row">Violin bow<small>Full and fractional sizes</small></th><td>$50</td></tr>
         <tr><th scope="row">Viola bow<small>All sizes</small></th><td>$50</td></tr>
         <tr><th scope="row">Cello bow<small>All sizes</small></th><td>$70</td></tr>
         <tr><th scope="row">Double bass bow<small>French or German</small></th><td>$70</td></tr>
       </table>
       <div class="price-notes">
-        <p><strong>Express, about two hours:</strong> $20 more.</p>
-        <p><strong>Music shops, schools and youth orchestras:</strong> regular pickups and volume pricing. <a href="https://wa.me/18484331021?text=Hi!%20I%27m%20writing%20from%20a%20shop%2Fschool%20about%20regular%20bow%20rehairs." target="_blank" rel="noopener" style="color:var(--gold)">Ask us</a></p>
+        <p><strong>Express, about two hours:</strong> ask us about it when you book.</p>
+        <p><strong>Music shops, schools and youth orchestras:</strong> regular pickups and volume pricing. <a href="https://wa.me/18484331021?text=Hi!%20I%27m%20writing%20from%20a%20shop%2Fschool%20about%20regular%20bow%20rehairs." target="_blank" rel="noopener" data-track="whatsapp_b2b">Ask us</a></p>
       </div>
       <div class="routes">
         <div><h3>Drop off</h3><p>At the workshop in Woodbridge, NJ</p></div>
@@ -509,15 +841,16 @@ a{color:inherit}
 </section>
 
 <!-- ============ LUTHIER ============ -->
-<section class="maker" id="luthier" aria-labelledby="luthier-title">
+<section class="maker on-light" id="luthier" aria-labelledby="luthier-title">
   <div class="wrap maker-grid">
-    <div class="maker-photos">
+    <div class="maker-photos rv">
       <img class="main" src="https://samedaybowrehair.com/images/victor-portrait.jpg" alt="Victor Alaluna, luthier, at his workbench with a bow" loading="lazy" width="939" height="1400">
       <figure><img src="https://samedaybowrehair.com/images/victor-childhood.jpg" alt="Victor as a child at his father's workbench" loading="lazy" width="1320" height="1313"><figcaption>At my father&rsquo;s bench, where it started.</figcaption></figure>
     </div>
     <div class="maker-text">
       <h2 class="h2" id="luthier-title">Hi, I&rsquo;m Victor.</h2>
       <p>I grew up at my father&rsquo;s workbench, and I&rsquo;ve spent more than 25 years working on violins, violas, cellos and basses. The bow has always been my specialty.</p>
+      <p>Before New Jersey, I worked as a luthier and teacher for El Sistema in Venezuela, the program that gave the world Gustavo Dudamel, and on the instruments of the Simón Bolívar Symphony Orchestra. My family founded El Sistema&rsquo;s lutherie academy centers.</p>
       <p>I started Same Day because musicians kept telling me the same thing: they couldn&rsquo;t be without their bow for two weeks. So I built a workshop around one idea. Your bow comes in, gets my full attention, and goes home with you that day.</p>
       <ul class="creds">
         <li>Fourth-generation luthier</li>
@@ -532,10 +865,26 @@ a{color:inherit}
 
 <!-- ============ PROMISE ============ -->
 <section class="promise" aria-labelledby="promise-title">
+  <div class="bg" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="big" id="promise-title">Not right?<em>We redo it, free.</em></p>
-    <p class="small">You try your bow at pickup and we adjust it until it feels like yours. If it still isn&rsquo;t right, we rehair it again at no charge.</p>
-    <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
+    <p class="big" id="promise-title">We have your back.<em>We redo it, free.</em></p>
+    <p class="small">We know we&rsquo;re handing you excellent work. But if after your concert or your rehearsal with the orchestra something feels different, don&rsquo;t worry. Bring it back and we&rsquo;ll rehair it again, at no charge.</p>
+    <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_promise">Book a rehair</a>
+  </div>
+</section>
+
+<!-- ============ INSTAGRAM ============ -->
+<section class="social on-dark" aria-labelledby="social-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h2" id="social-title">From the bench, every week.</h2>
+      <a class="btn btn-line" href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener" data-track="instagram_follow">Follow @samedaybowrehair</a>
+    </div>
+    <div class="reels">
+      <a href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener" data-track="instagram_reel"><video src="images/reel-hair.mp4" poster="images/reel-hair-poster.jpg" muted loop playsinline preload="none" data-auto aria-hidden="true"></video><span>Mongolian or Siberian hair?</span></a>
+      <a href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener" data-track="instagram_reel"><video src="images/pickup-handoff.mp4" poster="images/pickup-handoff-poster.jpg" muted loop playsinline preload="none" data-auto aria-hidden="true"></video><span>Ready the same afternoon</span></a>
+      <a href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener" data-track="instagram_reel"><video src="images/victor-intro.mp4" poster="images/victor-intro-poster.jpg" muted loop playsinline preload="none" data-auto aria-hidden="true"></video><span>Meet your luthier</span></a>
+    </div>
   </div>
 </section>
 
@@ -544,15 +893,16 @@ a{color:inherit}
   <div class="wrap faq-grid">
     <div class="aside">
       <h2 class="h2" id="faq-title">Questions</h2>
-      <p>Something else on your mind? <a href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener">Message us on WhatsApp</a> or call <a href="tel:+18484331021">(848) 433-1021</a>.</p>
+      <p>Ask our voice assistant any time with the button at the bottom of the screen, <a href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_faq">message us on WhatsApp</a>, or call <a href="tel:+18484331021" data-track="call_faq">(848) 433-1021</a>.</p>
     </div>
     <div>
-      <details open><summary>How do I know my bow needs a rehair?<span aria-hidden="true">+</span></summary><p>Common signs: the bow won&rsquo;t grip the string even with fresh rosin, many hairs have broken on one side, the ribbon looks thin or uneven, or you can&rsquo;t get the tension right. Most players who play daily rehair every 6 to 12 months.</p></details>
-      <details><summary>How long does it really take?<span aria-hidden="true">+</span></summary><p>Drop it off in the morning and it&rsquo;s ready that afternoon. Express service takes about two hours, for $20 more.</p></details>
+      <details open><summary>How often should I rehair my bow?<span aria-hidden="true">+</span></summary><p>If you play most days, every 6 to 12 months. Students and occasional players can often go a year or more. Use the check above, or bring it by and we&rsquo;ll tell you honestly.</p></details>
+      <details><summary>How long does it really take?<span aria-hidden="true">+</span></summary><p>Drop it off in the morning and it&rsquo;s ready that afternoon. Ask about our express service: about two hours, for a small extra charge.</p></details>
       <details><summary>What if I can&rsquo;t pick it up the same day?<span aria-hidden="true">+</span></summary><p>Your bow stays safe at the workshop and you pick it up when it suits you, at no extra charge.</p></details>
       <details><summary>Where are you?<span aria-hidden="true">+</span></summary><p>The workshop is in Woodbridge, NJ, by appointment. We also pick up bows across New Jersey and New York City, and you can ship your bow to us.</p></details>
-      <details><summary>Do you work with music shops and schools?<span aria-hidden="true">+</span></summary><p>Yes. Shops, schools and youth orchestras can set up regular pickups with volume pricing. Shop bows can come back in two or three days if you don&rsquo;t need them the same day.</p></details>
-      <details><summary>What if the rehair doesn&rsquo;t feel right?<span aria-hidden="true">+</span></summary><p>Try it at pickup and we adjust it on the spot. If it still isn&rsquo;t right, we redo it, free.</p></details>
+      <details><summary>Do you work with music shops and schools?<span aria-hidden="true">+</span></summary><p>Yes. Shops, schools and youth orchestras can set up regular pickups with volume pricing. Shop bows can come back in two or three days when there&rsquo;s no rush.</p></details>
+      <details><summary>Do you rehair carbon fiber bows?<span aria-hidden="true">+</span></summary><p>Yes, carbon and wood bows alike, for violin, viola, cello and bass.</p></details>
+      <details><summary>What if it feels different after my concert?<span aria-hidden="true">+</span></summary><p>We have your back. Bring it back and we redo it, free.</p></details>
     </div>
   </div>
 </section>
@@ -565,80 +915,286 @@ a{color:inherit}
       <p>Book a time this morning and play your own bow tonight.</p>
     </div>
     <div class="actions">
-      <a class="btn btn-ink" href="https://book.samedaybowrehair.com">Book a rehair</a>
-      <a class="btn btn-line" href="tel:+18484331021">Call (848) 433-1021</a>
+      <a class="btn btn-ink" href="https://book.samedaybowrehair.com" data-track="book_final">Book a rehair</a>
+      <a class="btn btn-line" href="tel:+18484331021" data-track="call_final">Call (848) 433-1021</a>
     </div>
   </div>
 </section>
 </main>
 
 <footer class="site-foot">
-  <div class="wrap foot-grid">
-    <div>
-      <a class="brand" href="#top">Same Day Bow Rehair
-        <svg viewBox="0 0 150 8" aria-hidden="true"><path d="M2 5.5 Q75 1 146 4.2" fill="none" stroke="#d8b56c" stroke-width="1"/><rect x="2" y="4" width="10" height="3.4" rx=".6" fill="#d8b56c"/></svg>
-      </a>
-      <p>Serving New York City and New Jersey, by appointment.</p>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top">Same Day Bow Rehair
+          <svg viewBox="0 0 150 8" aria-hidden="true"><path d="M2 5.5 Q75 1 146 4.2" fill="none" stroke="#d8b56c" stroke-width="1"/><rect x="2" y="4" width="10" height="3.4" rx=".6" fill="#d8b56c"/></svg>
+        </a>
+        <p>Serving New York City and New Jersey, by appointment.</p>
+        <div class="socials">
+          <a href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+          <a href="https://wa.me/18484331021" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6z"/></svg></a>
+          <a href="mailto:samedaybowrehair@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M2 5h20v14H2V5zm2 2v.5l8 5 8-5V7H4zm16 3-8 5-8-5v7h16v-7z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3>Book</h3>
+        <p><a href="https://book.samedaybowrehair.com" data-track="book_footer">Book a rehair</a><br><a href="#check">Does my bow need it?</a><br><a href="#prices">Prices</a></p>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <p><a href="#anatomy">Know your bow</a><br><a href="#hair">Types of hair</a><br><a href="#care">Bow care</a></p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><a href="tel:+18484331021">(848) 433-1021</a><br>
+        <a href="mailto:samedaybowrehair@gmail.com">samedaybowrehair@gmail.com</a><br>
+        Mon to Sat, 9 am to 6 pm</p>
+      </div>
     </div>
-    <div>
-      <h3>Hours</h3>
-      <p>Monday to Saturday<br>9 am to 6 pm</p>
-    </div>
-    <div>
-      <h3>Contact</h3>
-      <p><a href="tel:+18484331021">(848) 433-1021</a><br>
-      <a href="mailto:samedaybowrehair@gmail.com">samedaybowrehair@gmail.com</a><br>
-      <a href="https://instagram.com/samedaybowrehair" target="_blank" rel="noopener">Instagram @samedaybowrehair</a></p>
-    </div>
+    <div class="legal"><span>&copy; <span id="yr">2026</span> Same Day Bow Rehair LLC</span><span>Woodbridge, New Jersey</span></div>
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" aria-label="Message us on WhatsApp"><svg viewBox="0 0 448 512" width="26" height="26" fill="#d8b56c" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></a>
+<a class="wa-float" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" aria-label="Message us on WhatsApp" data-track="whatsapp_float"><svg viewBox="0 0 448 512" width="24" height="24" fill="#d8b56c" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6z"/></svg></a>
 
 <div class="mbar">
-  <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
-  <a class="btn btn-line" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener">WhatsApp</a>
+  <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_mbar">Book a rehair</a>
+  <a class="btn btn-line" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_mbar">WhatsApp</a>
 </div>
 
-<script>
+<!-- Voice assistant (ElevenLabs) -->
+<elevenlabs-convai agent-id="agent_0101m6fh0jnaejh81926ksa82ssw" action-text="Questions? Talk to us" start-call-text="Start talking" end-call-text="End call" expand-text="Ask our assistant" listening-text="Listening" speaking-text="Assistant speaking" avatar-orb-color-1="#d8b56c" avatar-orb-color-2="#7a3420"></elevenlabs-convai>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script defer>
 (function(){
-  // Header becomes solid after leaving the top of the hero
-  var head=document.getElementById('head');
-  function onScroll(){head.classList.toggle('solid',window.scrollY>40);}
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var S=window.SDBR||{}, d=document, html=d.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s,c){return (c||d).querySelector(s);} function $$(s,c){return Array.prototype.slice.call((c||d).querySelectorAll(s));}
+  try{$('#yr').textContent=new Date().getFullYear();}catch(e){}
 
-  // Hero video sound toggle
-  var v=document.getElementById('introVideo'),b=document.getElementById('soundBtn');
-  if(v&&b){b.addEventListener('click',function(){
-    var on=v.muted; v.muted=!on;
-    if(on){v.currentTime=0;v.play();}
-    b.setAttribute('aria-pressed',String(on));
-    b.querySelector('span').textContent=on?'Sound off':'Sound on';
-    b.querySelector('#waves').setAttribute('opacity',on?'1':'.35');
-  });}
+  /* ---------- measurement (only loads when an ID is set) ---------- */
+  window.dataLayer=window.dataLayer||[];
+  function track(name,extra){
+    var ev=Object.assign({event:name},extra||{}); window.dataLayer.push(ev);
+    if(window.gtag) gtag('event',name,extra||{});
+    if(window.fbq && /^book_/.test(name)) fbq('track','Lead',{content_name:name});
+    if(window.clarity) clarity('event',name);
+  }
+  if(S.clarityId){(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,d,"clarity","script",S.clarityId);}
+  if(S.ga4Id){var g=d.createElement('script');g.async=true;g.src='https://www.googletagmanager.com/gtag/js?id='+S.ga4Id;d.head.appendChild(g);window.gtag=function(){dataLayer.push(arguments);};gtag('js',new Date());gtag('config',S.ga4Id);}
+  if(S.metaPixelId){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,d,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',S.metaPixelId);fbq('track','PageView');}
+  d.addEventListener('click',function(e){var a=e.target.closest('[data-track]');if(a)track(a.getAttribute('data-track'),{ab:abVariant});});
 
-  // Play muted loops only while visible
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- A/B test: two hero headlines (?ab=a or ?ab=b to force) ---------- */
+  var abVariant='a';
+  try{
+    var q=(location.search.match(/[?&]ab=([ab])/)||[])[1];
+    abVariant=q||localStorage.getItem('sdbr-ab')||(Math.random()<.5?'a':'b');
+    localStorage.setItem('sdbr-ab',abVariant);
+  }catch(e){}
+  $$('[data-ab-a]').forEach(function(el){el.textContent=el.getAttribute('data-ab-'+abVariant);});
+  track('ab_assign',{hero_variant:abVariant});
+  if(window.clarity) clarity('set','hero_variant',abVariant);
+
+  /* ---------- intro ---------- */
+  var heroStarted=false;
+  function endIntro(){
+    if(!html.classList.contains('intro')) return startHero();
+    try{sessionStorage.setItem('sdbr-intro','1');}catch(e){}
+    var el=$('#intro'); el.classList.add('leaving');
+    setTimeout(function(){html.classList.remove('intro');},900);
+    startHero();
+  }
+  if(html.classList.contains('intro')){
+    var iv=$('#introVid'), done=false;
+    function fin(){if(done)return;done=true;endIntro();}
+    iv.addEventListener('timeupdate',function(){if(iv.currentTime>3.9)fin();});
+    iv.addEventListener('ended',fin);
+    $('#intro').addEventListener('click',fin);
+    d.addEventListener('keydown',function k(){fin();d.removeEventListener('keydown',k);});
+    var p=iv.play(); if(p&&p.catch)p.catch(fin);
+    setTimeout(fin,5200);
+  }
+
+  /* ---------- hero video sound ---------- */
+  var v=$('#introVideo'),sb=$('#soundBtn');
+  sb.addEventListener('click',function(){
+    var on=v.muted; v.muted=!on; if(on){v.currentTime=0;}
+    var pp=v.play(); if(pp&&pp.catch)pp.catch(function(){});
+    sb.setAttribute('aria-pressed',String(on));
+    $('span',sb).textContent=on?'Sound off':'Sound on';
+    $('.waves',sb).setAttribute('opacity',on?'1':'.35');
+    track(on?'video_sound_on':'video_sound_off');
+  });
+
+  /* ---------- videos play only while visible ---------- */
   if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){
-      var el=e.target; if(e.isIntersecting){ if(!reduce||el.id==='introVideo'){var p=el.play();if(p&&p.catch)p.catch(function(){});} } else if(el.muted){el.pause();}
-    });},{threshold:.25});
-    document.querySelectorAll('video').forEach(function(el){io.observe(el);});
+    var vio=new IntersectionObserver(function(es){es.forEach(function(e){
+      var el=e.target;
+      if(e.isIntersecting){ if(!reduce||el===v){var r=el.play();if(r&&r.catch)r.catch(function(){});} }
+      else if(el.muted){el.pause();}
+    });},{threshold:.2});
+    $$('video[data-auto]').concat([v]).forEach(function(el){vio.observe(el);});
   }
-  if(reduce&&v){v.removeAttribute('autoplay');v.pause();}
 
-  // Timeline: the gold line follows your scroll through the day
-  var tl=document.getElementById('timeline');
-  if(tl&&!reduce){
-    var fill=tl.querySelector('.fill'),stops=tl.querySelectorAll('.stop');
-    function track(){
-      var r=tl.getBoundingClientRect(),mid=window.innerHeight*.6;
-      var h=Math.max(0,Math.min(r.height-12,mid-r.top));
-      fill.style.height=h+'px';
-      stops.forEach(function(s){s.classList.toggle('reached',s.getBoundingClientRect().top+12<mid);});
+  /* ---------- gold dust in the hero (like the logo film) ---------- */
+  (function(){
+    var c=$('#dust'); if(!c||reduce) return;
+    var ctx=c.getContext('2d'), P=[], W=0,H=0, dpr=Math.min(window.devicePixelRatio||1,2), running=true;
+    function size(){W=c.offsetWidth;H=c.offsetHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+    size(); addEventListener('resize',size);
+    var n=W<700?28:56;
+    for(var i=0;i<n;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,s:Math.random()*.25+.05,a:Math.random()*.5+.15,t:Math.random()*6.28});
+    function tick(){
+      if(!running) return;
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<P.length;i++){var p=P[i];p.y-=p.s;p.t+=.01;p.x+=Math.sin(p.t)*.15;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+        var al=p.a*(.6+.4*Math.sin(p.t*2));
+        var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);g.addColorStop(0,'rgba(232,196,120,'+al+')');g.addColorStop(1,'rgba(232,196,120,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*4,0,6.283);ctx.fill();}
+      requestAnimationFrame(tick);
     }
-    window.addEventListener('scroll',track,{passive:true});window.addEventListener('resize',track);track();
+    new IntersectionObserver(function(es){running=es[0].isIntersecting;if(running)tick();}).observe(c);
+  })();
+
+  /* ---------- bow anatomy ---------- */
+  var PARTS={
+    head:{n:'The head',w:'The carved tip of the bow. The hair is anchored inside it with a small wooden plug, fitted into a hollow called the mortise. A protective plate covers its face.',c:'Cracks around the mortise. A cracked head is the most serious damage a bow can have, so it’s the first thing we look at, with you.'},
+    hair:{n:'The hair',w:'Roughly 150 to 200 horse hairs on a violin bow, more on cello and bass. Each hair has tiny scales that hold rosin; that’s what makes the string speak.',c:'A flat, even ribbon with no twisted hairs, and the right length, so the tension is the same across the whole width.'},
+    stick:{n:'The stick',w:'Pernambuco wood or carbon fiber, bent into a gentle curve called the camber. That curve gives the bow its spring and its response.',c:'That the stick is straight when you sight down it. Hair missing on one side can let it bend sideways over time.'},
+    wind:{n:'Winding & grip',w:'Fine wire or thread wrapped near the frog protects the stick and fine-tunes the balance. The leather grip is where your thumb rests.',c:'Loose winding and worn leather. A worn grip lets the thumb wear into the wood; it’s a small fix if we catch it early.'},
+    frog:{n:'The frog',w:'The ebony block that holds the hair at your end, often with a mother-of-pearl eye. The hair runs through the metal ferrule and is locked in with a plug and a wedge.',c:'That the frog sits snug on the stick, with no rocking, and that the slide and ferrule are secure.'},
+    button:{n:'The screw',w:'The button at the end turns a screw inside the stick that moves the frog, tightening or loosening the hair.',c:'That the screw turns smoothly and the eyelet threads aren’t stripped. Always loosen the hair when you put the bow away.'}
+  };
+  var panel=$('#partPanel');
+  function showPart(k,user){
+    var P=PARTS[k]; if(!P) return;
+    $$('.hot').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.part===k));});
+    $$('.part-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.part===k));});
+    panel.classList.add('swap');
+    setTimeout(function(){
+      $('#pName').textContent=P.n; $('#pWhat').textContent=P.w;
+      $('#pCheck').innerHTML='<strong>What Victor checks</strong>'+P.c;
+      panel.classList.remove('swap');
+    },reduce?0:180);
+    if(user) track('anatomy_part',{part:k});
   }
+  $$('.hot,.part-tabs button').forEach(function(b){b.addEventListener('click',function(){showPart(b.dataset.part,true);});});
+  showPart('head');
+
+  /* ---------- rehair check ---------- */
+  var signs=$$('.sign'), meter=$$('#meter i');
+  function verdict(){
+    var n=signs.filter(function(s){return s.getAttribute('aria-pressed')==='true';}).length;
+    meter.forEach(function(m,i){m.classList.toggle('on',i<n);});
+    $('#meter').classList.toggle('hot',n>=3);
+    var t,x,b;
+    if(n===0){t='Tap the signs you notice.';x='We’ll tell you what they mean. When in doubt, bring the bow by: if it can wait, we’ll say so.';b='Book a rehair';}
+    else if(n<=2){t='Worth a look.';x='One or two signs can mean the hair is starting to go, or just too much rosin. Bring it by and we’ll tell you honestly if it can wait.';b='Book a check and rehair';}
+    else{t='It’s time for a rehair.';x='Your bow is working against you. Fresh hair brings back the grip and the sound, and you’ll have it back today.';b='Book today’s rehair';}
+    $('#vTitle').textContent=t;$('#vText').textContent=x;$('#vBtn').textContent=b;
+    return n;
+  }
+  signs.forEach(function(s){s.addEventListener('click',function(){s.setAttribute('aria-pressed',String(s.getAttribute('aria-pressed')!=='true'));var n=verdict();track('quiz_sign',{count:n});});});
+
+  /* ---------- hair types ---------- */
+  var HAIR={
+    mon:{tag:'Included in every rehair',n:'Mongolian white',t:'Strong, even stallion hair with a smooth, dependable grip. It’s what most professional bows wear, and it suits violin and viola beautifully.',b:[.6,.55,.85]},
+    sib:{tag:'Upgrade, ask when you book',n:'Siberian',t:'Thicker and a little coarser, for more bite on the string. Players choose it for a fuller attack, especially on cello and bass.',b:[.8,.8,.6]},
+    blk:{tag:'Quoted at drop-off',n:'Black',t:'The coarsest and grippiest hair. The traditional choice for many double bass players who want maximum grab on thick strings.',b:[.95,.95,.4]}
+  };
+  $$('[data-hair]').forEach(function(btn){btn.addEventListener('click',function(){
+    var H=HAIR[btn.dataset.hair];
+    $$('[data-hair]').forEach(function(x){x.setAttribute('aria-selected',String(x===btn));});
+    $('#hTag').textContent=H.tag;$('#hName').textContent=H.n;$('#hText').textContent=H.t;
+    ['#b1','#b2','#b3'].forEach(function(id,i){$(id).style.transform='scaleX('+H.b[i]+')';});
+    track('hair_tab',{hair:btn.dataset.hair});
+  });});
+
+  /* ---------- header: solid after hero, hides on scroll down ---------- */
+  var head=$('#head'), lastY=0, prog=$('#progress');
+  function onScroll(y){
+    head.classList.toggle('solid',y>40);
+    head.classList.toggle('away',y>lastY&&y>600);
+    lastY=y;
+    var max=d.documentElement.scrollHeight-innerHeight;
+    prog.style.transform='scaleX('+(max>0?y/max:0)+')';
+  }
+  addEventListener('scroll',function(){onScroll(scrollY);},{passive:true}); onScroll(scrollY);
+
+  /* ---------- timeline line (fallback without GSAP) ---------- */
+  var tl=$('#timeline'), fill=$('.fill',tl), stops=$$('.stop',tl);
+  function trackTl(){
+    var r=tl.getBoundingClientRect(),mid=innerHeight*.6;
+    fill.style.height=Math.max(0,Math.min(r.height-12,mid-r.top))+'px';
+    stops.forEach(function(s){s.classList.toggle('reached',s.getBoundingClientRect().top+12<mid);});
+  }
+  addEventListener('scroll',trackTl,{passive:true}); addEventListener('resize',trackTl); trackTl();
+
+  /* ---------- motion (GSAP) ---------- */
+  function startHero(){
+    if(heroStarted) return; heroStarted=true;
+    if(!window.gsap||reduce){ $$('.hero-bow path').forEach(function(p){p.style.strokeDasharray='none';}); return; }
+    var tlh=gsap.timeline({defaults:{ease:'power4.out'}});
+    tlh.from('.hero h1 .ln',{yPercent:110,duration:1.2,stagger:.14})
+       .fromTo('.hero-bow .stick',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},'-=.8')
+       .fromTo('.hero-bow .hair',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},'-=1.2')
+       .from('.hero-bow .frog',{opacity:0,duration:.4},'-=.5')
+       .from('.h-in',{y:24,opacity:0,duration:.9,stagger:.08},'-=1.4');
+  }
+
+  function motion(){
+    if(!window.gsap||!window.ScrollTrigger||reduce){ if(!html.classList.contains('intro')) startHero(); return; }
+    gsap.registerPlugin(ScrollTrigger);
+    html.classList.add('motion');
+
+    if(window.Lenis && matchMedia('(pointer:fine)').matches){
+      var lenis=new Lenis({lerp:.1,smoothWheel:true});
+      lenis.on('scroll',ScrollTrigger.update);
+      gsap.ticker.add(function(t){lenis.raf(t*1000);}); gsap.ticker.lagSmoothing(0);
+      $$('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length>1&&$(id)){e.preventDefault();lenis.scrollTo(id,{offset:-70});}});});
+    }
+    if(!html.classList.contains('intro')) startHero();
+
+    // Manifesto: words light up as you read
+    var m=$('#manifesto');
+    m.innerHTML=m.textContent.split(' ').map(function(w){return '<span class="w">'+w+'</span>';}).join(' ');
+    gsap.fromTo('#manifesto .w',{color:'rgba(241,232,214,.16)'},{color:'#f1e8d6',stagger:.08,ease:'none',scrollTrigger:{trigger:'#manifesto',start:'top 78%',end:'bottom 45%',scrub:true}});
+
+    // Generic reveals
+    $$('.rv').forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 86%'}});});
+    $$('.h2').forEach(function(h){gsap.from(h,{y:40,opacity:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 88%'}});});
+
+    // Bow anatomy draws itself
+    var bt=gsap.timeline({scrollTrigger:{trigger:'#bowStage',start:'top 75%'}});
+    bt.fromTo('.bow-svg .draw',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.6,ease:'power2.inOut',stagger:.12})
+      .from('.bow-svg .fade',{opacity:0,duration:.6,stagger:.1},'-=.8')
+      .from('.hot',{scale:0,opacity:0,duration:.5,stagger:.08,ease:'back.out(2)'},'-=.3');
+
+    // Quiz and care cards
+    gsap.from('.sign',{y:20,opacity:0,duration:.7,stagger:.06,ease:'power3.out',scrollTrigger:{trigger:'#signs',start:'top 80%'}});
+
+    // Timeline photos drift
+    $$('.stop .media').forEach(function(el){gsap.fromTo(el,{y:50},{y:-30,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:true}});});
+
+    // Prices count in
+    $$('.price-table td').forEach(function(td){var val=parseInt(td.textContent.replace(/\D/g,''),10),o={v:0};
+      gsap.to(o,{v:val,duration:1.2,ease:'power2.out',scrollTrigger:{trigger:td,start:'top 90%'},onUpdate:function(){td.textContent='$'+Math.round(o.v);}});});
+
+    // Promise parallax
+    gsap.to('.promise .bg',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.promise',start:'top bottom',end:'bottom top',scrub:true}});
+    gsap.from('.promise .big',{scale:.94,opacity:0,duration:1.3,ease:'power3.out',scrollTrigger:{trigger:'.promise',start:'top 70%'}});
+
+    // Reels rise
+    gsap.from('.reels a',{y:60,opacity:0,duration:1,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:'.reels',start:'top 85%'}});
+
+    ScrollTrigger.refresh();
+  }
+  if(d.readyState==='complete') motion(); else addEventListener('load',motion);
 })();
 </script>
 </body>
