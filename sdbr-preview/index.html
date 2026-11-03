@@ -70,7 +70,7 @@ a{color:inherit}
 .nav-links a:not(.btn){font-size:15px;text-decoration:none;color:rgba(241,232,214,.78)}
 .nav-links a:not(.btn):hover{color:var(--gold)}
 .nav-links .btn{padding:12px 22px;font-size:15px}
-.nav-call{display:none;text-decoration:none;font-size:15px;color:var(--gold);font-weight:600}
+.nav-call{display:none;flex:none;white-space:nowrap;text-decoration:none;font-size:15px;color:var(--gold);font-weight:600;padding:8px 14px;border:1px solid var(--rule-dark);border-radius:999px}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 72px;overflow:hidden;background:
@@ -255,7 +255,9 @@ a{color:inherit}
   .timeline::before,.timeline .fill{left:5px}
   .stop::after{left:0}
   .stop time{text-align:left;margin-bottom:4px}
-  .stop .media{grid-column:1}
+  .stop .media{grid-column:1;max-width:none}
+  .stop .media img,.stop .media video{aspect-ratio:4/3}
+  .stop .media.pair img{aspect-ratio:3/4}
   .routes{grid-template-columns:1fr}
   .final .actions .btn{flex:1 1 100%}
   .wa-float{display:none}
@@ -315,7 +317,7 @@ a{color:inherit}
       <a href="#luthier">Your luthier</a>
       <a class="btn btn-gold" href="https://book.samedaybowrehair.com">Book a rehair</a>
     </div>
-    <a class="nav-call" href="tel:+18484331021">Call (848) 433-1021</a>
+    <a class="nav-call" href="tel:+18484331021" aria-label="Call (848) 433-1021">Call us</a>
   </nav>
 </header>
 
