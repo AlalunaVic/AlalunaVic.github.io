@@ -101,7 +101,21 @@ html.intro body{overflow:hidden}
 .site-head.away{transform:translateY(-100%)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:var(--max);margin:0 auto;padding:16px var(--gutter)}
 .brand{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;font-family:var(--display);font-size:19px;letter-spacing:.06em;line-height:1.1;color:var(--ivory)}
-.brand svg{margin-top:5px;width:150px;height:8px}
+.brand .bow-loop{width:150px;height:auto;margin-top:-6px;margin-bottom:-8px;mix-blend-mode:screen;pointer-events:none}
+.brand-word,.lockup .l{background:linear-gradient(110deg,#c9a45c 0%,#c9a45c 42%,#fff4d2 50%,#c9a45c 58%,#c9a45c 100%);background-size:400% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-word{animation:shine 7.8s linear infinite}
+.site-head:not(.solid) .brand{opacity:0;pointer-events:none}
+.brand{transition:opacity .4s ease}
+.brand.big{font-size:24px}
+.brand.big .bow-loop{width:230px}
+.lockup{margin:0 0 22px;width:min(560px,100%)}
+.lockup .word{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.6vw,34px);letter-spacing:.14em;line-height:1;white-space:nowrap}
+.lockup .l{display:inline-block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,shine 7.8s linear infinite;animation-delay:calc(var(--i)*55ms + .2s),calc(var(--i)*70ms)}
+.lockup .sp{display:inline-block;width:.35em}
+.lockup .bow-loop{display:block;width:100%;height:auto;margin-top:-4%;mix-blend-mode:screen;pointer-events:none}
+@keyframes shine{0%{background-position:100% 0}55%,100%{background-position:0 0}}
+@keyframes rise{from{opacity:0;transform:translateY(.5em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
 .nav-links{display:flex;align-items:center;gap:28px}
 .nav-links a:not(.btn){position:relative;font-size:15px;text-decoration:none;color:rgba(241,232,214,.78);padding:4px 0}
 .nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease)}
@@ -114,7 +128,7 @@ html.intro body{overflow:hidden}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 80px;overflow:hidden;background:radial-gradient(ellipse 55% 65% at 76% 42%,rgba(201,139,50,.17),transparent 70%),var(--ebony)}
 #dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
 .hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(32px,5vw,72px);align-items:center}
-.hero-place{font-size:15px;color:var(--smoke);margin-bottom:26px}
+.hero-place{font-size:15px;color:var(--smoke);margin-bottom:20px}
 .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,5.8vw,90px);line-height:1;letter-spacing:-.015em}
 .hero h1 .mask{display:block;overflow:hidden;padding-bottom:.08em}
 .hero h1 .ln{display:block}
@@ -172,15 +186,16 @@ html.intro body{overflow:hidden}
 
 /* ---------- anatomy (signature) ---------- */
 .anatomy{padding:clamp(90px,11vw,150px) 0;background:radial-gradient(ellipse 70% 60% at 50% 55%,rgba(122,52,32,.22),transparent 70%),var(--ebony)}
-.bow-stage{position:relative;margin:0 auto;max-width:1160px}
-.bow-svg{width:100%;height:auto;overflow:visible}
-.bow-svg .draw{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.hot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
-.hot::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--ebony);border:2px solid var(--gold);transition:transform .3s var(--ease),background-color .3s}
-.hot::after{content:"";position:absolute;inset:6px;border-radius:50%;border:1px solid var(--gold);opacity:0;animation:ping 2.6s var(--ease) infinite}
-.hot:hover::before,.hot[aria-pressed="true"]::before{background:var(--gold);transform:scale(1.15)}
-.hot[aria-pressed="true"]::after{animation:none}
-@keyframes ping{0%{opacity:.8;transform:scale(.6)}80%,100%{opacity:0;transform:scale(1.5)}}
+.bow-stage{position:relative;margin:0 auto;max-width:1240px}
+.bow-svg{width:100%;height:auto;overflow:visible;display:block}
+.bow-svg .part{cursor:pointer}
+.bow-svg .part .mv{transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .5s ease;transform-box:view-box}
+.bow-svg.has-sel .part .mv{filter:brightness(.42) saturate(.55)}
+.bow-svg.has-sel .part.sel .mv{filter:drop-shadow(0 0 10px rgba(216,181,108,.55)) brightness(1.08)}
+.bow-svg.exploded .part .mv{filter:none}
+.bow-svg .part:hover .mv{filter:brightness(1.15)}
+.explode{position:absolute;right:0;top:-6px;border:1px solid var(--rule-dark);background:transparent;color:rgba(241,232,214,.8);padding:9px 16px;border-radius:999px;font-size:14px;cursor:pointer}
+.explode:hover,.explode[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
 .part-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:34px 0 30px}
 .part-tabs button{border:1px solid var(--rule-dark);background:transparent;padding:10px 16px;border-radius:999px;font-size:14.5px;color:rgba(241,232,214,.78);cursor:pointer;transition:all .25s ease}
 .part-tabs button:hover{border-color:var(--gold);color:var(--ivory)}
@@ -190,9 +205,6 @@ html.intro body{overflow:hidden}
 .part-panel .what{color:rgba(241,232,214,.84)}
 .part-panel .check{font-size:15.5px;color:var(--smoke);padding-left:18px;border-left:1px solid var(--gold)}
 .part-panel .check strong{display:block;color:var(--ivory);font-weight:600;margin-bottom:4px}
-.bow-svg [class*="p-"]{transition:filter .45s ease}
-.bow-svg[data-sel] [class*="p-"]{filter:brightness(.38) saturate(.5)}
-.bow-svg[data-sel="head"] .p-head,.bow-svg[data-sel="hair"] .p-hair,.bow-svg[data-sel="hair"] .p-hair2,.bow-svg[data-sel="stick"] .p-stick,.bow-svg[data-sel="stick"] .p-stick2,.bow-svg[data-sel="wind"] .p-wind,.bow-svg[data-sel="frog"] .p-frog,.bow-svg[data-sel="button"] .p-button{filter:drop-shadow(0 0 6px rgba(216,181,108,.55))}
 .part-panel > *{transition:opacity .3s ease,transform .3s ease}
 .part-panel.swap > *{opacity:0;transform:translateY(8px)}
 
@@ -360,8 +372,8 @@ elevenlabs-convai{z-index:70}
 html.motion .rv{opacity:0;transform:translateY(28px)}
 
 @media (prefers-reduced-motion:reduce){
-  .hot::after{animation:none}
-  .btn::before{transition:none}
+  .lockup .l,.brand-word{animation:none}
+    .btn::before{transition:none}
   #dust,.scroll-cue{display:none}
 }
 
@@ -390,7 +402,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   .nav-links .btn{display:none}
   .nav-call{display:inline}
   .brand{font-size:16px}
-  .brand svg{width:124px}
+  .brand .bow-loop{width:124px}
+  .lockup .word{font-size:clamp(17px,5.6vw,24px);letter-spacing:.1em}
   .hero{min-height:auto;padding:108px 0 64px}
   .scroll-cue{display:none}
   .hero-ctas .btn{flex:1 1 100%}
@@ -398,8 +411,7 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   .film{width:100%;max-width:none;aspect-ratio:4/5;max-height:none}
   .manifesto p{text-align:left}
   .manifesto .sig{text-align:left;margin-left:0}
-  .hot{display:none}
-  .bow-stage{margin:0 -8px}
+    .bow-stage{margin:0 -8px}
   .part-tabs{justify-content:flex-start}
   .traits{grid-template-columns:1fr 1fr 1fr;gap:12px}
   .stop{grid-template-columns:1fr;padding-left:30px}
@@ -476,8 +488,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
 <header class="site-head" id="head">
   <nav class="nav" aria-label="Main">
     <a class="brand" href="#top" aria-label="Same Day Bow Rehair, home">
-      Same Day Bow Rehair
-      <svg viewBox="0 0 150 8" aria-hidden="true"><path d="M2 5.5 Q75 1 146 4.2" fill="none" stroke="#d8b56c" stroke-width="1"/><rect x="2" y="4" width="10" height="3.4" rx=".6" fill="#d8b56c"/></svg>
+      <span class="brand-word">Same Day Bow Rehair</span>
+      <video class="bow-loop" src="images/bow-loop.mp4" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
     </a>
     <div class="nav-links">
       <a href="#anatomy">Know your bow</a>
@@ -498,8 +510,12 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   <canvas id="dust" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div>
+      <div class="lockup h-in" aria-label="Same Day Bow Rehair">
+        <p class="word" aria-hidden="true"><span class="l" style="--i:0">S</span><span class="l" style="--i:1">A</span><span class="l" style="--i:2">M</span><span class="l" style="--i:3">E</span><span class="sp"> </span><span class="l" style="--i:5">D</span><span class="l" style="--i:6">A</span><span class="l" style="--i:7">Y</span><span class="sp"> </span><span class="l" style="--i:9">B</span><span class="l" style="--i:10">O</span><span class="l" style="--i:11">W</span><span class="sp"> </span><span class="l" style="--i:13">R</span><span class="l" style="--i:14">E</span><span class="l" style="--i:15">H</span><span class="l" style="--i:16">A</span><span class="l" style="--i:17">I</span><span class="l" style="--i:18">R</span></p>
+        <video class="bow-loop" src="images/bow-loop.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      </div>
       <p class="hero-place h-in">Bow rehair for violin, viola, cello and bass. New York and New Jersey.</p>
-      <h1 id="hero-title"><span class="mask"><span class="ln" data-ab-a="Drop it off this morning." data-ab-b="Two weeks without your bow?">Drop it off this morning.</span></span><span class="mask"><span class="ln" data-ab-a="Play it tonight." data-ab-b="Not here. Same day.">Play it tonight.</span></span></h1>
+      <h1 id="hero-title"><span class="mask"><span class="ln" data-ab-a="Drop it off this morning." data-ab-b="High-quality bow rehair,">Drop it off this morning.</span></span><span class="mask"><span class="ln" data-ab-a="Play it tonight." data-ab-b="without the wait.">Play it tonight.</span></span></h1>
       <svg class="hero-bow" viewBox="0 0 560 28" aria-hidden="true">
         <path class="stick" pathLength="1" d="M10 20 C 150 8, 380 4, 548 9"/>
         <path class="hair" pathLength="1" d="M18 24 L546 13"/>
@@ -604,55 +620,72 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h2" id="anatomy-title">Know your bow.</h2>
-      <p>Six parts decide how your bow feels on the string. Tap each one to see what it does, and what Victor checks before he touches it.</p>
+      <p>Eight parts decide how your bow feels on the string. Tap any part, on the bow or below, and watch it come apart: what it does, what it&rsquo;s made of, and what Victor checks.</p>
     </div>
 
     <div class="bow-stage" id="bowStage">
-      <svg class="bow-svg" viewBox="0 0 1200 240" aria-hidden="true">
-        <defs>
-          <linearGradient id="gStick" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b65a35"/><stop offset="1" stop-color="#5e2414"/></linearGradient>
-          <linearGradient id="gFrog" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2b2016"/><stop offset="1" stop-color="#090604"/></linearGradient>
-          <radialGradient id="gEye"><stop offset="0" stop-color="#f5efe6"/><stop offset=".55" stop-color="#b9c7c4"/><stop offset="1" stop-color="#8a7a6a"/></radialGradient>
-          <pattern id="pWind" width="4" height="12" patternUnits="userSpaceOnUse"><rect width="4" height="12" fill="#a9a39a"/><rect width="1.4" height="12" fill="#e8e2d8"/></pattern>
-        </defs>
-        <!-- hair -->
-        <path class="draw p-hair" pathLength="1" d="M74 141 L1000 168" stroke="#efe6d2" stroke-width="9" opacity=".92"/>
-        <path class="draw p-hair2" pathLength="1" d="M74 141 L1000 168" stroke="#fffaf0" stroke-width="1.2" opacity=".7"/>
-        <!-- stick -->
-        <path class="draw p-stick" pathLength="1" d="M78 72 Q600 128 1092 88" stroke="url(#gStick)" stroke-width="8"/>
-        <path class="draw p-stick2" pathLength="1" d="M80 70 Q600 125 1090 86" stroke="#d98a5c" stroke-width="1" opacity=".5"/>
-        <!-- head -->
-        <g class="fade p-head">
-          <path d="M80 66 L46 62 Q30 63 33 78 L52 150 L86 146 L84 92 Z" fill="url(#gStick)"/>
-          <path d="M52 150 L86 146 L85 139 L50 143 Z" fill="#efe6d2"/>
-          <path d="M46 62 Q30 63 33 78" fill="none" stroke="#efe6d2" stroke-width="2.4"/>
-        </g>
-        <!-- winding and grip -->
-        <g class="fade p-wind">
-          <path d="M880 100 L960 96 L960 108 L880 112 Z" fill="url(#pWind)"/>
-          <path d="M960 95 L992 93 L992 106 L960 108 Z" fill="#6b4a2c"/>
-        </g>
-        <!-- frog -->
-        <g class="fade p-frog">
-          <path d="M996 104 L1088 96 L1092 148 Q1072 196 1012 191 L1000 170 Z" fill="url(#gFrog)" stroke="#d8b56c" stroke-width="1"/>
-          <circle cx="1048" cy="140" r="10" fill="url(#gEye)" stroke="#d8b56c" stroke-width="1"/>
-          <rect x="990" y="156" width="14" height="24" rx="2" fill="#c9c3b6" stroke="#8b8478"/>
-          <path d="M1004 186 Q1050 194 1078 180" fill="none" stroke="#c9c3b6" stroke-width="3"/>
-        </g>
-        <!-- button -->
-        <g class="fade p-button">
-          <rect x="1092" y="80" width="46" height="17" rx="3" fill="url(#gFrog)"/>
-          <rect x="1096" y="80" width="5" height="17" fill="#c9c3b6"/>
-          <rect x="1129" y="80" width="5" height="17" fill="#c9c3b6"/>
-          <circle cx="1115" cy="88.5" r="3.2" fill="url(#gEye)"/>
-        </g>
-      </svg>
-      <button class="hot" type="button" data-part="head" style="left:5.2%;top:42%" aria-label="The head"></button>
-      <button class="hot" type="button" data-part="hair" style="left:40%;top:62.5%" aria-label="The hair"></button>
-      <button class="hot" type="button" data-part="stick" style="left:40.8%;top:41.5%" aria-label="The stick"></button>
-      <button class="hot" type="button" data-part="wind" style="left:76.5%;top:43.5%" aria-label="Winding and grip"></button>
-      <button class="hot" type="button" data-part="frog" style="left:87%;top:56%" aria-label="The frog"></button>
-      <button class="hot" type="button" data-part="button" style="left:94.6%;top:36.5%" aria-label="The screw button"></button>
+      <svg class="bow-svg" id="bowSvg" viewBox="0 0 1400 360" role="img" aria-label="A violin bow; select a part to take it apart">
+<defs>
+ <linearGradient id="gWood" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c46a3c"/><stop offset=".35" stop-color="#8e3a1d"/><stop offset=".7" stop-color="#6a2612"/><stop offset="1" stop-color="#3e150a"/></linearGradient>
+ <linearGradient id="gHead" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#b65f35"/><stop offset=".5" stop-color="#7f3119"/><stop offset="1" stop-color="#4a190b"/></linearGradient>
+ <pattern id="pGrain" width="90" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(3)"><rect width="90" height="5" fill="none"/><path d="M0 1.2H40M48 1.2H90M10 3.6H70" stroke="#2a0d05" stroke-width=".6" opacity=".35"/><path d="M20 2.4H58" stroke="#ffb98a" stroke-width=".4" opacity=".18"/></pattern>
+ <linearGradient id="gEbony" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3a3029"/><stop offset=".25" stop-color="#16110d"/><stop offset="1" stop-color="#050302"/></linearGradient>
+ <pattern id="pEbonyGrain" width="70" height="4" patternUnits="userSpaceOnUse"><path d="M0 1H30M38 1H70M8 3H52" stroke="#fff" stroke-width=".35" opacity=".07"/></pattern>
+ <linearGradient id="gGold" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".3" stop-color="#e2c27a"/><stop offset=".65" stop-color="#b08a3e"/><stop offset="1" stop-color="#6e5320"/></linearGradient>
+ <linearGradient id="gNacre" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f6f1ea"/><stop offset=".25" stop-color="#cfe3e0"/><stop offset=".45" stop-color="#efd9e6"/><stop offset=".65" stop-color="#d7e7f2"/><stop offset=".85" stop-color="#f3ead6"/><stop offset="1" stop-color="#b9cbd0"/></linearGradient>
+ <radialGradient id="gEye2" cx=".35" cy=".35"><stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#d9ebe8"/><stop offset=".7" stop-color="#e8cfe0"/><stop offset="1" stop-color="#8fa7ad"/></radialGradient>
+ <linearGradient id="gHair" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset=".5" stop-color="#e9dfc9"/><stop offset="1" stop-color="#c9bc9f"/></linearGradient>
+ <pattern id="pWind" width="3" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(-4.0)"><rect width="3" height="20" fill="#8f897f"/><rect width="1.3" height="20" fill="#f1ece2"/><rect x="2.2" width=".5" height="20" fill="#d8b56c"/></pattern>
+ <pattern id="pLizard" width="6" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-4.0)"><rect width="6" height="5" fill="#0b0907"/><rect x=".6" y=".6" width="4.6" height="3.6" rx="1.6" fill="#24201b"/><rect x="1.2" y="1" width="2" height="1" rx=".5" fill="#4a443c"/></pattern>
+ <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<ellipse cx="700" cy="318" rx="560" ry="10" fill="#000" opacity=".55" filter="url(#soft)"/>
+<g class="part p-hair" data-part="hair"><g class="mv">
+ <path d="M68,222 L1126.2,237.1 L1126.7,247.1 L66,231 Z" fill="url(#gHair)"/>
+ <path d="M66,229 L1126.2,240.1" stroke="#fff" stroke-width=".6" opacity=".7"/>
+ <path d="M65,232 L1126.2,242.1" stroke="#a89b7e" stroke-width=".5" opacity=".6"/>
+ <path d="M65,234 L1126.7,245.1" stroke="#fff" stroke-width=".4" opacity=".5"/>
+</g></g>
+<g class="part p-stick" data-part="stick"><g class="mv">
+ <path d="M112.4,146.5 L141.8,149.5 L171.2,152.4 L200.5,155.2 L229.8,157.9 L259.0,160.4 L288.1,162.8 L317.2,165.1 L346.3,167.2 L375.3,169.2 L404.3,171.1 L433.2,172.9 L462.0,174.5 L490.9,176.0 L519.6,177.4 L548.3,178.6 L577.0,179.8 L605.6,180.8 L634.1,181.7 L662.6,182.4 L691.1,183.0 L719.5,183.5 L747.8,183.9 L776.1,184.1 L804.4,184.2 L832.6,184.2 L860.7,184.1 L888.8,183.8 L916.9,183.4 L944.9,182.9 L972.8,182.2 L1000.7,181.5 L1028.6,180.6 L1056.4,179.5 L1084.1,178.4 L1111.8,177.1 L1139.4,175.7 L1167.0,174.1 L1194.6,172.5 L1222.1,170.7 L1249.5,168.8 L1250.5,183.2 L1223.0,185.0 L1195.4,186.6 L1167.8,188.1 L1140.1,189.5 L1112.4,190.7 L1084.7,191.8 L1056.8,192.8 L1029.0,193.7 L1001.1,194.4 L973.1,195.0 L945.1,195.5 L917.1,195.8 L888.9,196.0 L860.8,196.1 L832.6,196.1 L804.3,195.9 L776.0,195.6 L747.7,195.2 L719.3,194.7 L690.8,194.0 L662.3,193.2 L633.8,192.3 L605.2,191.3 L576.6,190.1 L547.9,188.8 L519.1,187.3 L490.3,185.8 L461.5,184.1 L432.6,182.3 L403.7,180.3 L374.7,178.3 L345.6,176.1 L316.6,173.8 L287.4,171.3 L258.2,168.7 L229.0,166.0 L199.7,163.2 L170.4,160.2 L141.0,157.2 L111.6,154.0 Z" fill="url(#gWood)"/>
+ <path d="M112.4,146.5 L141.8,149.5 L171.2,152.4 L200.5,155.2 L229.8,157.9 L259.0,160.4 L288.1,162.8 L317.2,165.1 L346.3,167.2 L375.3,169.2 L404.3,171.1 L433.2,172.9 L462.0,174.5 L490.9,176.0 L519.6,177.4 L548.3,178.6 L577.0,179.8 L605.6,180.8 L634.1,181.7 L662.6,182.4 L691.1,183.0 L719.5,183.5 L747.8,183.9 L776.1,184.1 L804.4,184.2 L832.6,184.2 L860.7,184.1 L888.8,183.8 L916.9,183.4 L944.9,182.9 L972.8,182.2 L1000.7,181.5 L1028.6,180.6 L1056.4,179.5 L1084.1,178.4 L1111.8,177.1 L1139.4,175.7 L1167.0,174.1 L1194.6,172.5 L1222.1,170.7 L1249.5,168.8 L1250.5,183.2 L1223.0,185.0 L1195.4,186.6 L1167.8,188.1 L1140.1,189.5 L1112.4,190.7 L1084.7,191.8 L1056.8,192.8 L1029.0,193.7 L1001.1,194.4 L973.1,195.0 L945.1,195.5 L917.1,195.8 L888.9,196.0 L860.8,196.1 L832.6,196.1 L804.3,195.9 L776.0,195.6 L747.7,195.2 L719.3,194.7 L690.8,194.0 L662.3,193.2 L633.8,192.3 L605.2,191.3 L576.6,190.1 L547.9,188.8 L519.1,187.3 L490.3,185.8 L461.5,184.1 L432.6,182.3 L403.7,180.3 L374.7,178.3 L345.6,176.1 L316.6,173.8 L287.4,171.3 L258.2,168.7 L229.0,166.0 L199.7,163.2 L170.4,160.2 L141.0,157.2 L111.6,154.0 Z" fill="url(#pGrain)"/>
+ <path d="M130.2,150.1 L158.8,153.0 L187.2,155.8 L215.7,158.4 L244.1,161.0 L272.4,163.4 L300.7,165.7 L329.0,167.9 L357.2,170.0 L385.4,171.9 L413.5,173.8 L441.5,175.5 L469.5,177.1 L497.5,178.6 L525.4,179.9 L553.3,181.1 L581.1,182.3 L608.9,183.3 L636.6,184.1 L664.3,184.9 L692.0,185.5 L719.6,186.0 L747.1,186.4 L774.6,186.7 L802.0,186.9 L829.4,186.9 L856.8,186.8 L884.1,186.6 L911.4,186.3 L938.6,185.8 L965.7,185.3 L992.8,184.6 L1019.9,183.8 L1046.9,182.9 L1073.9,181.8 L1100.8,180.7 L1127.7,179.4 L1154.5,178.0 L1181.3,176.5 L1208.0,174.8 L1234.7,173.1" stroke="#f0a477" stroke-width="1.2" fill="none" opacity=".45"/>
+</g></g>
+<g class="part p-head" data-part="head"><g class="mv">
+ <path d="M114,146 C96,139 82,127 68,124 L60,125 C54,146 56,188 63,224 L106,222 C101,203 98,176 114,157 Z" fill="url(#gHead)"/>
+ <path d="M114,146 C96,139 82,127 68,124 L60,125 C54,146 56,188 63,224 L106,222 C101,203 98,176 114,157 Z" fill="url(#pGrain)"/>
+ <path d="M68,124 L60,125 C56,140 56,160 58,176" stroke="url(#gGold)" stroke-width="2.6" fill="none"/>
+ <path d="M60,125 C54,146 56,188 63,224" stroke="#e7a072" stroke-width="1" fill="none" opacity=".35"/>
+ <path d="M63,224 L106,222 L105,214 L62,216 Z" fill="url(#gGold)"/>
+ <path d="M68,220 q6,-3 11,0 t11,-1 t10,-1" stroke="#7a5a22" stroke-width=".8" fill="none" opacity=".8"/>
+</g></g>
+<g class="part p-wind" data-part="wind"><g class="mv">
+ <path d="M984.8,180.7 L987.2,180.7 L989.6,180.6 L992.0,180.5 L994.3,180.5 L996.7,180.4 L999.1,180.3 L1001.5,180.2 L1003.8,180.2 L1006.2,180.1 L1008.6,180.0 L1011.0,179.9 L1013.3,179.9 L1015.7,179.8 L1018.1,179.7 L1020.5,179.6 L1022.8,179.6 L1025.2,179.5 L1027.6,179.4 L1030.0,179.3 L1032.3,179.2 L1034.7,179.1 L1037.1,179.1 L1039.4,179.0 L1041.8,178.9 L1044.2,178.8 L1046.5,178.7 L1048.9,178.6 L1051.3,178.5 L1053.7,178.4 L1056.0,178.3 L1058.4,178.2 L1060.8,178.2 L1063.1,178.1 L1065.5,178.0 L1067.9,177.9 L1070.2,177.8 L1072.6,177.7 L1075.0,177.6 L1077.3,177.5 L1079.7,177.4 L1080.3,193.2 L1077.9,193.3 L1075.6,193.4 L1073.2,193.4 L1070.8,193.5 L1068.5,193.6 L1066.1,193.7 L1063.7,193.8 L1061.3,193.8 L1059.0,193.9 L1056.6,194.0 L1054.2,194.1 L1051.8,194.2 L1049.5,194.2 L1047.1,194.3 L1044.7,194.4 L1042.3,194.5 L1040.0,194.5 L1037.6,194.6 L1035.2,194.7 L1032.8,194.7 L1030.4,194.8 L1028.1,194.9 L1025.7,194.9 L1023.3,195.0 L1020.9,195.1 L1018.5,195.1 L1016.2,195.2 L1013.8,195.3 L1011.4,195.3 L1009.0,195.4 L1006.6,195.5 L1004.3,195.5 L1001.9,195.6 L999.5,195.6 L997.1,195.7 L994.7,195.7 L992.3,195.8 L990.0,195.8 L987.6,195.9 L985.2,195.9 Z" fill="url(#pWind)"/>
+ <path d="M1079.6,176.4 L1080.7,176.3 L1081.7,176.3 L1082.8,176.2 L1083.8,176.2 L1084.9,176.1 L1085.9,176.1 L1087.0,176.0 L1088.0,176.0 L1089.1,175.9 L1090.1,175.9 L1091.2,175.9 L1092.2,175.8 L1093.3,175.8 L1094.3,175.7 L1095.4,175.7 L1096.4,175.6 L1097.5,175.6 L1098.5,175.5 L1099.6,175.5 L1100.6,175.4 L1101.7,175.4 L1102.7,175.3 L1103.8,175.3 L1104.8,175.2 L1105.9,175.2 L1106.9,175.1 L1108.0,175.1 L1109.0,175.0 L1110.1,175.0 L1111.1,174.9 L1112.1,174.9 L1113.2,174.8 L1114.2,174.8 L1115.3,174.7 L1116.3,174.7 L1117.4,174.6 L1118.4,174.6 L1119.5,174.5 L1120.5,174.5 L1121.6,174.4 L1122.4,192.5 L1121.4,192.5 L1120.3,192.6 L1119.3,192.6 L1118.2,192.7 L1117.2,192.7 L1116.1,192.7 L1115.1,192.8 L1114.0,192.8 L1113.0,192.9 L1111.9,192.9 L1110.9,193.0 L1109.8,193.0 L1108.8,193.1 L1107.7,193.1 L1106.7,193.1 L1105.6,193.2 L1104.6,193.2 L1103.5,193.3 L1102.5,193.3 L1101.4,193.4 L1100.4,193.4 L1099.3,193.4 L1098.3,193.5 L1097.2,193.5 L1096.1,193.6 L1095.1,193.6 L1094.0,193.7 L1093.0,193.7 L1091.9,193.7 L1090.9,193.8 L1089.8,193.8 L1088.8,193.9 L1087.7,193.9 L1086.7,193.9 L1085.6,194.0 L1084.6,194.0 L1083.5,194.1 L1082.5,194.1 L1081.4,194.1 L1080.4,194.2 Z" fill="url(#pLizard)"/>
+</g></g>
+<g class="part p-frog" data-part="frog"><g class="mv"><g transform="translate(1124.0,190.2) rotate(-2.7)">
+ <path d="M14,0 L114,0 L114,50 Q113,60 104,62 L22,62 Q8,62 6,50 Q2,30 14,0 Z" fill="url(#gEbony)"/>
+ <path d="M14,0 L114,0 L114,50 Q113,60 104,62 L22,62 Q8,62 6,50 Q2,30 14,0 Z" fill="url(#pEbonyGrain)"/>
+ <path d="M14,3 L108,3" stroke="#4a3d32" stroke-width="1" opacity=".7"/>
+ <rect x="108" y="0" width="7" height="58" rx="1.5" fill="url(#gGold)"/>
+ <circle cx="84" cy="33" r="9" fill="url(#gEye2)" stroke="url(#gGold)" stroke-width="2"/>
+</g></g></g>
+<g class="part p-ring" data-part="ring"><g class="mv"><g transform="translate(1124.0,190.2) rotate(-2.7)">
+ <path d="M2,38 L16,38 L16,64 L4,64 Q-1,62 0,55 Z" fill="url(#gGold)"/>
+ <path d="M4,42 L14,42 M4,48 L14,48 M4,54 L14,54 M4,60 L14,60" stroke="#7a5a22" stroke-width=".7"/>
+</g></g></g>
+<g class="part p-slide" data-part="slide"><g class="mv"><g transform="translate(1124.0,190.2) rotate(-2.7)">
+ <path d="M16,58 L106,58 Q110,58 110,61 L110,64 L16,64 Z" fill="url(#gNacre)" stroke="#9fb2b4" stroke-width=".5"/>
+</g></g></g>
+<g class="part p-button" data-part="button"><g class="mv"><g transform="translate(1250.0,176.0) rotate(-4.0)">
+ <rect x="0" y="-9" width="56" height="18" rx="2" fill="url(#gEbony)"/>
+ <rect x="2" y="-9.5" width="7" height="19" rx="1" fill="url(#gGold)"/>
+ <rect x="30" y="-9.5" width="4" height="19" fill="url(#gGold)"/>
+ <rect x="50" y="-9.5" width="7" height="19" rx="1" fill="url(#gGold)"/>
+ <circle cx="57" cy="0" r="5" fill="url(#gEye2)"/>
+</g></g></g>
+</svg>
+      <button class="explode" id="explodeBtn" type="button" aria-pressed="false">Take the bow apart</button>
     </div>
 
     <div class="part-tabs" role="tablist" aria-label="Parts of the bow">
@@ -661,7 +694,9 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
       <button role="tab" type="button" data-part="stick" aria-selected="false">Stick</button>
       <button role="tab" type="button" data-part="wind" aria-selected="false">Winding &amp; grip</button>
       <button role="tab" type="button" data-part="frog" aria-selected="false">Frog</button>
-      <button role="tab" type="button" data-part="button" aria-selected="false">Screw</button>
+      <button role="tab" type="button" data-part="ring" aria-selected="false">Ring</button>
+      <button role="tab" type="button" data-part="slide" aria-selected="false">Slide</button>
+      <button role="tab" type="button" data-part="button" aria-selected="false">Screw button</button>
     </div>
 
     <div class="part-panel" id="partPanel" role="tabpanel" aria-live="polite">
@@ -932,8 +967,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="brand" href="#top">Same Day Bow Rehair
-          <svg viewBox="0 0 150 8" aria-hidden="true"><path d="M2 5.5 Q75 1 146 4.2" fill="none" stroke="#d8b56c" stroke-width="1"/><rect x="2" y="4" width="10" height="3.4" rx=".6" fill="#d8b56c"/></svg>
+        <a class="brand big" href="#top"><span class="brand-word">Same Day Bow Rehair</span>
+          <video class="bow-loop" src="images/bow-loop.mp4" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
         </a>
         <p>Serving New York City and New Jersey, by appointment.</p>
         <div class="socials">
@@ -1010,6 +1045,7 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
     if(!html.classList.contains('intro')) return startHero();
     try{sessionStorage.setItem('sdbr-intro','1');}catch(e){}
     var el=$('#intro'); el.classList.add('leaving');
+    html.classList.add('intro-done');
     setTimeout(function(){html.classList.remove('intro');},900);
     startHero();
   }
@@ -1081,19 +1117,28 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
 
   /* ---------- bow anatomy ---------- */
   var PARTS={
-    head:{n:'The head',w:'The carved tip of the bow. The hair is anchored inside it with a small wooden plug, fitted into a hollow called the mortise. A protective plate covers its face.',c:'Cracks around the mortise. A cracked head is the most serious damage a bow can have, so it’s the first thing we look at, with you.'},
-    hair:{n:'The hair',w:'Roughly 150 to 200 horse hairs on a violin bow, more on cello and bass. Each hair has tiny scales that hold rosin; that’s what makes the string speak.',c:'A flat, even ribbon with no twisted hairs, and the right length, so the tension is the same across the whole width.'},
-    stick:{n:'The stick',w:'Pernambuco wood or carbon fiber, bent into a gentle curve called the camber. That curve gives the bow its spring and its response.',c:'That the stick is straight when you sight down it. Hair missing on one side can let it bend sideways over time.'},
-    wind:{n:'Winding & grip',w:'Fine wire or thread wrapped near the frog protects the stick and fine-tunes the balance. The leather grip is where your thumb rests.',c:'Loose winding and worn leather. A worn grip lets the thumb wear into the wood; it’s a small fix if we catch it early.'},
-    frog:{n:'The frog',w:'The ebony block that holds the hair at your end, often with a mother-of-pearl eye. The hair runs through the metal ferrule and is locked in with a plug and a wedge.',c:'That the frog sits snug on the stick, with no rocking, and that the slide and ferrule are secure.'},
-    button:{n:'The screw',w:'The button at the end turns a screw inside the stick that moves the frog, tightening or loosening the hair.',c:'That the screw turns smoothly and the eyelet threads aren’t stripped. Always loosen the hair when you put the bow away.'}
+    head:{n:'The head',o:[-46,-34],w:'The carved tip of the bow. The hair is anchored inside it with a small wooden plug, fitted into a hollow called the mortise. Its face is protected by a tip plate of silver, gold, bone or synthetic ivory.',c:'Cracks around the mortise. A cracked head is the most serious damage a bow can have, so it’s the first thing we look at, with you.'},
+    hair:{n:'The hair',o:[0,46],w:'Roughly 150 to 200 horse hairs on a violin bow, more on cello and bass. Each hair has tiny scales that hold rosin; that’s what makes the string speak.',c:'A flat, even ribbon with no twisted hairs, and the right length, so the tension is the same across the whole width.'},
+    stick:{n:'The stick',o:[0,-46],w:'Pernambuco wood or carbon fiber, round or octagonal, bent into a gentle curve called the camber. That curve gives the bow its spring and its response.',c:'That the stick is straight when you sight down it. Hair missing on one side can let it bend sideways over time.'},
+    wind:{n:'Winding & grip',o:[0,-58],w:'Fine silver, gold or tinsel wire, sometimes whalebone, wrapped near the frog to protect the stick and fine-tune the balance. The grip under your thumb is leather or lizard skin.',c:'Loose winding and a worn grip. A worn grip lets the thumb wear into the wood; it’s a small fix if we catch it early.'},
+    frog:{n:'The frog',o:[26,58],w:'The block that holds the hair at your end, usually ebony, sometimes ivory substitutes or tortoise-style materials on fine bows. The round eye on its side is mother-of-pearl, abalone or a precious stone set in a metal ring.',c:'That the frog sits snug on the stick, with no rocking, and that it slides smoothly when you turn the screw.'},
+    ring:{n:'The ring',o:[-66,74],w:'The metal ring at the front of the frog, also called the ferrule. In nickel silver, silver or gold, it gathers the hair into a flat ribbon as it leaves the frog.',c:'That it sits tight and the ribbon comes out of it flat and even, never bunched to one side.'},
+    slide:{n:'The slide',o:[18,104],w:'The thin plate that covers the hair channel under the frog. Depending on the bow it’s mother-of-pearl, abalone, ebony or another material, usually framed in metal.',c:'Cracks, chips or a slide that has worked loose. A loose slide lets the wedge and the hair shift.'},
+    button:{n:'The screw button',o:[60,-30],w:'The button at the end turns a screw inside the stick that moves the frog, tightening or loosening the hair. It’s often ebony with silver or gold rings and a pearl eye.',c:'That the screw turns smoothly and the eyelet threads aren’t stripped. Always loosen the hair when you put the bow away.'}
   };
-  var panel=$('#partPanel');
+  var panel=$('#partPanel'), bowSvg=$('#bowSvg'), exploded=false, current='head';
+  function place(){
+    $$('.bow-svg .part').forEach(function(g){
+      var k=g.dataset.part, o=PARTS[k].o, mv=$('.mv',g), on=exploded||k===current&&bowSvg.classList.contains('has-sel');
+      g.classList.toggle('sel',k===current);
+      mv.style.transform=on?'translate('+o[0]+'px,'+o[1]+'px)':'translate(0,0)';
+    });
+  }
   function showPart(k,user){
-    var P=PARTS[k]; if(!P) return;
-    $$('.hot').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.part===k));});
-    $('.bow-svg').setAttribute('data-sel',k);
+    var P=PARTS[k]; if(!P) return; current=k;
+    if(user){bowSvg.classList.add('has-sel');}
     $$('.part-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.part===k));});
+    place();
     panel.classList.add('swap');
     setTimeout(function(){
       $('#pName').textContent=P.n; $('#pWhat').textContent=P.w;
@@ -1102,7 +1147,14 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
     },reduce?0:180);
     if(user) track('anatomy_part',{part:k});
   }
-  $$('.hot,.part-tabs button').forEach(function(b){b.addEventListener('click',function(){showPart(b.dataset.part,true);});});
+  $$('.part-tabs button').forEach(function(b){b.addEventListener('click',function(){showPart(b.dataset.part,true);});});
+  $$('.bow-svg .part').forEach(function(g){g.addEventListener('click',function(){showPart(g.dataset.part,true);});});
+  $('#explodeBtn').addEventListener('click',function(){
+    exploded=!exploded; this.setAttribute('aria-pressed',String(exploded));
+    this.textContent=exploded?'Put it back together':'Take the bow apart';
+    bowSvg.classList.toggle('exploded',exploded); if(!exploded) bowSvg.classList.remove('has-sel');
+    place(); track('anatomy_explode',{on:exploded});
+  });
   showPart('head');
 
   /* ---------- rehair check ---------- */
@@ -1188,11 +1240,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
     $$('.rv').forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 86%'}});});
     $$('.h2').forEach(function(h){gsap.from(h,{y:40,opacity:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 88%'}});});
 
-    // Bow anatomy draws itself
-    var bt=gsap.timeline({scrollTrigger:{trigger:'#bowStage',start:'top 75%'}});
-    bt.fromTo('.bow-svg .draw',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.6,ease:'power2.inOut',stagger:.12})
-      .from('.bow-svg .fade',{opacity:0,duration:.6,stagger:.1},'-=.8')
-      .from('.hot',{scale:0,opacity:0,duration:.5,stagger:.08,ease:'back.out(2)'},'-=.3');
+    // Bow anatomy: parts assemble as it comes into view
+    gsap.from('.bow-svg .part',{opacity:0,y:function(i){return [40,-40,-30,-50,50,60,70,-30][i%8];},duration:1.2,stagger:.09,ease:'power3.out',scrollTrigger:{trigger:'#bowStage',start:'top 78%'}});
 
     // Quiz and care cards
     gsap.from('.sign',{y:20,opacity:0,duration:.7,stagger:.06,ease:'power3.out',scrollTrigger:{trigger:'#signs',start:'top 80%'}});
