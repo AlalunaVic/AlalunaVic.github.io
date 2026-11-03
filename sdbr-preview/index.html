@@ -91,6 +91,8 @@ html.intro body{overflow:hidden}
 .head.away{transform:translateY(-110%)}
 .head.solid{background:linear-gradient(rgba(18,13,9,.92),rgba(18,13,9,.75));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .brand{display:flex;flex-direction:column;text-decoration:none;font-family:var(--display);font-size:17px;letter-spacing:.16em;line-height:1}
+.head:not(.solid) .brand{opacity:0;pointer-events:none}
+.brand{transition:opacity .4s}
 .brand video{width:170px;margin:-6px 0 -10px -14px;mix-blend-mode:screen;pointer-events:none;contain:inline-size}
 .head-right{display:flex;align-items:center;gap:10px}
 .head .btn{padding:13px 22px}
@@ -865,18 +867,18 @@ function build(){
 
   /* ----- camera states ----- */
   const STATES=[
-    {f:[0,1.1,0], z:0, rx:.24, ry:-.34, rz:-.05, ex:0},   // 0 overview
-    {f:[-36.3,1.25,0], z:12.5, rx:.16, ry:.8, rz:0, ex:0},   // 1 head
-    {f:[-14,.4,0], z:19, rx:.62, ry:-1.08, rz:.06, ex:0},  // 2 hair
-    {f:[28.6,.55,0], z:11.5, rx:.22, ry:-.58, rz:0, ex:0},  // 3 frog
-    {f:[28.8,-.7,.2], z:17, rx:.3, ry:-.9, rz:0, ex:1},     // 4 exploded
-    {f:[0,1.1,0], z:0, rx:.12, ry:.32, rz:-.05, ex:0}       // 5 final
+    {f:[0,1.1,0], z:0, rx:.24, ry:-.34, rz:-.05, ex:0, sx:-.17},   // 0 overview (text left)
+    {f:[-36.0,1.2,0], z:21, rx:.16, ry:.72, rz:0, ex:0, sx:.2},     // 1 head (text right)
+    {f:[-14,.4,0], z:24, rx:.58, ry:-1.05, rz:.06, ex:0, sx:-.16},  // 2 hair
+    {f:[28.4,.55,0], z:18, rx:.22, ry:-.58, rz:0, ex:0, sx:.2},     // 3 frog
+    {f:[28.6,-.7,.2], z:22, rx:.3, ry:-.9, rz:0, ex:1, sx:-.17},    // 4 exploded
+    {f:[0,1.1,0], z:0, rx:.12, ry:.32, rz:-.05, ex:0, sx:.17}       // 5 final (text right)
   ];
   const STOPS=[0,.17,.35,.53,.71,.9];
   let W=1,H=1,mobile=false;
   function fitZ(rz,ry){
     const vf=camera.fov*Math.PI/180,hf=2*Math.atan(Math.tan(vf/2)*camera.aspect);
-    const half=38*Math.abs(Math.cos(ry)),hx=half*Math.abs(Math.cos(rz))+2,hy=half*Math.abs(Math.sin(rz))+3;
+    const half=38*Math.abs(Math.cos(ry))*(mobile?1:1.18),hx=half*Math.abs(Math.cos(rz))+2,hy=half*Math.abs(Math.sin(rz))+3;
     return Math.max(hx/Math.tan(hf/2),hy/Math.tan(vf/2))*1.08;
   }
   function resize(){
@@ -896,7 +898,7 @@ function build(){
     const rzA=mobile&&a.z===0?-1.15:a.rz, rzB=mobile&&b.z===0?-1.15:b.rz;
     const zA=a.z||fitZ(rzA,a.ry), zB=b.z||fitZ(rzB,b.ry);
     const zm=mobile?1.55:1;
-    return {f:[L(a.f[0],b.f[0]),L(a.f[1],b.f[1]),L(a.f[2],b.f[2])],z:L(a.z?zA*zm:zA,b.z?zB*zm:zB),rx:L(a.rx,b.rx),ry:L(a.ry,b.ry),rz:L(rzA,rzB),ex:L(a.ex,b.ex),chap:t>.5?Math.min(i+1,5):i};
+    return {f:[L(a.f[0],b.f[0]),L(a.f[1],b.f[1]),L(a.f[2],b.f[2])],z:L(a.z?zA*zm:zA,b.z?zB*zm:zB),rx:L(a.rx,b.rx),ry:L(a.ry,b.ry),rz:L(rzA,rzB),ex:L(a.ex,b.ex),sx:mobile?0:L(a.sx,b.sx),chap:t>.5?Math.min(i+1,5):i};
   }
 
   /* ----- interaction: drag to turn, tap a part ----- */
@@ -931,6 +933,7 @@ function build(){
     bow.position.set(-s.f[0],-s.f[1],-s.f[2]);
     pivot.rotation.set(s.rx+dragX,s.ry+dragY+idle,s.rz);
     camera.position.set(0,0,s.z);camera.lookAt(0,0,0);
+    camera.setViewOffset(W,H,s.sx*W,0,W,H);
     for(const k in parts){const P=parts[k];const target=Math.max(P.target,(['frog','eye','ring','slide','button'].includes(k)?s.ex:s.ex*.0));P.ex+=(target-P.ex)*.08;P.g.position.copy(P.off).multiplyScalar(P.ex);}
     if(s.chap!==lastChap){lastChap=s.chap;chaps.forEach((c,i)=>c.classList.toggle('on',i===s.chap));dots.forEach((b,i)=>b.classList.toggle('on',i===s.chap));}
     renderer.render(scene,camera);
