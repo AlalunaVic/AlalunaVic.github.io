@@ -75,9 +75,9 @@ a{color:inherit}
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 72px;overflow:hidden;background:
   radial-gradient(ellipse 60% 70% at 78% 40%,rgba(201,139,50,.16),transparent 70%),var(--ebony)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,6vw,88px);align-items:center}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(32px,5vw,72px);align-items:center}
 .hero-place{font-size:15px;color:var(--smoke);margin-bottom:26px;letter-spacing:.02em}
-.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,7.4vw,104px);line-height:.98;letter-spacing:-.015em;color:var(--ivory)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,5.6vw,86px);line-height:1;letter-spacing:-.015em;color:var(--ivory)}
 .hero h1 .line{display:block}
 .hero h1 .line + .line{font-style:italic;color:var(--gold)}
 .hero-bow{display:block;width:min(560px,100%);height:28px;margin:26px 0 30px;overflow:visible}
@@ -93,7 +93,7 @@ a{color:inherit}
 .hero-facts div{font-size:14px;color:var(--smoke);line-height:1.35}
 .hero-facts strong{display:block;font-family:var(--display);font-weight:400;font-size:22px;color:var(--ivory);margin-bottom:2px}
 
-.film{position:relative;justify-self:end;width:min(400px,100%);aspect-ratio:9/16;border-radius:3px;overflow:hidden;background:var(--ebony-2);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px var(--rule-dark)}
+.film{position:relative;justify-self:end;width:min(380px,100%);max-height:calc(100svh - 170px);aspect-ratio:9/16;border-radius:3px;overflow:hidden;background:var(--ebony-2);box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px var(--rule-dark)}
 .film video{width:100%;height:100%;object-fit:cover}
 .film::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(to top,rgba(22,16,11,.88),transparent);pointer-events:none}
 .film-cap{position:absolute;left:20px;right:20px;bottom:18px;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
