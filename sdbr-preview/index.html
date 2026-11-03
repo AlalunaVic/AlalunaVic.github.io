@@ -112,7 +112,7 @@ html.intro body{overflow:hidden}
 .lockup .word{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:.14em;line-height:1;white-space:nowrap}
 .lockup .l{display:inline-block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,shine 7.8s linear infinite;animation-delay:calc(var(--i)*55ms + .2s),calc(var(--i)*70ms)}
 .lockup .sp{display:inline-block;width:.35em}
-.lockup .bow-loop{display:block;width:118%;max-width:none;height:auto;margin:-5% 0 0 -9%;contain:inline-size;mix-blend-mode:screen;pointer-events:none}
+.lockup .bow-loop{display:block;width:118%;max-width:none;height:auto;margin:-5% 0 -6% -9%;contain:inline-size;mix-blend-mode:screen;pointer-events:none}
 @keyframes shine{0%{background-position:100% 0}55%,100%{background-position:0 0}}
 @keyframes rise{from{opacity:0;transform:translateY(.5em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
 html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
@@ -129,7 +129,7 @@ html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
 #dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
 .hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(32px,5vw,72px);align-items:center}
 .hero-place{font-size:15px;color:var(--smoke);margin-bottom:20px}
-.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,5.8vw,90px);line-height:1;letter-spacing:-.015em}
+.hero h1{margin-bottom:28px;font-family:var(--display);font-weight:400;font-size:clamp(44px,5.8vw,90px);line-height:1;letter-spacing:-.015em}
 .hero h1 .mask{display:block;overflow:hidden;padding-bottom:.08em}
 .hero h1 .ln{display:block}
 .hero h1 .mask + .mask .ln{font-style:italic;color:var(--gold)}
@@ -516,11 +516,6 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
       </div>
       <p class="hero-place h-in">Bow rehair for violin, viola, cello and bass. New York and New Jersey.</p>
       <h1 id="hero-title"><span class="mask"><span class="ln" data-ab-a="Drop it off this morning." data-ab-b="High-quality bow rehair,">Drop it off this morning.</span></span><span class="mask"><span class="ln" data-ab-a="Play it tonight." data-ab-b="without the wait.">Play it tonight.</span></span></h1>
-      <svg class="hero-bow" viewBox="0 0 560 28" aria-hidden="true">
-        <path class="stick" pathLength="1" d="M10 20 C 150 8, 380 4, 548 9"/>
-        <path class="hair" pathLength="1" d="M18 24 L546 13"/>
-        <rect class="frog" x="8" y="18" width="26" height="9" rx="1.5"/>
-      </svg>
       <p class="hero-sub h-in">Your bow, rehaired by hand by a fourth-generation luthier trained at El Sistema, with more than 25 years at the bench. Ready the same afternoon, at a price every musician can reach.</p>
       <div class="hero-ctas h-in">
         <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_hero">Book a rehair</a>
@@ -1221,13 +1216,10 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   /* ---------- motion (GSAP) ---------- */
   function startHero(){
     if(heroStarted) return; heroStarted=true;
-    if(!window.gsap||reduce){ $$('.hero-bow path').forEach(function(p){p.style.strokeDasharray='none';}); return; }
+    if(!window.gsap||reduce) return;
     var tlh=gsap.timeline({defaults:{ease:'power4.out'}});
     tlh.from('.hero h1 .ln',{yPercent:110,duration:1.2,stagger:.14})
-       .fromTo('.hero-bow .stick',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},'-=.8')
-       .fromTo('.hero-bow .hair',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,duration:1.4,ease:'power2.inOut'},'-=1.2')
-       .from('.hero-bow .frog',{opacity:0,duration:.4},'-=.5')
-       .from('.h-in',{y:24,opacity:0,duration:.9,stagger:.08},'-=1.4');
+       .from('.h-in',{y:24,opacity:0,duration:.9,stagger:.08},'-=.9');
   }
 
   function motion(){
