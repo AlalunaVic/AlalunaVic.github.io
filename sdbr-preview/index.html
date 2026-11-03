@@ -112,7 +112,7 @@ html.intro body{overflow:hidden}
 .lockup .word{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);letter-spacing:.14em;line-height:1;white-space:nowrap}
 .lockup .l{display:inline-block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,shine 7.8s linear infinite;animation-delay:calc(var(--i)*55ms + .2s),calc(var(--i)*70ms)}
 .lockup .sp{display:inline-block;width:.35em}
-.lockup .bow-loop{display:block;width:118%;max-width:none;height:auto;margin:-5% 0 0 -9%;mix-blend-mode:screen;pointer-events:none}
+.lockup .bow-loop{display:block;width:118%;max-width:none;height:auto;margin:-5% 0 0 -9%;contain:inline-size;mix-blend-mode:screen;pointer-events:none}
 @keyframes shine{0%{background-position:100% 0}55%,100%{background-position:0 0}}
 @keyframes rise{from{opacity:0;transform:translateY(.5em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
 html.intro:not(.intro-done) .lockup .l{animation-play-state:paused}
@@ -380,9 +380,9 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
 /* ---------- responsive ---------- */
 @media (max-width:1020px){
   .nav-links a:not(.btn){display:none}
-  .hero-grid{grid-template-columns:1fr}
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
   .film{justify-self:start;width:min(340px,100%)}
-  .sec-head,.worries-grid,.quiz-grid,.hair-grid,.price-grid,.maker-grid,.faq-grid{grid-template-columns:1fr}
+  .sec-head,.worries-grid,.quiz-grid,.hair-grid,.price-grid,.maker-grid,.faq-grid{grid-template-columns:minmax(0,1fr)}
   .sec-head{gap:16px}
   .worries-head,.verdict{position:static}
   .part-panel{grid-template-columns:1fr;gap:16px}
