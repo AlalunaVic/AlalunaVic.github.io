@@ -122,6 +122,8 @@ html.intro body{overflow:hidden}
 #bow3d:active{cursor:grabbing}
 .chap{position:absolute;left:var(--gutter);top:50%;transform:translateY(-50%);max-width:min(440px,38vw);pointer-events:none;opacity:0;transition:opacity .6s ease,transform .8s var(--ease)}
 .chap.on{opacity:1}
+.chap{isolation:isolate}
+.chap::before{content:"";position:absolute;inset:-70px -90px;background:radial-gradient(closest-side,rgba(18,13,9,.88),rgba(18,13,9,.55) 60%,transparent);z-index:-1}
 .chap.right{left:auto;right:var(--gutter)}
 .chap .kicker{font-size:13px;color:var(--gold);margin-bottom:14px;display:flex;gap:10px;align-items:center}
 .chap .kicker::before{content:"";width:28px;height:1px;background:var(--gold)}
@@ -868,9 +870,9 @@ function build(){
   /* ----- camera states ----- */
   const STATES=[
     {f:[0,1.1,0], z:0, rx:.24, ry:-.34, rz:-.05, ex:0, sx:-.17},   // 0 overview (text left)
-    {f:[-36.0,1.2,0], z:21, rx:.16, ry:.72, rz:0, ex:0, sx:.2},     // 1 head (text right)
+    {f:[-35.6,1.2,0], z:22, rx:.16, ry:.95, rz:0, ex:0, sx:.24},     // 1 head (text right)
     {f:[-14,.4,0], z:24, rx:.58, ry:-1.05, rz:.06, ex:0, sx:-.16},  // 2 hair
-    {f:[28.4,.55,0], z:18, rx:.22, ry:-.58, rz:0, ex:0, sx:.2},     // 3 frog
+    {f:[28.0,.55,0], z:19, rx:.22, ry:-.58, rz:0, ex:0, sx:.25},     // 3 frog
     {f:[28.6,-.7,.2], z:22, rx:.3, ry:-.9, rz:0, ex:1, sx:-.17},    // 4 exploded
     {f:[0,1.1,0], z:0, rx:.12, ry:.32, rz:-.05, ex:0, sx:.17}       // 5 final (text right)
   ];
