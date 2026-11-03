@@ -190,6 +190,9 @@ html.intro body{overflow:hidden}
 .part-panel .what{color:rgba(241,232,214,.84)}
 .part-panel .check{font-size:15.5px;color:var(--smoke);padding-left:18px;border-left:1px solid var(--gold)}
 .part-panel .check strong{display:block;color:var(--ivory);font-weight:600;margin-bottom:4px}
+.bow-svg [class*="p-"]{transition:filter .45s ease}
+.bow-svg[data-sel] [class*="p-"]{filter:brightness(.38) saturate(.5)}
+.bow-svg[data-sel="head"] .p-head,.bow-svg[data-sel="hair"] .p-hair,.bow-svg[data-sel="hair"] .p-hair2,.bow-svg[data-sel="stick"] .p-stick,.bow-svg[data-sel="stick"] .p-stick2,.bow-svg[data-sel="wind"] .p-wind,.bow-svg[data-sel="frog"] .p-frog,.bow-svg[data-sel="button"] .p-button{filter:drop-shadow(0 0 6px rgba(216,181,108,.55))}
 .part-panel > *{transition:opacity .3s ease,transform .3s ease}
 .part-panel.swap > *{opacity:0;transform:translateY(8px)}
 
@@ -395,8 +398,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   .film{width:100%;max-width:none;aspect-ratio:4/5;max-height:none}
   .manifesto p{text-align:left}
   .manifesto .sig{text-align:left;margin-left:0}
-  .hot{width:36px;height:36px;margin:-18px 0 0 -18px}
-  .hot::before{width:13px;height:13px}
+  .hot{display:none}
+  .bow-stage{margin:0 -8px}
   .part-tabs{justify-content:flex-start}
   .traits{grid-template-columns:1fr 1fr 1fr;gap:12px}
   .stop{grid-template-columns:1fr;padding-left:30px}
@@ -413,10 +416,12 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   .final .actions .btn{flex:1 1 100%}
   .foot-grid{grid-template-columns:1fr}
   .wa-float{display:none}
-  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 96px calc(10px + env(safe-area-inset-bottom)) 12px;background:rgba(22,16,11,.96);border-top:1px solid var(--rule-dark);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(22,16,11,.96);border-top:1px solid var(--rule-dark);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .mbar .btn{padding:15px 12px;font-size:15px}
   .mbar .btn-gold{flex:1.4}
   .mbar .btn-line{flex:1}
+  .mbar .voice-btn{flex:none;width:52px;padding:0}
+  body.voice-on .mbar{display:none}
   .site-foot{padding-bottom:110px}
 }
 </style>
@@ -893,7 +898,8 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   <div class="wrap faq-grid">
     <div class="aside">
       <h2 class="h2" id="faq-title">Questions</h2>
-      <p>Ask our voice assistant any time with the button at the bottom of the screen, <a href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_faq">message us on WhatsApp</a>, or call <a href="tel:+18484331021" data-track="call_faq">(848) 433-1021</a>.</p>
+      <p>Ask our voice assistant any time, day or night, <a href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_faq">message us on WhatsApp</a>, or call <a href="tel:+18484331021" data-track="call_faq">(848) 433-1021</a>.</p>
+      <button class="btn btn-gold voice-btn" type="button" style="margin-top:26px" data-track="voice_open_faq"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Talk to our assistant</button>
     </div>
     <div>
       <details open><summary>How often should I rehair my bow?<span aria-hidden="true">+</span></summary><p>If you play most days, every 6 to 12 months. Students and occasional players can often go a year or more. Use the check above, or bring it by and we&rsquo;ll tell you honestly.</p></details>
@@ -960,11 +966,9 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
 <div class="mbar">
   <a class="btn btn-gold" href="https://book.samedaybowrehair.com" data-track="book_mbar">Book a rehair</a>
   <a class="btn btn-line" href="https://wa.me/18484331021?text=Hi!%20I%20have%20a%20question%20about%20bow%20rehair." target="_blank" rel="noopener" data-track="whatsapp_mbar">WhatsApp</a>
+  <button class="btn btn-line voice-btn" type="button" aria-label="Talk to our voice assistant" data-track="voice_open_mbar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
 </div>
 
-<!-- Voice assistant (ElevenLabs) -->
-<elevenlabs-convai agent-id="agent_0101m6fh0jnaejh81926ksa82ssw" action-text="Questions? Talk to us" start-call-text="Start talking" end-call-text="End call" expand-text="Ask our assistant" listening-text="Listening" speaking-text="Assistant speaking" avatar-orb-color-1="#d8b56c" avatar-orb-color-2="#7a3420"></elevenlabs-convai>
-<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -1020,6 +1024,20 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
     setTimeout(fin,5200);
   }
 
+  /* ---------- voice assistant: on desktop it loads by itself, on phones when asked ---------- */
+  var voiceOn=false;
+  function mountVoice(){
+    if(voiceOn||!S.voiceAgentId) return; voiceOn=true;
+    var w=d.createElement('elevenlabs-convai');
+    var at={'agent-id':S.voiceAgentId,'dismissible':'true','action-text':'Questions? Talk to us','start-call-text':'Start talking','end-call-text':'End call','expand-text':'Ask our assistant','listening-text':'Listening','speaking-text':'Assistant speaking','avatar-orb-color-1':'#d8b56c','avatar-orb-color-2':'#7a3420'};
+    for(var k in at) w.setAttribute(k,at[k]);
+    d.body.appendChild(w);
+    var sc=d.createElement('script'); sc.src='https://unpkg.com/@elevenlabs/convai-widget-embed'; sc.async=true; d.body.appendChild(sc);
+    d.body.classList.add('voice-on');
+  }
+  $$('.voice-btn').forEach(function(b){b.addEventListener('click',mountVoice);});
+  if(matchMedia('(min-width:641px)').matches) addEventListener('load',function(){setTimeout(mountVoice,2500);});
+
   /* ---------- hero video sound ---------- */
   var v=$('#introVideo'),sb=$('#soundBtn');
   sb.addEventListener('click',function(){
@@ -1074,6 +1092,7 @@ html.motion .rv{opacity:0;transform:translateY(28px)}
   function showPart(k,user){
     var P=PARTS[k]; if(!P) return;
     $$('.hot').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.part===k));});
+    $('.bow-svg').setAttribute('data-sel',k);
     $$('.part-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.part===k));});
     panel.classList.add('swap');
     setTimeout(function(){
