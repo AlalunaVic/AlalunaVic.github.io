@@ -30,8 +30,42 @@
   .foot { text-align:center; font-size:12.5px; color:#9d8a70; margin-top:26px; line-height:1.7; letter-spacing:.4px; }
   .foot b { color:#c9563c; }
 </style>
+  /* — Vida Atlas (ficha 22): la página responde — */
+  #pbar { position:fixed; top:0; left:0; height:3px; width:0%; z-index:70;
+    background:linear-gradient(90deg,#c9563c,#e0a458); transition:width .12s linear; }
+  #skel { position:fixed; inset:0; z-index:65; background:#171310; padding:44px 22px;
+    transition:opacity .55s ease; }
+  #skel.off { opacity:0; pointer-events:none; }
+  #skel .b { border-radius:12px; margin:0 auto 16px; max-width:600px;
+    background:linear-gradient(100deg,#241c16 40%,#33261950 50%,#241c16 60%);
+    background-size:200% 100%; animation:shim 1.2s infinite linear; }
+  @keyframes shim { from { background-position:180% 0; } to { background-position:-20% 0; } }
+  .rv { opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in { opacity:1; transform:none; }
+  .call, .try, .menu, .info { position:relative; overflow:hidden;
+    transition:transform .18s ease, box-shadow .25s ease; }
+  .call::after, .try::after, .menu::after, .info::after { content:""; position:absolute; inset:0;
+    background:linear-gradient(115deg,transparent 30%,rgba(224,164,88,.14) 48%,transparent 62%);
+    transform:translateX(-120%); pointer-events:none; }
+  .call:hover::after, .try:hover::after, .menu:hover::after, .info:hover::after,
+  .call:active::after, .try:active::after, .menu:active::after, .info:active::after {
+    transform:translateX(120%); transition:transform .8s ease; }
+  .try div, .menu div { transition:background .15s ease, transform .12s ease; border-radius:6px; }
+  .try div:active, .menu div:active { transform:scale(.985); background:rgba(201,86,60,.10); }
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity:1; transform:none; transition:none; }
+    #skel .b { animation:none; }
+  }
+</style>
 </head>
 <body>
+  <div id="pbar"></div>
+  <div id="skel" aria-hidden="true">
+    <div class="b" style="height:120px"></div>
+    <div class="b" style="height:86px"></div>
+    <div class="b" style="height:130px"></div>
+    <div class="b" style="height:200px"></div>
+  </div>
   <div class="top">
     <div class="kicker">Restaurante mexicano · Fords, NJ</div>
     <h1>El Tex Mex Burrito Cafe</h1>
@@ -71,5 +105,27 @@
   </div>
   <elevenlabs-convai agent-id="agent_3401m6x1003tfvn9gw9gtxmbgg3m"></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  <script>
+  (function(){
+    var bar = document.getElementById('pbar');
+    function upd(){ var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%'; }
+    addEventListener('scroll', upd, { passive:true }); upd();
+    var sk = document.getElementById('skel');
+    function off(){ if (sk) { sk.classList.add('off'); setTimeout(function(){ sk.remove(); }, 650); } }
+    addEventListener('load', function(){ setTimeout(off, 350); });
+    setTimeout(off, 2600);
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var els = document.querySelectorAll('.call, .try, .menu, .info, .foot');
+    if (!reduce && 'IntersectionObserver' in window) {
+      els.forEach(function(el){ el.classList.add('rv'); });
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold:.12 });
+      els.forEach(function(el){ io.observe(el); });
+    }
+  })();
+  </script>
 </body>
 </html>
