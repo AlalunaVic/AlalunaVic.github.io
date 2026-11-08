@@ -29,7 +29,7 @@
   .info b { color:#f3e9dc; }
   .foot { text-align:center; font-size:12.5px; color:#9d8a70; margin-top:26px; line-height:1.7; letter-spacing:.4px; }
   .foot b { color:#c9563c; }
-</style>
+
   /* — Vida Atlas (ficha 22): la página responde — */
   #pbar { position:fixed; top:0; left:0; height:3px; width:0%; z-index:70;
     background:linear-gradient(90deg,#c9563c,#e0a458); transition:width .12s linear; }
@@ -37,7 +37,7 @@
     transition:opacity .55s ease; }
   #skel.off { opacity:0; pointer-events:none; }
   #skel .b { border-radius:12px; margin:0 auto 16px; max-width:600px;
-    background:linear-gradient(100deg,#241c16 40%,#33261950 50%,#241c16 60%);
+    background:linear-gradient(100deg,#241c16 40%,rgba(51,38,25,.5) 50%,#241c16 60%);
     background-size:200% 100%; animation:shim 1.2s infinite linear; }
   @keyframes shim { from { background-position:180% 0; } to { background-position:-20% 0; } }
   .rv { opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
