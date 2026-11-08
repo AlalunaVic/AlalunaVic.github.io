@@ -43,7 +43,8 @@
     "And now, it answers your phone.": "Y ahora, también contesta tu teléfono.",
     "Your receptionist picks up on the first ring — day or night — in the voice of your business. She takes orders and books appointments by phone, confirms everything on WhatsApp — and if she can’t solve it, she passes the call straight to you.": "Tu recepcionista contesta al primer timbre — de día o de noche — con la voz de tu negocio. Toma pedidos y reserva citas por teléfono, lo confirma todo por WhatsApp — y si no puede resolverlo, te pasa la llamada al instante.",
     "Hear her work": "Escúchala trabajar",
-    "Live demos:": "Demos en vivo:"
+    "Live demos:": "Demos en vivo:",
+    "Live in 48 hours": "Funcionando en 48 horas"
   };
   var TITLE_EN = "Artificial Intelligence for Business | A better first impression";
   var TITLE_ES = "Inteligencia Artificial para Negocios | Una mejor primera impresión";
