@@ -56,6 +56,12 @@
     .rv { opacity:1; transform:none; transition:none; }
     #skel .b { animation:none; }
   }
+
+  .menu div { transition:background .18s ease, transform .18s ease, box-shadow .18s ease; }
+  .menu div:hover { background:linear-gradient(90deg, rgba(201,86,60,.18), rgba(224,164,88,.05));
+    transform:translateX(6px) scale(1.02); border-radius:8px;
+    box-shadow:0 6px 16px rgba(0,0,0,.40), inset 3px 0 0 #c9563c; }
+  .menu div:hover b { color:#f0b269; }
 </style>
 </head>
 <body>
