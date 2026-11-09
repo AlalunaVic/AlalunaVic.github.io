@@ -120,6 +120,12 @@
   .transcript.synced .turn.heard { opacity:.78; }
   .transcript.synced .turn.active { opacity:1; background:rgba(245,197,24,.10); }
   .transcript.synced .turn.active p { color:#ffffff; }
+  .offer { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10);
+          border-radius:18px; padding:18px; margin-top:18px; }
+  .offer-lead { font-size:15.5px; line-height:1.6; margin-bottom:10px; }
+  .offer ul { list-style:none; margin:0; padding:0; }
+  .offer li { position:relative; padding:6px 0 6px 26px; font-size:14.5px; line-height:1.55; }
+  .offer li::before { content:"✓"; position:absolute; left:2px; top:6px; font-weight:bold; color:#f5c518; }
   .cc-fold { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
           margin-top:14px; padding:12px 14px; background:rgba(255,255,255,.05);
           border:1px solid rgba(255,255,255,.16); border-radius:12px; color:inherit;
@@ -340,8 +346,21 @@
       <button class="wa-open js-wa-open" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Order on WhatsApp</button>
       <span class="mic">If he can't hear you, open this page in Safari or Chrome and allow the microphone.</span>
     </div>
+    <div class="offer reveal">
+      <p class="offer-lead">You don't have to change your number: we set up your receptionist on your very same number and have him up and running in 48 hours.</p>
+      <ul>
+        <li>Your receptionist already has your whole menu loaded in his brain, and we can add any special feature you want.</li>
+        <li>Best of all: it's a single payment for your personalized receptionist.</li>
+        <li>You'll never lose a call: he can answer multiple calls at the same time and lines up your orders in the order they come in.</li>
+        <li>He answers in English and Spanish, from open to close — even at 1 AM on a Friday: he never calls in sick, never takes a break, is never busy.</li>
+        <li>He notes special requests exactly as each customer asks for them, so you see them live on the order.</li>
+        <li>Every order lands neatly on your WhatsApp the moment it's placed, ready to make.</li>
+        <li>And if a customer asks something he doesn't know, he never makes it up: he passes you the message so you can handle it.</li>
+        <li>You don't have to learn any technology: we install everything and test it with you.</li>
+      </ul>
+    </div>
     <div class="try reveal">
-      <h2>Try it like this</h2>
+      <h2>Ask him for anything from your menu, in English or Spanish. Ask him about the opening hours.</h2>
       <div>🍗 «Order a 3-piece chicken combo and 6 honey BBQ wings»</div>
       <div>🕐 «Ask what time they close on Friday»</div>
       <div>🥙 «Ask if everything is halal»</div>
