@@ -606,7 +606,7 @@
           if(flow==='ciudad'){ data.ciudad=raw.trim(); flow='telefono'; return 'Anotado: '+data.ciudad+'. Por último, ¿a qué teléfono le puede devolver la llamada?'; }
           data.telefono=raw.trim(); flow=null;
           if(dataReason==='caso'){
-            return '✓ Datos registrados\n'+data.nombre+' · '+data.ciudad+' · tel. '+data.telefono+'\nLa central le devuelve la llamada a la brevedad para coordinar su asistencia. Y si es una urgencia, llame también a los servicios de emergencia locales y a '+CENTRAL+'.'+HONEST;
+            return '✓ Datos registrados\n'+data.nombre+' · '+data.ciudad+' · tel. '+data.telefono+'\nLa central le devuelve la llamada a la brevedad para coordinar su asistencia. Y si es una urgencia, llame cuanto antes a la central 24/7: '+CENTRAL+', que le guía los pasos y coordina su asistencia.'+HONEST;
           }
           return '✓ Datos registrados\n'+data.nombre+' · '+data.ciudad+' · tel. '+data.telefono+'\nUn especialista le llamaría a la brevedad para ayudarle con su plan.'+HONEST;
         }
@@ -635,7 +635,7 @@
         return startData('caso','No puedo darle indicaciones médicas ni confirmar si un caso concreto está cubierto: eso lo confirma la central con su póliza en mano.\n\nLo que sí puedo hacer es registrar su caso ahora mismo. ¿Me dice su nombre?');
       }
       if(has(t,'torci','me cai','accidente','choque','enferm','fiebre','me duele','dolor','perdi mi','perdi el','me robaron','necesito ayuda','registr','hospital','me internaron','me paso algo','urgencia')){
-        return startData('caso','Lamento mucho lo que le pasó. 🙏 Si es una urgencia, llame primero a los servicios de emergencia locales y a la central 24/7 (+51 965 762 631 · 01 725 3962), que atiende en cualquier parte del mundo.\n\nY si me dice su nombre, le registro el caso aquí para que la central le devuelva la llamada.');
+        return startData('caso','Lamento mucho lo que le pasó. 🙏 Lo primero es llamar a la central 24/7 de Travel Care (+51 965 762 631 · 01 725 3962), llamada o WhatsApp: ellos le guían los pasos, le indican el centro adecuado y coordinan su asistencia. Y si hay riesgo de vida (no puede respirar, sangrado fuerte, está inconsciente), llame primero al número de emergencias del país donde está (911, 112 o el local).\n\nY si me dice su nombre, le registro el caso aquí para que la central le devuelva la llamada.');
       }
       if(has(t,'eres una ia','inteligencia artificial','eres un robot','eres un bot','eres real','eres humana','una persona real')){
         return 'Soy Marcela, la recepcionista con IA de esta demostración de Alaluna AI Solutions: respondo desde la información pública de Travel Care Assistance. Y sigo ayudándole: ¿planes, coberturas o registrar un caso?';
