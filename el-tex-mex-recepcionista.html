@@ -277,7 +277,7 @@
       </div>
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
-        <span class="cc-time" id="ccTime">00:00 / 00:50</span>
+        <span class="cc-time" id="ccTime">00:00 / 00:49</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <div class="transcript" id="transcript">
@@ -288,15 +288,23 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Hola, quiero pedir para recoger: un Tex Mex Burrito y unas empanadas caseras.</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>¡Claro que sí! El Tex Mex Burrito son $13.95 y las empanadas $8.95. ¿Algo más? ¿Una bebida para acompañar?</p></div>
+          <p>¡Claro que sí! Le anoto el burrito en $13.95 y las empanadas en $8.95.</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
-          <p>No, así está bien. ¿Cuánto es y en cuánto tiempo está listo?</p></div>
+          <p>Esas empanadas vuelan, ¿verdad?</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>Serían $22.90 en total, y su pedido estará listo en 15 a 20 minutos. ¿A nombre de quién lo anoto?</p></div>
+          <p>¡Y con razón! ¿Le agrego algo de tomar?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>No, así está bien. ¿Cuánto es en total?</p></div>
+        <div class="turn recep"><span class="who">Recepcionista</span>
+          <p>Serían $22.90. Y le queda listo en 15 a 20 minutos.</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Ajá, perfecto.</p></div>
+        <div class="turn recep"><span class="who">Recepcionista</span>
+          <p>¿A nombre de quién lo anoto?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>A nombre de Carlos.</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>Listo, Carlos: un Tex Mex Burrito y unas empanadas, $22.90, para recoger en 15 a 20 minutos. ¡Gracias por llamar a El Tex Mex!</p></div>
+          <p>¡Listo, Carlos! Su burrito y sus empanadas: $22.90, para recoger en 15 a 20 minutos. ¡Gracias por llamar a El Tex Mex!</p></div>
       </div>
       <div class="cc-pill">✓ Pedido registrado · Tex Mex Burrito + Empanadas · $22.90 · Listo en 15–20 min</div>
       <div class="cc-actions">
@@ -406,15 +414,19 @@
     setTimeout(skOff, 2600);
 
     // ===== Reproductor del ejemplo: onda y transcripción sincronizadas con el audio real =====
-    var DLG = { total: 50.46, lines: [
+    var DLG = { total: 48.88, lines: [
         { start: 0.00, end: 2.70 },
-        { start: 3.10, end: 5.98 },
-        { start: 6.38, end: 11.74 },
-        { start: 12.14, end: 23.42 },
-        { start: 23.82, end: 27.98 },
-        { start: 28.38, end: 36.86 },
-        { start: 37.26, end: 38.62 },
-        { start: 39.02, end: 50.46 }
+        { start: 3.00, end: 6.12 },
+        { start: 6.42, end: 11.78 },
+        { start: 12.08, end: 18.48 },
+        { start: 18.78, end: 20.78 },
+        { start: 21.08, end: 24.76 },
+        { start: 25.06, end: 27.86 },
+        { start: 28.16, end: 33.84 },
+        { start: 34.14, end: 35.50 },
+        { start: 35.80, end: 37.40 },
+        { start: 37.70, end: 39.06 },
+        { start: 39.36, end: 48.88 }
     ]};
     var audio = document.getElementById('ccAudio');
     var playBtn = document.getElementById('playBtn');
