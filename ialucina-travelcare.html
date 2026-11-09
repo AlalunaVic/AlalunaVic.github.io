@@ -3,63 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Travel Care Assistance — Asistencia al viajero 24/7</title>
+<title>Travel Care Assistance — Asistencia en viaje que siempre contesta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800|Open+Sans:400,600|Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --teal:#1dc8cd;        /* color firma de Travel Care (style.css, 35 usos) */
+    --mint:#1de099;        /* verde del degradado de marca */
+    --mintlight:#55fabe;   /* verde claro del degradado */
+    --green:#00a183;       /* verde del logo Travel Care */
+    --deep:#006666;        /* teal oscuro de su overlay CTA */
+    --ink:#1f1b1d;         /* casi negro del logo */
+    --card:#0e2422;        /* fondo oscuro de la tarjeta de llamada */
+    --bg:#eff5f5;          /* fondo claro de su propio sitio */
+  }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:Helvetica,Arial,sans-serif; background:#f7f8fb; color:#1d2433; }
-  .top { background:#152852; color:#fff; padding:44px 22px 30px; text-align:center; }
-  .top .kicker { letter-spacing:3px; font-size:11px; color:#d8b56c; text-transform:uppercase; }
-  .top h1 { font-family:Georgia,serif; font-weight:normal; font-size:36px; margin:10px 0 8px; }
-  .top p { color:#cfd8ec; font-size:15px; line-height:1.5; max-width:500px; margin:0 auto; }
-  .wrap { max-width:600px; margin:0 auto; padding:24px 18px 90px; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
-  .grid div { background:#fff; border:1px solid #e3e7f0; border-radius:12px; padding:14px; font-size:14px; line-height:1.5; }
-  .grid b { display:block; color:#152852; margin-bottom:3px; }
-  .info { background:#fff; border:1px solid #e3e7f0; border-radius:12px; padding:16px; font-size:14.5px; line-height:1.65; margin-bottom:20px; }
-  .call { background:#eef3ff; border:1px solid #c9d6f5; border-radius:12px; padding:18px; text-align:center; font-size:15px; line-height:1.6; }
-  .call b { color:#152852; }
-  .call .micro { display:block; margin-top:8px; font-size:13px; color:#44507a; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Open Sans',Helvetica,Arial,sans-serif; background:var(--bg); color:#22312f; }
+  #pbar { position:fixed; top:0; left:0; height:3px; width:100%; z-index:60;
+          background:linear-gradient(90deg,var(--mint),var(--teal),var(--mintlight));
+          transform-origin:0 50%; transform:scaleX(0); }
+
+  /* ===== HERO en los colores de Travel Care ===== */
+  .hero { background:linear-gradient(160deg,var(--mint) 0%,var(--teal) 55%,#0fb3bd 100%);
+          color:#fff; padding:58px 22px 46px; text-align:center; position:relative; overflow:hidden; }
+  .hero::after { content:""; position:absolute; inset:0;
+          background:radial-gradient(600px 300px at 85% -60px, rgba(85,250,190,.45), transparent 65%); pointer-events:none; }
+  .hero .brand { font-family:'Montserrat',sans-serif; font-weight:800; letter-spacing:2.5px;
+          font-size:12.5px; text-transform:uppercase; position:relative; z-index:1; }
+  .hero .brand span { font-weight:400; opacity:.85; letter-spacing:1.5px; }
+  .hero h1 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:clamp(38px,8.5vw,58px);
+          line-height:1.08; margin:18px auto 4px; max-width:640px; position:relative; z-index:1; }
+  .hero h1 em { display:block; font-family:'Playfair Display',Georgia,serif; font-style:italic;
+          font-weight:500; font-size:.92em; margin-top:2px; }
+  .hero .sub { font-size:15.5px; line-height:1.55; max-width:520px; margin:16px auto 0;
+          color:rgba(255,255,255,.92); position:relative; z-index:1; }
+  .pill { display:inline-block; margin-top:26px; background:#fff; color:var(--green);
+          font-family:'Montserrat',sans-serif; font-weight:700; font-size:16.5px;
+          padding:15px 30px; border-radius:999px; text-decoration:none;
+          box-shadow:0 10px 26px rgba(0,60,55,.28); transition:transform .18s ease, box-shadow .18s ease;
+          position:relative; z-index:1; }
+  .pill:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(0,60,55,.32); }
+  .pill:active { transform:scale(.97); }
+
+  .wrap { max-width:640px; margin:0 auto; padding:26px 18px 90px; }
+
+  /* ===== Tarjeta de llamada (ejemplo) ===== */
+  .callcard { background:var(--card); border-radius:24px; padding:22px 20px 18px; margin-top:26px;
+          box-shadow:0 22px 44px rgba(0,70,66,.30); color:#e8f2f0; }
+  .cc-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .dot { width:11px; height:11px; border-radius:50%; background:#ff5a52;
+          box-shadow:0 0 0 5px rgba(255,90,82,.16); flex:none; }
+  .cc-title { font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace; letter-spacing:2.5px;
+          font-size:12.5px; color:#cfe3df; text-transform:uppercase; }
+  .cc-chip { margin-left:auto; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:10.5px;
+          letter-spacing:1.5px; color:var(--mintlight); border:1px solid rgba(85,250,190,.45);
+          padding:4px 9px; border-radius:999px; text-transform:uppercase; }
+  .cc-play { display:inline-flex; align-items:center; gap:8px; margin-top:16px;
+          background:linear-gradient(45deg,var(--mint),var(--teal)); color:#04332f;
+          font-family:'Montserrat',sans-serif; font-weight:700; font-size:13.5px;
+          padding:10px 18px; border-radius:999px; text-decoration:none; transition:transform .15s ease; }
+  .cc-play:hover { transform:translateY(-1px); }
+  .cc-play:active { transform:scale(.97); }
+  .wave { display:flex; align-items:center; gap:2.5px; height:64px; margin:18px 2px 6px; }
+  .wave i { flex:1; border-radius:3px; background:#3d4a47; min-width:2px; }
+  .wave i.on { background:linear-gradient(180deg,var(--mintlight),var(--teal)); }
+  .transcript { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.09);
+          border-radius:16px; padding:16px 16px 8px; margin-top:12px;
+          font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace; font-size:13.5px; line-height:1.6; }
+  .transcript .who { display:block; font-size:11px; letter-spacing:2px; margin-bottom:2px; }
+  .transcript .viajero .who { color:#8ecdf5; }
+  .transcript .recep .who { color:var(--mint); }
+  .transcript p { margin-bottom:12px; color:#f2f7f5; }
+  .cc-note { font-size:11.5px; color:#93aaa5; margin-top:12px; text-align:center; }
+  .cc-pill { margin-top:14px; background:rgba(0,161,131,.20); border:1px solid rgba(29,224,153,.45);
+          color:#a9f5d6; border-radius:14px; padding:13px 14px; text-align:center;
+          font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; line-height:1.55; }
+
+  /* ===== Secciones conservadas, en colores de la marca ===== */
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:26px; }
+  .grid div { background:#fff; border:1px solid #d8eaea; border-radius:14px; padding:15px; font-size:14px; line-height:1.5; }
+  .grid b { display:block; color:var(--green); font-family:'Montserrat',sans-serif; margin-bottom:3px; }
+  .info { background:#fff; border:1px solid #d8eaea; border-radius:14px; padding:17px; font-size:14.5px; line-height:1.65; margin-top:14px; }
+  .info b { color:var(--deep); }
+  .call { background:#e4f7f5; border:1px solid #a9e6e2; border-radius:14px; padding:19px; text-align:center; font-size:15px; line-height:1.6; margin-top:14px; }
+  .call b { color:var(--deep); }
+  .call .micro { display:block; margin-top:8px; font-size:13px; color:#33655f; }
   .call .mic { display:block; margin-top:4px; font-size:12.5px; color:#8a6d2f; }
-  .try { margin-top:22px; }
-  .try h2 { font-family:Georgia,serif; font-weight:normal; font-size:22px; color:#152852; margin-bottom:10px; text-align:center; }
-  .try div { background:#fff; border:1px solid #e3e7f0; border-radius:12px; padding:12px 14px; font-size:14.5px; margin-bottom:8px; }
-  .foot { text-align:center; font-size:13px; color:#5a6480; margin-top:26px; }
-  .demo { text-align:center; font-size:12px; color:#8a93a8; margin-top:14px; line-height:1.6; }
-  .demo a { color:#152852; }
+  .try { margin-top:24px; }
+  .try h2 { font-family:'Montserrat',sans-serif; font-weight:700; font-size:21px; color:var(--deep); margin-bottom:10px; text-align:center; }
+  .try div { background:#fff; border:1px solid #d8eaea; border-radius:12px; padding:12px 14px; font-size:14.5px; margin-bottom:8px; transition:transform .15s ease, box-shadow .15s ease; }
+  .try div:hover { transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,102,102,.12); }
+  .foot { text-align:center; font-size:13px; color:#5a726d; margin-top:28px; }
+  .foot b { color:var(--green); }
+  .demo { text-align:center; font-size:12px; color:#84968f; margin-top:14px; line-height:1.6; }
+  .demo a { color:var(--deep); }
+
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    .reveal { opacity:1; transform:none; transition:none; }
+    .pill, .cc-play, .try div { transition:none; }
+    #pbar { display:none; }
+  }
 </style>
 </head>
 <body>
-  <div class="top">
-    <div class="kicker">Miraflores · Lima — Atención 24/7 en todo el mundo</div>
-    <h1>Travel Care Assistance</h1>
-    <p>Tu tarjeta de asistencia al viajero: gastos médicos, equipaje, vuelos y ayuda legal, con una central que contesta siempre — ahora también con su recepcionista de voz.</p>
+  <div id="pbar"></div>
+
+  <div class="hero">
+    <div class="brand">Travel Care <span>Assistance · Miraflores — Lima · Atención 24/7</span></div>
+    <h1>La asistencia en viaje <em>que siempre contesta.</em></h1>
+    <p class="sub">Tu tarjeta de asistencia al viajero: gastos médicos, equipaje, vuelos y ayuda legal — ahora con una recepcionista de voz que atiende al primer ring, día y noche, estés donde estés.</p>
+    <a class="pill" href="#llamada">Escúchala trabajar <span aria-hidden="true">→</span></a>
   </div>
+
   <div class="wrap">
-    <div class="grid">
+
+    <div class="callcard reveal" role="img" aria-label="Ejemplo de llamada: un viajero en Madrid consulta por su Plan Europa y la recepcionista registra su caso">
+      <div class="cc-head">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="cc-title">Llamada · Asistencia en viaje</span>
+        <span class="cc-chip">Ejemplo</span>
+      </div>
+      <div class="wave" id="wave" aria-hidden="true"></div>
+      <div class="transcript">
+        <div class="viajero"><span class="who">Viajero</span>
+          <p>Estoy en Madrid y me torcí el tobillo. ¿Mi plan cubre la atención médica?</p></div>
+        <div class="recep"><span class="who">Recepcionista</span>
+          <p>El Plan Europa incluye asistencia médica hasta EUR 30,000. Su caso concreto lo confirma la central con su póliza — le tomo su nombre, su ciudad y su teléfono, y la central le devuelve la llamada de inmediato.</p></div>
+      </div>
+      <div class="cc-pill">✓ Caso registrado · Madrid · Plan Europa · La central devuelve la llamada</div>
+      <a class="cc-play" href="#llamada">▶ Escucharla de verdad, en vivo</a>
+      <p class="cc-note">Ejemplo de llamada — ilustración de cómo responde la recepcionista. La llamada real la haces tú, abajo.</p>
+    </div>
+
+    <div class="grid reveal">
       <div><b>Asistencia médica</b>Por accidente o enfermedad, según el plan: hasta USD/EUR 100,000, con COVID-19 incluido.</div>
       <div><b>Planes por destino</b>América, USA/Canadá, Europa, Mundiales, larga estadía y anuales multiviajes.</div>
       <div><b>Central 24/7</b>Dos centros multilingües que supervisan tu caso en tiempo real, estés donde estés.</div>
       <div><b>Y mucho más</b>Pérdida de equipaje, repatriación, cancelación de viajes y upgrades como Futura Mamá.</div>
     </div>
-    <div class="info">
+
+    <div class="info reveal">
       <b>¿Necesitas ayuda en tu viaje?</b> La central atiende 24/7: <b>+51 965 762 631</b> (llamada o WhatsApp) · 01 725 3962 · cac@travelcareassistance.com<br>
       <b>¿Vas a viajar?</b> Cotiza en línea en travelcareassistance.com y un especialista te ayuda a elegir tu plan.
     </div>
-    <div class="call">
+
+    <div class="call reveal" id="llamada">
       📞 <b>Pulsa el botón de llamada y habla con la recepcionista</b> de Travel Care Assistance. Te informa planes y tarifas, te explica cómo pedir ayuda en pleno viaje y toma tus datos para que un especialista te llame.
       <span class="micro">Llama como si fueras un cliente: aquí ves cómo responde la IA.</span>
       <span class="mic">Si no te escucha, abre esta página en Safari o Chrome y acepta el micrófono.</span>
     </div>
-    <div class="try">
+
+    <div class="try reveal">
       <h2>Pruébala así</h2>
       <div>🧳 «¿Qué cubre la asistencia y cuánto cuesta el plan Mundial 50 mil por 10 días?»</div>
       <div>🚑 «Estoy de viaje y me pasó algo, ¿cómo pido ayuda?»</div>
       <div>📝 «Quiero dejar mis datos para que un especialista me llame»</div>
     </div>
+
     <p class="foot"><b>Instalación en 48 horas</b> · Alaluna AI Solutions</p>
     <p class="demo">Página de demostración del servicio <a href="ialucina.html">iAlucina</a>: la recepcionista es real y conversa de verdad, con la información pública del sitio oficial de Travel Care Assistance.</p>
   </div>
+
   <elevenlabs-convai agent-id="agent_4501m6ys2n5kf4aat3bcbzbbc979"></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  <script>
+    // Onda decorativa de la tarjeta (barras generadas; la parte en color de marca es la "ya oída")
+    (function(){
+      var w = document.getElementById('wave');
+      if (w) {
+        var heights = [38,52,66,44,74,88,58,42,70,92,64,48,80,95,60,44,68,84,52,38,72,90,62,46,58,76,50,36,66,82,56,42,60,74,48,34,54,70,44,58,40,62,78,50,36,52,66,42,56,38,48,60,44,52,36,58,46,40,50,34,44,38,42,30];
+        var onUntil = Math.floor(heights.length * 0.55);
+        for (var i = 0; i < heights.length; i++) {
+          var b = document.createElement('i');
+          b.style.height = heights[i] + '%';
+          if (i < onUntil) b.className = 'on';
+          w.appendChild(b);
+        }
+      }
+      // Barra de progreso de lectura
+      var bar = document.getElementById('pbar');
+      function upd(){
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? (h.scrollTop / max) : 0) + ')';
+      }
+      document.addEventListener('scroll', upd, { passive:true }); upd();
+      // Animaciones al scroll
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(es){
+          es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+      } else {
+        document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+      }
+    })();
+  </script>
 </body>
 </html>
