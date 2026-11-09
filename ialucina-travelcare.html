@@ -100,6 +100,12 @@
   .transcript.synced .turn.active p { color:#ffffff; }
   .cc-pill.lit { background:rgba(0,161,131,.45); color:#d9ffee;
           box-shadow:0 0 0 1px rgba(85,250,190,.7), 0 12px 26px rgba(0,161,131,.4); }
+  .offer { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10);
+          border-radius:18px; padding:18px; margin-top:18px; }
+  .offer-lead { font-size:20px; line-height:1.5; margin-bottom:12px; font-weight:bold; color:#ff9040; }
+  .offer ul { list-style:none; margin:0; padding:0; }
+  .offer li { position:relative; padding:6px 0 6px 26px; font-size:14.5px; line-height:1.55; }
+  .offer li::before { content:"✓"; position:absolute; left:2px; top:6px; font-weight:bold; color:#1dc8cd; }
   .cc-fold {{ display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
           margin-top:14px; padding:12px 14px; background:rgba(255,255,255,.05);
           border:1px solid rgba(255,255,255,.16); border-radius:12px; color:inherit;
@@ -398,7 +404,7 @@
     </div>
 
     <div class="call reveal" id="llamada">
-      <b>Pruébala ordenando tú mismo por voz</b>
+      <b>Pruébala llamando tú mismo por voz</b>
       <br>
       <a class="cc-live live-solid" href="#llamada" id="liveBtn">📞 Iniciar llamada en vivo</a>
       <p class="or-line">O también puedes...</p>
@@ -406,8 +412,21 @@
       <span class="mic">Si no te escucha, abre esta página en Safari o Chrome y acepta el micrófono.</span>
     </div>
 
+    <div class="offer reveal">
+      <p class="offer-lead">No tienes que cambiar tu número: instalamos tu asistente con tu mismo número y la dejamos funcionando en 48 horas.</p>
+      <ul>
+        <li>Ya tiene cargados todos tus planes y tarifas en su cerebro — por destino, por días y con sus upgrades — y podemos agregar cualquier característica especial que quieras.</li>
+        <li>Lo mejor de todo: es un solo pago por tu asistente personalizada.</li>
+        <li>No perderás ni una llamada: atiende múltiples llamadas al mismo tiempo, a cualquier hora — también a las 3 de la mañana, cuando tu viajero está al otro lado del mundo.</li>
+        <li>Atiende en español e inglés, amable y natural, incluso en el susto de una emergencia.</li>
+        <li>Registra cada caso con nombre, ciudad y teléfono, y lo deja ordenado al momento para tu central.</li>
+        <li>En una emergencia nunca improvisa: deriva al viajero de inmediato a tu central 24/7.</li>
+        <li>Y si preguntan algo que no está en su ficha, no inventa nada: toma el mensaje para que tu equipo lo resuelva.</li>
+        <li>Tú no tienes que aprender nada de tecnología: nosotros lo dejamos todo instalado y lo probamos contigo.</li>
+      </ul>
+    </div>
     <div class="try reveal">
-      <h2>Pruébala así</h2>
+      <h2>Pregúntale por cualquier plan, en español o en inglés. Pregúntale cómo pedir ayuda en tu viaje.</h2>
       <div>🧳 «¿Qué cubre la asistencia y cuánto cuesta el plan Mundial 50 mil por 10 días?»</div>
       <div>🚑 «Estoy de viaje y me pasó algo, ¿cómo pido ayuda?»</div>
       <div>📝 «Quiero dejar mis datos para que un especialista me llame»</div>
