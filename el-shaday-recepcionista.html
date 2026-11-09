@@ -120,6 +120,12 @@
   .transcript.synced .turn.heard { opacity:.78; }
   .transcript.synced .turn.active { opacity:1; background:rgba(232,163,61,.10); }
   .transcript.synced .turn.active p { color:#ffffff; }
+  .offer { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10);
+          border-radius:18px; padding:18px; margin-top:18px; }
+  .offer-lead { font-size:15.5px; line-height:1.6; margin-bottom:10px; }
+  .offer ul { list-style:none; margin:0; padding:0; }
+  .offer li { position:relative; padding:6px 0 6px 26px; font-size:14.5px; line-height:1.55; }
+  .offer li::before { content:"✓"; position:absolute; left:2px; top:6px; font-weight:bold; color:#d8b56c; }
   .cc-fold { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
           margin-top:14px; padding:12px 14px; background:rgba(255,255,255,.05);
           border:1px solid rgba(255,255,255,.16); border-radius:12px; color:inherit;
@@ -336,8 +342,21 @@
       <button class="wa-open js-wa-open" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Ordenar por WhatsApp</button>
       <span class="mic">Si no te escucha, abre esta página en Safari o Chrome y acepta el micrófono.</span>
     </div>
+    <div class="offer reveal">
+      <p class="offer-lead">No tienes que cambiar de número: instalamos tu recepcionista con tu mismo número y la dejamos funcionando en 48 horas.</p>
+      <ul>
+        <li>La recepcionista ya tiene cargado todo tu menú en su cerebro, y podemos agregar cualquier característica especial que quieras.</li>
+        <li>Lo mejor de todo: es un solo pago por tu recepcionista personalizada.</li>
+        <li>No perderás llamadas: puede atender múltiples llamadas al mismo tiempo e ir ordenándote los pedidos por orden de llegada.</li>
+        <li>Atiende en español e inglés, desde que abres y en pleno apuro del mediodía: nunca falta, nunca se enferma, nunca está ocupada.</li>
+        <li>Anota los pedidos especiales tal cual los pide cada cliente, para que los veas en vivo en su pedido.</li>
+        <li>Cada pedido te llega ordenado a tu WhatsApp al momento, listo para preparar.</li>
+        <li>Y si un cliente pregunta algo que ella no sabe, no inventa nada: te pasa el mensaje para que tú lo resuelvas.</li>
+        <li>Tú no tienes que aprender nada de tecnología: nosotros lo dejamos todo instalado y lo probamos contigo.</li>
+      </ul>
+    </div>
     <div class="try reveal">
-      <h2>Pruébala así</h2>
+      <h2>Pídele cualquier cosa de tu menú, en español o en inglés. Pregúntale el horario de atención.</h2>
       <div>🫓 «Pide tres pupusas revueltas y una horchata»</div>
       <div>🕖 «Pregunta a qué hora cierran»</div>
       <div>🇺🇸 «Haz tu pedido en inglés»</div>
