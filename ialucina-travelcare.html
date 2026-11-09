@@ -688,5 +688,61 @@
     document.addEventListener('keydown', function(e){ if(e.key==='Escape' && view.classList.contains('open')) close(); });
   })();
   </script>
+  <script>
+  // ===== Tonito de llamada en vivo (pedido de Victor) =====
+  // El widget de ElevenLabs emite el evento oficial «elevenlabs-convai:call»
+  // cuando el visitante inicia la llamada (documentación oficial del widget:
+  // es el evento pensado para enganchar lógica del lado del cliente antes de
+  // conectar). Al dispararse, suena el tonito de la casa — el mismo doble tono
+  // 440+480 Hz del ejemplo grabado, 2 timbres — y se detiene con tope duro de
+  // 3 s, o antes si el widget anuncia conversationStarted/conversationEnded.
+  (function(){
+    var AC=null, nodes=[], timer=null;
+    function stop(){
+      if(timer){ clearTimeout(timer); timer=null; }
+      nodes.forEach(function(n){ try{ n.stop(); }catch(_){} });
+      nodes=[];
+    }
+    function ring(){
+      try{
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!Ctx) return;
+        AC = AC || new Ctx();
+        if(AC.state==='suspended') AC.resume();
+        stop();
+        var t0 = AC.currentTime + 0.02;
+        [[0,1.0],[1.4,2.4]].forEach(function(burst){
+          [440,480].forEach(function(f){
+            var o=AC.createOscillator(), g=AC.createGain();
+            o.type='sine'; o.frequency.value=f;
+            var a=t0+burst[0], b=t0+burst[1];
+            g.gain.setValueAtTime(0.0001, a);
+            g.gain.exponentialRampToValueAtTime(0.055, a+0.03);
+            g.gain.setValueAtTime(0.055, b-0.03);
+            g.gain.exponentialRampToValueAtTime(0.0001, b);
+            o.connect(g); g.connect(AC.destination);
+            o.start(a); o.stop(b+0.05);
+            nodes.push(o);
+          });
+        });
+        timer=setTimeout(stop, 3000);
+      }catch(e){}
+    }
+    function attach(w){
+      if(!w || w.__tcRing) return; w.__tcRing=true;
+      w.addEventListener('elevenlabs-convai:call', ring);
+      w.addEventListener('conversationStarted', stop);
+      w.addEventListener('conversationEnded', stop);
+    }
+    var w0=document.querySelector('elevenlabs-convai');
+    if(w0) attach(w0);
+    var mo=new MutationObserver(function(){
+      var el=document.querySelector('elevenlabs-convai');
+      if(el){ attach(el); mo.disconnect(); }
+    });
+    mo.observe(document.documentElement, { childList:true, subtree:true });
+    setTimeout(function(){ mo.disconnect(); }, 20000);
+  })();
+  </script>
 </body>
 </html>
