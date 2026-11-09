@@ -107,10 +107,85 @@
     .pill, .cc-play, .try div { transition:none; }
     #pbar { display:none; }
   }
+
+  /* — Vida de la casa (ficha 22), pasada completa en colores de Travel Care — */
+  /* Esqueleto de carga con shimmer */
+  #skel { position:fixed; inset:0; z-index:55; background:var(--bg); padding:52px 18px;
+          transition:opacity .55s ease; }
+  #skel.off { opacity:0; pointer-events:none; }
+  #skel .b { border-radius:16px; margin:0 auto 14px; max-width:640px; border:1px solid #dfeeee;
+          background:linear-gradient(100deg,#ffffff 40%,rgba(29,200,205,.18) 50%,#ffffff 60%);
+          background-size:200% 100%; animation:tshim 1.2s infinite linear; }
+  @keyframes tshim { from { background-position:180% 0; } to { background-position:-20% 0; } }
+
+  /* Tarjetas que reaccionan: barrido de brillo + resplandor de marca al hover/toque */
+  .callcard, .info, .call { position:relative; overflow:hidden;
+          transition:opacity .55s ease, transform .55s ease, box-shadow .25s ease, border-color .25s ease; }
+  .callcard::after, .info::after, .call::after { content:""; position:absolute; inset:0;
+          background:linear-gradient(115deg,transparent 30%,rgba(85,250,190,.16) 48%,transparent 62%);
+          transform:translateX(-120%); pointer-events:none; }
+  .info::after, .call::after { background:linear-gradient(115deg,transparent 30%,rgba(29,200,205,.13) 48%,transparent 62%); }
+  .callcard:hover::after, .info:hover::after, .call:hover::after,
+  .callcard:active::after, .info:active::after, .call:active::after {
+          transform:translateX(120%); transition:transform .8s ease; }
+  .callcard:hover { box-shadow:0 28px 52px rgba(0,70,66,.38); }
+  .info:hover, .call:hover { box-shadow:0 14px 28px rgba(0,102,102,.14); border-color:rgba(29,200,205,.55); }
+
+  /* Movimiento real y visible (exigencia de Victor): desplazamiento + crecimiento + elevación */
+  .callcard.in, .info.in, .call.in { transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .28s ease, border-color .28s ease; }
+  .callcard:hover { transform:translateY(-4px) scale(1.012); }
+  .info:hover, .call:hover { transform:translateY(-3px) scale(1.012); }
+  .pill { transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .28s ease; }
+  .pill:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 18px 36px rgba(0,60,55,.34); }
+  .cc-play { transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
+  .cc-play:hover { transform:translateY(-2px) scale(1.04); box-shadow:0 10px 22px rgba(29,224,153,.35); }
+  /* Elementos decorativos de la tarjeta: se mueven igual de vivos, sin fingir función */
+  .cc-chip { transition:transform .25s cubic-bezier(.22,.61,.36,1), background .25s ease; }
+  .callcard:hover .cc-chip { transform:scale(1.07); background:rgba(85,250,190,.12); }
+  .cc-pill { transition:transform .28s cubic-bezier(.22,.61,.36,1), background .28s ease, box-shadow .28s ease; }
+  .cc-pill:hover { transform:translateY(-2px) scale(1.02); background:rgba(0,161,131,.30);
+          box-shadow:0 10px 22px rgba(0,161,131,.25); }
+  .dot { animation:dotpulse 1.8s ease-out infinite; }
+  @keyframes dotpulse { 0% { box-shadow:0 0 0 0 rgba(255,90,82,.45); }
+          70% { box-shadow:0 0 0 9px rgba(255,90,82,0); } 100% { box-shadow:0 0 0 0 rgba(255,90,82,0); } }
+
+  /* Tarjetas de servicios: reacción al hover/toque, con el título que resalta */
+  .grid div { position:relative;
+          transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease, background .25s ease, border-color .25s ease; }
+  .grid b { transition:color .25s ease; }
+  .grid div:hover { transform:translateY(-4px) scale(1.02);
+          background:linear-gradient(160deg,#ffffff,#e9faf7); border-color:rgba(29,200,205,.60);
+          box-shadow:0 14px 28px rgba(0,161,131,.18), 0 0 0 1px rgba(29,200,205,.22); }
+  .grid div:hover b { color:var(--teal); }
+  .grid div:active { transform:scale(.985); background:rgba(29,224,153,.12); }
+
+  /* Renglones que sobresalen (el tratamiento aprobado en el menú de El Tex Mex) */
+  .try div { position:relative;
+          transition:background .25s ease, transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease, border-color .25s ease; }
+  .try div:active { transform:scale(.985); background:rgba(29,224,153,.12); }
+  .try div:hover { background:linear-gradient(90deg, rgba(29,224,153,.18), rgba(29,200,205,.05));
+          transform:translateX(6px) scale(1.02); border-color:rgba(29,200,205,.55);
+          box-shadow:0 8px 18px rgba(0,102,102,.14), inset 3px 0 0 var(--green); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #skel .b { animation:none; }
+    .dot { animation:none; }
+    .callcard::after, .info::after, .call::after { display:none; }
+    .callcard, .info, .call, .grid div, .try div, .pill, .cc-play, .cc-chip, .cc-pill { transition:none; }
+    .grid div:hover, .try div:hover, .pill:hover, .cc-play:hover,
+    .callcard:hover, .info:hover, .call:hover, .cc-pill:hover,
+    .callcard:hover .cc-chip { transform:none; }
+  }
 </style>
 </head>
 <body>
   <div id="pbar"></div>
+  <div id="skel" aria-hidden="true">
+    <div class="b" style="height:118px"></div>
+    <div class="b" style="height:190px"></div>
+    <div class="b" style="height:96px"></div>
+    <div class="b" style="height:150px"></div>
+  </div>
 
   <div class="hero">
     <div class="brand">Travel Care <span>Assistance · Miraflores — Lima · Atención 24/7</span></div>
@@ -201,6 +276,11 @@
       } else {
         document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
       }
+      // Esqueleto de carga: se apaga al cargar la página (con red de seguridad)
+      var sk = document.getElementById('skel');
+      function skOff(){ if (sk) { var s = sk; sk = null; s.classList.add('off'); setTimeout(function(){ s.remove(); }, 700); } }
+      window.addEventListener('load', function(){ setTimeout(skOff, 350); });
+      setTimeout(skOff, 2600);
     })();
   </script>
 </body>
