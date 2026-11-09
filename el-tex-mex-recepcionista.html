@@ -330,19 +330,26 @@
     </div>
     <div class="menu reveal">
       <div><span>Tex Mex Burrito</span><b>$13.95</b></div>
-      <div><span>Tex Mex Tacos</span><b>$13.95</b></div>
-      <div><span>Nachos Supreme</span><b>$15.95</b></div>
+      <div><span>Tex Mex Tacos (3)</span><b>$12.95</b></div>
+      <div><span>Birria Tacos (3) con consomé</span><b>$13.95</b></div>
+      <div><span>Quesabirria (3) con consomé</span><b>$14.95</b></div>
+      <div><span>Nacho Supreme</span><b>$14.95</b></div>
       <div><span>Empanadas caseras (2)</span><b>$8.95</b></div>
-      <div><span>Enchiladas</span><b>$11.95</b></div>
-      <div><span>Chimichanga grande</span><b>$13.95</b></div>
-      <div><span>Arroz con frijoles (chico)</span><b>$4.95</b></div>
-      <div><span>Breakfast Burrito</span><b>$8.27</b></div>
-      <div><span>Hungry Man Meal</span><b>$18.23</b></div>
+      <div><span>Enchiladas Tex-Mex (3)</span><b>$11.95</b></div>
+      <div><span>Enchiladas Mexicanas (3)</span><b>$12.95</b></div>
+      <div><span>Grande Chimichanga</span><b>$13.95</b></div>
+      <div><span>Quesadilla de queso</span><b>$9.95</b></div>
+      <div><span>Fajitas de pollo</span><b>$15.95</b></div>
+      <div><span>Mole de Pollo (cena)</span><b>$16.95</b></div>
+      <div><span>Tamales</span><b>$3.25</b></div>
+      <div><span>Agua fresca 16 oz / 32 oz</span><b>$4.00 / $7.00</b></div>
+      <div><span>🌮 Martes: Tacos Tuesday</span><b>$1.00</b></div>
+      <p style="font-size:12.5px;color:#c9a87c;margin:10px 0 4px">Selección del menú completo — Lucía conoce todos los platos y precios del restaurante.</p>
     </div>
     <div class="info reveal">
       <b>Para llevar:</b> pide por teléfono y recoge en 15–20 minutos.<br>
-      <b>Delivery:</b> solo por DoorDash y Caviar — Lucía te lo explica y te ofrece el pickup, que es más rápido.<br>
-      <b>Especial:</b> Taco Tuesday.
+      <b>Delivery:</b> el restaurante tiene delivery propio (mínimo $20) y también está en DoorDash, Grubhub, Uber Eats y MenuStar.<br>
+      <b>Especial:</b> Tacos Tuesday — los martes, tacos a $1.00.
     </div>
     <p class="foot"><b>Instalación en 48 horas</b> · Alaluna AI Solutions</p>
   </div>
@@ -501,15 +508,18 @@
     var started=false, flow=null, cart=[], lastScrollY=0;
     var HONEST='\n\n(Demostración: este pedido se quedó en esta pantalla; no se envió a ningún lado.)';
     var MENU=[
-      {name:'Breakfast Burrito', price:8.27, words:['breakfast']},
-      {name:'Hungry Man Meal', price:18.23, words:['hungry']},
       {name:'Tex Mex Burrito', price:13.95, words:['burrito']},
-      {name:'Tex Mex Tacos', price:13.95, words:['taco']},
-      {name:'Nachos Supreme', price:15.95, words:['nacho']},
+      {name:'Tex Mex Tacos (3)', price:12.95, words:['taco']},
+      {name:'Birria Tacos (3)', price:13.95, words:['birria']},
+      {name:'Quesabirria (3)', price:14.95, words:['quesabirria']},
+      {name:'Nacho Supreme', price:14.95, words:['nacho']},
       {name:'Empanadas caseras (2)', price:8.95, words:['empanada']},
-      {name:'Enchiladas', price:11.95, words:['enchilada']},
-      {name:'Chimichanga grande', price:13.95, words:['chimichanga']},
-      {name:'Arroz con frijoles (chico)', price:4.95, words:['arroz']}
+      {name:'Enchiladas Tex-Mex (3)', price:11.95, words:['enchilada']},
+      {name:'Grande Chimichanga', price:13.95, words:['chimichanga']},
+      {name:'Quesadilla de queso', price:9.95, words:['quesadilla']},
+      {name:'Fajitas de pollo', price:15.95, words:['fajita']},
+      {name:'Mole de Pollo', price:16.95, words:['mole']},
+      {name:'Tamales', price:3.25, words:['tamal']}
     ];
     var NUMW={un:1,una:1,uno:1,unas:1,unos:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6};
     function money(n){ return '$'+(Math.round(n*100)/100).toFixed(2); }
@@ -587,7 +597,7 @@
         if(nm.indexOf('?')>=0 || nm.split(/\s+/).length>4 || !nm){
           return '¿Me repite el nombre para el pedido, por favor?';
         }
-        var close='✓ Pedido registrado\n'+cartLines()+'\nTotal de los platos: '+money(cartTotal())+' (el impuesto se suma al pagar en caja)'+
+        var close='✓ Pedido registrado\n'+cartLines()+'\nTotal: '+money(cartTotal())+
           '\nA nombre de: '+nm+
           '\nListo para recoger en 15 a 20 minutos — El Tex Mex Burrito Cafe, 511 New Brunswick Ave, Fords.\n¡Gracias por su pedido!'+HONEST;
         flow=null; cart=[];
@@ -599,7 +609,7 @@
         if(has(t,'es todo','eso es todo','nada mas','solo eso','ya esta','ya termine')){
           if(!cart.length) return 'Todavía no me pidió nada. ¿Qué le anoto?';
           flow='nombre';
-          return 'Perfecto:\n'+cartLines()+'\nTotal de los platos: '+money(cartTotal())+' (el impuesto se suma al pagar en caja)\n¿A nombre de quién anoto el pedido?';
+          return 'Perfecto:\n'+cartLines()+'\nTotal: '+money(cartTotal())+'\n¿A nombre de quién anoto el pedido?';
         }
         var items=parseItems(t);
         if(items.length){ addToCart(items); return notedReply(items); }
@@ -609,7 +619,7 @@
       if(has(t,'tarda','demora','cuanto tiempo','en cuanto esta','esta listo')) return 'El pedido para recoger está listo en 15 a 20 minutos desde que lo anota la recepcionista. ¿Le tomo su pedido?';
       if(has(t,'menu','carta','precios','precio','cuesta','cuestan')) return menuText();
       if(has(t,'donde','direccion','ubicacion','horario','abren','cierran')) return 'Estamos en 511 New Brunswick Ave, Fords, NJ 08863. Horario: lunes a sábado de 5:00 AM a 9:00 PM y domingo de 7:00 AM a 4:00 PM. Teléfono: (732) 661-2007.';
-      if(has(t,'delivery','domicilio','envian','envio','reparto')) return 'Por aquí tomamos pedidos para recoger (pickup), listos en 15 a 20 minutos. El delivery es solo por DoorDash o Caviar. ¿Le anoto un pedido para recoger?';
+      if(has(t,'delivery','domicilio','envian','envio','reparto')) return 'Por aquí tomamos pedidos para recoger (pickup), listos en 15 a 20 minutos. El restaurante tiene delivery propio con mínimo de $20 (lo confirma el encargado) y también está en DoorDash, Grubhub, Uber Eats y MenuStar. ¿Le anoto un pedido para recoger?';
       if(has(t,'inteligencia artificial','eres un robot','eres una ia','eres humana','eres real')) return 'Soy la recepcionista del restaurante, atendida con inteligencia artificial — es una demostración de Alaluna AI Solutions. Y con gusto le tomo su pedido igual.';
       var found=parseItems(t);
       if(found.length){ flow='orden'; addToCart(found); return notedReply(found); }
