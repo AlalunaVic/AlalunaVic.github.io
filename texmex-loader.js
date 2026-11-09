@@ -2,7 +2,7 @@
 // Reconstruye dialogo-ejemplo.mp3 (ejemplo de llamada con tonito) desde los
 // trozos base64 mismo-origen (texmex-data-1.js … texmex-data-11.js)
 // y lo entrega como Blob audio/mpeg al <audio id="ccAudio"> de la tarjeta.
-// SHA-256 del máster reconstruido: 2873e2dc4d5bbe15aa9a147bd3868c6c048efb4d146db1a64183f15eaf5f0bbb
+// SHA-256 del máster reconstruido: 030534beb7676120caaf1850f939bf2d88ddf4f2d77288996cc5fa436b69fadc
 (function () {
   var CHUNKS = 11;
   function fail() { document.dispatchEvent(new Event('tm-audio-error')); }
