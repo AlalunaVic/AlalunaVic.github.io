@@ -498,6 +498,8 @@
   </script>
   <script>
   // ===== Simulación de WhatsApp (demo): Lucía responde con un cerebro local alimentado SOLO por la ficha =====
+  // Cerebro v2 (orden de Victor 2026-11-09 tras su prueba en el local): menú completo del papel,
+  // variantes cuando un plato tiene varias versiones, preguntas de precio directas y cero texto robot.
   (function(){
     var view=document.getElementById('waView'),
         openers=document.querySelectorAll('.js-wa-open'),
@@ -505,26 +507,209 @@
         form=document.getElementById('waForm'), input=document.getElementById('waText'),
         status=document.getElementById('waStatus'), quick=document.getElementById('waQuick');
     if(!view || !openers.length || !form) return;
-    var started=false, flow=null, cart=[], lastScrollY=0;
+    var started=false, flow=null, cart=[], lastScrollY=0, pending=null, unknownStreak=0;
     var HONEST='\n\n(Demostración: este pedido se quedó en esta pantalla; no se envió a ningún lado.)';
+    // name, precio (null = no confirmado en el menú impreso), palabras clave, categoría
     var MENU=[
-      {name:'Tex Mex Burrito', price:13.95, words:['burrito']},
-      {name:'Tex Mex Tacos (3)', price:12.95, words:['taco']},
-      {name:'Birria Tacos (3)', price:13.95, words:['birria']},
-      {name:'Quesabirria (3)', price:14.95, words:['quesabirria']},
-      {name:'Nacho Supreme', price:14.95, words:['nacho']},
-      {name:'Empanadas caseras (2)', price:8.95, words:['empanada']},
-      {name:'Enchiladas Tex-Mex (3)', price:11.95, words:['enchilada']},
-      {name:'Grande Chimichanga', price:13.95, words:['chimichanga']},
-      {name:'Quesadilla de queso', price:9.95, words:['quesadilla']},
-      {name:'Fajitas de pollo', price:15.95, words:['fajita']},
-      {name:'Mole de Pollo', price:16.95, words:['mole']},
-      {name:'Tamales', price:3.25, words:['tamal']}
+      {name:'Tex Mex Burrito', price:13.95, cat:'burritos', words:['tex mex burrito','tex-mex burrito']},
+      {name:'Enchilada Burrito', price:13.95, cat:'burritos', words:['enchilada burrito']},
+      {name:'Mexican Burrito', price:13.95, cat:'burritos', words:['mexican burrito']},
+      {name:'Spicy Fajita Burrito', price:13.95, cat:'burritos', words:['fajita burrito']},
+      {name:'Grande Chimichanga', price:13.95, cat:'burritos', words:['chimichanga']},
+      {name:'Cualquier burrito con camarón o pescado', price:14.95, cat:'burritos', words:['burrito de camaron','burrito de pescado']},
+      {name:'Tex Mex Tacos (3)', price:12.95, cat:'tacos', words:['tex mex tacos','tex tacos']},
+      {name:'Mexican Tacos, tortilla empaquetada (3)', price:12.95, cat:'tacos', words:['tacos mexicanos','taco mexicano','mexican tacos']},
+      {name:'Mexican Tacos, tortilla hecha a mano (3)', price:12.95, cat:'tacos', words:['tortilla hecha a mano','tacos a mano']},
+      {name:'Tacos de camarón o pescado (3)', price:13.95, cat:'tacos', words:['taco de camaron','tacos de camaron','taco de pescado','tacos de pescado']},
+      {name:'Birria Tacos (3) con consomé', price:13.95, cat:'tacos', words:['birria']},
+      {name:'Quesabirria (3) con consomé', price:14.95, cat:'tacos', words:['quesabirria']},
+      {name:'Nacho Grande', price:13.95, cat:'nachos', words:['nacho grande']},
+      {name:'Nachos con Guacamole', price:8.95, cat:'nachos', words:['nachos con guacamole','nachos y guacamole']},
+      {name:'Nachos con Queso Mixto', price:5.95, cat:'nachos', words:['nachos con queso']},
+      {name:'Nacho Supreme', price:14.95, cat:'nachos', words:['nacho supreme','nachos supreme','supreme']},
+      {name:'Chips con Salsa y Pico de Gallo', price:7.95, cat:'nachos', words:['chips']},
+      {name:'Chilaquiles con carne y dos huevos', price:15.95, cat:'nachos', words:['chilaquiles']},
+      {name:'Tex-Mex Enchiladas (3)', price:11.95, cat:'enchiladas', words:['enchiladas tex','tex enchiladas']},
+      {name:'Enchiladas Mexicanas (3)', price:12.95, cat:'enchiladas', words:['enchiladas mexicanas','enchilada mexicana']},
+      {name:'Cheese Quesadilla', price:9.95, cat:'quesadillas', words:['quesadilla de queso','cheese quesadilla']},
+      {name:'Mushroom Quesadilla', price:11.95, cat:'quesadillas', words:['quesadilla de champinon','mushroom quesadilla']},
+      {name:'Cheese & Meat Quesadilla', price:13.95, cat:'quesadillas', words:['quesadilla de queso y carne']},
+      {name:'Tex-Mex Quesadilla', price:13.95, cat:'quesadillas', words:['tex quesadilla']},
+      {name:'El Paso Quesadilla (bistec)', price:13.95, cat:'quesadillas', words:['el paso']},
+      {name:'Shrimp Quesadilla (camarón)', price:14.95, cat:'quesadillas', words:['quesadilla de camaron','shrimp quesadilla']},
+      {name:'Quesadilla a Mano (2)', price:13.95, cat:'quesadillas', words:['quesadilla a mano']},
+      {name:'Empanadas caseras (2)', price:8.95, cat:'entradas', words:['empanada']},
+      {name:'Tex-Mex Loaded Fries', price:7.95, cat:'entradas', words:['loaded fries']},
+      {name:'Chicken Fingers (5)', price:8.95, cat:'entradas', words:['chicken fingers']},
+      {name:'Buffalo Wings (7)', price:9.95, cat:'entradas', words:['buffalo wings','alitas']},
+      {name:'Southwest Rolls', price:8.95, cat:'entradas', words:['southwest rolls']},
+      {name:'Jalapeño Poppers (6)', price:7.95, cat:'entradas', words:['poppers','jalapeno']},
+      {name:'Bowl of Chili con res molida', price:8.95, cat:'entradas', words:['chili','chile con carne']},
+      {name:'Mozzarella Sticks (6)', price:7.95, cat:'entradas', words:['mozzarella sticks','palitos de mozzarella']},
+      {name:'Boneless Buffalo Wings', price:8.95, cat:'entradas', words:['boneless']},
+      {name:'Appetizer Sampler #1', price:10.95, cat:'entradas', words:['sampler 1','sampler #1']},
+      {name:'Appetizer Sampler #2', price:10.95, cat:'entradas', words:['sampler 2','sampler #2']},
+      {name:'Fajitas de pollo', price:15.95, cat:'fajitas', words:['fajita de pollo','fajitas de pollo']},
+      {name:'Fajitas de bistec', price:16.95, cat:'fajitas', words:['fajita de bistec','fajitas de bistec','fajita de carne','fajitas de carne']},
+      {name:'Fajitas de camarón', price:17.95, cat:'fajitas', words:['fajita de camaron','fajitas de camaron']},
+      {name:'Fajitas vegetarianas', price:13.95, cat:'fajitas', words:['fajita vegetariana','fajitas vegetarianas','fajita veggie','fajitas veggie']},
+      {name:'Fajitas Combo (2)', price:18.95, cat:'fajitas', words:['fajitas combo 2','fajita combo 2']},
+      {name:'Fajitas Combo (3)', price:19.95, cat:'fajitas', words:['fajitas combo 3','fajita combo 3']},
+      {name:'Bacon Cheeseburger', price:11.95, cat:'hamburguesas', words:['bacon cheeseburger']},
+      {name:'California Cheeseburger', price:11.95, cat:'hamburguesas', words:['california']},
+      {name:'Caliente Burger', price:11.95, cat:'hamburguesas', words:['caliente burger']},
+      {name:'Tex-Mex Burger', price:11.95, cat:'hamburguesas', words:['tex burger']},
+      {name:'Texas Burger', price:11.95, cat:'hamburguesas', words:['texas burger']},
+      {name:'Double Cheeseburger', price:13.25, cat:'hamburguesas', words:['double cheeseburger','doble']},
+      {name:'Cheeseburger', price:9.95, cat:'hamburguesas', words:['cheeseburger']},
+      {name:'Hamburger', price:7.95, cat:'hamburguesas', words:['hamburger']},
+      {name:'Plain Hot Dog (sencillo)', price:1.50, cat:'hotdogs', words:['hot dog sencillo','hot dog simple','plain hot dog','perro sencillo','sencillo']},
+      {name:'Big Tex Mex Dog', price:6.95, cat:'hotdogs', words:['big tex mex dog','big dog']},
+      {name:'Big Italian Dog', price:6.95, cat:'hotdogs', words:['italian dog','italiano']},
+      {name:'Cheese Dog', price:2.25, cat:'hotdogs', words:['cheese dog','hot dog de queso','perro con queso']},
+      {name:'Cheese & Chili Dog', price:2.50, cat:'hotdogs', words:['cheese chili dog','chili cheese dog']},
+      {name:'Chili con Carne Dog', price:2.50, cat:'hotdogs', words:['chili dog','chili con carne dog']},
+      {name:'Pico de Gallo Dog', price:2.50, cat:'hotdogs', words:['pico de gallo dog']},
+      {name:'Texas Dog', price:2.50, cat:'hotdogs', words:['texas dog']},
+      {name:'Mexican Hot Dog', price:2.50, cat:'hotdogs', words:['mexican hot dog','hot dog mexicano']},
+      {name:'Bistec Encebollado', price:15.95, cat:'cenas', words:['encebollado']},
+      {name:'Bistec a la Mexicana', price:16.95, cat:'cenas', words:['bistec a la mexicana']},
+      {name:'Carne Enchilada (cena)', price:15.95, cat:'cenas', words:['carne enchilada']},
+      {name:'Chuletas (2)', price:16.95, cat:'cenas', words:['chuleta']},
+      {name:'Beef Ribs', price:17.95, cat:'cenas', words:['beef ribs']},
+      {name:'Cesina Ranchera', price:20.95, cat:'cenas', words:['cesina ranchera','ranchera']},
+      {name:'Trio Meat Platter', price:19.95, cat:'cenas', words:['trio']},
+      {name:'Mole de Pollo', price:16.95, cat:'cenas', words:['mole']},
+      {name:'Cecina (cena)', price:19.95, cat:'cenas', words:['cecina']},
+      {name:'Costillas de puerco (BBQ, fritas u horneadas)', price:15.95, cat:'cenas', words:['costilla']},
+      {name:'Grilled Chicken (cena)', price:14.95, cat:'cenas', words:['grilled chicken']},
+      {name:'Salmon al Gusto', price:19.95, cat:'cenas', words:['salmon al gusto']},
+      {name:'Molcajete', price:null, cat:'cenas', words:['molcajete']},
+      {name:'Camarones al Mojo de Ajo', price:15.95, cat:'cenas', words:['mojo de ajo']},
+      {name:'Camarón estilo mexicano', price:16.95, cat:'cenas', words:['camaron estilo mexicano','camarones a la mexicana']},
+      {name:'Salmón a la Chipotle', price:16.95, cat:'cenas', words:['chipotle']},
+      {name:'Bistec con Camarón Teriyaki', price:17.95, cat:'cenas', words:['teriyaki']},
+      {name:'Tostadas (3)', price:13.95, cat:'delicias', words:['tostada']},
+      {name:'Chicken Flautas (4)', price:12.95, cat:'delicias', words:['flauta']},
+      {name:'Sopes (3)', price:13.95, cat:'delicias', words:['sope']},
+      {name:'Pupusas (3)', price:13.95, cat:'delicias', words:['pupusa']},
+      {name:'Tlayuda', price:16.95, cat:'delicias', words:['tlayuda']},
+      {name:'Combo #1 (3 flautas y 1 empanada)', price:12.95, cat:'combos', words:['combo 1','combo #1','combo uno']},
+      {name:'Combo #2 (sope, tostada y empanada)', price:13.95, cat:'combos', words:['combo 2','combo #2','combo dos']},
+      {name:'Combo #3 (2 tostadas y 1 sope)', price:13.95, cat:'combos', words:['combo 3','combo #3','combo tres']},
+      {name:'Combo #4 (2 enchiladas, 2 flautas y 1 quesadilla)', price:14.95, cat:'combos', words:['combo 4','combo #4','combo cuatro']},
+      {name:'Two Eggs Any Style', price:9.95, cat:'desayuno', words:['two eggs','huevos al gusto']},
+      {name:'Two Eggs con Carne', price:11.95, cat:'desayuno', words:['huevos con carne']},
+      {name:'Garden Omelet', price:12.95, cat:'desayuno', words:['garden omelet']},
+      {name:'Spanish Omelet (con chorizo)', price:12.95, cat:'desayuno', words:['spanish omelet']},
+      {name:'Western Omelet', price:12.95, cat:'desayuno', words:['western omelet']},
+      {name:'Protein Omelet', price:13.95, cat:'desayuno', words:['protein omelet']},
+      {name:'Omelet (a elegir)', price:null, cat:'desayuno', words:['omelet','omelette','tortilla de huevo']},
+      {name:'Garden Burrito (desayuno)', price:7.95, cat:'desayuno', words:['garden burrito']},
+      {name:'Mexican Burrito (desayuno)', price:7.95, cat:'desayuno', words:['burrito mexicano']},
+      {name:'Texas Burrito (desayuno)', price:7.95, cat:'desayuno', words:['texas burrito']},
+      {name:'Breakfast Tacos (3)', price:7.95, cat:'desayuno', words:['breakfast tacos','tacos de desayuno']},
+      {name:'Breakfast Quesadilla', price:8.95, cat:'desayuno', words:['breakfast quesadilla','quesadilla de desayuno']},
+      {name:'Pancakes (3)', price:7.95, cat:'desayuno', words:['pancake','panqueque','hot cake','hotcake']},
+      {name:'French Toast (3)', price:6.95, cat:'desayuno', words:['french toast']},
+      {name:'Hungry Man Meal', price:13.95, cat:'desayuno', words:['hungry']},
+      {name:'Huevos a la Mexicana', price:12.95, cat:'desayuno', words:['huevos a la mexicana']},
+      {name:'Huevos con Chorizo', price:12.95, cat:'desayuno', words:['huevos con chorizo']},
+      {name:'Huevos Rancheros', price:12.95, cat:'desayuno', words:['ranchero']},
+      {name:'Huevos con Bistec', price:15.95, cat:'desayuno', words:['huevos con bistec']},
+      {name:'Torta (desayuno)', price:9.95, cat:'desayuno', words:['torta']},
+      {name:'Cuban Torta', price:10.95, cat:'desayuno', words:['cuban torta','torta cubana']},
+      {name:"Rosy's Sandwich", price:13.95, cat:'desayuno', words:['rosy']},
+      {name:'Chicken Fingers (niños)', price:6.95, cat:'ninos', words:['fingers de ninos']},
+      {name:'Quesadilla de pollo y queso (niños)', price:6.95, cat:'ninos', words:['quesadilla de ninos']},
+      {name:'Flautas de pollo (niños, 2)', price:7.95, cat:'ninos', words:['flautas de ninos']},
+      {name:'Grilled Cheese (niños)', price:4.95, cat:'ninos', words:['grilled cheese']},
+      {name:'Dos tacos suaves de res (niños)', price:7.95, cat:'ninos', words:['tacos de ninos']},
+      {name:'Cheeseburger (niños)', price:7.95, cat:'ninos', words:['cheeseburger de ninos']},
+      {name:'Tamales', price:3.25, cat:'postres', words:['tamal']},
+      {name:'Tres Leches', price:null, cat:'postres', words:['tres leches','3 leches']},
+      {name:'Flan', price:null, cat:'postres', words:['flan']},
+      {name:'Arroz con frijoles (grande)', price:6.95, cat:'acompanamientos', words:['arroz con frijoles']},
+      {name:'Papas fritas chicas', price:3.50, cat:'acompanamientos', words:['papas fritas chicas']},
+      {name:'Papas fritas grandes', price:4.95, cat:'acompanamientos', words:['papas fritas grandes','papas grandes']},
+      {name:'Onion Rings chicos', price:3.95, cat:'acompanamientos', words:['onion rings chicos']},
+      {name:'Onion Rings grandes', price:5.95, cat:'acompanamientos', words:['onion rings grandes','aros de cebolla']},
+      {name:'Sweet Potato Fries chicas', price:3.95, cat:'acompanamientos', words:['sweet potato chicas']},
+      {name:'Sweet Potato Fries grandes', price:5.95, cat:'acompanamientos', words:['sweet potato grandes','papas de camote']},
+      {name:'Curly Fries chicas', price:3.95, cat:'acompanamientos', words:['curly chicas']},
+      {name:'Curly Fries grandes', price:5.95, cat:'acompanamientos', words:['curly grandes']},
+      {name:'Guacamole grande', price:5.95, cat:'acompanamientos', words:['guacamole grande']},
+      {name:'Guacamole chico', price:1.50, cat:'acompanamientos', words:['guacamole']},
+      {name:'Tortillas (maíz a mano o de harina)', price:0.50, cat:'acompanamientos', words:['tortilla suelta','tortillas extra']},
+      {name:'Homefries chicos', price:3.50, cat:'acompanamientos', words:['homefries chicos']},
+      {name:'Homefries grandes', price:5.95, cat:'acompanamientos', words:['homefries']},
+      {name:'Orden de carne', price:2.95, cat:'acompanamientos', words:['orden de carne']},
+      {name:'Corned Beef Hash', price:3.75, cat:'acompanamientos', words:['corned beef']},
+      {name:'Tocino de pavo', price:2.95, cat:'acompanamientos', words:['tocino de pavo','turkey bacon']},
+      {name:'Agua fresca chica 16 oz', price:4.00, cat:'bebidas', words:['agua fresca chica','agua chica']},
+      {name:'Agua fresca grande 32 oz', price:7.00, cat:'bebidas', words:['agua fresca grande','agua grande']},
+      {name:'Jugo natural de naranja', price:8.00, cat:'bebidas', words:['jugo de naranja']},
+      {name:'Jugo de naranja con zanahoria', price:8.00, cat:'bebidas', words:['naranja con zanahoria']},
+      {name:'Jugo Vampiro', price:8.00, cat:'bebidas', words:['vampiro']},
+      {name:'Horchata', price:null, cat:'bebidas', words:['horchata']},
+      {name:'Agua de jamaica', price:null, cat:'bebidas', words:['jamaica']},
+      {name:'Agua de tamarindo', price:null, cat:'bebidas', words:['tamarindo']},
+      {name:'Limonada', price:null, cat:'bebidas', words:['limonada']},
+      {name:'Fiesta Bean & Chicken', price:14.95, cat:'saludables', words:['fiesta bean']},
+      {name:'Salmón pochado con verduras', price:17.95, cat:'saludables', words:['pochado','poached']},
+      {name:'Salmón ennegrecido a la parrilla', price:17.95, cat:'saludables', words:['ennegrecido','blackened']},
+      {name:'Ensalada César con pollo', price:11.95, cat:'ensaladas', words:['cesar con pollo','caesar con pollo']},
+      {name:'Ensalada César con camarón', price:12.95, cat:'ensaladas', words:['cesar con camaron']},
+      {name:'Ensalada #3 (verduras, balsámico y mozzarella)', price:12.95, cat:'ensaladas', words:['ensalada 3']},
+      {name:'Ensalada #4 (pollo crujiente, huevo y tocino)', price:12.95, cat:'ensaladas', words:['ensalada 4']},
+      {name:'Ensalada #5 (salmón ennegrecido y aguacate)', price:13.95, cat:'ensaladas', words:['ensalada 5']},
+      {name:'Ensalada #6 (camarón cajún y pico de gallo)', price:13.95, cat:'ensaladas', words:['ensalada 6']},
+      {name:'Ensalada #8 (portobello, mozzarella y pollo)', price:12.95, cat:'ensaladas', words:['ensalada 8']},
+      {name:'Tex-Mex Spicy Taco Salad #9', price:13.95, cat:'ensaladas', words:['taco salad']},
+      {name:'Tejana Taco Salad #10', price:13.95, cat:'ensaladas', words:['tejana']},
+      {name:'Ensalada (las #1, #2 y #7, precio por confirmar)', price:null, cat:'ensaladas', words:['ensalada 1','ensalada 2','ensalada 7']},
+      {name:'The Classic (wrap)', price:13.95, cat:'wraps', words:['the classic']},
+      {name:'The Tex-Mex (wrap)', price:13.95, cat:'wraps', words:['the tex']},
+      {name:'Chicken Fajita (wrap)', price:13.95, cat:'wraps', words:['chicken fajita wrap']},
+      {name:'The Cuban (wrap)', price:13.95, cat:'wraps', words:['the cuban']},
+      {name:'California Turkey (wrap)', price:13.95, cat:'wraps', words:['california turkey']},
+      {name:'Philly Steak (wrap)', price:13.95, cat:'wraps', words:['philly']},
+      {name:'Tex-Mex Cheesesteak (wrap)', price:13.95, cat:'wraps', words:['cheesesteak']},
+      {name:'El Paso (wrap)', price:13.95, cat:'wraps', words:['wrap el paso']},
+      {name:'The Texas (wrap)', price:13.95, cat:'wraps', words:['the texas']},
+      {name:'The Ranchero (wrap)', price:13.95, cat:'wraps', words:['the ranchero']}
+    ];
+    var CATS=[
+      {k:'desayuno', label:'del desayuno', words:['desayuno']},
+      {k:'entradas', label:'de entradas', words:['entrada','aperitivo','appetizer']},
+      {k:'nachos', label:'de nachos', words:['nacho']},
+      {k:'tacos', label:'de tacos', words:['taco']},
+      {k:'burritos', label:'de burritos', words:['burrito']},
+      {k:'enchiladas', label:'de enchiladas', words:['enchilada']},
+      {k:'quesadillas', label:'de quesadillas', words:['quesadilla']},
+      {k:'hotdogs', label:'de hot dogs', words:['hot dog','hotdog','perro caliente']},
+      {k:'hamburguesas', label:'de hamburguesas', words:['hamburguesa','burger']},
+      {k:'fajitas', label:'de fajitas', words:['fajita']},
+      {k:'cenas', label:'de cenas', words:['cena','plato fuerte']},
+      {k:'ensaladas', label:'de ensaladas', words:['ensalada','salad']},
+      {k:'delicias', label:'de antojitos', words:['antojito','delicia']},
+      {k:'combos', label:'de combos', words:['combo']},
+      {k:'ninos', label:'del menú de niños', words:['ninos','infantil','para mi hijo','para mi hija']},
+      {k:'postres', label:'de postres y tamales', words:['postre']},
+      {k:'bebidas', label:'de bebidas', words:['bebida','de tomar','para tomar','refresco','jugo','aguas frescas']},
+      {k:'acompanamientos', label:'de acompañamientos', words:['acompanamiento','aparte','extra','side']},
+      {k:'saludables', label:'de platos saludables', words:['saludable','healthy','ligero']},
+      {k:'wraps', label:'de wraps y sándwiches', words:['wrap','panini']},
+      {k:'papas', label:'de papas', words:['papas','fries']},
+      {k:'guac', label:'de guacamole', words:['guacamole solo']}
     ];
     var NUMW={un:1,una:1,uno:1,unas:1,unos:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6};
     function money(n){ return '$'+(Math.round(n*100)/100).toFixed(2); }
-    function cartTotal(){ var s=0; cart.forEach(function(it){ s+=it.price*it.qty; }); return s; }
-    function cartLines(){ return cart.map(function(it){ return '• '+it.qty+' × '+it.name+' — '+money(it.price*it.qty); }).join('\n'); }
+    function priceTxt(it){ return it.price==null?'precio a confirmar en el local':money(it.price); }
+    function cartTotal(){ var s=0; cart.forEach(function(it){ s+=(it.price||0)*it.qty; }); return s; }
+    function cartHasNull(){ for(var i=0;i<cart.length;i++){ if(cart[i].price==null) return true; } return false; }
+    function totalTxt(){ return 'Total de los platos: '+money(cartTotal())+(cartHasNull()?' (más lo que se confirme en el local de un plato sin precio en el menú impreso)':'')+' (el impuesto se suma al pagar en caja)'; }
+    function cartLines(){ return cart.map(function(it){ return '• '+it.qty+' × '+it.name+' — '+(it.price==null?'precio a confirmar':money(it.price*it.qty)); }).join('\n'); }
     function now(){ var d=new Date(), h=d.getHours(), m=d.getMinutes(); return (h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
     function scroll(){ msgs.scrollTop=msgs.scrollHeight; }
     function bubble(text, me){
@@ -546,7 +731,7 @@
       var delay=800+Math.min(text.length*4, 800);
       setTimeout(function(){ t.remove(); status.textContent='en línea'; bubble(text,false); }, delay);
     }
-    function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+    function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/quinton/g,'quiero').replace(/hotdog/g,'hot dog').replace(/hotdogs/g,'hot dogs'); }
     function has(t){ for(var i=1;i<arguments.length;i++){ if(t.indexOf(arguments[i])>=0) return true; } return false; }
     function qtyBefore(t, idx){
       var seg=t.slice(Math.max(0, idx-18), idx).replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean);
@@ -557,21 +742,57 @@
       }
       return 1;
     }
-    function parseItems(t){
-      var work=' '+t+' ', found=[];
-      MENU.forEach(function(item){
-        for(var k=0;k<item.words.length;k++){
-          var w=item.words[k], idx=work.indexOf(w);
-          if(idx>=0){
-            var qty=qtyBefore(work, idx);
-            found.push({name:item.name, price:item.price, qty:qty});
-            work=work.slice(0,idx)+Array(w.length+1).join(' ')+work.slice(idx+w.length);
-            break;
-          }
+    function matchIn(item, work){
+      // devuelve {idx,len,qty} si alguna palabra del plato aparece, con precedencia: 'sin X' (exclusión) > 'de X' (relleno) > palabra suelta
+      var best=null;
+      for(var k=0;k<item.words.length;k++){
+        var w=item.words[k], idx=work.indexOf(w);
+        while(idx>=0){
+          var before=work.slice(Math.max(0,idx-4), idx), after=work.charAt(idx+w.length);
+          var ok=(after===''||after===' '||after==='s'||after==='?');
+          var score=idx;
+          if(before.slice(-4)===' de ') score-=1000;
+          if(!ok) score=null;
+          if(score!=null && (best==null||score<best.score)) best={idx:idx, len:w.length, score:score};
+          if(best&&score!=null&&score<=-900) break;
+          idx=work.indexOf(w, idx+1);
         }
-      });
-      return found;
+        if(best&&best.score<=-900) break;
+      }
+      if(!best) return null;
+      return {idx:best.idx, len:best.len, qty:qtyBefore(work, best.idx)};
     }
+    function findItems(t){
+      var work=' '+t+' ', hits=[];
+      MENU.forEach(function(item){
+        var m=matchIn(item, work);
+        if(m) hits.push({item:item, idx:m.idx, len:m.len, qty:m.qty});
+      });
+      hits.sort(function(a,b){ return a.idx-b.idx || b.len-a.len; });
+      var used=[], res=[];
+      hits.forEach(function(h){
+        var clash=false;
+        used.forEach(function(u){ if(h.idx<u.end && u.start<h.idx+h.len) clash=true; });
+        if(!clash){ used.push({start:h.idx, end:h.idx+h.len}); res.push({name:h.item.name, price:h.item.price, cat:h.item.cat, qty:h.qty}); }
+      });
+      return res;
+    }
+    function findCat(t){
+      var c=CATS.filter(function(c){ return c.words.some(function(w){ return t.indexOf(w)>=0; }); });
+      return c.length?c[0]:null;
+    }
+    function catItems(k){ return MENU.filter(function(it){ return it.cat===k; }); }
+    function listCat(c){
+      var its=catItems(c.k);
+      return 'Tenemos estos '+c.label+':\n'+its.map(function(it){ return '• '+it.name+': '+priceTxt(it); }).join('\n')+'\n¿Cuál le anoto?';
+    }
+    function askVariant(catObj, t){
+      pending={cat:catObj.k};
+      flow='orden';
+      return listCat(catObj);
+    }
+    function isPriceQ(t){ return has(t,'cuanto','cuesta','cuestan','precio','vale','valen','salen'); }
+    function isIntent(t){ return has(t,'quiero','quisiera','dame','deme','me da','me das','anotame','anota','pido','pedir','orden','encargo','traeme','ponme'); }
     function addToCart(items){
       items.forEach(function(nw){
         var ex=null;
@@ -580,15 +801,38 @@
       });
     }
     function notedReply(items){
-      var lines=items.map(function(it){ return '• '+it.qty+' × '+it.name+' — '+money(it.price*it.qty); }).join('\n');
-      return 'Anotado:\n'+lines+'\nLleva '+money(cartTotal())+'. ¿Algo más? Si ya es todo, dígame «es todo».';
+      var lines=items.map(function(it){ return '• '+it.qty+' × '+it.name+' — '+(it.price==null?'precio a confirmar en el local':money(it.price*it.qty)); }).join('\n');
+      return '¡Claro que sí! Anotado:\n'+lines+'\nLleva '+money(cartTotal())+(cartHasNull()?' (más lo que confirmen en el local)':'')+'. ¿Algo más? Si ya es todo, dígame «es todo».';
+    }
+    function priceAnswer(items){
+      if(items.length===1){
+        var it=items[0];
+        return it.price==null
+          ? 'El '+it.name.toLowerCase()+' sí lo tenemos, pero su precio exacto no aparece en el menú impreso que tengo aquí — se lo confirman en el local. ¿Se lo anoto así o prefiere otro plato?'
+          : 'El '+it.name+' cuesta '+money(it.price)+'. ¿Se lo anoto?';
+      }
+      return items.map(function(it){ return '• '+it.name+': '+priceTxt(it); }).join('\n')+'\n¿Le anoto alguno?';
     }
     function menuText(){
-      return 'Nuestro menú, con precios:\n'+MENU.map(function(it){ return '• '+it.name+': '+money(it.price); }).join('\n')+'\nEl pedido para recoger está listo en 15 a 20 minutos. ¿Le anoto algo?';
+      return 'El menú completo es grande, así que mejor por partes. Tenemos: desayunos, entradas, nachos, tacos, burritos, enchiladas, quesadillas, hot dogs, hamburguesas, fajitas, cenas, ensaladas, antojitos, combos, menú de niños, wraps, acompañamientos y bebidas.\nDígame qué se le antoja — por ejemplo «los tacos» o «los hot dogs» — y le muestro esa parte con precios. Y ojo: los martes es Tacos Tuesday, ¡tacos a $1.00!';
     }
     function askOrder(){
       flow='orden';
-      return '¡Claro que sí! ¿Qué le anoto? Puede escribir el plato: burrito, tacos, nachos, empanadas, enchiladas, chimichanga, arroz con frijoles, breakfast burrito o hungry man meal.';
+      return '¡Claro que sí! ¿Qué le anoto? Puede pedirme de todo el menú: tacos, burritos, hot dogs, quesadillas, fajitas, cenas, desayunos… Escríbame los platos y se los sumo.';
+    }
+    function humanFallback(t){
+      var m=/quier\w*\s+(?:un[oa]?\s+|el\s+|la\s+|los\s+|las\s+)?([a-zñ ]{3,30})/.exec(t);
+      if(m){
+        var dish=m[1].replace(/\s+de.*$/,'').trim();
+        if(dish && dish.length>2 && dish.split(' ').length<=3 && !has(dish,'pedido','ordenar','comer')) {
+          unknownStreak++;
+          return 'Mmm, «'+dish+'» no lo encuentro en el menú que tengo aquí. De lo parecido le puedo ofrecer tacos, burritos, hot dogs, quesadillas o fajitas — ¿le muestro alguna de esas partes con precios?';
+        }
+      }
+      unknownStreak++;
+      return unknownStreak>1
+        ? 'Le propongo algo más fácil: dígame una categoría y le leo esa parte del menú con precios — tacos, hot dogs, burritos, cenas, desayunos, bebidas…'
+        : 'Perdón, no le agarré eso. ¿Me lo dice con el nombre del plato? Por ejemplo: «quiero unos tacos de birria» o «un hot dog sencillo».';
     }
     function brain(raw){
       var t=norm(raw);
@@ -597,36 +841,57 @@
         if(nm.indexOf('?')>=0 || nm.split(/\s+/).length>4 || !nm){
           return '¿Me repite el nombre para el pedido, por favor?';
         }
-        var close='✓ Pedido registrado\n'+cartLines()+'\nTotal: '+money(cartTotal())+
+        var close='✓ Pedido registrado\n'+cartLines()+'\n'+totalTxt()+
           '\nA nombre de: '+nm+
           '\nListo para recoger en 15 a 20 minutos — El Tex Mex Burrito Cafe, 511 New Brunswick Ave, Fords.\n¡Gracias por su pedido!'+HONEST;
-        flow=null; cart=[];
+        flow=null; cart=[]; pending=null;
         return close;
       }
-      if(flow==='orden'){
-        if(has(t,'cancel')){ flow=null; cart=[]; return 'Pedido cancelado, sin problema. Si quiere algo más, aquí estoy.'; }
-        if(has(t,'menu','carta','precio')) return menuText()+'\n\nSeguimos con su pedido: dígame el plato y se lo anoto.';
-        if(has(t,'es todo','eso es todo','nada mas','solo eso','ya esta','ya termine')){
-          if(!cart.length) return 'Todavía no me pidió nada. ¿Qué le anoto?';
-          flow='nombre';
-          return 'Perfecto:\n'+cartLines()+'\nTotal: '+money(cartTotal())+'\n¿A nombre de quién anoto el pedido?';
-        }
-        var items=parseItems(t);
-        if(items.length){ addToCart(items); return notedReply(items); }
-        return 'No le entendí el plato. De la ficha tengo: burrito, tacos, nachos, empanadas, enchiladas, chimichanga, arroz con frijoles, breakfast burrito y hungry man meal. ¿Qué le anoto?';
+      var items=findItems(t);
+      var cat=findCat(t);
+      // Cierre del pedido
+      if(has(t,'cancel') && cart.length){ flow=null; cart=[]; pending=null; return 'Pedido cancelado, sin problema. Si quiere algo más, aquí estoy.'; }
+      if(has(t,'es todo','eso es todo','nada mas','solo eso','ya esta','ya termine')){
+        if(!cart.length) return 'Todavía no me pidió nada. ¿Qué le anoto?';
+        flow='nombre';
+        return 'Perfecto:\n'+cartLines()+'\n'+totalTxt()+'\n¿A nombre de quién anoto el pedido?';
       }
-      if(has(t,'tuesday','martes')) return 'Los martes es Taco Tuesday: hay especial de tacos en el local. El detalle exacto del especial se lo confirman en el restaurante. ¿Le anoto unos tacos?';
+      // Preguntas informativas (siempre abiertas, esté o no en modo orden)
+      if(has(t,'tuesday','martes')) return '¡Los martes es Tacos Tuesday: los tacos salen a $1.00 cada uno! (Qué tacos entran en la promo se lo confirman en el local.) ¿Le anoto algo?';
       if(has(t,'tarda','demora','cuanto tiempo','en cuanto esta','esta listo')) return 'El pedido para recoger está listo en 15 a 20 minutos desde que lo anota la recepcionista. ¿Le tomo su pedido?';
-      if(has(t,'menu','carta','precios','precio','cuesta','cuestan')) return menuText();
-      if(has(t,'donde','direccion','ubicacion','horario','abren','cierran')) return 'Estamos en 511 New Brunswick Ave, Fords, NJ 08863. Horario: lunes a sábado de 5:00 AM a 9:00 PM y domingo de 7:00 AM a 4:00 PM. Teléfono: (732) 661-2007.';
+      if(has(t,'donde','direccion','ubicacion','horario','abren','cierran','hora abren')) return 'Estamos en 511 New Brunswick Ave, Fords, NJ 08863. Horario: lunes a sábado de 5:00 AM a 9:00 PM y domingo de 7:00 AM a 4:00 PM. Teléfonos: (732) 661-2007 y (732) 900-9480.';
       if(has(t,'delivery','domicilio','envian','envio','reparto')) return 'Por aquí tomamos pedidos para recoger (pickup), listos en 15 a 20 minutos. El restaurante tiene delivery propio con mínimo de $20 (lo confirma el encargado) y también está en DoorDash, Grubhub, Uber Eats y MenuStar. ¿Le anoto un pedido para recoger?';
       if(has(t,'inteligencia artificial','eres un robot','eres una ia','eres humana','eres real')) return 'Soy la recepcionista del restaurante, atendida con inteligencia artificial — es una demostración de Alaluna AI Solutions. Y con gusto le tomo su pedido igual.';
-      var found=parseItems(t);
-      if(found.length){ flow='orden'; addToCart(found); return notedReply(found); }
-      if(has(t,'pedido','pedir','ordenar','quiero')) return askOrder();
+      if(has(t,'menu','carta','que tienen','que venden','que hay')) return menuText();
       if(has(t,'gracias')) return '¡Con gusto! Si quiere, le tomo su pedido: está listo para recoger en 15 a 20 minutos.';
-      if(has(t,'hola','buenas','buenos')) return 'El Tex Mex Burrito Cafe, ¿cómo le puedo ayudar? Puedo tomar su pedido, contarle el menú y los precios o decirle el horario.';
-      return 'Con gusto le ayudo: puedo tomar su pedido, mostrarle el menú con precios, decirle cuánto tarda y dónde estamos. Use los botones de aquí arriba o escríbame su pedido.';
+      if(isPriceQ(t)){
+        if(items.length) return priceAnswer(items);
+        if(cat) return listCat(cat);
+        return menuText();
+      }
+      // Flujo de variantes: eligió dentro de la lista que le mostré
+      if(pending){
+        if(items.length){
+          var pin=items.filter(function(it){ return it.cat===pending.cat; });
+          if(pin.length){ pending=null; flow='orden'; addToCart(pin); return notedReply(pin); }
+        }
+      }
+      // Quiere algo pero solo nombró la categoría («quiero un hot dog», «qué tal unos tacos»)
+      if(cat && !items.length && (isIntent(t) || has(t,'que tal','recomienda','sugiere'))){
+        return askVariant(cat, t);
+      }
+      if(items.length){
+        // nombró la categoría Y un genérico con variantes, sin especificar (p. ej. «dame tacos»)
+        var sameCat=items.filter(function(it){ return cat && it.cat===cat.k; });
+        flow='orden'; addToCart(items); unknownStreak=0; return notedReply(items);
+      }
+      if(cat && !items.length){
+        return listCat(cat);
+      }
+      if(items.length===0 && isIntent(t) && !has(t,'pedido')) return humanFallback(t);
+      if(has(t,'pedido','pedir','ordenar','quiero','quisiera')) return askOrder();
+      if(has(t,'hola','buenas','buenos')) return 'El Tex Mex Burrito Cafe, ¿cómo le puedo ayudar? Escríbame su pedido y se lo anoto con precio de una vez.';
+      return humanFallback(t);
     }
     function send(text){
       var v=(text||'').trim(); if(!v) return;
