@@ -120,6 +120,20 @@
   .transcript.synced .turn.heard { opacity:.78; }
   .transcript.synced .turn.active { opacity:1; background:rgba(245,197,24,.10); }
   .transcript.synced .turn.active p { color:#ffffff; }
+  .cc-fold { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
+          margin-top:14px; padding:12px 14px; background:rgba(255,255,255,.05);
+          border:1px solid rgba(255,255,255,.16); border-radius:12px; color:inherit;
+          font-family:inherit; font-size:14px; font-weight:bold; cursor:pointer; text-align:left; }
+  .cc-fold .chev { transition:transform .35s ease; }
+  .cc-fold[aria-expanded="true"] .chev { transform:rotate(180deg); }
+  .transcript-wrap { display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s ease; }
+  .transcript-wrap .transcript { overflow:hidden; min-height:0; margin-top:0; }
+  .transcript-wrap.open { grid-template-rows:1fr; }
+  .transcript-wrap.open .transcript { margin-top:12px; }
+  .live-solid { background:#d8232a; color:#ffffff; border:none; padding:14px 24px;
+          font-size:16px; margin-top:14px; box-shadow:0 10px 24px rgba(0,0,0,.35); }
+  .or-line { margin-top:16px; font-size:14px; opacity:.85; }
+  .call .wa-open { margin-top:10px; }
   .cc-pill { margin-top:14px; background:rgba(216,35,42,.16); border:1px solid rgba(245,197,24,.45);
           color:#ffedb0; border-radius:14px; padding:13px 14px; text-align:center;
           font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; line-height:1.55;
@@ -281,7 +295,9 @@
         <span class="cc-time" id="ccTime">00:00 / 01:02</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
-      <div class="transcript" id="transcript">
+      <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Sample conversation</span><span class="chev" aria-hidden="true">▾</span></button>
+      <div class="transcript-wrap" id="transcriptWrap">
+        <div class="transcript" id="transcript">
         <div class="turn ring"><span class="who">Ring</span>
           <p>♪ ♪ The phone rings…</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
@@ -311,20 +327,18 @@
         <div class="turn recep"><span class="who">Receptionist</span>
           <p>All set, Dave! A 3-piece chicken combo and 6 honey BBQ wings — $17.98 plus tax, ready for pickup in 15 to 20 minutes. Thanks for calling Kennedy Fried Chicken!</p></div>
       </div>
-      <div class="cc-pill">✓ Order registered · 3 pcs Chicken Combo + 6 Buffalo Wings (Honey BBQ) · $17.98 + tax · Ready in 15–20 min</div>
-      <div class="cc-actions">
-        <button class="wa-open js-wa-open" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Messages — order on WhatsApp</button>
-        <a class="cc-live" href="#llamada" id="liveBtn">Try him live</a>
       </div>
-      <audio id="ccAudio" preload="metadata"></audio>
-      <p class="cc-note">Sample call — an illustration of how the receptionist answers. Tap "Try him live" and you are talking to him right here on the page.</p>
-    </div>
+      <div class="cc-pill">✓ Order registered · 3 pcs Chicken Combo + 6 Buffalo Wings (Honey BBQ) · $17.98 + tax · Ready in 15–20 min</div>
+            <audio id="ccAudio" preload="metadata"></audio>
+          </div>
 
     <div class="call reveal" id="llamada">
-      📞 <b>Tap the call button and place your order out loud.</b> Mike takes your order, gives you the exact total and has it ready for pickup in 15–20 minutes.
-      <span class="micro">Call like a customer: this is exactly how the AI answers.</span>
+      <b>Try it yourself — place your order out loud</b>
+      <br>
+      <a class="cc-live live-solid" href="#llamada" id="liveBtn">📞 Start live call</a>
+      <p class="or-line">Or you can also...</p>
+      <button class="wa-open js-wa-open" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Order on WhatsApp</button>
       <span class="mic">If he can't hear you, open this page in Safari or Chrome and allow the microphone.</span>
-      
     </div>
     <div class="try reveal">
       <h2>Try it like this</h2>
@@ -464,6 +478,23 @@
           var sec = document.getElementById('llamada');
           if (sec) sec.scrollIntoView({ behavior: 'smooth' });
         })();
+      });
+    }
+        // Desplegable de la conversación: cerrada por defecto; se abre sola al dar play.
+    var foldBtn = document.getElementById('foldBtn');
+    var transcriptWrap = document.getElementById('transcriptWrap');
+    function openTranscript(){ if (transcriptWrap) transcriptWrap.classList.add('open'); if (foldBtn) foldBtn.setAttribute('aria-expanded', 'true'); }
+    if (foldBtn && transcriptWrap) {
+      foldBtn.addEventListener('click', function(){
+        var open = transcriptWrap.classList.toggle('open');
+        foldBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    var playBtnEl = document.getElementById('playBtn');
+    if (playBtnEl) {
+      playBtnEl.addEventListener('click', function(){
+        var a = document.getElementById('ccAudio');
+        if (a && a.paused) openTranscript();
       });
     }
     var audio = document.getElementById('ccAudio');
