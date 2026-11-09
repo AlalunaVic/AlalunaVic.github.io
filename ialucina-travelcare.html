@@ -106,20 +106,20 @@
   .offer ul { list-style:none; margin:0; padding:0; }
   .offer li { position:relative; padding:6px 0 6px 26px; font-size:14.5px; line-height:1.55; }
   .offer li::before { content:"✓"; position:absolute; left:2px; top:6px; font-weight:bold; color:#1dc8cd; }
-  .cc-fold {{ display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
+  .cc-fold { display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%;
           margin-top:14px; padding:12px 14px; background:rgba(255,255,255,.05);
           border:1px solid rgba(255,255,255,.16); border-radius:12px; color:inherit;
-          font-family:inherit; font-size:14px; font-weight:bold; cursor:pointer; text-align:left; }}
-  .cc-fold .chev {{ transition:transform .35s ease; }}
-  .cc-fold[aria-expanded="true"] .chev {{ transform:rotate(180deg); }}
-  .transcript-wrap {{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s ease; }}
-  .transcript-wrap .transcript {{ overflow:hidden; min-height:0; margin-top:0; }}
-  .transcript-wrap.open {{ grid-template-rows:1fr; }}
-  .transcript-wrap.open .transcript {{ margin-top:12px; }}
-  .live-solid {{ background:#00a183; color:#ffffff; border:none; padding:14px 24px;
-          font-size:16px; margin-top:14px; box-shadow:0 10px 24px rgba(0,0,0,.35); }}
-  .or-line {{ margin-top:16px; font-size:14px; opacity:.85; }}
-  .call .wa-open {{ margin-top:10px; }}
+          font-family:inherit; font-size:14px; font-weight:bold; cursor:pointer; text-align:left; }
+  .cc-fold .chev { transition:transform .35s ease; }
+  .cc-fold[aria-expanded="true"] .chev { transform:rotate(180deg); }
+  .transcript-wrap { display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s ease; }
+  .transcript-wrap .transcript { overflow:hidden; min-height:0; margin-top:0; }
+  .transcript-wrap.open { grid-template-rows:1fr; }
+  .transcript-wrap.open .transcript { margin-top:12px; }
+  .live-solid { background:linear-gradient(135deg,#00a183,#00755f); color:#ffffff; border:2px solid #ffffff; padding:14px 24px;
+          font-size:16px; font-weight:bold; margin-top:14px; box-shadow:0 12px 26px rgba(0,95,80,.50); }
+  .or-line { margin-top:16px; font-size:14px; opacity:.85; }
+  .call .wa-open { margin-top:10px; }
   .cc-pill { margin-top:14px; background:rgba(0,161,131,.20); border:1px solid rgba(29,224,153,.45);
           color:#a9f5d6; border-radius:14px; padding:13px 14px; text-align:center;
           font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; line-height:1.55; }
