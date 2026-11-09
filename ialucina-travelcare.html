@@ -301,6 +301,11 @@
           box-shadow:0 2px 6px rgba(0,0,0,.25); transition:transform .2s ease; }
   .wa-send:hover { transform:scale(1.06); }
   .wa-send:active { transform:scale(.96); }
+  .wa-note { align-self:center; flex:none; background:#fdf3c6; color:#54656f; font-size:11.5px; line-height:1.4;
+          text-align:center; padding:6px 12px; border-radius:8px; max-width:94%;
+          box-shadow:0 1px 1px rgba(0,0,0,.13); }
+  .wa-foot { text-align:center; font-size:11px; color:#667781; padding:7px 6px 1px; line-height:1.4; }
+  .cc-actions .wa-open { margin-top:0; }
   @media (prefers-reduced-motion: reduce) {
     .wa-view, .wa-phone { transition:none; }
     .wa-phone { transform:none; }
@@ -361,6 +366,7 @@
       </div>
       <div class="cc-pill">✓ Caso registrado · Madrid · Plan Europa · La central devuelve la llamada</div>
       <div class="cc-actions">
+        <button class="wa-open js-wa-open" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Mensajes — escríbele a Marcela</button>
         <a class="cc-live" href="#llamada">Pruébala en vivo</a>
       </div>
       <audio id="ccAudio" preload="metadata"></audio>
@@ -383,7 +389,7 @@
       📞 <b>Pulsa el botón de llamada y habla con la recepcionista</b> de Travel Care Assistance. Te informa planes y tarifas, te explica cómo pedir ayuda en pleno viaje y toma tus datos para que un especialista te llame.
       <span class="micro">Llama como si fueras un cliente: aquí ves cómo responde la IA.</span>
       <span class="mic">Si no te escucha, abre esta página en Safari o Chrome y acepta el micrófono.</span>
-      <button class="wa-open" id="waOpen" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Mensajes — así se vería su WhatsApp</button>
+      <button class="wa-open js-wa-open" id="waOpen" type="button"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Mensajes — escríbele a Marcela</button>
     </div>
 
     <div class="try reveal">
@@ -407,19 +413,21 @@
           <div class="wa-status" id="waStatus">en línea</div>
         </div>
         <span class="wa-chip">Simulación · Demo</span>
-        <button class="wa-close" id="waClose" type="button" aria-label="Cerrar la simulación">✕</button>
+        <button class="wa-close" id="waClose" type="button" aria-label="Volver a la demo">←</button>
       </div>
-      <div class="wa-msgs" id="waMsgs"></div>
+      <div class="wa-msgs" id="waMsgs"><div class="wa-note">Simulación de WhatsApp · Demo de Alaluna AI Solutions</div></div>
       <div class="wa-barwrap">
         <div class="wa-quick" id="waQuick">
-          <button type="button" class="wa-qchip" data-q="Quiero ver planes y precios">Planes y precios</button>
-          <button type="button" class="wa-qchip" data-q="¿Qué cubre la asistencia?">¿Qué cubre?</button>
+          <button type="button" class="wa-qchip" data-q="Quiero cotizar un plan">Cotizar un plan</button>
           <button type="button" class="wa-qchip" data-q="Necesito ayuda en mi viaje">Necesito ayuda en mi viaje</button>
+          <button type="button" class="wa-qchip" data-q="Quiero dejar mis datos">Dejar mis datos</button>
+          <button type="button" class="wa-qchip" data-q="¿Qué cubre la asistencia?">¿Qué cubre la asistencia?</button>
         </div>
         <form class="wa-bar" id="waForm">
           <div class="wa-input"><input id="waText" type="text" placeholder="Escribe un mensaje" autocomplete="off" aria-label="Escribe un mensaje"></div>
           <button class="wa-send" id="waSend" type="submit" aria-label="Enviar mensaje"><svg viewBox="0 0 24 24" width="21" height="21" fill="#ffffff" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
         </form>
+        <div class="wa-foot">Demostración: lo que escribas se queda en esta pantalla; no se envía a ningún lado.</div>
       </div>
     </div>
   </div>
@@ -532,16 +540,32 @@
     })();
   </script>
 
-  <script>
+    <script>
   // ===== Simulación de WhatsApp (demo): Marcela responde con un cerebro local alimentado SOLO por la ficha =====
   (function(){
-    var view=document.getElementById('waView'), openBtn=document.getElementById('waOpen'),
+    var view=document.getElementById('waView'),
+        openers=document.querySelectorAll('.js-wa-open'),
         closeBtn=document.getElementById('waClose'), msgs=document.getElementById('waMsgs'),
         form=document.getElementById('waForm'), input=document.getElementById('waText'),
         status=document.getElementById('waStatus'), quick=document.getElementById('waQuick');
-    if(!view || !openBtn || !form) return;
-    var started=false, flow=null, data={};
+    if(!view || !openers.length || !form) return;
+    var started=false, flow=null, data={}, dataReason='contacto', pendingDest=null, lastScrollY=0;
     var CENTRAL='la central 24/7: +51 965 762 631 · 01 725 3962 · cac@travelcareassistance.com';
+    var HONEST='\n\n(Demostración: estos datos se quedaron en esta pantalla; no se enviaron a ningún lado.)';
+    var DAYS=[5,8,10,16,22,30,45,60,90];
+    var TABLES={
+      europa:{nombre:'Plan Europa', precios:[35,41,51,72,86,96,141,160,189], add:5, cobertura:'asistencia médica hasta EUR 30,000 por accidente o enfermedad, y repatriación hasta EUR 30,000'},
+      usa:{nombre:'Plan USA/Canadá', precios:[34,39,47,62,84,110,165,193,278], add:5, cobertura:'asistencia médica hasta USD 20,000 por accidente o enfermedad, y repatriación hasta USD 20,000'},
+      intl:{nombre:'Plan Internacional (mundial, sin USA)', precios:[27,34,42,52,62,79,119,154,205], add:5, cobertura:'asistencia médica hasta USD 10,000 por accidente o enfermedad'},
+      m30:{nombre:'Mundial 30 Mil', precios:[52,70,83,99,109,123,182,237,354], add:6, cobertura:'asistencia médica hasta USD/EUR 30,000'},
+      m50:{nombre:'Mundial 50 Mil', precios:[59,79,94,109,132,160,219,285,418], add:7, cobertura:'asistencia médica hasta USD/EUR 50,000'},
+      m100:{nombre:'Mundial 100 Mil', precios:[73,95,110,155,183,238,285,378,496], add:9, cobertura:'asistencia médica hasta USD/EUR 100,000'}
+    };
+    function priceFor(tab, days){
+      if(days<=DAYS[0]) return tab.precios[0];
+      for(var i=0;i<DAYS.length;i++){ if(days<=DAYS[i]) return tab.precios[i]; }
+      return tab.precios[DAYS.length-1]+(days-90)*tab.add;
+    }
     function now(){ var d=new Date(), h=d.getHours(), m=d.getMinutes(); return (h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
     function scroll(){ msgs.scrollTop=msgs.scrollHeight; }
     function bubble(text, me){
@@ -549,7 +573,7 @@
       var b=document.createElement('div'); b.className='wa-bub '+(me?'me':'bot');
       b.textContent=text;
       var meta=document.createElement('span'); meta.className='wa-meta'; meta.textContent=now();
-      if(me){ var t=document.createElement('span'); t.className='wa-ticks'; t.textContent='\u2713\u2713'; meta.appendChild(t); }
+      if(me){ var t=document.createElement('span'); t.className='wa-ticks'; t.textContent='✓✓'; meta.appendChild(t); }
       b.appendChild(meta); row.appendChild(b); msgs.appendChild(row); scroll();
     }
     function typingRow(){
@@ -558,37 +582,71 @@
       b.innerHTML='<i></i><i></i><i></i>'; row.appendChild(b); msgs.appendChild(row); scroll(); return row;
     }
     function reply(text){
-      status.textContent='escribiendo\u2026';
+      status.textContent='escribiendo…';
       var t=typingRow();
-      var delay=Math.min(650+text.length*8, 2300);
+      var delay=800+Math.min(text.length*4, 800);
       setTimeout(function(){ t.remove(); status.textContent='en línea'; bubble(text,false); }, delay);
     }
     function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
     function has(t){ for(var i=1;i<arguments.length;i++){ if(t.indexOf(arguments[i])>=0) return true; } return false; }
+    function firstName(){ return (data.nombre||'').split(' ')[0]; }
+    function startData(reason, firstMsg){ dataReason=reason; flow='nombre'; return firstMsg; }
+    function quoteFor(dest, days){
+      if(dest==='europa' || dest==='usa'){ var tab=TABLES[dest];
+        return tab.nombre+' — '+days+' días: $'+priceFor(tab,days)+' según la tabla oficial.\nIncluye '+tab.cobertura+'.\nEl precio exacto lo confirma un especialista con los datos de su viaje. Si quiere, dígame «dejar mis datos» y le tomo los datos para la cotización.';
+      }
+      return 'Para otro destino, '+days+' días, según la tabla oficial:\n• Mundial 30 Mil: $'+priceFor(TABLES.m30,days)+' · médica hasta 30,000\n• Mundial 50 Mil: $'+priceFor(TABLES.m50,days)+' · hasta 50,000\n• Mundial 100 Mil: $'+priceFor(TABLES.m100,days)+' · hasta 100,000\n• Plan Internacional (mundial, sin USA): $'+priceFor(TABLES.intl,days)+' · médica USD 10,000\nEl precio exacto lo confirma un especialista. ¿Le tomo sus datos para la cotización?';
+    }
     function brain(raw){
-      var t=norm(raw), q;
-      if(flow){
-        q = t.indexOf('?')>=0 || has(t,'plan','precio','cuesta','cubre','cobertura','upgrade','central','contacto','hola','cotiz');
+      var t=norm(raw), m, days;
+      if(flow==='nombre' || flow==='ciudad' || flow==='telefono'){
+        var q = t.indexOf('?')>=0 || has(t,'plan','precio','cuesta','cubre','cobertura','upgrade','central','cotiz','emergencia','accidente');
         if(!q){
-          if(flow==='nombre'){ data.nombre=raw.trim(); flow='ciudad'; return 'Gracias, '+data.nombre+'. ¿En qué ciudad y país se encuentra?'; }
-          if(flow==='ciudad'){ data.ciudad=raw.trim(); flow='telefono'; return 'Anotado: '+data.ciudad+'. Por último, ¿a qué teléfono le puede devolver la llamada la central?'; }
-          if(flow==='telefono'){ data.telefono=raw.trim(); flow=null;
-            return '¡Listo, '+data.nombre+'! \u2705 Su caso quedó registrado ('+data.ciudad+' · tel. '+data.telefono+'). La central le devuelve la llamada a la brevedad para coordinar su asistencia.\n\nY recuerde: ante una emergencia, llame también a los servicios de emergencia locales y a '+CENTRAL+'.'; }
+          if(flow==='nombre'){ data.nombre=raw.trim(); flow='ciudad'; return 'Gracias, '+firstName()+'. ¿En qué ciudad y país se encuentra?'; }
+          if(flow==='ciudad'){ data.ciudad=raw.trim(); flow='telefono'; return 'Anotado: '+data.ciudad+'. Por último, ¿a qué teléfono le puede devolver la llamada?'; }
+          data.telefono=raw.trim(); flow=null;
+          if(dataReason==='caso'){
+            return '✓ Datos registrados\n'+data.nombre+' · '+data.ciudad+' · tel. '+data.telefono+'\nLa central le devuelve la llamada a la brevedad para coordinar su asistencia. Y si es una urgencia, llame también a los servicios de emergencia locales y a '+CENTRAL+'.'+HONEST;
+          }
+          return '✓ Datos registrados\n'+data.nombre+' · '+data.ciudad+' · tel. '+data.telefono+'\nUn especialista le llamaría a la brevedad para ayudarle con su plan.'+HONEST;
         }
         flow=null;
+      }
+      if(flow==='dest'){
+        if(has(t,'europa')){ pendingDest='europa'; flow='dias'; return 'Europa, perfecto. ¿Cuántos días dura su viaje?'; }
+        if(has(t,'usa','canada','estados unidos','eeuu')){ pendingDest='usa'; flow='dias'; return 'USA/Canadá, perfecto. ¿Cuántos días dura su viaje?'; }
+        if(has(t,'largo','anual','varios','multiviaje','meses','estudi','trabaj')){ flow=null;
+          return 'Para viajes largos o varios viajes al año hay dos caminos:\n• Anuales Multiviajes (mundial, médica hasta 30,000): 30 días $179 · 60 días $199 · 90 días $299.\n• Larga Estadía «Viajero» (por meses, para estudios o trabajo): 30 Mil desde $169 (3 meses) · 50 Mil desde $205 · 100 Mil desde $247.\n¿Le tomo sus datos para que un especialista le arme la mejor opción?';
+        }
+        if(has(t,'cancel','ya no','olvida')){ flow=null; return 'Sin problema. ¿En qué más le puedo ayudar?'; }
+        if(has(t,'cubre','cobertura','upgrade')){ flow=null; }
+        else { pendingDest='otro'; flow='dias'; return 'Perfecto. ¿Cuántos días dura su viaje?'; }
+      }
+      if(flow==='dias'){
+        m=t.match(/\d+/);
+        if(m){ days=parseInt(m[0],10); flow=null; return quoteFor(pendingDest||'otro', days); }
+        if(has(t,'cancel','ya no','olvida')){ flow=null; return 'Sin problema. ¿En qué más le puedo ayudar?'; }
+        return '¿Me dice el número de días del viaje? Por ejemplo: 10.';
       }
       if(has(t,'no puedo respirar','sangrado','sangrando','desmay','inconsciente','accidente grave','atropell','infarto','derrame','emergencia grave')){
         return 'Esto suena a una emergencia: primero llame a los servicios de emergencia locales (911 o el número de su país) y luego a '+CENTRAL+'.\n\nYo no puedo darle indicaciones médicas, pero la central supervisa su caso en tiempo real.';
       }
-      if(has(t,'que tomo','que puedo tomar','me recet','esta cubierto mi','cubre mi caso','cubierto mi','mi caso esta cubierto','aplica para mi')){
-        flow='nombre';
-        return 'No puedo darle indicaciones médicas ni confirmar si un caso concreto está cubierto: eso lo confirma la central con su póliza en mano.\n\nLo que sí puedo hacer es registrar su caso ahora mismo. ¿Me dice su nombre?';
+      if(has(t,'que tomo','que puedo tomar','me recet','esta cubierto mi','cubre mi caso','cubierto mi','mi caso esta cubierto','aplica para mi','me cubre')){
+        return startData('caso','No puedo darle indicaciones médicas ni confirmar si un caso concreto está cubierto: eso lo confirma la central con su póliza en mano.\n\nLo que sí puedo hacer es registrar su caso ahora mismo. ¿Me dice su nombre?');
       }
-      if(has(t,'torci','me cai','accidente','choque','enferm','fiebre','me duele','dolor','perdi mi','perdi el','me robaron','robo','necesito ayuda','registr','hospital','me internaron')){
-        flow='nombre';
-        return 'Lamento mucho lo que le pasó. \uD83D\uDE4F Voy a registrar su caso para que la central le devuelva la llamada y coordine su asistencia. ¿Me dice su nombre?';
+      if(has(t,'torci','me cai','accidente','choque','enferm','fiebre','me duele','dolor','perdi mi','perdi el','me robaron','necesito ayuda','registr','hospital','me internaron','me paso algo','urgencia')){
+        return startData('caso','Lamento mucho lo que le pasó. 🙏 Si es una urgencia, llame primero a los servicios de emergencia locales y a la central 24/7 (+51 965 762 631 · 01 725 3962), que atiende en cualquier parte del mundo.\n\nY si me dice su nombre, le registro el caso aquí para que la central le devuelva la llamada.');
       }
-      if(has(t,'europa')) return 'Plan Europa: asistencia médica hasta EUR 30,000 (accidente o enfermedad) y repatriación hasta EUR 30,000.\nPrecios: 5 días $35 · 10 días $51 · 30 días $96 · día adicional $5.\n¿Quiere que le cuente los upgrades?';
+      if(has(t,'eres una ia','inteligencia artificial','eres un robot','eres un bot','eres real','eres humana','una persona real')){
+        return 'Soy Marcela, la recepcionista con IA de esta demostración de Alaluna AI Solutions: respondo desde la información pública de Travel Care Assistance. Y sigo ayudándole: ¿planes, coberturas o registrar un caso?';
+      }
+      if(has(t,'dejar mis datos','dejar datos','mis datos','que me llamen','me llamen','hablar con un especialista','con un especialista')){
+        return startData('contacto','Claro que sí. Le tomo los datos para que un especialista le llame. ¿Me dice su nombre?');
+      }
+      if(has(t,'cotiz')){ flow='dest';
+        return 'Con gusto le cotizo. ¿A dónde viaja?\n• Europa\n• USA y Canadá\n• Otro destino\n• Viaje largo o varios viajes al año';
+      }
+      if(has(t,'europa')) return 'Plan Europa: asistencia médica hasta EUR 30,000 (accidente o enfermedad) y repatriación hasta EUR 30,000.\nPrecios: 5 días $35 · 10 días $51 · 30 días $96 · día adicional $5.\n¿Quiere que se lo cotice por días? Dígame «cotizar».';
       if(has(t,'usa','estados unidos','canada')) return 'Plan USA/Canadá: asistencia médica hasta USD 20,000.\nPrecios: 5 días $34 · 10 días $47 · 30 días $110 · día adicional $5.';
       if(has(t,'mundial')) return 'Planes Mundiales (asistencia médica):\n• 30 Mil: hasta USD/EUR 30,000 · desde $52 (5 días)\n• 50 Mil: hasta 50,000 · desde $59\n• 100 Mil: hasta 100,000 · desde $73\nTodos con repatriación incluida según el plan.';
       if(has(t,'anual','multiviaje')) return 'Anuales Multiviajes (mundial, asistencia hasta 30,000): 30 días $179 · 60 días $199 · 90 días $299. Ideales si viaja varias veces al año.';
@@ -600,13 +658,13 @@
       if(has(t,'deporte')) return 'Upgrade Deportes Amateur: lesiones practicando deportes recreativos, hasta el tope de asistencia médica por accidente del plan, sin exceder USD 10,000.';
       if(has(t,'covid')) return 'Cobertura COVID-19: si un diagnóstico positivo le obliga a guardar aislamiento y no puede volver a su país al vencer el voucher, hasta USD 1,000 para hotel por cuarentena y/o penalidad del ticket aéreo. Además, varios planes incluyen asistencia médica por COVID-19.';
       if(has(t,'upgrade','adicional','mejora')) return 'Upgrades disponibles en todos los planes:\n• Cancelación multicausa: hasta USD 2,000\n• Futura Mamá: hasta USD 10,000 (hasta la semana 26)\n• Preexistentes: hasta USD 2,000\n• Protección Tecnológica: hasta USD 2,000\n• Deportes Amateur: hasta USD 10,000\n• COVID-19: hasta USD 1,000\nEl detalle fino está en el condicionado general, que le facilita el asesor.';
-      if(has(t,'plan','precio','cuesta','costo','tarifa','cotiz')) return 'Estos son los planes (tarifas de corta estadía):\n• Internacional: médica USD 10,000 · desde $27 (5 días)\n• USA/Canadá: USD 20,000 · desde $34\n• Europa: EUR 30,000 · desde $35\n• Mundiales 30/50/100 Mil: desde $52 / $59 / $73\n• Y también Anuales Multiviajes y Larga Estadía por meses.\n¿A dónde viaja? Le doy el detalle de ese plan.';
-      if(has(t,'cubre','cobertura','incluye','beneficio')) return 'La asistencia cubre, según el plan elegido: gastos médicos por accidente o enfermedad, urgencias y emergencias, retrasos o cancelación de vuelos, pérdida de equipaje y asistencia legal.\nCada plan tiene sus topes: por ejemplo, el Plan Europa llega a EUR 30,000 en asistencia médica.';
-      if(has(t,'central','contacto','telefono','numero','direccion','oficina','correo','donde estan','ubicacion')) return 'Puede contactar a '+CENTRAL+'.\n\uD83D\uDCCD Oficina: Calle Porta 170, oficina 507, Miraflores — Lima. La central atiende 24/7 en cualquier parte del mundo.';
+      if(has(t,'plan','precio','cuesta','costo','tarifa')) return 'Estos son los planes (tarifas de corta estadía):\n• Internacional: médica USD 10,000 · desde $27 (5 días)\n• USA/Canadá: USD 20,000 · desde $34\n• Europa: EUR 30,000 · desde $35\n• Mundiales 30/50/100 Mil: desde $52 / $59 / $73\n• Y también Anuales Multiviajes y Larga Estadía por meses.\n¿Quiere una cotización? Dígame «cotizar» y su destino.';
+      if(has(t,'cubre','cobertura','incluye','beneficio')) return 'La asistencia cubre, según el plan elegido: gastos médicos por accidente o enfermedad, urgencias y emergencias, retrasos o cancelación de vuelos, pérdida de equipaje y asistencia legal.\nCada plan tiene sus topes: por ejemplo, el Plan Europa llega a EUR 30,000 en asistencia médica. Y ojo: si pregunta por un caso concreto, lo confirma la central con su póliza.';
+      if(has(t,'central','contacto','telefono','numero','direccion','oficina','correo','donde estan','ubicacion')) return 'Puede contactar a '+CENTRAL+'.\n📍 Oficina: Calle Porta 170, oficina 507, Miraflores — Lima. La central atiende 24/7 en cualquier parte del mundo.';
       if(has(t,'contrat','comprar','quiero uno','como lo saco')) return 'Para contratar: en travelcareassistance.com entra a «Cotiza tu asistencia», deja los datos de su viaje y un especialista le ayuda a elegir el plan que más se ajuste. Si quiere, le cuento los planes y precios aquí mismo.';
-      if(has(t,'gracias')) return '¡Con gusto! \uD83D\uDE0A Si necesita algo más, aquí estoy. Y recuerde: '+CENTRAL+'.';
-      if(has(t,'hola','buenas','buenos dias','buenas tardes')) return '¡Hola! Soy Marcela, de Travel Care Assistance. ¿En qué le puedo ayudar? Puedo contarle los planes y precios, qué cubre la asistencia, o registrar un caso si necesita ayuda en su viaje.';
-      return 'Eso no lo tengo en mi ficha, y no quiero inventarle datos. \uD83D\uDE4F Lo puede confirmar con '+CENTRAL+'.\n\nSi quiere, le cuento los planes y precios, qué cubre la asistencia o le registro un caso.';
+      if(has(t,'gracias')) return '¡Con gusto! 😊 Si necesita algo más, aquí estoy. Y recuerde: '+CENTRAL+'.';
+      if(has(t,'hola','buenas','buenos dias','buenas tardes')) return '¡Hola! Soy Marcela, de Travel Care Assistance. ¿En qué le puedo ayudar?';
+      return 'Con gusto le ayudo si está en mi ficha. 🙏 Puedo ayudarle con planes y cotizaciones, qué cubre la asistencia o registrar sus datos — use los botones de aquí arriba o escríbame.\n\nY para algo urgente, '+CENTRAL+'.';
     }
     function send(text){
       var v=(text||'').trim(); if(!v) return;
@@ -615,14 +673,16 @@
     form.addEventListener('submit', function(e){ e.preventDefault(); var v=input.value; input.value=''; send(v); });
     if(quick){ quick.addEventListener('click', function(e){ var b=e.target.closest('.wa-qchip'); if(b){ send(b.getAttribute('data-q')); } }); }
     function open(){
+      lastScrollY=window.scrollY||0;
       view.classList.add('open'); view.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
-      if(!started){ started=true; setTimeout(function(){ reply('¡Hola! Gracias por contactar a Travel Care Assistance. Soy Marcela, ¿en qué le puedo ayudar?'); }, 380); }
+      if(!started){ started=true; setTimeout(function(){ reply('¡Hola! Soy Marcela, de Travel Care Assistance. ¿En qué le puedo ayudar?'); }, 380); }
       setTimeout(function(){ try{ input.focus({ preventScroll:true }); }catch(_){ input.focus(); } }, 420);
     }
     function close(){
       view.classList.remove('open'); view.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+      window.scrollTo(0, lastScrollY);
     }
-    openBtn.addEventListener('click', open);
+    for(var i=0;i<openers.length;i++){ openers[i].addEventListener('click', open); }
     closeBtn.addEventListener('click', close);
     view.addEventListener('click', function(e){ if(e.target===view) close(); });
     document.addEventListener('keydown', function(e){ if(e.key==='Escape' && view.classList.contains('open')) close(); });
