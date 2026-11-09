@@ -80,6 +80,9 @@
   /* ===== Reproductor real del ejemplo: onda y transcripción sincronizadas con el audio ===== */
   .cc-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:16px; }
   .cc-actions .cc-play { margin-top:0; border:none; cursor:pointer; font-size:14px; padding:12px 20px; }
+  /* Botón del ejemplo arriba de la tarjeta (orden de Victor): bajo el encabezado, antes de la onda */
+  .cc-top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
+  .cc-top .cc-play { margin-top:0; border:none; cursor:pointer; font-size:14px; padding:12px 20px; }
   button.cc-play:disabled { opacity:.55; cursor:wait; }
   .cc-time { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; color:#a9f5d6; letter-spacing:1px; }
   .cc-live { display:inline-flex; align-items:center; gap:8px; background:transparent;
@@ -266,6 +269,10 @@
         <span class="cc-title">Llamada · Asistencia en viaje</span>
         <span class="cc-chip">Ejemplo</span>
       </div>
+      <div class="cc-top">
+        <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
+        <span class="cc-time" id="ccTime">00:00 / 00:45</span>
+      </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <div class="transcript" id="transcript">
         <div class="turn recep"><span class="who">Recepcionista</span>
@@ -285,9 +292,7 @@
       </div>
       <div class="cc-pill">✓ Caso registrado · Madrid · Plan Europa · La central devuelve la llamada</div>
       <div class="cc-actions">
-        <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
-        <span class="cc-time" id="ccTime">00:00 / 00:45</span>
-        <a class="cc-live" href="#llamada">▶ Escucharla de verdad, en vivo</a>
+        <a class="cc-live" href="#llamada">Pruébala en vivo</a>
       </div>
       <audio id="ccAudio" preload="metadata"></audio>
       <p class="cc-note">Ejemplo de llamada — ilustración de cómo responde la recepcionista. La llamada real la haces tú, abajo.</p>
