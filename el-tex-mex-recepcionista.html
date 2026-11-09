@@ -587,7 +587,7 @@
         if(nm.indexOf('?')>=0 || nm.split(/\s+/).length>4 || !nm){
           return '¿Me repite el nombre para el pedido, por favor?';
         }
-        var close='✓ Pedido registrado\n'+cartLines()+'\nTotal: '+money(cartTotal())+
+        var close='✓ Pedido registrado\n'+cartLines()+'\nTotal de los platos: '+money(cartTotal())+' (el impuesto se suma al pagar en caja)+
           '\nA nombre de: '+nm+
           '\nListo para recoger en 15 a 20 minutos — El Tex Mex Burrito Cafe, 511 New Brunswick Ave, Fords.\n¡Gracias por su pedido!'+HONEST;
         flow=null; cart=[];
@@ -599,7 +599,7 @@
         if(has(t,'es todo','eso es todo','nada mas','solo eso','ya esta','ya termine')){
           if(!cart.length) return 'Todavía no me pidió nada. ¿Qué le anoto?';
           flow='nombre';
-          return 'Perfecto:\n'+cartLines()+'\nTotal: '+money(cartTotal())+'\n¿A nombre de quién anoto el pedido?';
+          return 'Perfecto:\n'+cartLines()+'\nTotal de los platos: '+money(cartTotal())+' (el impuesto se suma al pagar en caja)\n¿A nombre de quién anoto el pedido?';
         }
         var items=parseItems(t);
         if(items.length){ addToCart(items); return notedReply(items); }
