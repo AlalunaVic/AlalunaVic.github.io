@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { overflow-x:hidden; overflow-x:clip; }
   body { font-family:Helvetica,Arial,sans-serif; background:#171310; color:#f3e9dc; }
   html { scroll-behavior:smooth; }
 
@@ -215,7 +216,7 @@
   @keyframes shim { from { background-position:180% 0; } to { background-position:-20% 0; } }
   .reveal { opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity:1; transform:none; }
-  .call, .try, .menu, .info, .callcard { position:relative;
+  .call, .try, .menu, .info, .callcard { position:relative; overflow:hidden;
     transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
   .callcard:hover, .callcard:active { transform:translateY(-4px) scale(1.012); box-shadow:0 28px 50px rgba(0,0,0,.5); }
   .call:hover, .info:hover { transform:translateY(-3px); }
