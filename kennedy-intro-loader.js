@@ -3,10 +3,12 @@
 // los trozos base64 mismo-origen (kennedy-intro-data-1.js … kennedy-intro-data-17.js)
 // y lo entrega como Blob video/mp4 al <video id="kenIntroVideo"> de la intro.
 // SHA-256 del máster reconstruido: 8c3350b94d94b4f8c86652e1c060291d46f0b8d119d2accbeadf350605ef4226
-// v2 (2026-11-10): carga tolerante a fallos, misma plantilla que el loader de
-// audio. Cada trozo se reintenta hasta 4 veces (espera creciente + cache-bust
-// en los reintentos) y se vigila que no quede colgado (20 s). Si todo falla,
-// dispara 'kn-intro-error' y la página retira la intro y muestra la demo.
+// v2 (2026-11-10): carga tolerante a fallos. Cada trozo se reintenta hasta
+// 4 veces (espera creciente + cache-bust en los reintentos) y se vigila que
+// no quede colgado (20 s). Los trozos cargan EN PARALELO (la intro debe
+// arrancar cuanto antes; el loader de audio de la casa es secuencial, este
+// no). Si todo falla, dispara 'kn-intro-error' y la página retira la intro
+// y muestra la demo.
 (function () {
   var CHUNKS = 17, MAX_TRIES = 4, STALL_MS = 20000;
   var done = false;
@@ -29,6 +31,7 @@
       document.dispatchEvent(new CustomEvent('kn-intro-ready', { detail: { url: url } }));
     } catch (e) { fail(); }
   }
+  function maybeBuild() { for (var k = 1; k <= CHUNKS; k++) { if (!filled(k)) return; } build(); }
   function retry(i, attempt) {
     if (done) return;
     if (attempt >= MAX_TRIES) { fail(); return; }
@@ -36,8 +39,7 @@
   }
   function load(i, attempt) {
     if (done) return;
-    if (i > CHUNKS) { build(); return; }
-    if (filled(i)) { load(i + 1, 1); return; }
+    if (filled(i)) { maybeBuild(); return; }
     var settled = false;
     var s = document.createElement('script');
     var stall = setTimeout(function () {
@@ -47,7 +49,7 @@
     }, STALL_MS);
     s.onload = function () {
       if (settled) return; settled = true; clearTimeout(stall);
-      if (filled(i)) { load(i + 1, 1); } else { retry(i, attempt); }
+      if (filled(i)) { maybeBuild(); } else { retry(i, attempt); }
     };
     s.onerror = function () {
       if (settled) return; settled = true; clearTimeout(stall);
@@ -56,5 +58,5 @@
     s.src = 'kennedy-intro-data-' + i + '.js' + (attempt > 1 ? '?r=' + attempt : '');
     document.head.appendChild(s);
   }
-  load(1, 1);
+  for (var k = 1; k <= CHUNKS; k++) load(k, 1);
 })();

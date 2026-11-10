@@ -1307,7 +1307,7 @@
     document.addEventListener('kn-intro-ready', tryPlay);
     if (window.__KN_INTRO_URL) tryPlay();
     document.addEventListener('kn-intro-error', function(){ setTimeout(dismiss, 700); });
-    setTimeout(function(){ if (!playing) dismiss(); }, 9000);
+    setTimeout(function(){ if (!playing) dismiss(); }, 12000);
     if (skip) skip.addEventListener('click', function(e){ if (e.stopPropagation) e.stopPropagation(); dismiss(); });
     overlay.addEventListener('click', function(){ if (Date.now() - t0 > 1000) dismiss(); });
   })();
