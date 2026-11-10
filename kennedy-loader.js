@@ -1,10 +1,10 @@
 // kennedy-loader.js — Kennedy Fried Chicken (demo Alaluna AI Solutions)
 // Rebuilds dialogo-ejemplo.mp3 (sample call with ringtone) from the same-origin
-// base64 chunks (kennedy-data-1.js … kennedy-data-16.js) and hands it
+// base64 chunks (kennedy-data-1.js … kennedy-data-23.js) and hands it
 // to the card's <audio id="ccAudio"> as a Blob audio/mpeg.
-// SHA-256 of the rebuilt master: bbc133bad15cab924bf974cb4aab7b8809cc11fc655dfaee188f878fb8a5bdcb
+// SHA-256 of the rebuilt master: 7f30ee9294a78545dfd7914fe529396956cfc9914d69846ef6e052ab84215f5b
 (function () {
-  var CHUNKS = 16;
+  var CHUNKS = 23;
   function fail() { document.dispatchEvent(new Event('kn-audio-error')); }
   function build() {
     try {
