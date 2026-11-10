@@ -1083,12 +1083,16 @@ html, body { overflow-x: hidden; overflow-x: clip; }
   </script>
 <style>
   #fabCall{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;border:none;background:var(--chile);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;z-index:40;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .25s ease,transform .25s ease}
-  #fabCall svg{width:26px;height:26px;fill:#fff;display:block}
+  #fabCall svg{width:42px;height:42px;display:block}
+  #fabCall .fab-arm{transform-box:fill-box;transform-origin:0% 100%;animation:fabWave 1.15s ease-in-out infinite alternate}
+  @keyframes fabWave{from{transform:rotate(-6deg)}to{transform:rotate(24deg)}}
+  #fabCall .fab-char{animation:fabBob 2.8s ease-in-out infinite}
+  @keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
   #fabCall:active{transform:scale(.94)}
   #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
   elevenlabs-convai{z-index:60}
 </style>
-<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g class="fab-char"><g class="fab-arm"><path d="M36 26 q7 -3 8 -10" stroke="#f3e3cf" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="44.5" cy="15" r="3.4" fill="#fff7ee"/></g><g fill="#fff7ee"><circle cx="24" cy="27" r="13"/><circle cx="15" cy="21" r="7"/><circle cx="33" cy="21" r="7"/><circle cx="24" cy="15.5" r="8"/><circle cx="14" cy="30" r="6.5"/><circle cx="34" cy="30" r="6.5"/></g><circle cx="19.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="28.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="20.2" cy="24.3" r="0.7" fill="#fff"/><circle cx="29.2" cy="24.3" r="0.7" fill="#fff"/><path d="M21.5 30 q2.5 2.2 5 0" stroke="#3a2e2a" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="15.8" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/><circle cx="32.2" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/></g></svg></button>
 <script>
   // ===== Botón flotante PROPIO de teléfono (cambio de Victor) =====
   // La pestaña nativa del widget queda oculta; este botón discreto, con los
