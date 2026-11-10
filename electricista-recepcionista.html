@@ -673,12 +673,22 @@ html, body { overflow-x: hidden; overflow-x: clip; }
     audio.addEventListener('loadedmetadata', syncUI);
     audio.addEventListener('ended', function(){ wantPlay = false; setLabel(L_AGAIN); syncUI(); });
     // Si el MP3 no está en el servidor, cae al cargador antiguo por trozos (electricista-loader.js).
+    var loaderTries = 0;
+    function injectLoader(){
+      loaderTries++;
+      var s = document.createElement('script');
+      s.src = 'electricista-loader.js' + (loaderTries > 1 ? '?r=' + loaderTries : '');
+      s.onerror = function(){
+        if (loaderTries < 3) { setTimeout(injectLoader, 900 * loaderTries); }
+        else { unavailable(); }
+      };
+      document.head.appendChild(s);
+    }
     audio.addEventListener('error', function(){
       if (fallbackTried) { unavailable(); return; }
       fallbackTried = true;
       if (wantPlay) setLabel(L_LOAD);
-      var s = document.createElement('script'); s.src = 'electricista-loader.js'; s.onerror = unavailable;
-      document.head.appendChild(s);
+      injectLoader();
     });
     document.addEventListener('tm-audio-ready', function(){ if (wantPlay) tryPlay(); else setLabel(L_PLAY); });
     document.addEventListener('tm-audio-error', unavailable);
