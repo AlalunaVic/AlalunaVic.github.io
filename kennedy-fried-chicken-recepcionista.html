@@ -1124,7 +1124,7 @@
   #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
   elevenlabs-convai{z-index:60}
 </style>
-<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g class="fab-char"><g class="fab-arm"><path d="M36 26 q7 -3 8 -10" stroke="#f3e3cf" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="44.5" cy="15" r="3.4" fill="#fff7ee"/></g><g fill="#fff7ee"><circle cx="24" cy="27" r="13"/><circle cx="15" cy="21" r="7"/><circle cx="33" cy="21" r="7"/><circle cx="24" cy="15.5" r="8"/><circle cx="14" cy="30" r="6.5"/><circle cx="34" cy="30" r="6.5"/></g><circle cx="19.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="28.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="20.2" cy="24.3" r="0.7" fill="#fff"/><circle cx="29.2" cy="24.3" r="0.7" fill="#fff"/><path d="M21.5 30 q2.5 2.2 5 0" stroke="#3a2e2a" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="15.8" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/><circle cx="32.2" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/></g></svg></button>
+<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g class="fab-char"><g class="fab-arm"><path d="M33 30 Q40.5 27.5 42 20" stroke="#d9821e" stroke-width="4.2" fill="none" stroke-linecap="round"/><circle cx="42.4" cy="17.6" r="2.8" fill="#f2a93b"/><circle cx="44.6" cy="15.2" r="1.5" fill="#f2a93b"/></g><path d="M28.5 17.5 L34.5 8.5" stroke="#fff7ee" stroke-width="5.4" stroke-linecap="round"/><circle cx="33" cy="6.4" r="3.2" fill="#fff7ee"/><circle cx="37.6" cy="8.6" r="2.7" fill="#fff7ee"/><ellipse cx="21.5" cy="29.5" rx="12.8" ry="13.4" fill="#f2a93b"/><path d="M11.5 24 q-1.5 8 3 13.5" stroke="#d9821e" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/><circle cx="15" cy="35.5" r="1.1" fill="#d9821e" opacity="0.45"/><circle cx="27.5" cy="38" r="1.1" fill="#d9821e" opacity="0.45"/><circle cx="30.5" cy="22.5" r="1" fill="#d9821e" opacity="0.4"/><ellipse cx="16.5" cy="22" rx="3.4" ry="4.6" fill="#ffc95e" opacity="0.8"/><circle cx="17.6" cy="28.4" r="1.7" fill="#3a2e2a"/><circle cx="26.4" cy="28.4" r="1.7" fill="#3a2e2a"/><circle cx="18.2" cy="27.7" r="0.55" fill="#fff"/><circle cx="27" cy="27.7" r="0.55" fill="#fff"/><path d="M19.6 32.4 q2.4 1.9 4.8 0" stroke="#3a2e2a" stroke-width="1.7" fill="none" stroke-linecap="round"/><circle cx="14.2" cy="32" r="1.7" fill="#ff9d9d" opacity="0.8"/><circle cx="29.8" cy="32" r="1.7" fill="#ff9d9d" opacity="0.8"/><path d="M14.5 43.5 q2 1.6 4 0 M24.5 43.5 q2 1.6 4 0" stroke="#d9821e" stroke-width="1.8" fill="none" stroke-linecap="round"/></g></svg></button>
 <script>
   // ===== Botón flotante PROPIO de teléfono (cambio de Victor) =====
   // La pestaña nativa del widget queda oculta; este botón discreto, con los
@@ -1203,74 +1203,49 @@
   })();
   </script>
 <script>
-  // ===== Pestaña flotante del widget OCULTA v4 (__lunaHide4, pedido de Victor) =====
-  // La v3 inyectaba un <style> dentro del shadow DOM y detectaba «expandido»
-  // por la existencia de nodos; el widget (app Preact) descarta ese estilo al
-  // re-renderizar y la caja de texto existe también en reposo (oculta, con
-  // rectángulo cero), así que la pestaña nativa reaparecía en reposo. v4:
-  // NADA de estilos dentro del shadow — el ocultamiento se aplica al HOST
-  // desde la página (visibility + pointer-events en línea) y «panel
-  // mostrado» se detecta por TAMAÑO REAL: hay un textarea o input de mensaje
-  // con rectángulo de ancho y alto > 0, o el .overlay mide más de 200 px de
-  // alto (estado de llamada sin texto). En reposo (píldora u «Open chat»)
-  // ninguna de las dos se cumple. sync() manda: mostrado -> host visible y
-  // #fabCall oculto; no mostrado -> host oculto y #fabCall visible. Corre al
-  // adjuntar, con MutationObserver sobre el shadowRoot, con guardián cada
-  // 500 ms y tras los eventos del widget, que ya solo disparan sync.
+  // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
+  // Versiones anteriores peleaban con el interior del widget (estilos dentro
+  // del shadow, detectores de «expandido» por nodos o por tamaño): el widget
+  // es una app que se re-dibuja y toda señal interna resultó frágil — la
+  // tarjeta nativa terminaba visible en reposo. v5 no detecta nada: el HOST
+  // nace oculto desde la página (visibility) y SOLO se muestra cuando el
+  // visitante invoca la experiencia (nuestros botones o el inicio de llamada
+  // del propio widget). Se vuelve a ocultar cuando el visitante colapsa el
+  // panel con su botón «Contraer». El error de micrófono queda visible: nada
+  // oculta el panel mientras el visitante no lo cierre.
   (function(){
-    function panelShown(root){
-      if (!root) return false;
-      var inputs = root.querySelectorAll('textarea, input[type="text"]');
-      for (var i = 0; i < inputs.length; i++){
-        var r = inputs[i].getBoundingClientRect();
-        if (r.width > 0 && r.height > 0) return true;
-      }
-      var ov = root.querySelector('.overlay');
-      if (ov){
-        var ro = ov.getBoundingClientRect();
-        if (ro.height > 200) return true;
-      }
-      return false;
-    }
-    function sync(host){
-      if (!host) return;
+    var shown = false;
+    function hosts(){ return document.querySelectorAll('elevenlabs-convai'); }
+    function apply(){
+      hosts().forEach(function(h){
+        h.style.visibility = shown ? '' : 'hidden';
+        h.style.pointerEvents = shown ? '' : 'none';
+      });
       var fab = document.getElementById('fabCall');
-      var root = host.shadowRoot;
-      if (root && host.__lunaRoot !== root){
-        host.__lunaRoot = root;
-        if (host.__lunaObs) host.__lunaObs.disconnect();
-        host.__lunaObs = new MutationObserver(function(){ sync(host); });
-        host.__lunaObs.observe(root, { childList:true, subtree:true, attributes:true });
+      if (fab) fab.classList.toggle('fab-off', shown);
+    }
+    function show(){ if (!shown){ shown = true; apply(); } }
+    function hide(){ if (shown){ shown = false; apply(); } }
+    window.__lunaWidgetShow = show;
+    document.addEventListener('click', function(e){
+      var p = e.composedPath ? e.composedPath() : [];
+      for (var i = 0; i < p.length; i++){
+        var n = p[i];
+        if (!n || n.nodeType !== 1) continue;
+        if (n.id === 'fabCall' || n.id === 'liveBtn'){ show(); return; }
+        var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
+        if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
       }
-      if (root && panelShown(root)){
-        host.style.visibility = '';
-        host.style.pointerEvents = '';
-        if (fab) fab.classList.add('fab-off');
-      } else {
-        host.style.visibility = 'hidden';
-        host.style.pointerEvents = 'none';
-        if (fab) fab.classList.remove('fab-off');
-      }
+    }, true);
+    function hook(){
+      hosts().forEach(function(h){
+        if (h.__lunaHook5) return; h.__lunaHook5 = true;
+        h.addEventListener('elevenlabs-convai:call', show);
+        h.addEventListener('conversationStarted', show);
+      });
     }
-    function attach(host){
-      if (!host || host.__lunaHide4) return; host.__lunaHide4 = true;
-      host.addEventListener('elevenlabs-convai:call', function(){ sync(host); });
-      host.addEventListener('conversationStarted', function(){ sync(host); });
-      host.addEventListener('conversationEnded', function(){ sync(host); });
-      sync(host);
-      // Guardián de 500 ms: reintenta el sync hasta que el widget monte su
-      // shadowRoot (tarda en cargar) y después mantiene el estado.
-      setInterval(function(){ if (document.contains(host)) sync(host); }, 500);
-    }
-    function scan(){
-      var el = document.querySelector('elevenlabs-convai');
-      if (el) attach(el);
-    }
-    scan();
-    var mo = new MutationObserver(scan);
-    mo.observe(document.documentElement, { childList:true, subtree:true });
-    setTimeout(function(){ mo.disconnect(); }, 30000);
-    setInterval(scan, 2000);
+    hook(); apply();
+    setInterval(function(){ hook(); if (!shown) apply(); }, 800);
   })();
 </script>
 <script>(function(){var acted=false;['pointerdown','keydown','wheel','touchmove'].forEach(function(e){addEventListener(e,function(){acted=true;},{passive:true});});[250,700,1400,2200].forEach(function(t){setTimeout(function(){if(!acted&&window.scrollY>8)window.scrollTo(0,0);},t);});})();</script>
