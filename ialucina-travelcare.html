@@ -333,6 +333,24 @@
     .wa-open, .wa-send { transition:none; }
     .wa-open:hover, .wa-send:hover { transform:none; }
   }
+
+  /* ===== Fusión v2: pasos guiados, ficha del caso y cierre suave ===== */
+  .step-h { font-family:'Montserrat',sans-serif; font-weight:800; font-size:21px; margin:30px 0 8px; }
+  .step-h span { color:#1DC8CD; }
+  .step-lead { font-size:14.5px; line-height:1.55; opacity:.85; margin-bottom:14px; }
+  .ticket-stage { margin-bottom:20px; }
+  .ticket { position:relative; background:#f7fbfb; color:#12312f; border-radius:12px; padding:18px; max-width:430px; margin:0 auto; box-shadow:0 18px 40px rgba(0,0,0,.35); font-size:14.5px; }
+  .ticket .t-stamp { position:absolute; top:12px; right:12px; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:#b3543f; border:1px solid #b3543f; padding:2px 7px; border-radius:999px; }
+  .ticket .t-head { display:flex; justify-content:space-between; font-weight:700; font-size:12.5px; letter-spacing:1px; text-transform:uppercase; color:#5b8a86; margin-bottom:6px; }
+  .ticket .t-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:21px; margin-bottom:8px; }
+  .ticket .t-row { display:flex; justify-content:space-between; gap:12px; padding:5px 0; border-top:1px dashed rgba(18,49,47,.2); }
+  .ticket .t-foot { margin-top:10px; font-size:12.5px; line-height:1.5; color:#52706c; }
+  .ticket-note { text-align:center; font-size:13px; opacity:.8; margin-top:10px; }
+  .close { text-align:center; border:1px solid rgba(29,200,205,.5); border-radius:14px; padding:24px 18px; margin-bottom:20px; background:rgba(29,200,205,.06); }
+  .close h2 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px; }
+  .close p { font-size:14.5px; line-height:1.55; opacity:.9; max-width:470px; margin:0 auto 10px; }
+  .close-btn { display:block; background:#00a183; color:#fff; font-family:'Montserrat',sans-serif; font-weight:800; font-size:16px; padding:14px; border-radius:12px; text-decoration:none; margin:14px auto 8px; max-width:430px; }
+  .close small { opacity:.7; font-size:12px; }
 </style>
 </head>
 <body>
@@ -357,6 +375,8 @@
 
   <div class="wrap">
 
+    <h2 class="step-h"><span>1.</span> Escucha cómo atiende un caso</h2>
+    <p class="step-lead">Un viajero llama desde Madrid con un tobillo torcido. Fíjate: Marcela lo deriva a la central 24/7, le da su número directo, registra el caso completo y se lo lee de vuelta para confirmar.</p>
     <div class="callcard reveal">
       <div class="cc-head">
         <span class="dot" aria-hidden="true"></span>
@@ -365,7 +385,7 @@
       </div>
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
-        <span class="cc-time" id="ccTime">00:00 / 00:45</span>
+        <span class="cc-time" id="ccTime">00:00 / 01:31</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Conversación de ejemplo</span><span class="chev" aria-hidden="true">▾</span></button>
@@ -374,23 +394,45 @@
         <div class="turn recep"><span class="who">Recepcionista</span>
           <p>¡Hola! Gracias por llamar a Travel Care Assistance. Soy Marcela, ¿en qué le puedo ayudar?</p></div>
         <div class="turn viajero"><span class="who">Viajero</span>
-          <p>Hola, estoy en Madrid y me torcí el tobillo. ¿Mi plan cubre la atención médica?</p></div>
+          <p>Hola, estoy en Madrid y me torcí el tobillo bajando unas escaleras. ¿Mi plan cubre la atención médica?</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>Lamento mucho lo que le pasó. El Plan Europa incluye asistencia médica hasta 30,000 euros. Eso sí: su caso concreto lo confirma la central con su póliza.</p></div>
+          <p>Lamento mucho lo que le pasó. Quédese tranquilo: le ayudo a abrir su caso ahora mismo. El Plan Europa incluye asistencia médica hasta 30,000 euros; su caso concreto lo confirma la central con su póliza.</p></div>
         <div class="turn viajero"><span class="who">Viajero</span>
-          <p>Perfecto. ¿Qué necesitan de mí?</p></div>
+          <p>¿Y qué hago? ¿Voy directo a una clínica?</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>Su nombre, la ciudad donde está y un teléfono donde la central pueda localizarle.</p></div>
+          <p>Mejor lo coordina la central 24 horas, que es quien deriva cada caso. Le doy su número directo para que lo tenga a la mano: +51 965 762 631. También atienden por WhatsApp en ese mismo número.</p></div>
         <div class="turn viajero"><span class="who">Viajero</span>
-          <p>Carlos Mendoza. Estoy en Madrid, y mi número es 999 888 777.</p></div>
+          <p>Perfecto, ya lo anoté.</p></div>
         <div class="turn recep"><span class="who">Recepcionista</span>
-          <p>Listo, Carlos: su caso quedó registrado. La central le devuelve la llamada de inmediato. ¡Que se mejore!</p></div>
+          <p>Y yo le dejo el caso registrado de una vez. ¿Me da su nombre completo, la ciudad donde está y un teléfono donde la central pueda localizarle?</p></div>
+        <div class="turn viajero"><span class="who">Viajero</span>
+          <p>Carlos Mendoza, estoy en Madrid. Mi número es 999 888 777.</p></div>
+        <div class="turn recep"><span class="who">Recepcionista</span>
+          <p>Le confirmo: Carlos Mendoza, en Madrid, teléfono 999 888 777. Caso por torcedura de tobillo, con el Plan Europa. ¿Todo correcto?</p></div>
+        <div class="turn viajero"><span class="who">Viajero</span>
+          <p>Sí, todo correcto.</p></div>
+        <div class="turn recep"><span class="who">Recepcionista</span>
+          <p>Listo, Carlos: su caso quedó registrado y la central le devuelve la llamada de inmediato a ese número. Y recuerde: si alguna vez es una emergencia con riesgo de vida, llame primero al 112 y enseguida a la central. ¡Que se mejore!</p></div>
       </div>
       </div>
-      <div class="cc-pill">✓ Caso registrado · Madrid · Plan Europa · La central devuelve la llamada</div>
+      <div class="cc-pill">✓ Caso registrado · Carlos Mendoza · Madrid · Plan Europa · La central devuelve la llamada de inmediato</div>
             <audio id="ccAudio" preload="metadata"></audio>
           </div>
 
+    <h2 class="step-h"><span>2.</span> Y esto es lo que recibe tu central</h2>
+    <p class="step-lead">El caso llega ordenado, con todo lo que tu equipo necesita para devolver la llamada.</p>
+    <div class="ticket-stage reveal">
+      <div class="ticket">
+        <span class="t-stamp">Ejemplo</span>
+        <div class="t-head"><span>Caso nuevo</span><span>Asistencia médica</span></div>
+        <div class="t-name">Carlos Mendoza</div>
+        <div class="t-row"><span>Motivo</span><span>Torcedura de tobillo</span></div>
+        <div class="t-row"><span>Ciudad</span><span>Madrid</span></div>
+        <div class="t-row"><span>Plan</span><span>Europa</span></div>
+        <div class="t-foot">Tel. 999 888 777 · La central devuelve la llamada de inmediato · Central 24/7: +51 965 762 631</div>
+      </div>
+      <p class="ticket-note">Sin datos sueltos ni mensajes a medias: el caso nace completo.</p>
+    </div>
     <div class="grid reveal">
       <div><b>Asistencia médica</b>Por accidente o enfermedad, según el plan: hasta USD/EUR 100,000, con COVID-19 incluido.</div>
       <div><b>Planes por destino</b>América, USA/Canadá, Europa, Mundiales, larga estadía y anuales multiviajes.</div>
@@ -403,6 +445,7 @@
       <b>¿Vas a viajar?</b> Cotiza en línea en travelcareassistance.com y un especialista te ayuda a elegir tu plan.
     </div>
 
+    <h2 class="step-h"><span>3.</span> Ahora llámala tú</h2>
     <div class="call reveal" id="llamada">
       <b>Pruébala llamando tú mismo por voz</b>
       <br>
@@ -422,6 +465,8 @@
         <li>Registra cada caso con nombre, ciudad y teléfono, y lo deja ordenado al momento para tu central.</li>
         <li>En una emergencia nunca improvisa: deriva al viajero de inmediato a tu central 24/7.</li>
         <li>Y si preguntan algo que no está en su ficha, no inventa nada: toma el mensaje para que tu equipo lo resuelva.</li>
+        <li>El servicio técnico y las actualizaciones constantes están incluidos: si algo falla, lo resolvemos nosotros — tú solo sigues atendiendo viajeros.</li>
+        <li>Y viene con extras incluidos: la web de tu agencia si no tienes una, tu catálogo de planes listo para enviar por WhatsApp, tu perfil de Google optimizado y un kit de códigos QR para tu oficina.</li>
         <li>Tú no tienes que aprender nada de tecnología: nosotros lo dejamos todo instalado y lo probamos contigo.</li>
       </ul>
     </div>
@@ -432,6 +477,13 @@
       <div>📝 «Quiero dejar mis datos para que un especialista me llame»</div>
     </div>
 
+    <div class="close reveal">
+      <h2>¿La dejamos contestando por ti?</h2>
+      <p>Marcela ya conoce todos tus planes. Solo falta conectarla a tu número: 48 horas.</p>
+      <p>Con servicio técnico y actualizaciones constantes incluidos — y de bono, la web de tu agencia si no tienes una, tu catálogo de planes por WhatsApp, tu perfil de Google optimizado y un kit de códigos QR para tu oficina.</p>
+      <a class="close-btn" href="https://wa.me/18483655865?text=Hola%20Victor%2C%20vi%20la%20demo%20de%20la%20asistente%20de%20Travel%20Care%20y%20quiero%20saber%20m%C3%A1s" target="_blank" rel="noopener">Quiero mi asistente</a>
+      <small>Victor responde por WhatsApp. Preguntar no te compromete a nada.</small>
+    </div>
     <p class="foot"><b>Instalación en 48 horas</b> · Alaluna AI Solutions</p>
     <p class="demo">Página de demostración del servicio <a href="ialucina.html">iAlucina</a>: la recepcionista es real y conversa de verdad, con la información pública del sitio oficial de Travel Care Assistance.</p>
   </div>
@@ -506,11 +558,12 @@
       setTimeout(skOff, 2600);
 
       // ===== Reproductor del ejemplo: onda y transcripción sincronizadas con el audio real =====
-      var DLG = { total: 44.56, lines: [
-        { start: 0.00, end: 5.20 }, { start: 5.60, end: 10.72 }, { start: 11.12, end: 21.44 },
-        { start: 21.84, end: 23.84 }, { start: 24.24, end: 29.44 }, { start: 29.84, end: 37.28 },
-        { start: 37.68, end: 44.56 }
-      ]};
+      var DLG = { total: 91.44, lines: [
+        { start: 0.00, end: 5.28 },         { start: 5.68, end: 11.92 },         { start: 12.32, end: 25.12 },
+        { start: 25.52, end: 28.00 },         { start: 28.40, end: 43.52 },         { start: 43.92, end: 45.52 },
+        { start: 45.92, end: 54.24 },         { start: 54.64, end: 61.84 },         { start: 62.24, end: 73.92 },
+        { start: 74.32, end: 75.84 },         { start: 76.24, end: 91.44 }
+      ] };
           // «Pruébala en vivo»: arranca la llamada real en el widget (shadow DOM abierto),
     // sin bajar a la sección. Si el widget aún no cargó, reintenta unos segundos;
     // como respaldo, baja a la sección de la llamada.
