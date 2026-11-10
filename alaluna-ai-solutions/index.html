@@ -668,6 +668,33 @@ document.documentElement.className = 'js';
     setTimeout(function(){ mo.disconnect(); }, 20000);
   })();
 </script>
+<style>
+  /* Globito de Alaluna: la media luna que saluda (mascota temática, pedido de Victor) */
+  #fabCall{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;border:2px solid rgba(242,179,61,.9);background:var(--night);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;z-index:40;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .25s ease,transform .25s ease}
+  #fabCall svg{width:42px;height:42px;display:block}
+  #fabCall .fab-arm{transform-box:fill-box;transform-origin:0% 100%;animation:fabWave 1.15s ease-in-out infinite alternate}
+  @keyframes fabWave{from{transform:rotate(-6deg)}to{transform:rotate(24deg)}}
+  #fabCall .fab-char{animation:fabBob 2.8s ease-in-out infinite}
+  @keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+  #fabCall:active{transform:scale(.94)}
+  #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
+</style>
+<button id="fabCall" type="button" aria-label="Hablar con Luna" title="Hablar con Luna"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><defs><linearGradient id="fabGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffdf8a"/><stop offset="1" stop-color="#f0a832"/></linearGradient></defs><g class="fab-char"><g class="fab-arm"><path d="M37 27 q6 -2 7.5 -8" stroke="#f0a832" stroke-width="4.5" fill="none" stroke-linecap="round"/><circle cx="44.5" cy="17" r="2.9" fill="#ffdf8a" stroke="#d98a1f" stroke-width="0.8"/></g><path fill-rule="evenodd" fill="url(#fabGold)" stroke="#d98a1f" stroke-width="1" d="M5 25 a17 17 0 1 0 34 0 a17 17 0 1 0 -34 0 M17 19 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0"/><path d="M36 4.5 l1.2 2.3 2.3 1.2 -2.3 1.2 -1.2 2.3 -1.2 -2.3 -2.3 -1.2 2.3 -1.2 z" fill="#ffe9a8"/><path d="M9.8 25 q2.7 -2.8 5.4 0" stroke="#152852" stroke-width="1.9" fill="none" stroke-linecap="round"/><path d="M10.8 29.5 q2.4 2.2 5 .6" stroke="#152852" stroke-width="1.9" fill="none" stroke-linecap="round"/><circle cx="9" cy="28.4" r="1.8" fill="#ff9d9d" opacity="0.75"/></g></svg></button>
+<script>
+  // ===== Globito flotante PROPIO de Alaluna: la media luna que saluda =====
+  // En reposo solo se ve el globito con la media luna; al tocarlo entra al
+  // mismo flujo de voz de la página (el botón «Iniciar conversación» de Luna):
+  // el bloque __lunaHide5 muestra el panel y Luna arranca. Durante la
+  // conversación el globito se esconde (fab-off lo manda __lunaHide5).
+  (function(){
+    var fab = document.getElementById('fabCall');
+    if (!fab) return;
+    fab.addEventListener('click', function(){
+      var b = document.getElementById('lunaBtn');
+      if (b) b.click();
+    });
+  })();
+</script>
 <script>
   // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
   // Versiones anteriores peleaban con el interior del widget (estilos dentro
