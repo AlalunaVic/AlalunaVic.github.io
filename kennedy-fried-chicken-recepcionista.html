@@ -146,6 +146,32 @@
           transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease, background .25s ease; }
   .cc-pill.lit { background:rgba(216,35,42,.38); color:#fff6cf; transform:scale(1.02);
           box-shadow:0 0 0 1px rgba(245,197,24,.7), 0 12px 26px rgba(216,35,42,.35); }
+  /* ===== Fusión v2: pasos guiados, ticket, calculadora y cierre suave ===== */
+  .step-h { font-family:'Montserrat',sans-serif; font-weight:800; font-size:21px; color:#fdf3e3; margin:30px 0 8px; }
+  .step-h span { color:#f5c518; }
+  .step-lead { font-size:14.5px; line-height:1.55; color:#e8d5b5; margin-bottom:14px; }
+  .ticket-stage { margin-bottom:20px; }
+  .ticket { position:relative; background:#f7f0e1; color:#2a1408; border-radius:12px; padding:18px; max-width:430px; margin:0 auto; box-shadow:0 18px 40px rgba(0,0,0,.45); font-size:14.5px; }
+  .ticket .t-stamp { position:absolute; top:12px; right:12px; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:#b3543f; border:1px solid #b3543f; padding:2px 7px; border-radius:999px; }
+  .ticket .t-head { display:flex; justify-content:space-between; font-weight:700; font-size:12.5px; letter-spacing:1px; text-transform:uppercase; color:#8a6d3b; margin-bottom:6px; }
+  .ticket .t-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:21px; margin-bottom:8px; }
+  .ticket .t-row { display:flex; justify-content:space-between; gap:12px; padding:5px 0; border-top:1px dashed rgba(42,20,8,.18); }
+  .ticket .t-total { font-weight:800; font-size:16px; }
+  .ticket .t-foot { margin-top:10px; font-size:12.5px; line-height:1.5; color:#6b543a; }
+  .ticket-note { text-align:center; font-size:13px; color:#e8d5b5; margin-top:10px; }
+  .calc { background:#211310; border:1px solid #4a2c20; border-radius:12px; padding:18px; margin-bottom:20px; }
+  .calc label { display:flex; justify-content:space-between; font-size:14px; font-weight:600; margin:12px 0 4px; }
+  .calc output { color:#f5c518; font-weight:800; }
+  .calc input[type=range] { width:100%; accent-color:#d8232a; }
+  .calc-res { text-align:center; margin-top:16px; background:rgba(216,35,42,.12); border:1px solid rgba(245,197,24,.35); border-radius:12px; padding:14px; }
+  .calc-big { font-family:'Montserrat',sans-serif; font-weight:800; font-size:34px; color:#ffedb0; }
+  .calc-note { font-size:12px; color:#cdb99c; line-height:1.45; margin-top:6px; }
+  .close { text-align:center; background:linear-gradient(160deg,#2a1712,#1d100b); border:1px solid #d8232a; border-radius:14px; padding:24px 18px; margin-bottom:20px; }
+  .close h2 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:22px; margin-bottom:8px; }
+  .close p { font-size:14.5px; line-height:1.55; color:#e8d5b5; max-width:460px; margin:0 auto 10px; }
+  .close-btn { display:block; background:#d8232a; color:#fff; font-family:'Montserrat',sans-serif; font-weight:800; font-size:16px; padding:14px; border-radius:12px; text-decoration:none; margin:14px auto 8px; max-width:430px; }
+  .close small { color:#cdb99c; font-size:12px; }
+
   .cc-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:16px; }
   .cc-live { display:inline-flex; align-items:center; gap:8px; background:transparent;
           border:1.5px solid rgba(245,197,24,.6); color:#ffd94d;
@@ -290,15 +316,17 @@
   </div>
   <div class="wrap">
 
+    <h2 class="step-h"><span>1.</span> Listen to how he takes an order</h2>
+    <p class="step-lead">A customer calls for delivery. Notice the flavor question, the special request noted word for word, and how he gets the name, phone and address before confirming.</p>
     <div class="callcard reveal">
       <div class="cc-head">
         <span class="dot" aria-hidden="true"></span>
-        <span class="cc-title">Call · Pickup order</span>
+        <span class="cc-title">Call · Delivery order</span>
         <span class="cc-chip">Example</span>
       </div>
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Loading the example…</button>
-        <span class="cc-time" id="ccTime">00:00 / 01:02</span>
+        <span class="cc-time" id="ccTime">00:00 / 01:29</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Sample conversation</span><span class="chev" aria-hidden="true">▾</span></button>
@@ -309,35 +337,55 @@
         <div class="turn recep"><span class="who">Receptionist</span>
           <p>Kennedy Fried Chicken, how can I help you?</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
-          <p>Hi, I'd like to order for pickup.</p></div>
+          <p>Hi, I'd like to order for delivery, please.</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>Sure thing! What can I get you?</p></div>
+          <p>Of course! What can I get you?</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
           <p>A 3-piece chicken combo, and 6 buffalo wings.</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>Got it — the combo comes with fries and a soda. For the wings, what flavor? We have hot, buffalo, honey BBQ, lemon pepper, garlic parmesan and mango habanero.</p></div>
+          <p>Got it — the combo comes with fries and a soda, $9.99. For the wings, what flavor? We have hot, buffalo, honey BBQ, lemon pepper, garlic parmesan and mango habanero.</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
           <p>Honey BBQ. And quick question — is everything halal?</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>Yes, everything we serve is halal. Anything else for you?</p></div>
+          <p>Yes, everything we serve is halal. The wings are $7.99. Any special requests with your order?</p></div>
+        <div class="turn cliente"><span class="who">Customer</span>
+          <p>Yes — extra crispy on the chicken, please.</p></div>
+        <div class="turn recep"><span class="who">Receptionist</span>
+          <p>Noted just like that: extra crispy. Anything else?</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
           <p>No, that's all. How much is it?</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>That comes to $17.98, plus tax — tax is added at the register. It'll be ready in 15 to 20 minutes.</p></div>
+          <p>That comes to $17.98, plus tax — tax is added at the register.</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
           <p>Sounds good.</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>Can I get a name for the order?</p></div>
+          <p>Can I get your name, a phone number, and the delivery address?</p></div>
         <div class="turn cliente"><span class="who">Customer</span>
-          <p>It's Dave.</p></div>
+          <p>Dave. 732-555-0119. The address is 128 King George Road, Fords.</p></div>
         <div class="turn recep"><span class="who">Receptionist</span>
-          <p>All set, Dave! A 3-piece chicken combo and 6 honey BBQ wings — $17.98 plus tax, ready for pickup in 15 to 20 minutes. Thanks for calling Kennedy Fried Chicken!</p></div>
+          <p>All set, Dave! Confirming: a 3-piece chicken combo, extra crispy, and 6 honey BBQ wings — $17.98 plus tax, for delivery to 128 King George Road. The store will call you back at that number in a few minutes to confirm your delivery. Thanks for calling Kennedy Fried Chicken!</p></div>
       </div>
       </div>
-      <div class="cc-pill">✓ Order registered · 3 pcs Chicken Combo + 6 Buffalo Wings (Honey BBQ) · $17.98 + tax · Ready in 15–20 min</div>
+      <div class="cc-pill">✓ Order registered · 3 pcs Chicken Combo (extra crispy) + 6 Buffalo Wings (Honey BBQ) · $17.98 + tax · Delivery — the store calls back to confirm</div>
             <audio id="ccAudio" preload="metadata"></audio>
           </div>
 
+    <h2 class="step-h"><span>2.</span> And this is what you get</h2>
+    <p class="step-lead">While you keep cooking, that call lands in your WhatsApp as a clean order.</p>
+    <div class="ticket-stage reveal">
+      <div class="ticket">
+        <span class="t-stamp">Example</span>
+        <div class="t-head"><span>New order</span><span>Delivery</span></div>
+        <div class="t-name">Dave</div>
+        <div class="t-row"><span>1 × 3 pcs Chicken Combo (fries &amp; soda)</span><span>$9.99</span></div>
+        <div class="t-row"><span>1 × Buffalo Wings 6 pcs (Honey BBQ)</span><span>$7.99</span></div>
+        <div class="t-row"><span>Special: extra crispy</span><span></span></div>
+        <div class="t-row t-total"><span>Total</span><span>$17.98 + tax</span></div>
+        <div class="t-foot">Delivery to 128 King George Road, Fords · Tel. 732-555-0119 · The store calls back to confirm the delivery.</div>
+      </div>
+      <p class="ticket-note">Special requests arrive noted exactly as the customer said them.</p>
+    </div>
+    <h2 class="step-h"><span>3.</span> Now call him yourself</h2>
     <div class="call reveal" id="llamada">
       <b>Try it yourself — place your order out loud</b>
       <br>
@@ -356,9 +404,37 @@
         <li>He notes special requests exactly as each customer asks for them, so you see them live on the order.</li>
         <li>Every order lands neatly on your WhatsApp the moment it's placed, ready to make.</li>
         <li>And if a customer asks something he doesn't know, he never makes it up: he passes you the message so you can handle it.</li>
+        <li>Technical service and constant updates are included: if anything ever fails, we fix it — you just keep receiving your orders.</li>
+        <li>And he comes with extras: a website for your store if you don't have one, a digital menu so your customers can order on WhatsApp, your Google profile optimized, and a QR kit for your counter and tables.</li>
         <li>You don't have to learn any technology: we install everything and test it with you.</li>
       </ul>
     </div>
+    <div class="calc reveal">
+      <h2 class="step-h" style="margin-top:0"><span>Do the math</span> on the calls nobody answers</h2>
+      <p class="step-lead">Move the numbers to match your store.</p>
+      <label for="kCalls">Unanswered calls a day <output id="kOCalls">5</output></label>
+      <input id="kCalls" type="range" min="1" max="30" step="1" value="5">
+      <label for="kTicket">Average order <output id="kOTicket">$15</output></label>
+      <input id="kTicket" type="range" min="5" max="60" step="1" value="15">
+      <label for="kDays">Days open a week <output id="kODays">7</output></label>
+      <input id="kDays" type="range" min="1" max="7" step="1" value="7">
+      <div class="calc-res">
+        <small>Orders that walk away on the phone, per month:</small>
+        <div class="calc-big" id="kCalcBig">$1,625</div>
+        <p class="calc-note">An estimate with your own numbers, assuming every missed call was an order. Not a sales promise.</p>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var c=document.getElementById('kCalls'),t=document.getElementById('kTicket'),d=document.getElementById('kDays');
+      function up(){ var m=Math.round(c.value*t.value*d.value*4.33);
+        document.getElementById('kOCalls').textContent=c.value;
+        document.getElementById('kOTicket').textContent='$'+t.value;
+        document.getElementById('kODays').textContent=d.value;
+        document.getElementById('kCalcBig').textContent='$'+m.toLocaleString('en-US'); }
+      [c,t,d].forEach(function(el){ el.addEventListener('input',up); }); up();
+    })();
+    </script>
     <div class="try reveal">
       <h2>Ask him for anything from your menu, in English or Spanish. Ask him about the opening hours.</h2>
       <div>🍗 «Order a 3-piece chicken combo and 6 honey BBQ wings»</div>
@@ -387,6 +463,13 @@
       <b>Pickup:</b> order by phone and pick it up in 15–20 minutes.<br>
       <b>Delivery:</b> the store delivers, and it's also on Grubhub, DoorDash and Uber Eats.<br>
       <b>100% Halal:</b> everything on the menu. Free parking in the back.
+    </div>
+    <div class="close reveal">
+      <h2>Want him answering your phone?</h2>
+      <p>He already knows your whole menu by heart. All that's left is connecting him to your number: 48 hours.</p>
+      <p>With technical service and constant updates included — and as a bonus, a website for your store if you don't have one, a digital menu for ordering on WhatsApp, your Google profile optimized, and a QR kit for your counter and tables.</p>
+      <a class="close-btn" href="https://wa.me/18483655865?text=Hi%20Victor%2C%20I%20saw%20the%20Kennedy%20Fried%20Chicken%20receptionist%20demo%20and%20I%27d%20like%20to%20know%20more" target="_blank" rel="noopener">I want my receptionist</a>
+      <small>Victor replies on WhatsApp. Asking doesn't commit you to anything.</small>
     </div>
     <p class="foot"><b>Installed in 48 hours</b> · Alaluna AI Solutions</p>
   </div>
@@ -458,21 +541,23 @@
     setTimeout(skOff, 2600);
 
     // ===== Reproductor del ejemplo: onda y transcripción sincronizadas con el audio real =====
-    var DLG = { total: 61.56, lines: [
+    var DLG = { total: 88.96, lines: [
         { start: 0.00, end: 2.70 },
-        { start: 3.00, end: 5.40 },
-        { start: 5.70, end: 7.78 },
-        { start: 8.08, end: 10.08 },
-        { start: 10.38, end: 14.06 },
-        { start: 14.36, end: 25.72 },
-        { start: 26.02, end: 30.66 },
-        { start: 30.96, end: 34.96 },
-        { start: 35.26, end: 37.66 },
-        { start: 37.96, end: 45.08 },
-        { start: 45.38, end: 46.34 },
-        { start: 46.64, end: 48.56 },
-        { start: 48.86, end: 49.74 },
-        { start: 50.04, end: 61.56 }
+        { start: 3.00, end: 5.08 },
+        { start: 5.38, end: 7.86 },
+        { start: 8.16, end: 10.32 },
+        { start: 10.62, end: 14.06 },
+        { start: 14.36, end: 27.32 },
+        { start: 27.62, end: 32.34 },
+        { start: 32.64, end: 39.52 },
+        { start: 39.82, end: 42.62 },
+        { start: 42.92, end: 46.44 },
+        { start: 46.74, end: 49.22 },
+        { start: 49.52, end: 54.88 },
+        { start: 55.18, end: 56.30 },
+        { start: 56.60, end: 60.04 },
+        { start: 60.34, end: 70.82 },
+        { start: 71.12, end: 88.96 }
     ]};
         // «Pruébala en vivo»: arranca la llamada real en el widget (shadow DOM abierto),
     // sin bajar a la sección. Si el widget aún no cargó, reintenta unos segundos;
