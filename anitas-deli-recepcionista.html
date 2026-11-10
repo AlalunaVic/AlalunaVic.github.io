@@ -591,7 +591,7 @@ html, body { overflow-x: hidden; overflow-x: clip; }
   </div>
 
   <!-- Motor de voz en vivo (ElevenLabs) -->
-  <elevenlabs-convai agent-id="agent_4201m72zh7sxeeqrmmj12sqdfq97"></elevenlabs-convai>
+  <elevenlabs-convai agent-id="agent_4201m72zh7sxeeqrmmj12sqdfq97" text-contents='{"main_label":"Prueba tu recepcionista en vivo","start_call":"Iniciar llamada","end_call":"Colgar","start_chat":"Mensaje"}'></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
   <script>
@@ -1081,6 +1081,49 @@ html, body { overflow-x: hidden; overflow-x: clip; }
     document.addEventListener('keydown', function(e){ if(e.key==='Escape' && view.classList.contains('open')) close(); });
   })();
   </script>
+<style>
+  #fabCall{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;border:none;background:var(--chile);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;z-index:40;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .25s ease,transform .25s ease}
+  #fabCall svg{width:26px;height:26px;fill:#fff;display:block}
+  #fabCall:active{transform:scale(.94)}
+  #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
+  elevenlabs-convai{position:relative;z-index:60}
+</style>
+<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button>
+<script>
+  // ===== Botón flotante PROPIO de teléfono (cambio de Victor) =====
+  // La pestaña nativa del widget queda oculta; este botón discreto, con los
+  // colores del cliente, es la entrada a «Prueba tu recepcionista en vivo»:
+  // al tocarlo baja a la tarjeta de llamada y dispara el flujo en vivo de la
+  // página. Durante la llamada se esconde (el panel del widget manda).
+  (function(){
+    var fab = document.getElementById('fabCall');
+    if (!fab) return;
+    var liveBtn = document.getElementById('liveBtn');
+    var card = document.getElementById('llamada');
+    var status = document.getElementById('liveStatus');
+    fab.addEventListener('click', function(){
+      if (card) card.scrollIntoView({ behavior:'smooth', block:'center' });
+      if (status) status.textContent = 'Prueba tu recepcionista en vivo: conectando…';
+      setTimeout(function(){ if (liveBtn) liveBtn.click(); }, 550);
+    });
+    function off(){ fab.classList.add('fab-off'); }
+    function on(){ fab.classList.remove('fab-off'); }
+    var tries = 0;
+    (function hook(){
+      var w = document.querySelector('elevenlabs-convai');
+      if (w) {
+        w.addEventListener('elevenlabs-convai:call', off);
+        w.addEventListener('conversationStarted', function(){
+          off();
+          if (status) status.textContent = 'Prueba tu recepcionista en vivo — habla cuando Rosa conteste. Para colgar, usa el botón del panel.';
+        });
+        w.addEventListener('conversationEnded', on);
+        return;
+      }
+      if (++tries < 40) setTimeout(hook, 500);
+    })();
+  })();
+</script>
   <script>
   // ===== Tonito de llamada en vivo (pedido de Victor) =====
   // El widget de ElevenLabs emite el evento oficial «elevenlabs-convai:call»
