@@ -508,7 +508,7 @@
     </div>
   </div>
 
-  <elevenlabs-convai agent-id="agent_8401m711kq5gf20bbaqg40sef4gp"></elevenlabs-convai>
+  <elevenlabs-convai agent-id="agent_8401m711kq5gf20bbaqg40sef4gp" text-contents='{"main_label":"Prueba tu recepcionista en vivo","start_call":"Iniciar llamada","end_call":"Colgar","start_chat":"Mensaje"}'></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
   <script src="kennedy-loader.js"></script>
   <script>
@@ -1113,6 +1113,39 @@
     document.addEventListener('keydown', function(e){ if(e.key==='Escape' && view.classList.contains('open')) close(); });
   })();
   </script>
+<style>
+  #fabCall{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;border:none;background:#d8232a;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;z-index:40;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .25s ease,transform .25s ease}
+  #fabCall svg{width:42px;height:42px;display:block}
+  #fabCall .fab-arm{transform-box:fill-box;transform-origin:0% 100%;animation:fabWave 1.15s ease-in-out infinite alternate}
+  @keyframes fabWave{from{transform:rotate(-6deg)}to{transform:rotate(24deg)}}
+  #fabCall .fab-char{animation:fabBob 2.8s ease-in-out infinite}
+  @keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+  #fabCall:active{transform:scale(.94)}
+  #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
+  elevenlabs-convai{z-index:60}
+</style>
+<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g class="fab-char"><g class="fab-arm"><path d="M36 26 q7 -3 8 -10" stroke="#f3e3cf" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="44.5" cy="15" r="3.4" fill="#fff7ee"/></g><g fill="#fff7ee"><circle cx="24" cy="27" r="13"/><circle cx="15" cy="21" r="7"/><circle cx="33" cy="21" r="7"/><circle cx="24" cy="15.5" r="8"/><circle cx="14" cy="30" r="6.5"/><circle cx="34" cy="30" r="6.5"/></g><circle cx="19.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="28.5" cy="25" r="2.1" fill="#3a2e2a"/><circle cx="20.2" cy="24.3" r="0.7" fill="#fff"/><circle cx="29.2" cy="24.3" r="0.7" fill="#fff"/><path d="M21.5 30 q2.5 2.2 5 0" stroke="#3a2e2a" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="15.8" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/><circle cx="32.2" cy="29.5" r="2.2" fill="#ff9d9d" opacity="0.75"/></g></svg></button>
+<script>
+  // ===== Botón flotante PROPIO de teléfono (cambio de Victor) =====
+  // La pestaña nativa del widget queda oculta; este botón discreto, con los
+  // colores del cliente, es la entrada a «Prueba tu recepcionista en vivo»:
+  // al tocarlo baja a la tarjeta de llamada y dispara el flujo en vivo de la
+  // página. Durante la llamada se esconde (el panel del widget manda).
+  (function(){
+    var fab = document.getElementById('fabCall');
+    if (!fab) return;
+    var liveBtn = document.getElementById('liveBtn');
+    var card = document.getElementById('llamada');
+    var status = document.getElementById('liveStatus');
+    fab.addEventListener('click', function(){
+      if (card) card.scrollIntoView({ behavior:'smooth', block:'center' });
+      if (status) status.textContent = 'Prueba tu recepcionista en vivo: conectando…';
+      setTimeout(function(){ if (liveBtn) liveBtn.click(); }, 550);
+    });
+    // La visibilidad del FAB la manda sync() del bloque __lunaHide4:
+    // oculto cuando el widget esta expandido, visible en reposo.
+  })();
+</script>
   <script>
   // ===== Tonito de llamada en vivo (pedido de Victor) =====
   // El widget de ElevenLabs emite el evento oficial «elevenlabs-convai:call»
@@ -1154,7 +1187,7 @@
       }catch(e){}
     }
     function attach(w){
-      if(!w || w.__knRing) return; w.__knRing=true;
+      if(!w || w.__tmRing) return; w.__tmRing=true;
       w.addEventListener('elevenlabs-convai:call', ring);
       w.addEventListener('conversationStarted', stop);
       w.addEventListener('conversationEnded', stop);
@@ -1169,6 +1202,77 @@
     setTimeout(function(){ mo.disconnect(); }, 20000);
   })();
   </script>
+<script>
+  // ===== Pestaña flotante del widget OCULTA v4 (__lunaHide4, pedido de Victor) =====
+  // La v3 inyectaba un <style> dentro del shadow DOM y detectaba «expandido»
+  // por la existencia de nodos; el widget (app Preact) descarta ese estilo al
+  // re-renderizar y la caja de texto existe también en reposo (oculta, con
+  // rectángulo cero), así que la pestaña nativa reaparecía en reposo. v4:
+  // NADA de estilos dentro del shadow — el ocultamiento se aplica al HOST
+  // desde la página (visibility + pointer-events en línea) y «panel
+  // mostrado» se detecta por TAMAÑO REAL: hay un textarea o input de mensaje
+  // con rectángulo de ancho y alto > 0, o el .overlay mide más de 200 px de
+  // alto (estado de llamada sin texto). En reposo (píldora u «Open chat»)
+  // ninguna de las dos se cumple. sync() manda: mostrado -> host visible y
+  // #fabCall oculto; no mostrado -> host oculto y #fabCall visible. Corre al
+  // adjuntar, con MutationObserver sobre el shadowRoot, con guardián cada
+  // 500 ms y tras los eventos del widget, que ya solo disparan sync.
+  (function(){
+    function panelShown(root){
+      if (!root) return false;
+      var inputs = root.querySelectorAll('textarea, input[type="text"]');
+      for (var i = 0; i < inputs.length; i++){
+        var r = inputs[i].getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) return true;
+      }
+      var ov = root.querySelector('.overlay');
+      if (ov){
+        var ro = ov.getBoundingClientRect();
+        if (ro.height > 200) return true;
+      }
+      return false;
+    }
+    function sync(host){
+      if (!host) return;
+      var fab = document.getElementById('fabCall');
+      var root = host.shadowRoot;
+      if (root && host.__lunaRoot !== root){
+        host.__lunaRoot = root;
+        if (host.__lunaObs) host.__lunaObs.disconnect();
+        host.__lunaObs = new MutationObserver(function(){ sync(host); });
+        host.__lunaObs.observe(root, { childList:true, subtree:true, attributes:true });
+      }
+      if (root && panelShown(root)){
+        host.style.visibility = '';
+        host.style.pointerEvents = '';
+        if (fab) fab.classList.add('fab-off');
+      } else {
+        host.style.visibility = 'hidden';
+        host.style.pointerEvents = 'none';
+        if (fab) fab.classList.remove('fab-off');
+      }
+    }
+    function attach(host){
+      if (!host || host.__lunaHide4) return; host.__lunaHide4 = true;
+      host.addEventListener('elevenlabs-convai:call', function(){ sync(host); });
+      host.addEventListener('conversationStarted', function(){ sync(host); });
+      host.addEventListener('conversationEnded', function(){ sync(host); });
+      sync(host);
+      // Guardián de 500 ms: reintenta el sync hasta que el widget monte su
+      // shadowRoot (tarda en cargar) y después mantiene el estado.
+      setInterval(function(){ if (document.contains(host)) sync(host); }, 500);
+    }
+    function scan(){
+      var el = document.querySelector('elevenlabs-convai');
+      if (el) attach(el);
+    }
+    scan();
+    var mo = new MutationObserver(scan);
+    mo.observe(document.documentElement, { childList:true, subtree:true });
+    setTimeout(function(){ mo.disconnect(); }, 30000);
+    setInterval(scan, 2000);
+  })();
+</script>
 <script>(function(){var acted=false;['pointerdown','keydown','wheel','touchmove'].forEach(function(e){addEventListener(e,function(){acted=true;},{passive:true});});[250,700,1400,2200].forEach(function(t){setTimeout(function(){if(!acted&&window.scrollY>8)window.scrollTo(0,0);},t);});})();</script>
 </body>
 </html>
