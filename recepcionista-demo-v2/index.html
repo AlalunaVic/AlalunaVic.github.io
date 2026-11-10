@@ -32,7 +32,7 @@ var CONFIG = {
   // Opcional. Si lo llenas aparece en la sección de preguntas. Ejemplo: '$497, pago único'
   precio: '',
   // Audio del ejemplo: si el MP3 no está, el reproductor carga texmex-loader.js, que reconstruye el audio vigente (v3) desde los trozos texmex-data-N.js
-  audio: 'dialogo-ejemplo.mp3',
+  audio: 'dialogo-ejemplo-v3.mp3',
   // Valores iniciales de la calculadora
   calc: { llamadas: 5, ticket: 20, dias: 7 }
 };
@@ -291,7 +291,9 @@ document.documentElement.className = 'js';
     * { transition:none !important; animation:none !important; }
     .js .rv { opacity:1; transform:none; } .js .hero h1 i { transform:none; }
   }
+html, body { overflow-x: hidden; overflow-x: clip; }
 </style>
+<script>if('scrollRestoration' in history)history.scrollRestoration='manual';if(location.hash){history.replaceState(null,'',location.pathname+location.search);}window.scrollTo(0,0);</script>
 </head>
 <body>
   <header class="brandbar">
@@ -1217,5 +1219,6 @@ document.documentElement.className = 'js';
     setTimeout(function(){ mo.disconnect(); }, 20000);
   })();
   </script>
+<script>(function(){var acted=false;['pointerdown','keydown','wheel','touchmove'].forEach(function(e){addEventListener(e,function(){acted=true;},{passive:true});});[250,700,1400,2200].forEach(function(t){setTimeout(function(){if(!acted&&window.scrollY>8)window.scrollTo(0,0);},t);});})();</script>
 </body>
 </html>
