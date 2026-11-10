@@ -669,47 +669,65 @@ document.documentElement.className = 'js';
   })();
 </script>
 <script>
-  // ===== Pestaña flotante del widget OCULTA v2 (__lunaHide2, pedido de Victor) =====
-  // La v1 inyectaba el <style> una sola vez y el widget (una app Preact dentro
-  // del shadow DOM) lo borraba al re-renderizar: la pestaña reaparecía para
-  // siempre. v2 = inyección PERSISTENTE: MutationObserver sobre el shadowRoot
-  // y un guardián cada 1 s reponen el estilo si desaparece mientras no haya
-  // llamada activa. Estados: oculta por defecto -> visible al iniciar la
-  // llamada -> oculta de nuevo al colgar.
+  // ===== Pestaña flotante del widget OCULTA v3 (__lunaHide3, pedido de Victor) =====
+  // La v2 ataba la visibilidad a los eventos de llamada (su estado interno): si el
+  // micrófono era denegado, el widget quedaba EXPANDIDO mostrando su error
+  // pero conversationEnded reponía el estilo al instante y el panel quedaba
+  // en el árbol pero invisible. v3: sin máquina de estados — la visibilidad
+  // sigue al ESTADO EXPANDIDO del propio widget. Expandido = el shadowRoot
+  // contiene la caja de mensaje (textarea o input de texto) o el botón de
+  // colapsar («Contraer»/«Collapse»); en reposo (píldora o botón circular
+  // «Open chat») no hay ninguno de los dos. Una sola función sync() manda:
+  // expandido -> panel visible y #fabCall oculto; reposo -> estilo presente
+  // y #fabCall visible. sync corre al adjuntar, con MutationObserver sobre
+  // el shadowRoot, con guardián cada 700 ms y como respuesta inmediata a los
+  // eventos del widget (que ya solo disparan sync, sin estados propios).
   (function(){
     var STYLE_ID = 'luna-hide-tab';
     var CSS = '.overlay{display:none!important}button[aria-label="Open chat"]{display:none!important}';
-    var callActive = false;
     function styleIn(root){ return root.querySelector('style#' + STYLE_ID); }
-    function ensureHidden(host){
-      if (callActive || !host) return;
-      var root = host.shadowRoot; if (!root) return;
+    function isExpanded(root){
+      if (!root) return false;
+      if (root.querySelector('textarea') || root.querySelector('input[type="text"]')) return true;
+      var btns = root.querySelectorAll('button');
+      for (var i = 0; i < btns.length; i++){
+        var lbl = (btns[i].getAttribute('aria-label') || '').toLowerCase();
+        if (lbl === 'contraer' || lbl === 'collapse') return true;
+      }
+      return false;
+    }
+    function sync(host){
+      if (!host) return;
+      var fab = document.getElementById('fabCall');
+      var root = host.shadowRoot;
+      if (!root){ if (fab) fab.classList.remove('fab-off'); return; }
       if (host.__lunaRoot !== root){
         host.__lunaRoot = root;
         if (host.__lunaObs) host.__lunaObs.disconnect();
-        host.__lunaObs = new MutationObserver(function(){ ensureHidden(host); });
+        host.__lunaObs = new MutationObserver(function(){ sync(host); });
         host.__lunaObs.observe(root, { childList:true, subtree:true });
       }
-      if (!styleIn(root)){
-        var s = document.createElement('style');
-        s.id = STYLE_ID;
-        s.textContent = CSS;
-        root.appendChild(s);
+      if (isExpanded(root)){
+        var s = styleIn(root);
+        if (s) s.remove();
+        if (fab) fab.classList.add('fab-off');
+      } else {
+        if (!styleIn(root)){
+          var st = document.createElement('style');
+          st.id = STYLE_ID;
+          st.textContent = CSS;
+          root.appendChild(st);
+        }
+        if (fab) fab.classList.remove('fab-off');
       }
     }
-    function showPanel(host){
-      callActive = true;
-      var root = host && host.shadowRoot; if (!root) return;
-      var s = styleIn(root);
-      if (s) s.remove();
-    }
     function attach(host){
-      if (!host || host.__lunaHide2) return; host.__lunaHide2 = true;
-      host.addEventListener('elevenlabs-convai:call', function(){ showPanel(host); });
-      host.addEventListener('conversationStarted', function(){ showPanel(host); });
-      host.addEventListener('conversationEnded', function(){ callActive = false; ensureHidden(host); });
-      ensureHidden(host);
-      setInterval(function(){ if (document.contains(host)) ensureHidden(host); }, 1000);
+      if (!host || host.__lunaHide3) return; host.__lunaHide3 = true;
+      host.addEventListener('elevenlabs-convai:call', function(){ sync(host); });
+      host.addEventListener('conversationStarted', function(){ sync(host); });
+      host.addEventListener('conversationEnded', function(){ sync(host); });
+      sync(host);
+      setInterval(function(){ if (document.contains(host)) sync(host); }, 700);
     }
     function scan(){
       var el = document.querySelector('elevenlabs-convai');
