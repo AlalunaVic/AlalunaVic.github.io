@@ -31,11 +31,12 @@ var CONFIG = {
   whatsappVentas: '18483655865',
   // Opcional. Si lo llenas aparece en la sección de preguntas. Ejemplo: '$497, pago único'
   precio: '',
-  // Audio del ejemplo (archivo MP3 real en la misma carpeta)
+  // Audio del ejemplo: si el MP3 no está, el reproductor carga texmex-loader.js, que reconstruye el audio vigente (v3) desde los trozos texmex-data-N.js
   audio: 'dialogo-ejemplo.mp3',
   // Valores iniciales de la calculadora
   calc: { llamadas: 5, ticket: 20, dias: 7 }
 };
+document.documentElement.className = 'js';
 </script>
 
 <style>
@@ -105,8 +106,8 @@ var CONFIG = {
   .p-top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
   .p-time { font-variant-numeric:tabular-nums; font-size:14px; color:var(--muted); }
   .p-tag { margin-left:auto; font-size:12.5px; color:var(--muted); border:1px solid var(--line); padding:3px 10px; border-radius:999px; }
-  .wave { display:flex; align-items:center; gap:2.5px; height:56px; margin:16px 0 4px; cursor:pointer; touch-action:manipulation; }
-  .wave i { flex:1; border-radius:3px; background:#4a3725; min-width:2px; pointer-events:none; }
+  .wave { display:flex; align-items:center; gap:1.5px; overflow:hidden; height:56px; margin:16px 0 4px; cursor:pointer; touch-action:manipulation; }
+  .wave i { flex:1; border-radius:3px; background:#4a3725; min-width:1px; pointer-events:none; }
   .wave i.on { background:var(--maiz); }
   .caption { min-height:84px; margin-top:12px; padding:12px 14px; border-radius:14px; background:rgba(255,255,255,.05);
     border-left:4px solid var(--line); }
@@ -244,9 +245,51 @@ var CONFIG = {
   .wa-note { align-self:center; flex:none; background:#fdf3c6; color:#54656f; font-size:12px; line-height:1.4; text-align:center; padding:6px 12px; border-radius:8px; max-width:94%; }
   .wa-foot { text-align:center; font-size:11.5px; color:#54656f; padding:7px 6px 1px; line-height:1.4; }
 
+  /* ---------- Acabado: tipografía grande, entradas y escritorio ---------- */
+  :root { --ease:cubic-bezier(.2,.8,.2,1); }
+  body { background:radial-gradient(120% 60% at 80% 0%, #2a1a10 0%, var(--bg) 55%) no-repeat, var(--bg); }
+  .hero { min-height:calc(100svh - 50px); display:flex; flex-direction:column; justify-content:flex-end; padding:30px 0 40px; }
+  .hero h1 { font-size:clamp(46px, 13.6vw, 150px); line-height:.95; letter-spacing:-.01em; }
+  .hero h1 span { display:block; overflow:hidden; padding-bottom:.08em; }
+.hero-frase { font-weight:700; color:var(--maiz); font-size:clamp(17px, 2.6vw, 24px); margin-top:16px; }
+  .hero h1 .sm { font-size:.42em; color:var(--maiz); line-height:1.15; padding-bottom:.25em; }
+  .hero h1 i { display:block; font-style:normal; }
+  .js .hero h1 i { transform:translateY(112%); transition:transform 1s var(--ease); }
+  .js .hero.go h1 i { transform:none; }
+  .hero h1 span:nth-child(2) i { transition-delay:.1s; } .hero h1 span:nth-child(3) i { transition-delay:.2s; }
+  .callpill { align-self:flex-start; display:inline-flex; align-items:center; gap:10px; margin-bottom:auto; padding:10px 16px 10px 12px; border-radius:999px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); font-size:14px; font-weight:600; color:var(--ink);
+    transition:background .5s, border-color .5s; }
+  .cp-dot { width:12px; height:12px; border-radius:50%; background:#ff5a52; box-shadow:0 0 0 0 rgba(255,90,82,.6); animation:cp 1.2s ease-out infinite; flex:none; }
+  @keyframes cp { to { box-shadow:0 0 0 12px rgba(255,90,82,0); } }
+  .callpill.ok { background:rgba(37,211,102,.12); border-color:rgba(37,211,102,.5); }
+  .callpill.ok .cp-dot { background:#25d366; animation:none; }
+  .hero .for { margin-top:34px; }
+  h2 { font-size:clamp(26px, 5.2vw, 46px); }
+  .btn { transition:transform .25s var(--ease), background .15s ease, box-shadow .25s; will-change:transform; }
+  .btn-main { box-shadow:0 12px 28px rgba(236,174,90,.22); }
+  .player, .live, .calc, .ticket-stage { box-shadow:0 30px 60px rgba(0,0,0,.35); }
+  .js .rv { opacity:0; transform:translateY(30px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .js .rv.in { opacity:1; transform:none; }
+  .sec > .live, .sec > details, .sec > .or, .sec > .btn-block, .sec > .gains { max-width:720px; }
+  @media (min-width:900px) {
+    .wrap { max-width:1120px; padding-inline:32px; }
+    .sec { padding-top:96px; }
+    .hero { padding-bottom:64px; }
+    .hero-actions { margin-top:30px; }
+    .duo { display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:start; }
+    .duo #comanda { position:sticky; top:74px; }
+    .cols { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+    .sec > .gains { max-width:none; display:grid; grid-template-columns:1fr 1fr; column-gap:56px; }
+    .ticket { font-size:16px; max-width:380px; }
+    .close { padding:56px 48px; }
+    .close h2 { font-size:54px; } .close .btn-block { width:auto; display:inline-flex; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior:auto; }
     * { transition:none !important; animation:none !important; }
+    .js .rv { opacity:1; transform:none; } .js .hero h1 i { transform:none; }
   }
 </style>
 </head>
@@ -262,8 +305,10 @@ var CONFIG = {
 
     <!-- ===== Hero ===== -->
     <section class="hero">
+      <div class="callpill" id="callPill" aria-hidden="true"><span class="cp-dot"></span><span id="cpText">Llamada entrante · El Tex Mex</span></div>
       <span class="for">Demo preparada para El Tex Mex Burrito Cafe, Fords NJ</span>
-      <h1>Tu recepcionista ya se sabe tu menú.</h1>
+      <h1><span><i>El Tex Mex</i></span><span><i>Burrito Cafe</i></span></h1>
+      <p class="hero-frase">La recepcionista que siempre contesta, personalizada para tu negocio</p>
       <p class="lead">Contesta cada llamada de El Tex Mex, toma el pedido con sus precios y te lo manda por WhatsApp, aunque tengas el local lleno y nadie pueda agarrar el teléfono.</p>
       <div class="hero-actions">
         <button class="btn btn-main" type="button" id="heroPlay">▶ Escuchar una llamada (49 s)</button>
@@ -276,6 +321,7 @@ var CONFIG = {
       </ul>
     </section>
 
+    <div class="duo">
     <!-- ===== 1. Escucha ===== -->
     <section class="sec" id="escucha">
       <h2><span class="n">1.</span> Escucha cómo toma un pedido</h2>
@@ -296,16 +342,19 @@ var CONFIG = {
           <div class="turn ring"><span class="who">Teléfono</span><p>Suena el teléfono del restaurante…</p></div>
           <div class="turn recep"><span class="who">Lucía</span><p>El Tex Mex Burrito Cafe, ¿cómo le puedo ayudar?</p></div>
           <div class="turn cliente"><span class="who">Cliente</span><p>Hola, quiero pedir para recoger: un Tex Mex Burrito y unas empanadas caseras.</p></div>
-          <div class="turn recep"><span class="who">Lucía</span><p>¡Claro que sí! Le anoto el burrito en $13.95 y las empanadas en $8.95.</p></div>
-          <div class="turn cliente"><span class="who">Cliente</span><p>Esas empanadas vuelan, ¿verdad?</p></div>
-          <div class="turn recep"><span class="who">Lucía</span><p>¡Y con razón! ¿Le agrego algo de tomar?</p></div>
-          <div class="turn cliente"><span class="who">Cliente</span><p>No, así está bien. ¿Cuánto es en total?</p></div>
-          <div class="turn recep"><span class="who">Lucía</span><p>Serían $22.90. Y le queda listo en 15 a 20 minutos.</p></div>
-          <div class="turn cliente"><span class="who">Cliente</span><p>Ajá, perfecto.</p></div>
-          <div class="turn recep"><span class="who">Lucía</span><p>¿A nombre de quién lo anoto?</p></div>
-          <div class="turn cliente"><span class="who">Cliente</span><p>A nombre de Carlos.</p></div>
-          <div class="turn recep"><span class="who">Lucía</span><p>¡Listo, Carlos! Su burrito y sus empanadas: $22.90, para recoger en 15 a 20 minutos. ¡Gracias por llamar a El Tex Mex!</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>¡Claro que sí! Las empanadas, ¿de pollo o de res molida?</p></div>
+          <div class="turn cliente"><span class="who">Cliente</span><p>De pollo, por favor.</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>¡Perfecto! Le anoto el burrito en $13.95 y las empanadas de pollo en $8.95. ¿Tiene algún pedido especial con su orden?</p></div>
+          <div class="turn cliente"><span class="who">Cliente</span><p>Sí: el burrito sin cebolla, y la salsa aparte, por favor.</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>Anotado tal cual: burrito sin cebolla y la salsa aparte.</p></div>
+          <div class="turn cliente"><span class="who">Cliente</span><p>Gracias. ¿Cuánto es en total?</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>Serían $22.90; el impuesto se suma al pagar en caja. Y le queda listo en 15 a 20 minutos.</p></div>
+          <div class="turn cliente"><span class="who">Cliente</span><p>Perfecto.</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>¿A nombre de quién lo anoto? ¿Y un número de teléfono, por favor?</p></div>
+          <div class="turn cliente"><span class="who">Cliente</span><p>Carlos. Mi número es 732-555-0148.</p></div>
+          <div class="turn recep"><span class="who">Lucía</span><p>¡Listo, Carlos! Le confirmo: un Tex Mex Burrito sin cebolla, unas empanadas de pollo y la salsa aparte. Total $22.90 más el impuesto, listo en 15 a 20 minutos, y su teléfono termina en 0148. ¡Gracias por llamar a El Tex Mex!</p></div>
         </div>
+      </div>
         <audio id="ccAudio" preload="metadata"></audio>
       </div>
     </section>
@@ -320,13 +369,16 @@ var CONFIG = {
           <div class="t-head"><span>Pedido nuevo</span><span>Para recoger</span></div>
           <div class="t-name">Carlos</div>
           <div class="t-row"><span>1 × Tex Mex Burrito</span><span>$13.95</span></div>
-          <div class="t-row"><span>1 × Empanadas caseras (2)</span><span>$8.95</span></div>
+          <div class="t-row"><span>1 × Empanadas de pollo (2)</span><span>$8.95</span></div>
+          <div class="t-row"><span>Especial: burrito sin cebolla · salsa aparte</span><span></span></div>
           <div class="t-row t-total"><span>Total</span><span>$22.90</span></div>
-          <div class="t-foot">Listo en 15 a 20 min</div>
+          <div class="t-foot">El impuesto se suma en caja · Listo en 15 a 20 min · Tel. 732-555-0148</div>
         </div>
         <p class="ticket-note">Los pedidos especiales llegan anotados tal como los dijo el cliente.</p>
       </div>
     </section>
+
+    </div>
 
     <!-- ===== 3. Llamada en vivo ===== -->
     <section class="sec" id="llamada">
@@ -362,6 +414,7 @@ var CONFIG = {
       </ul>
     </section>
 
+    <div class="cols">
     <!-- ===== Calculadora ===== -->
     <section class="sec" id="cuenta">
       <h2>Haz la cuenta de las llamadas que no contestas</h2>
@@ -390,6 +443,8 @@ var CONFIG = {
         <li><b>La conectamos a tu número.</b><span>Tú no tienes que aprender nada de tecnología: lo dejamos todo instalado.</span></li>
       </ol>
     </section>
+
+    </div>
 
     <!-- ===== Lo que ya sabe ===== -->
     <section class="sec" id="carta">
@@ -503,23 +558,6 @@ var CONFIG = {
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
   <script>
-/* Entrega del audio en la copia pública: el MP3 viaja en trozos base64
-   (el conector de GitHub corrompe binarios) y se reensambla aquí. */
-window.__tmAudioReady = (function(){
-  var PARTS = 11, reqs = [];
-  for (var i = 1; i <= PARTS; i++) {
-    var name = 'audio-b64-' + (i < 10 ? '0' + i : i) + '.txt';
-    reqs.push(fetch(name).then(function(r){ if (!r.ok) throw new Error('chunk'); return r.text(); }));
-  }
-  return Promise.all(reqs).then(function(chunks){
-    var bin = atob(chunks.join('').replace(/\s+/g, ''));
-    var bytes = new Uint8Array(bin.length);
-    for (var j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
-    return URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' }));
-  });
-})();
-</script>
-<script>
   (function(){
     function $(id){ return document.getElementById(id); }
 
@@ -537,12 +575,7 @@ window.__tmAudioReady = (function(){
     if (window.__TM_MENU_COUNT) { $('menuCount').textContent = window.__TM_MENU_COUNT; }
 
     /* ===== Reproductor del ejemplo ===== */
-    var DLG = { total: 48.88, lines: [
-      { start: 0.00, end: 2.70 }, { start: 3.00, end: 6.12 }, { start: 6.42, end: 11.78 },
-      { start: 12.08, end: 18.48 }, { start: 18.78, end: 20.78 }, { start: 21.08, end: 24.76 },
-      { start: 25.06, end: 27.86 }, { start: 28.16, end: 33.84 }, { start: 34.14, end: 35.50 },
-      { start: 35.80, end: 37.40 }, { start: 37.70, end: 39.06 }, { start: 39.36, end: 48.88 }
-    ]};
+    var DLG = { total: 78.68, lines: [ { start: 0.00, end: 2.70 }, { start: 3.00, end: 6.12 }, { start: 6.42, end: 11.62 }, { start: 11.92, end: 16.96 }, { start: 17.26, end: 18.78 }, { start: 19.08, end: 28.84 }, { start: 29.14, end: 33.06 }, { start: 33.36, end: 38.00 }, { start: 38.30, end: 40.38 }, { start: 40.68, end: 48.76 }, { start: 49.06, end: 49.86 }, { start: 50.16, end: 54.56 }, { start: 54.86, end: 60.46 }, { start: 60.76, end: 78.68 } ] };
     var audio = $('ccAudio'), playBtn = $('playBtn'), heroPlay = $('heroPlay'), ccTime = $('ccTime'),
         wave = $('wave'), transcript = $('transcript'), foldBtn = $('foldBtn'), ticket = $('ticket'),
         caption = $('caption'), capWho = $('capWho'), capText = $('capText');
@@ -550,7 +583,8 @@ window.__tmAudioReady = (function(){
     var L_PLAY = '▶ Escuchar el ejemplo', L_PAUSE = '⏸ Pausar', L_LOAD = 'Cargando…', L_AGAIN = '↺ Escuchar de nuevo';
     var wantPlay = false, fallbackTried = false, dead = false, lastActive = -1;
 
-    var heights = [38,52,66,44,74,88,58,42,70,92,64,48,80,95,60,44,68,84,52,38,72,90,62,46,58,76,50,36,66,82,56,42,60,74,48,34,54,70,44,58,40,62,78,50,36,52,66,42,56,38,48,60,44,52,36,58,46,40,50,34,44,38,42,30];
+    // Onda real: picos medidos del MP3 del ejemplo
+    var heights = [73,73,73,82,88,85,84,84,73,63,52,58,58,65,80,79,84,80,84,76,53,73,55,87,87,72,78,77,81,84,72,57,78,70,64,63,65,60,55,72,84,87,79,85,86,92,81,67,53,64,79,76,69,85,72,72,73,75,80,63,86,83,83,46,80,82,60,75,56,66,50,43,71,45,86,83,75,85,90,77,83,86,100,97,96,73,88,68,94,53,73,71,91,89,97,83];
     heights.forEach(function(h){ var b = document.createElement('i'); b.style.height = h + '%'; wave.appendChild(b); });
     var bars = wave.querySelectorAll('i');
 
@@ -627,7 +661,7 @@ window.__tmAudioReady = (function(){
       capText.textContent = 'El audio no cargó. Puedes leer la conversación completa aquí abajo o llamarla en vivo.';
       transcript.classList.add('open'); foldBtn.setAttribute('aria-expanded', 'true');
     }
-    window.__tmAudioReady.then(function(u){ audio.src = u; }, function(){ audio.src = CONFIG.audio; });
+    audio.src = CONFIG.audio;
 
     /* ===== Llamada en vivo: arranca el widget de ElevenLabs y avisa qué está pasando ===== */
     var liveBtn = $('liveBtn'), liveStatus = $('liveStatus'), micHint = $('micHint');
@@ -669,6 +703,24 @@ window.__tmAudioReady = (function(){
     var widget = document.querySelector('elevenlabs-convai');
     if (widget) {
       widget.addEventListener('conversationEnded', function(){ liveStatus.textContent = 'Llamada terminada. Puedes llamarla otra vez cuando quieras.'; });
+    }
+
+    /* ===== Acabado: entradas al hacer scroll, aviso de llamada y botones magnéticos ===== */
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.querySelector('.hero');
+    requestAnimationFrame(function(){ hero.classList.add('go'); });
+    setTimeout(function(){ $('callPill').classList.add('ok'); $('cpText').textContent = 'Contestada por Lucía · tu recepcionista'; }, 2600);
+    var rvs = document.querySelectorAll('.sec h2, .sec > .lead, .player, .ticket-stage, .live, .calc, .steps li, .gains li, .close');
+    rvs.forEach(function(el){ el.classList.add('rv'); });
+    if ('IntersectionObserver' in window && !calm) {
+      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold:.12, rootMargin:'0px 0px -5% 0px' });
+      rvs.forEach(function(el){ io.observe(el); });
+    } else { rvs.forEach(function(el){ el.classList.add('in'); }); }
+    if (!calm && window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      document.querySelectorAll('.btn-main, .btn-line, .bb-cta').forEach(function(b){
+        b.addEventListener('pointermove', function(e){ var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .18) + 'px,' + ((e.clientY - r.top - r.height / 2) * .3) + 'px)'; });
+        b.addEventListener('pointerleave', function(){ b.style.transform = ''; });
+      });
     }
 
     /* ===== Calculadora ===== */
