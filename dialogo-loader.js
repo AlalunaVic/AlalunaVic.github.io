@@ -1,10 +1,10 @@
 // dialogo-loader.js — Travel Care Assistance (demo iAlucina)
 // Reconstruye dialogo-ejemplo.mp3 desde los trozos base64 mismo-origen
-// (dialogo-data-1.js … dialogo-data-12.js) y lo entrega como Blob audio/mpeg
+// (dialogo-data-1.js … dialogo-data-25.js) y lo entrega como Blob audio/mpeg
 // al <audio id="ccAudio"> de la tarjeta de llamada.
-// SHA-256 del máster reconstruido: 047038761cf266d3bdc4c945f745bfaf7aa2360fdd24de06e7523c3021b304ac
+// SHA-256 del máster reconstruido: 289ae951388af4df59f1755e067ed0ee9b2955bd4c2cc532bf513b0f03b9237a
 (function () {
-  var CHUNKS = 12;
+  var CHUNKS = 25;
   function fail() { document.dispatchEvent(new Event('tc-audio-error')); }
   function build() {
     try {
