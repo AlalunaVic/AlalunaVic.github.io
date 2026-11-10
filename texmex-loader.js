@@ -1,10 +1,10 @@
 // texmex-loader.js — El Tex Mex Burrito Cafe (demo Alaluna AI Solutions)
-// Reconstruye dialogo-ejemplo.mp3 (ejemplo de llamada con tonito) desde los
-// trozos base64 mismo-origen (texmex-data-1.js … texmex-data-11.js)
-// y lo entrega como Blob audio/mpeg al <audio id="ccAudio"> de la tarjeta.
-// SHA-256 del máster reconstruido: 030534beb7676120caaf1850f939bf2d88ddf4f2d77288996cc5fa436b69fadc
+// Reconstruye el audio de ejemplo vigente (v3, 78.68 s) desde los trozos
+// base64 mismo-origen (texmex-data-1.js … texmex-data-20.js) y lo entrega
+// como Blob audio/mpeg al <audio id="ccAudio"> de la tarjeta.
+// SHA-256 del máster reconstruido: 497f7b4f2defce67d62a539b5766aba5e0b7918e7bbb907fe50fd8f2937a45ec
 (function () {
-  var CHUNKS = 11;
+  var CHUNKS = 20;
   function fail() { document.dispatchEvent(new Event('tm-audio-error')); }
   function build() {
     try {
