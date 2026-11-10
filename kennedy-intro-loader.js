@@ -1,14 +1,14 @@
 // kennedy-intro-loader.js — Kennedy Fried Chicken (demo Alaluna AI Solutions)
 // Reconstruye el video de bienvenida (intro Alaluna -> Kennedy, 10 s) desde
-// los trozos base64 mismo-origen (kennedy-intro-data-1.js … kennedy-intro-data-19.js)
+// los trozos base64 mismo-origen (kennedy-intro-data-1.js … kennedy-intro-data-17.js)
 // y lo entrega como Blob video/mp4 al <video id="kenIntroVideo"> de la intro.
-// SHA-256 del máster reconstruido: 9d53b577412c056df4a6dea96d0ee510c9982d977b50403f6f47afee97f3b085
+// SHA-256 del máster reconstruido: 8c3350b94d94b4f8c86652e1c060291d46f0b8d119d2accbeadf350605ef4226
 // v2 (2026-11-10): carga tolerante a fallos, misma plantilla que el loader de
 // audio. Cada trozo se reintenta hasta 4 veces (espera creciente + cache-bust
 // en los reintentos) y se vigila que no quede colgado (20 s). Si todo falla,
 // dispara 'kn-intro-error' y la página retira la intro y muestra la demo.
 (function () {
-  var CHUNKS = 19, MAX_TRIES = 4, STALL_MS = 20000;
+  var CHUNKS = 17, MAX_TRIES = 4, STALL_MS = 20000;
   var done = false;
   function fail() { if (!done) { done = true; document.dispatchEvent(new Event('kn-intro-error')); } }
   function filled(i) { var p = window.__KN_INTRO || []; return typeof p[i - 1] === 'string' && p[i - 1].length > 0; }
