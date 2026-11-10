@@ -1190,11 +1190,10 @@ html, body { overflow-x: hidden; overflow-x: clip; }
     function styleIn(root){ return root.querySelector('style#' + STYLE_ID); }
     function isExpanded(root){
       if (!root) return false;
-      if (root.querySelector('textarea') || root.querySelector('input[type="text"]')) return true;
       var btns = root.querySelectorAll('button');
       for (var i = 0; i < btns.length; i++){
         var lbl = (btns[i].getAttribute('aria-label') || '').toLowerCase();
-        if (lbl === 'contraer' || lbl === 'collapse') return true;
+        if (lbl === 'contraer' || lbl === 'collapse' || lbl === 'expand widget') return true;
       }
       return false;
     }
