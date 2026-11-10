@@ -1138,44 +1138,57 @@ html, body { overflow-x: hidden; overflow-x: clip; }
   })();
   </script>
 <script>
-  // ===== Pestaña flotante del widget OCULTA (pedido de Victor) =====
-  // La tarjeta flotante del widget interrumpe visualmente: se oculta su
-  // contenedor dentro del shadow DOM. Reaparece solo durante la llamada
-  // (para ver el panel y poder colgar) y se vuelve a ocultar al terminar.
+  // ===== Pestaña flotante del widget OCULTA v2 (__lunaHide2, pedido de Victor) =====
+  // La v1 inyectaba el <style> una sola vez y el widget (una app Preact dentro
+  // del shadow DOM) lo borraba al re-renderizar: la pestaña reaparecía para
+  // siempre. v2 = inyección PERSISTENTE: MutationObserver sobre el shadowRoot
+  // y un guardián cada 1 s reponen el estilo si desaparece mientras no haya
+  // llamada activa. Estados: oculta por defecto -> visible al iniciar la
+  // llamada -> oculta de nuevo al colgar.
   (function(){
-    var styleEl = null;
-    function hide(host){
-      var root = host.shadowRoot; if(!root) return false;
-      if(!styleEl){
-        styleEl = document.createElement('style');
-        styleEl.id = 'luna-hide-tab';
-        styleEl.textContent = '.overlay{display:none!important}';
+    var STYLE_ID = 'luna-hide-tab';
+    var CSS = '.overlay{display:none!important}button[aria-label="Open chat"]{display:none!important}';
+    var callActive = false;
+    function styleIn(root){ return root.querySelector('style#' + STYLE_ID); }
+    function ensureHidden(host){
+      if (callActive || !host) return;
+      var root = host.shadowRoot; if (!root) return;
+      if (host.__lunaRoot !== root){
+        host.__lunaRoot = root;
+        if (host.__lunaObs) host.__lunaObs.disconnect();
+        host.__lunaObs = new MutationObserver(function(){ ensureHidden(host); });
+        host.__lunaObs.observe(root, { childList:true, subtree:true });
       }
-      if(styleEl.getRootNode() !== root) root.appendChild(styleEl);
-      return true;
+      if (!styleIn(root)){
+        var s = document.createElement('style');
+        s.id = STYLE_ID;
+        s.textContent = CSS;
+        root.appendChild(s);
+      }
     }
-    function show(){
-      if(styleEl && styleEl.isConnected) styleEl.remove();
+    function showPanel(host){
+      callActive = true;
+      var root = host && host.shadowRoot; if (!root) return;
+      var s = styleIn(root);
+      if (s) s.remove();
     }
     function attach(host){
-      if(!host || host.__lunaHide) return; host.__lunaHide = true;
-      var tries = 0;
-      var iv = setInterval(function(){
-        tries++;
-        if(hide(host) || tries > 80) clearInterval(iv);
-      }, 250);
-      host.addEventListener('elevenlabs-convai:call', show);
-      host.addEventListener('conversationStarted', show);
-      host.addEventListener('conversationEnded', function(){ hide(host); });
+      if (!host || host.__lunaHide2) return; host.__lunaHide2 = true;
+      host.addEventListener('elevenlabs-convai:call', function(){ showPanel(host); });
+      host.addEventListener('conversationStarted', function(){ showPanel(host); });
+      host.addEventListener('conversationEnded', function(){ callActive = false; ensureHidden(host); });
+      ensureHidden(host);
+      setInterval(function(){ if (document.contains(host)) ensureHidden(host); }, 1000);
     }
-    var w0 = document.querySelector('elevenlabs-convai');
-    if(w0) attach(w0);
-    var mo = new MutationObserver(function(){
+    function scan(){
       var el = document.querySelector('elevenlabs-convai');
-      if(el){ attach(el); mo.disconnect(); }
-    });
+      if (el) attach(el);
+    }
+    scan();
+    var mo = new MutationObserver(scan);
     mo.observe(document.documentElement, { childList:true, subtree:true });
-    setTimeout(function(){ mo.disconnect(); }, 20000);
+    setTimeout(function(){ mo.disconnect(); }, 30000);
+    setInterval(scan, 2000);
   })();
 </script>
 <script>(function(){var acted=false;['pointerdown','keydown','wheel','touchmove'].forEach(function(e){addEventListener(e,function(){acted=true;},{passive:true});});[250,700,1400,2200].forEach(function(t){setTimeout(function(){if(!acted&&window.scrollY>8)window.scrollTo(0,0);},t);});})();</script>
