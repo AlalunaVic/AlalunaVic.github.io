@@ -25,7 +25,7 @@ var CONFIG = {
   vendedor: 'Victor',
   whatsappVentas: '18483655865',
   // ID del agente de ElevenLabs de Luna (ver luna-agente.md). Vacío: los botones de voz abren WhatsApp.
-  agentId: '',
+  agentId: 'agent_5501m71zfr17ea9b8hedh7shxbdk',
   precio: '',         // Opcional. Ej.: 'Desde $497'
   cupos: '',          // Opcional y solo si es verdad. Ej.: 'Instalo 5 negocios por semana.'
   garantiaExtra: '',  // Opcional. Ej.: 'Si en 48 horas no está contestando con tu número, no pagas.'
@@ -267,7 +267,7 @@ document.documentElement.className = 'js';
     <h1><span><i>Tu negocio</i></span><span><i>contesta todas</i></span><span><i class="dim">las llamadas.</i></span></h1>
     <div class="hero-row">
       <div>
-        <p class="lead">Aunque tú no puedas. Te instalamos una recepcionista con inteligencia artificial que atiende, toma pedidos o citas y te los manda por WhatsApp.</p>
+        <p class="lead">Aunque tú no puedas contestar las llamadas. Te instalamos una recepcionista con inteligencia artificial que atiende, toma pedidos o citas y te los manda por WhatsApp.</p>
         <ul class="hero-facts">
           <li><b>48 h</b> para dejarla lista</li>
           <li><b>ES / EN</b> en la misma llamada</li>
@@ -450,7 +450,7 @@ document.documentElement.className = 'js';
 
 <footer>
   <div class="wrap">
-    <p><b>Alaluna AI Solutions</b> · Fords, New Jersey · <a class="js-wa" href="#demo">WhatsApp</a></p>
+    <p><b>Alaluna AI Solutions</b> · Estados Unidos · <a class="js-wa" href="#demo">WhatsApp</a></p>
     <p>Luna es una asistente con inteligencia artificial. Las recepcionistas que instalamos se presentan como la recepcionista de cada negocio.</p>
   </div>
 </footer>
@@ -518,10 +518,10 @@ document.documentElement.className = 'js';
     function frame(){
       if (!vis) return;
       t += .016; energy += (self.energy - energy) * .08;
-      rotY += .0026 + tx * .01 + energy * .01; rotX += ((-.25 + ty * .5) - rotX) * .05;
+      rotY += .0055 + tx * .01 + energy * .01; rotX += ((-.25 + ty * .5) - rotX) * .05;
       var cy = Math.cos(rotY), sy = Math.sin(rotY), cx = Math.cos(rotX), sx = Math.sin(rotX);
       var R = opt.radius(W, H) * (1 + energy * .06 * Math.sin(t * 9)), ox = opt.cx(W, H), oy = opt.cy(W, H);
-      var lx = -.62 + tx * .5, ly = -.35 + ty * .4, lz = .7, ll = Math.sqrt(lx * lx + ly * ly + lz * lz); lx /= ll; ly /= ll; lz /= ll;
+      var lx = -.62 + tx * .18, ly = -.35 + ty * .15, lz = .7, ll = Math.sqrt(lx * lx + ly * ly + lz * lz); lx /= ll; ly /= ll; lz /= ll;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
       var P = [];
       for (var i = 0; i < N; i++) { var p = pts[i], x = p.x * cy + p.z * sy, z = -p.x * sy + p.z * cy, y = p.y * cx - z * sx; z = p.y * sx + z * cx;
@@ -529,7 +529,7 @@ document.documentElement.className = 'js';
       ctx.lineWidth = 1;
       for (var i = 0; i < links.length; i++) { var a = P[links[i][0]], b = P[links[i][1]]; if (a.z < -.15 || b.z < -.15) continue; var l = (a.l + b.l) * .5; if (l < .04) continue;
         ctx.strokeStyle = 'rgba(125,180,255,' + (l * .55 + energy * .2).toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
-      for (var i = 0; i < N; i++) { var q = P[i]; if (q.z < -.35) continue; var tw = .75 + .25 * Math.sin(t * 2 + q.s * 30), al = (.07 + q.l * .93) * tw * (q.z < 0 ? .5 : 1), rad = (.7 + q.l * 1.9 + (q.s > .93 ? 1.4 : 0)) * (W < 500 ? .85 : 1);
+      for (var i = 0; i < N; i++) { var q = P[i]; if (q.z < -.35) continue; var tw = .75 + .25 * Math.sin(t * 2 + q.s * 30), al = (.035 + q.l * .965) * tw * (q.z < 0 ? .5 : 1), rad = (.7 + q.l * 1.9 + (q.s > .93 ? 1.4 : 0)) * (W < 500 ? .85 : 1);
         ctx.fillStyle = q.l > .5 ? 'rgba(255,255,255,' + al.toFixed(3) + ')' : 'rgba(125,180,255,' + al.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(q.x, q.y, rad, 0, 6.2832); ctx.fill(); }
       if (!calm) requestAnimationFrame(frame);
     }
