@@ -53,6 +53,11 @@
   .top { background:linear-gradient(160deg,#241511 0%,#17100d 75%); padding:44px 22px 30px; text-align:center; border-bottom:3px solid #d8232a; }
   .top .kicker { letter-spacing:2px; font-size:11px; text-transform:uppercase; color:#f5c518; }
   .top h1 { font-family:Georgia,serif; font-weight:normal; font-size:37px; margin:12px 0 8px; color:#fff8ec; }
+  .hero-title { display:flex; align-items:center; justify-content:center; gap:16px; max-width:660px; margin:0 auto; }
+  .hero-mascot { height:clamp(92px,26vw,136px); width:auto; flex:0 0 auto; opacity:0; transition:opacity .35s ease; transform-origin:50% 88%; animation:heroWave 1.7s ease-in-out infinite alternate; filter:drop-shadow(0 8px 14px rgba(0,0,0,.45)); }
+  .hero-mascot.kn-on { opacity:1; }
+  @keyframes heroWave { from { transform:rotate(-3.5deg) translateY(0); } to { transform:rotate(4.5deg) translateY(-3px); } }
+  @media (max-width:480px) { .hero-title { gap:10px; } .hero-title h1 { font-size:31px; } }
   .top .big { font-size:19px; color:#d8232a; font-weight:bold; margin-bottom:10px; }
   .top p { font-size:15px; line-height:1.55; color:#ead9c2; max-width:480px; margin:0 auto; }
   .top .pill { display:inline-block; margin-top:18px; background:linear-gradient(45deg,#d8232a,#b3271e);
@@ -329,7 +334,7 @@
   </div>
   <div class="top">
     <div class="kicker">Fried chicken · Gyros · 100% Halal · Fords, NJ</div>
-    <h1>Kennedy Fried Chicken</h1>
+    <div class="hero-title"><img class="kn-mascot hero-mascot" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="640" height="861" alt="Kennedy Fried Chicken mascot — a friendly chicken drumstick waving hello"><h1>Kennedy Fried Chicken</h1></div>
     <div class="big">This is your receptionist, personalized for your business</div>
     <p>Answers every call, takes your orders and treats every customer kindly and naturally — even the particular ones, with every special request noted down.<br>
     <b style="color:#f5c518">Installed in 48 hours.</b></p>
@@ -1130,16 +1135,14 @@
   </script>
 <style>
   #fabCall{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));width:52px;height:52px;border-radius:50%;border:none;background:#d8232a;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;z-index:40;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .25s ease,transform .25s ease}
-  #fabCall svg{width:42px;height:42px;display:block}
-  #fabCall .fab-arm{transform-box:fill-box;transform-origin:0% 100%;animation:fabWave 1.15s ease-in-out infinite alternate}
-  @keyframes fabWave{from{transform:rotate(-6deg)}to{transform:rotate(24deg)}}
-  #fabCall .fab-char{animation:fabBob 2.8s ease-in-out infinite}
-  @keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+  #fabCall img.kn-mascot{height:47px;width:auto;display:block;opacity:0;transition:opacity .3s ease;transform-origin:50% 88%;animation:fabWaveRock 1.5s ease-in-out infinite alternate}
+  #fabCall img.kn-mascot.kn-on{opacity:1}
+  @keyframes fabWaveRock{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
   #fabCall:active{transform:scale(.94)}
   #fabCall.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
   elevenlabs-convai{z-index:60}
 </style>
-<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g class="fab-char"><g class="fab-arm"><path d="M33 30 Q40.5 27.5 42 20" stroke="#d9821e" stroke-width="4.2" fill="none" stroke-linecap="round"/><circle cx="42.4" cy="17.6" r="2.8" fill="#f2a93b"/><circle cx="44.6" cy="15.2" r="1.5" fill="#f2a93b"/></g><path d="M28.5 17.5 L34.5 8.5" stroke="#fff7ee" stroke-width="5.4" stroke-linecap="round"/><circle cx="33" cy="6.4" r="3.2" fill="#fff7ee"/><circle cx="37.6" cy="8.6" r="2.7" fill="#fff7ee"/><ellipse cx="21.5" cy="29.5" rx="12.8" ry="13.4" fill="#f2a93b"/><path d="M11.5 24 q-1.5 8 3 13.5" stroke="#d9821e" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/><circle cx="15" cy="35.5" r="1.1" fill="#d9821e" opacity="0.45"/><circle cx="27.5" cy="38" r="1.1" fill="#d9821e" opacity="0.45"/><circle cx="30.5" cy="22.5" r="1" fill="#d9821e" opacity="0.4"/><ellipse cx="16.5" cy="22" rx="3.4" ry="4.6" fill="#ffc95e" opacity="0.8"/><circle cx="17.6" cy="28.4" r="1.7" fill="#3a2e2a"/><circle cx="26.4" cy="28.4" r="1.7" fill="#3a2e2a"/><circle cx="18.2" cy="27.7" r="0.55" fill="#fff"/><circle cx="27" cy="27.7" r="0.55" fill="#fff"/><path d="M19.6 32.4 q2.4 1.9 4.8 0" stroke="#3a2e2a" stroke-width="1.7" fill="none" stroke-linecap="round"/><circle cx="14.2" cy="32" r="1.7" fill="#ff9d9d" opacity="0.8"/><circle cx="29.8" cy="32" r="1.7" fill="#ff9d9d" opacity="0.8"/><path d="M14.5 43.5 q2 1.6 4 0 M24.5 43.5 q2 1.6 4 0" stroke="#d9821e" stroke-width="1.8" fill="none" stroke-linecap="round"/></g></svg></button>
+<button id="fabCall" type="button" aria-label="Prueba tu recepcionista en vivo" title="Prueba tu recepcionista en vivo"><img class="kn-mascot" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" aria-hidden="true"></button>
 <script>
   // ===== Botón flotante PROPIO de teléfono (cambio de Victor) =====
   // La pestaña nativa del widget queda oculta; este botón discreto, con los
@@ -1157,7 +1160,7 @@
       if (status) status.textContent = 'Prueba tu recepcionista en vivo: conectando…';
       setTimeout(function(){ if (liveBtn) liveBtn.click(); }, 550);
     });
-    // La visibilidad del FAB la manda sync() del bloque __lunaHide4:
+    // La visibilidad del FAB la manda sync() del bloque __lunaHide5:
     // oculto cuando el widget esta expandido, visible en reposo.
   })();
 </script>
@@ -1266,6 +1269,14 @@
 <script>(function(){var acted=false;['pointerdown','keydown','wheel','touchmove'].forEach(function(e){addEventListener(e,function(){acted=true;},{passive:true});});[250,700,1400,2200].forEach(function(t){setTimeout(function(){if(!acted&&window.scrollY>8)window.scrollTo(0,0);},t);});})();</script>
 
 <script src="kennedy-intro-loader.js"></script>
+<script src="kennedy-mascot-loader.js"></script>
+<script>
+  // Mascota oficial (muslito de Victor): si sus trozos no cargan, se ocultan
+  // los <img> — el globito queda como círculo rojo y el héroe, con su título.
+  document.addEventListener('kn-mascot-error', function(){
+    document.querySelectorAll('img.kn-mascot').forEach(function(im){ im.style.display = 'none'; });
+  });
+</script>
 <script>
   // ===== Intro de bienvenida: animación en silencio; se retira sola o al saltarla =====
   (function(){
