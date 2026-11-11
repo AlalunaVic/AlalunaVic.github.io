@@ -3,7 +3,7 @@
 // desde los trozos base64 mismo-origen (tc-mascot-data-1.js … -2.js) y
 // la entrega como Blob image/webp a todo <img class="tc-mascot"> de la página
 // (globito flotante y héroe junto al título).
-// SHA-256 del máster reconstruido: 59ed6aa841271e4f7723d726d587284f104fdcb8c92ea42c035dcb5a17e43e80
+// SHA-256 del máster reconstruido: 7446ba256a53aab4e3ea08a306d89e5fae9178b1946e7477c79010e7f45648cd
 // Carga tolerante a fallos (patrón v2 de la casa): cada trozo se reintenta
 // hasta 4 veces (espera creciente + cache-bust) con vigilancia de cuelgue
 // (20 s), en paralelo. Si todo falla, dispara 'tc-mascot-error' y la página
