@@ -1,8 +1,8 @@
 // tc-intro-loader.js — Travel Care Assistance (demo iAlucina)
-// Reconstruye el video de bienvenida (intro Alaluna -> Travel Care, 10 s) desde
-// los trozos base64 mismo-origen (tc-intro-data-1.js … tc-intro-data-17.js)
+// Reconstruye el video de bienvenida (intro Alaluna -> Travel Care, 7 s) desde
+// los trozos base64 mismo-origen (tc-intro-data-1.js … tc-intro-data-9.js)
 // y lo entrega como Blob video/mp4 al <video id="tcIntroVideo"> de la intro.
-// SHA-256 del máster reconstruido: 5848bde968782d6ea3ec90a6a385963ff6dde1dfba1ddf6d751ecb0e5379140e
+// SHA-256 del máster reconstruido: 5d50156fb9f558e4e8104ec9b14812fc24db1556ef0a9be90acbac43529a8caf
 // v2 (2026-11-10): carga tolerante a fallos. Cada trozo se reintenta hasta
 // 4 veces (espera creciente + cache-bust en los reintentos) y se vigila que
 // no quede colgado (20 s). Los trozos cargan EN PARALELO (la intro debe
@@ -10,7 +10,7 @@
 // no). Si todo falla, dispara 'tc-intro-error' y la página retira la intro
 // y muestra la demo.
 (function () {
-  var CHUNKS = 14, MAX_TRIES = 4, STALL_MS = 20000;
+  var CHUNKS = 9, MAX_TRIES = 4, STALL_MS = 20000;
   var done = false;
   function fail() { if (!done) { done = true; document.dispatchEvent(new Event('tc-intro-error')); } }
   function filled(i) { var p = window.__TC_INTRO || []; return typeof p[i - 1] === 'string' && p[i - 1].length > 0; }
