@@ -380,7 +380,7 @@
      solo la parte alta y un bracito saludando; el titulo queda por delante (z-index). */
   .tc-title-stage{position:relative}
   .tc-title-stage h1{position:relative;z-index:2;margin-top:36px}
-  .tc-peek{position:absolute;left:50%;top:-52px;height:120px;width:auto;z-index:0;opacity:0;transition:opacity .35s ease;transform-origin:50% 92%;pointer-events:none}
+  .tc-peek{position:absolute;left:50%;top:-52px;height:120px;width:auto;z-index:0;opacity:0;transition:opacity .35s ease;transform:translateX(-50%);transform-origin:50% 92%;pointer-events:none}
   .tc-peek.tc-on{opacity:1;animation:tcPeekSway 1.8s ease-in-out infinite alternate}
   @keyframes tcPeekSway{from{transform:translateX(-50%) rotate(-2.6deg)}to{transform:translateX(-50%) rotate(3deg) translateY(-2px)}}
   @media (max-width:640px){.tc-peek{height:98px;top:-42px}.tc-title-stage h1{margin-top:28px}}
