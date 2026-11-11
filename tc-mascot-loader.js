@@ -1,5 +1,5 @@
 // tc-mascot-loader.js — Travel Care Assistance (demo iAlucina)
-// Reconstruye la mascota oficial (avioncito de Travel Care, WebP con transparencia)
+// Reconstruye la mascota oficial de Travel Care (muñequito del video de Victor, WebP con transparencia)
 // desde los trozos base64 mismo-origen (tc-mascot-data-1.js … -2.js) y
 // la entrega como Blob image/webp a todo <img class="tc-mascot"> de la página
 // (globito flotante y héroe junto al título).
@@ -25,7 +25,7 @@
       var url = URL.createObjectURL(new Blob([bytes], { type: 'image/webp' }));
       window.__TC_MASCOT_URL = url;
       var imgs = document.querySelectorAll('img.tc-mascot');
-      imgs.forEach(function (im) { im.src = url; im.classList.add('kn-on'); });
+      imgs.forEach(function (im) { im.src = url; im.classList.add('tc-on'); });
       done = true;
       document.dispatchEvent(new CustomEvent('tc-mascot-ready', { detail: { url: url } }));
     } catch (e) { fail(); }
