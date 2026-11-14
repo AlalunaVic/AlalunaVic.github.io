@@ -124,6 +124,8 @@
   .checkout-btn{width:100%;margin-top:.8rem;background:var(--red);color:#fff;border:none;border-radius:12px;font-weight:900;font-size:1.02rem;padding:.9rem;box-shadow:0 5px 0 var(--red-dark)}
   .checkout-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red-dark)}
   .checkout-btn:disabled{background:var(--line);color:var(--ink2);box-shadow:none;cursor:not-allowed}
+  .checkout-btn.processing{background:var(--red);color:#fff;box-shadow:0 5px 0 var(--red-dark);cursor:wait;animation:procPulse .6s ease-in-out infinite alternate}
+  @keyframes procPulse{from{opacity:1}to{opacity:.65}}
   .pay-note{text-align:center;color:var(--ink2);font-size:.75rem;margin-top:.5rem;font-weight:600}
   .track{margin:.9rem .9rem 0;background:var(--green-soft);border:1.5px solid var(--green);border-radius:12px;padding:.75rem .85rem;display:none}
   .track.show{display:block;animation:pop .3s ease}
@@ -187,10 +189,10 @@
   .owner-card h3{margin:0 0 .35rem;font-size:1rem}
   .owner-card p{margin:0 0 .8rem;color:var(--ink2);font-size:.88rem;line-height:1.5}
   .switch-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
-  .switch{position:relative;width:58px;height:34px;flex:none}
+  .switch{position:relative;width:68px;height:44px;flex:none}
   .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
   .switch .tr{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s;pointer-events:none}
-  .switch .tr::after{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:#fff;top:4px;left:4px;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .switch .tr::after{content:"";position:absolute;width:36px;height:36px;border-radius:50%;background:#fff;top:4px;left:4px;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.25)}
   .switch input:checked + .tr{background:var(--green)}
   .switch input:checked + .tr::after{left:28px}
   .switch input:focus-visible + .tr{outline:3px solid var(--amber);outline-offset:2px}
@@ -576,19 +578,27 @@
 
   /* ---------- Checkout (app order) ---------- */
   $("checkoutBtn").addEventListener("click", function(){
+    var btn = $("checkoutBtn");
+    if(btn.classList.contains("processing")) return;
     var items = Object.keys(state.cart).map(function(id){
       var item = MENU.filter(function(m){ return m.id===id; })[0];
       return { qty: state.cart[id], name: item.name };
     });
     var t = cartTotals();
     var special = $("specialInput").value.trim();
-    var o = pushOrder("app", items, special, t.total);
-    state.lastAppOrder = o;
-    state.cart = {};
-    $("specialInput").value = "";
-    renderMenu(); renderCart(); syncTrack(o);
-    toast("📱➡️🔥 Pedido <b>#" + o.num + "</b> pagado y ya visible en la <b>pantalla de cocina</b>.");
-    document.querySelector(".kds").scrollIntoView({behavior:"smooth", block:"nearest"});
+    btn.disabled = true;
+    btn.classList.add("processing");
+    btn.textContent = "Procesando…";
+    setTimeout(function(){
+      var o = pushOrder("app", items, special, t.total);
+      state.lastAppOrder = o;
+      state.cart = {};
+      $("specialInput").value = "";
+      renderMenu(); renderCart(); syncTrack(o);
+      toast("📱➡️🔥 Pedido <b>#" + o.num + "</b> pagado y ya visible en la <b>pantalla de cocina</b>.");
+      document.querySelector(".kds").scrollIntoView({behavior:"smooth", block:"nearest"});
+      btn.classList.remove("processing");
+    }, 550);
   });
 
   /* ---------- Receptionist simulation ---------- */
