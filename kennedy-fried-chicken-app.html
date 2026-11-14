@@ -33,6 +33,7 @@
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
+  html,body{overflow-x:hidden;overflow-x:clip;overscroll-behavior:contain}
   body{margin:0;font-family:"Archivo",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
   button,[role="button"],select,summary,input,textarea{font-family:inherit}
   button{min-height:44px;cursor:pointer}
@@ -180,6 +181,7 @@
   .switch input:checked + .tr{background:var(--green)}
   .switch input:checked + .tr::after{left:28px}
   .switch input:focus-visible + .tr{outline:3px solid var(--amber);outline-offset:2px}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:2px}
   .price-edit{display:flex;gap:.5rem;align-items:center}
   .price-edit input{width:110px;border:1.5px solid var(--line);border-radius:10px;padding:.55rem .7rem;font-size:1rem;font-weight:700;background:var(--surface);color:var(--ink);min-height:44px}
   .mini-btn{background:var(--ink);color:var(--bg);border:none;border-radius:10px;font-weight:800;padding:.55rem 1rem}
@@ -345,7 +347,7 @@
         <h3>💲 Change the Family Bucket price</h3>
         <p>Enter the new price for today's deal and apply it: the banner and the app menu change instantly.</p>
         <div class="price-edit">
-          <input id="priceInput" type="number" min="1" step="0.50" value="24.99" aria-label="New bucket price">
+          <input id="priceInput" type="number" inputmode="decimal" min="1" step="0.50" value="24.99" aria-label="New bucket price">
           <button class="mini-btn" id="priceBtn">Apply over the air</button>
         </div>
       </div>
