@@ -25,6 +25,9 @@
   .callcard p{ font-size:.96rem; line-height:1.55; color:#3c434a; }
   .btn{ display:block; width:100%; margin-top:1rem; background:var(--teal); color:#fff; border:none; border-radius:14px; padding:1.05rem 1rem; font-size:1.12rem; font-weight:800; cursor:pointer; letter-spacing:.01em; }
   .btn:active{ transform:scale(.99); }
+  .btn .sub2{ display:block; font-size:.86rem; font-weight:600; opacity:.88; margin-top:.3rem; letter-spacing:0; }
+  .btn-alt{ background:var(--coal); }
+  .btn.active{ outline:3px solid var(--gold); outline-offset:2px; }
   .status{ margin-top:.7rem; font-size:.9rem; color:var(--teal-d); min-height:1.2em; font-weight:600; }
   .qs{ margin-top:1.5rem; }
   .qs h2{ font-size:1.12rem; color:var(--coal); margin-bottom:.6rem; }
@@ -43,12 +46,13 @@
     <div class="badge">● PRUEBA INTERNA · MOTOR DE VOZ v4 TURBO</div>
     <h1>TRAVEL CARE<br><em>ASSISTANCE</em></h1>
     <p class="sub">Valeria: la asistente que capacita a tus pasajeros</p>
-    <p class="lead">Valeria llama al pasajero que adquirió su tarjeta de asistencia, le explica <b>cómo usarla y bajo qué condiciones está cubierto</b>, responde <b>todas sus dudas</b> desde las Condiciones Generales oficiales y deja la <b>constancia completa</b> de la llamada. Esta es una llamada real: háblale como a una persona.</p>
+    <p class="lead">Valeria trabaja en los dos sentidos: <b>llama</b> al pasajero que adquirió su tarjeta, le explica <b>cómo usarla y bajo qué condiciones está cubierto</b> y deja la <b>constancia completa</b>; y <b>recibe llamadas</b> como recepcionista, <b>cotiza precios y sugiere el plan</b> según el destino y los días del viaje. Esta es una llamada real: háblale como a una persona.</p>
 
     <div class="callcard" id="llamada">
-      <h2>Pruébala ahora</h2>
-      <p>Toca el botón y luego «Iniciar llamada» en el panel que aparece. Actúa como un pasajero: salúdala, conversa, y pregúntale cosas difíciles de tu asistencia.</p>
-      <button class="btn" id="liveBtn" type="button">▶ Hablar con Valeria</button>
+      <h2>Pruébala ahora: elige el modo</h2>
+      <p>Toca uno de los dos botones y luego «Iniciar llamada» en el panel que aparece abajo a la derecha.</p>
+      <button class="btn" id="btnSaliente" type="button">📞 Se le pide que llame<span class="sub2">Ella llama al pasajero: orientación de su tarjeta (capacitación)</span></button>
+      <button class="btn btn-alt" id="btnEntrante" type="button">📲 Ella recibe una llamada<span class="sub2">Recepcionista: precios, planes y cotización según tu viaje</span></button>
       <p class="status" id="liveStatus"></p>
     </div>
 
@@ -61,6 +65,8 @@
         <li><b>4.</b> «Si la aerolínea pierde mi equipaje, ¿cómo es el reembolso?»</li>
         <li><b>5.</b> «¿A qué número llamo si tengo una emergencia en el extranjero?»</li>
         <li><b>6.</b> «Tengo una condición preexistente, ¿estoy cubierto?»</li>
+        <li><b>7.</b> En modo recepcionista: «Quiero viajar a España por 12 días, ¿qué plan me conviene y cuánto me cuesta?»</li>
+        <li><b>8.</b> En modo recepcionista: «Viajo varias veces al año, ¿tienen algún plan anual?»</li>
       </ul>
     </div>
 
@@ -76,9 +82,20 @@
   <elevenlabs-convai agent-id="agent_8301m7c9arg0fcxa2fgb6w752zcd" text-contents='{"main_label":"Valeria · Travel Care","start_call":"Iniciar llamada","end_call":"Colgar","start_chat":"Mensaje"}'></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
   <script>
-    document.getElementById('liveBtn').addEventListener('click', function(){
-      document.getElementById('liveStatus').textContent = 'El panel de llamada está abajo a la derecha: toca «Iniciar llamada» y habla con Valeria.';
-    });
+    // Dos modos de la misma Valeria: la variable tipo_llamada viaja al agente
+    // en el atributo dynamic-variables del widget y se fija ANTES de que el
+    // visitante pulse «Iniciar llamada», así la conversación nace en su modo.
+    function setModo(modo){
+      var w = document.querySelector('elevenlabs-convai');
+      if (w) w.setAttribute('dynamic-variables', JSON.stringify({ tipo_llamada: modo }));
+      document.getElementById('btnSaliente').classList.toggle('active', modo === 'saliente');
+      document.getElementById('btnEntrante').classList.toggle('active', modo === 'entrante');
+      document.getElementById('liveStatus').textContent = (modo === 'saliente')
+        ? 'Modo activado: ELLA LLAMA. Toca «Iniciar llamada» en el panel y actúa como el pasajero que recibe su orientación.'
+        : 'Modo activado: ELLA RECIBE. Toca «Iniciar llamada» en el panel y actúa como un cliente que quiere cotizar su viaje.';
+    }
+    document.getElementById('btnSaliente').addEventListener('click', function(){ setModo('saliente'); });
+    document.getElementById('btnEntrante').addEventListener('click', function(){ setModo('entrante'); });
   </script>
 <script>
   // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
@@ -110,7 +127,7 @@
       for (var i = 0; i < p.length; i++){
         var n = p[i];
         if (!n || n.nodeType !== 1) continue;
-        if (n.id === 'fabCall' || n.id === 'liveBtn'){ show(); return; }
+        if (n.id === 'fabCall' || n.id === 'btnSaliente' || n.id === 'btnEntrante'){ show(); return; }
         var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
         if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
       }
