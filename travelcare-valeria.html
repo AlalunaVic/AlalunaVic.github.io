@@ -45,15 +45,23 @@
   <div class="wrap">
     <div class="badge">● HECHA ESPECIALMENTE PARA TRAVEL CARE</div>
     <h1>TRAVEL CARE<br><em>ASSISTANCE</em></h1>
-    <p class="sub">Valeria: la asistente que llama, capacita, recibe y vende por ti</p>
+    <p class="sub">Valeria: la asistente que capacita a tus pasajeros</p>
     <p class="lead">Valeria trabaja en los dos sentidos: <b>llama</b> al pasajero que adquirió su tarjeta, le explica <b>cómo usarla y bajo qué condiciones está cubierto</b> y deja la <b>constancia completa</b>; y <b>recibe llamadas</b> como recepcionista, <b>cotiza precios y sugiere el plan</b> según el destino y los días del viaje. Esta es una llamada real: háblale como a una persona.</p>
 
     <div class="callcard" id="llamada">
       <h2>Pruébala ahora: elige el modo</h2>
       <p>Toca uno de los dos botones y luego «Iniciar llamada» en el panel que aparece abajo a la derecha.</p>
-      <button class="btn" id="btnSaliente" type="button">📞 Escúchala llamando a tu cliente<span class="sub2">y capacitándolo con su tarjeta</span><span class="sub2">Tú eres Carlos Ramírez, el pasajero que la compró: ella se presenta, confirma tu nombre, toma tus datos y te orienta paso a paso</span></button>
-      <button class="btn btn-alt" id="btnEntrante" type="button">📲 Escúchala recibiendo llamadas<span class="sub2">y vendiendo por ti</span><span class="sub2">Actúa como un cliente que quiere viajar: pide tu cotización y dile «envíamelo» — nunca te dirá que no</span></button>
+      <button class="btn" id="btnSaliente" type="button">📞 Se le pide que llame<span class="sub2">Ella llama al pasajero: orientación de su tarjeta (capacitación)</span></button>
+      <button class="btn btn-alt" id="btnEntrante" type="button">📲 Ella recibe una llamada<span class="sub2">Recepcionista: precios, planes y cotización según tu viaje</span></button>
       <p class="status" id="liveStatus"></p>
+    </div>
+
+    <div class="callcard" id="demo">
+      <h2>Demo: escúchala en acción</h2>
+      <p>Dos conversaciones de ejemplo, como las que tendría con tus clientes. Toca un botón y luego «Iniciar llamada» en el panel que aparece abajo a la derecha.</p>
+      <button class="btn" id="btnDemoSaliente" type="button">📞 Escúchala llamando a tu cliente<span class="sub2">y capacitándolo con su tarjeta</span></button>
+      <button class="btn btn-alt" id="btnDemoEntrante" type="button">📲 Escúchala recibiendo llamadas<span class="sub2">y vendiendo por ti</span></button>
+      <p class="status" id="demoStatus"></p>
     </div>
 
     <div class="qs">
@@ -67,8 +75,6 @@
         <li><b>6.</b> «Tengo una condición preexistente, ¿estoy cubierto?»</li>
         <li><b>7.</b> En modo recepcionista: «Quiero viajar a España por 12 días, ¿qué plan me conviene y cuánto me cuesta?»</li>
         <li><b>8.</b> En modo recepcionista: «Viajo varias veces al año, ¿tienen algún plan anual?»</li>
-        <li><b>9.</b> En modo «ella llama»: fíjate en su presentación — confirma tu nombre completo, te saluda por tu primer nombre y te pregunta cómo estás antes de empezar.</li>
-        <li><b>10.</b> En modo recepcionista, la escena completa: pide tu cotización, dile «¿Me lo puedes enviar?», elige correo o WhatsApp cuando te pregunte, dale el dato y respóndele «sí, ya me llegó» cuando te pregunte si lo recibiste.</li>
       </ul>
     </div>
 
@@ -89,17 +95,30 @@
     // visitante pulse «Iniciar llamada», así la conversación nace en su modo.
     function setModo(modo){
       var w = document.querySelector('elevenlabs-convai');
-      if (w) w.setAttribute('dynamic-variables', JSON.stringify(modo === 'saliente'
-        ? { tipo_llamada: 'saliente', nombre_cliente: 'Carlos Ramírez', nombre_agencia: 'Travel Care', plan: 'Europa', destino: 'Italia' }
-        : { tipo_llamada: 'entrante', modo_demo: 'con_envio' }));
+      if (w) w.setAttribute('dynamic-variables', JSON.stringify({ tipo_llamada: modo }));
       document.getElementById('btnSaliente').classList.toggle('active', modo === 'saliente');
       document.getElementById('btnEntrante').classList.toggle('active', modo === 'entrante');
       document.getElementById('liveStatus').textContent = (modo === 'saliente')
-        ? 'Modo activado: ELLA LLAMA a Carlos Ramírez. Toca «Iniciar llamada» en el panel y actúa como Carlos, el pasajero.'
+        ? 'Modo activado: ELLA LLAMA. Toca «Iniciar llamada» en el panel y actúa como el pasajero que recibe su orientación.'
         : 'Modo activado: ELLA RECIBE. Toca «Iniciar llamada» en el panel y actúa como un cliente que quiere cotizar su viaje.';
     }
     document.getElementById('btnSaliente').addEventListener('click', function(){ setModo('saliente'); });
     document.getElementById('btnEntrante').addEventListener('click', function(){ setModo('entrante'); });
+    // Botones de DEMO (aparte de los modos): conversaciones de ejemplo con un
+    // pasajero de muestra (Carlos Ramírez) y, en recepción, la escena de envío.
+    function setDemo(modo){
+      var w = document.querySelector('elevenlabs-convai');
+      if (w) w.setAttribute('dynamic-variables', JSON.stringify(modo === 'saliente'
+        ? { tipo_llamada: 'saliente', nombre_cliente: 'Carlos Ramírez', nombre_agencia: 'Travel Care', plan: 'Europa', destino: 'Italia' }
+        : { tipo_llamada: 'entrante', modo_demo: 'con_envio' }));
+      document.getElementById('btnDemoSaliente').classList.toggle('active', modo === 'saliente');
+      document.getElementById('btnDemoEntrante').classList.toggle('active', modo === 'entrante');
+      document.getElementById('demoStatus').textContent = (modo === 'saliente')
+        ? 'Demo activada: ELLA LLAMA a Carlos Ramírez. Toca «Iniciar llamada» en el panel y actúa como Carlos, el pasajero.'
+        : 'Demo activada: ELLA RECIBE. Toca «Iniciar llamada» en el panel, pide una cotización y dile «¿me lo puedes enviar?».';
+    }
+    document.getElementById('btnDemoSaliente').addEventListener('click', function(){ setDemo('saliente'); });
+    document.getElementById('btnDemoEntrante').addEventListener('click', function(){ setDemo('entrante'); });
   </script>
 <script>
   // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
@@ -131,7 +150,7 @@
       for (var i = 0; i < p.length; i++){
         var n = p[i];
         if (!n || n.nodeType !== 1) continue;
-        if (n.id === 'fabCall' || n.id === 'btnSaliente' || n.id === 'btnEntrante'){ show(); return; }
+        if (n.id === 'fabCall' || n.id === 'btnSaliente' || n.id === 'btnEntrante' || n.id === 'btnDemoSaliente' || n.id === 'btnDemoEntrante'){ show(); return; }
         var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
         if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
       }
