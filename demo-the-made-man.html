@@ -208,6 +208,9 @@
   .ap-state.new { background:#c9a227; color:#241a03; }
   .ap-state.ok { background:rgba(52,168,83,.2); color:#8fe3ae; border:1px solid rgba(52,168,83,.55); }
   .ap-state.wait { background:rgba(217,164,32,.16); color:#ffd98a; border:1px solid rgba(217,164,32,.55); }
+  .ap-state.nocard { background:rgba(224,82,82,.13); color:#f2a9a9; border:1px solid rgba(224,82,82,.5); }
+  .ap-legend { margin-top:10px; font-size:12px; line-height:1.5; color:#c9bb9d; }
+  .ap-legend b { color:#f2a9a9; font-weight:700; }
   /* ===== Confirmación automática de citas ===== */
   .confirm-card { background:#101314; border:1px solid rgba(216,167,117,.45); border-radius:18px;
           padding:16px 14px 12px; max-width:430px; margin:14px auto 0; overflow:hidden; color:#f2ede4;
@@ -559,7 +562,16 @@
             </div>
             <span class="ap-state wait">Por confirmar</span>
           </div>
+          <div class="ap-row">
+            <span class="ap-time">6:30 PM</span>
+            <div>
+              <div class="ap-client">Andre Miles</div>
+              <div class="ap-detail">Fade · Dani Hurtado</div>
+            </div>
+            <span class="ap-state nocard">Sin garantía</span>
+          </div>
         </div>
+        <div class="ap-legend">Con la tarjeta registrada, la cita queda garantizada. Si el cliente nunca la registra, su cita se marca <b>«Sin garantía»</b> para que la veas de un vistazo.</div>
         <div class="ap-foot">Todo el día en un solo lugar: tu agenda. La confirmación sale al teléfono del cliente.</div>
       </div>
       <p class="ticket-note">Los pedidos especiales llegan anotados tal como el cliente los dijo — dentro de la misma reserva.</p>
@@ -574,6 +586,18 @@
           <div class="cf-step"><b>1 · El día antes</b><span>Cada cliente recibe un texto como este para confirmar su cita.</span></div>
           <div class="cf-step"><b>2 · ¿Necesita moverla?</b><span>Responde CAMBIAR o CANCELAR y Maya lo reprograma con su mismo barbero — sin llamadas ni vueltas.</span></div>
           <div class="cf-step"><b>3 · ¿No contestó el texto?</b><span>Maya lo llama por teléfono. En cuanto confirma, tu agenda pasa sola de «Por confirmar» a «Confirmado».</span></div>
+        </div>
+      </div>
+      <div class="confirm-card reveal">
+        <div class="cf-title">Y tu silla queda protegida del «no vino»</div>
+        <p class="cf-sub">Cada reserva se garantiza con tarjeta, como en tu sistema actual — pero sin salir de tu aplicación.</p>
+        <div class="cf-sms">
+          <div class="cf-bubble">Hola James 👋 Para garantizar tu cita de mañana, registra tu tarjeta en este <b>enlace seguro</b> 🔒 No se hace ningún cargo: es solo tu garantía.</div>
+        </div>
+        <div class="cf-steps">
+          <div class="cf-step"><b>1 · Al reservar</b><span>Maya le manda al cliente un enlace seguro para registrar su tarjeta. Sin cargos, y la tarjeta nunca se dicta por teléfono.</span></div>
+          <div class="cf-step"><b>2 · ¿No se presentó?</b><span>Se aplica el cargo de tu política de la casa: la misma protección contra el no-show que hoy te da tu sistema de reservas, dentro de tu propio sistema.</span></div>
+          <div class="cf-step"><b>3 · ¿Nunca registró su tarjeta?</b><span>El sistema se lo recuerda por texto y su cita queda marcada «Sin garantía» en tu pantalla — tú decides si la mantienes o la liberas. Tu política manda.</span></div>
         </div>
       </div>
     </div>
