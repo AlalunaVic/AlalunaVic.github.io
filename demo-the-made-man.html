@@ -418,7 +418,7 @@
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
         <button class="cc-play cc-play-es" id="playBtnEs" type="button" disabled>🇪🇸 Cargando en español…</button>
-        <span class="cc-time" id="ccTime">00:00 / 01:33</span>
+        <span class="cc-time" id="ccTime">00:00 / 01:42</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Ver la conversación</span><span class="chev" aria-hidden="true">▾</span></button>
@@ -431,7 +431,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Hi! I'd like to book a haircut for this week, if you have anything open.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>Of course! Our Signature Cut includes a consultation, a razor lineup, a eucalyptus hot towel, and styling. Would you like that one, or something else?</p></div>
+          <p>Perfect! What kind of service would you like? Our favorite is the Signature Cut — it includes a consultation, a razor lineup, a eucalyptus hot towel, and styling. We also have the full hot-towel shave, fades, beard trims, shape-ups, and cuts for kids. Which one sounds best to you?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>The Signature Cut sounds perfect.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
@@ -459,7 +459,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>That's all, thank you!</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>You're all set, Marcus. We look forward to seeing you on Friday. Thanks for calling The Made Man Barber Shop!</p></div>
+          <p>Perfect — so you're all booked, Marcus. We look forward to seeing you on Friday! Thanks for calling The Made Man Barber Shop!</p></div>
       </div>
         <div class="transcript" id="transcriptEs" style="display:none">
         <div class="turn ring"><span class="who">Timbre</span>
@@ -469,7 +469,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>¡Hola! Quisiera agendar un corte de pelo para esta semana, si tienen algo disponible.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>¡Claro que sí! Nuestro Signature Cut incluye consulta, delineado con navaja, toalla caliente con eucalipto y peinado. ¿Le gustaría ese, o prefiere otro servicio?</p></div>
+          <p>¡Perfecto! ¿Qué tipo de servicio le gustaría? Nuestro favorito es el Signature Cut — incluye consulta, delineado con navaja, toalla caliente con eucalipto y peinado. También tenemos el afeitado completo con toalla caliente, fades, arreglo de barba, shape-up y corte para niños. ¿Cuál le suena mejor?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>El Signature Cut suena perfecto.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
@@ -497,7 +497,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Es todo, ¡muchas gracias!</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>Ya quedó todo listo, Marcus. Lo esperamos el viernes. ¡Gracias por llamar a The Made Man Barber Shop!</p></div>
+          <p>Perfecto, entonces ya queda agendado, Marcus. ¡Lo esperamos el viernes! ¡Gracias por llamar a The Made Man Barber Shop!</p></div>
         </div>
       </div>
       <div class="cc-pill">✓ Cita registrada · Signature Cut con Dani Hurtado · Viernes 3:30 PM · Marcus Reed · Nota: longer on top, beard trim neat</div>
@@ -791,45 +791,45 @@
     setTimeout(skOff, 2600);
 
     // ===== Reproductor del ejemplo: audios (EN/ES) reensamblados desde trozos + transcripción sincronizada =====
-    var DLG_EN = { total: 93.44, lines: [
+    var DLG_EN = { total: 101.73, lines: [
       {start:0.00,end:1.28},
       {start:1.70,end:5.64},
       {start:6.06,end:9.34},
-      {start:9.76,end:18.58},
-      {start:19.00,end:20.96},
-      {start:21.38,end:24.51},
-      {start:24.93,end:28.88},
-      {start:29.30,end:31.92},
-      {start:32.34,end:34.17},
-      {start:34.59,end:38.75},
-      {start:39.17,end:40.49},
-      {start:40.91,end:44.70},
-      {start:45.12,end:50.36},
-      {start:50.78,end:54.50},
-      {start:54.92,end:59.00},
-      {start:59.42,end:86.05},
-      {start:86.47,end:87.71},
-      {start:88.13,end:93.44}
+      {start:9.76,end:25.41},
+      {start:25.83,end:27.79},
+      {start:28.21,end:31.34},
+      {start:31.76,end:35.70},
+      {start:36.12,end:38.75},
+      {start:39.17,end:41.00},
+      {start:41.42,end:45.58},
+      {start:46.00,end:47.32},
+      {start:47.74,end:51.53},
+      {start:51.95,end:57.19},
+      {start:57.61,end:61.33},
+      {start:61.75,end:65.83},
+      {start:66.25,end:92.88},
+      {start:93.30,end:94.54},
+      {start:94.96,end:101.73}
     ]};
-    var DLG_ES = { total: 102.92, lines: [
+    var DLG_ES = { total: 111.06, lines: [
       {start:0.00,end:1.28},
       {start:1.70,end:6.15},
       {start:6.57,end:12.54},
-      {start:12.96,end:22.93},
-      {start:23.35,end:25.47},
-      {start:25.89,end:29.75},
-      {start:30.17,end:33.39},
-      {start:33.81,end:36.59},
-      {start:37.01,end:38.61},
-      {start:39.03,end:43.54},
-      {start:43.96,end:44.84},
-      {start:45.26,end:49.27},
-      {start:49.69,end:54.79},
-      {start:55.21,end:59.22},
-      {start:59.64,end:63.73},
-      {start:64.15,end:94.92},
-      {start:95.34,end:96.96},
-      {start:97.38,end:102.92}
+      {start:12.96,end:30.06},
+      {start:30.48,end:32.59},
+      {start:33.01,end:36.88},
+      {start:37.30,end:40.51},
+      {start:40.93,end:43.71},
+      {start:44.13,end:45.73},
+      {start:46.15,end:50.66},
+      {start:51.08,end:51.97},
+      {start:52.39,end:56.40},
+      {start:56.82,end:61.92},
+      {start:62.34,end:66.34},
+      {start:66.76,end:70.85},
+      {start:71.27,end:102.04},
+      {start:102.46,end:104.08},
+      {start:104.50,end:111.06}
     ]};
     var ccTime = document.getElementById('ccTime');
     var pill = document.querySelector('.cc-pill');
@@ -841,7 +841,7 @@
         transcript: document.getElementById('transcript'), dlg: DLG_EN, dir: 'mm-audio/', parts: 6,
         labels: { play: '\u25B6 Escuchar el ejemplo', pause: '\u23F8 Pausar el ejemplo', again: '\u21BA Escuchar de nuevo', fail: 'Ejemplo no disponible' } },
       { audio: document.getElementById('ccAudioEs'), btn: document.getElementById('playBtnEs'),
-        transcript: document.getElementById('transcriptEs'), dlg: DLG_ES, dir: 'mm-audio-es/', parts: 6,
+        transcript: document.getElementById('transcriptEs'), dlg: DLG_ES, dir: 'mm-audio-es/', parts: 7,
         labels: { play: '\uD83C\uDDEA\uD83C\uDDF8 Esc\u00FAchala en espa\u00F1ol', pause: '\u23F8 Pausar en espa\u00F1ol', again: '\u21BA Esc\u00FAchala otra vez', fail: 'No disponible en espa\u00F1ol' } }
     ];
     var cur = TRACKS[0];
