@@ -29,6 +29,22 @@
   .btn-alt{ background:var(--coal); }
   .btn.active{ outline:3px solid var(--gold); outline-offset:2px; }
   .status{ margin-top:.7rem; font-size:.9rem; color:var(--teal-d); min-height:1.2em; font-weight:600; }
+  .demo-sec{ margin-top:1.5rem; }
+  .playcard{ background:linear-gradient(160deg,#31373D,#22262b); border:1px solid rgba(5,152,152,.55); border-radius:22px; padding:1.25rem 1.2rem 1.35rem; margin-bottom:1.1rem; box-shadow:0 10px 30px rgba(29,33,38,.25); overflow:hidden; }
+  .pc-top{ display:flex; align-items:center; gap:.6rem; }
+  .pc-dot{ width:13px; height:13px; border-radius:50%; background:#ff5147; animation:pulse 1.6s ease-in-out infinite; flex:none; }
+  @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 3px rgba(255,81,71,.22);} 50%{ box-shadow:0 0 0 7px rgba(255,81,71,.08);} }
+  .pc-kind{ color:#f2ead2; font-weight:700; letter-spacing:.2em; font-size:.76rem; white-space:nowrap; }
+  .pc-badge{ margin-left:auto; color:var(--gold); border:1.5px solid var(--gold); border-radius:999px; padding:.32rem .8rem; font-size:.72rem; font-weight:800; letter-spacing:.22em; flex:none; }
+  .pc-title{ color:#fff; font-size:1.28rem; font-weight:800; margin-top:1rem; line-height:1.25; }
+  .pc-title span{ display:block; font-size:1.02rem; font-weight:700; color:#ffd94d; margin-top:.15rem; }
+  .pc-row{ display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+  .playbtn{ background:linear-gradient(90deg,var(--teal),#08b3b3); color:#fff; border:none; border-radius:999px; padding:.95rem 1.5rem; font-size:1.05rem; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(5,152,152,.35); }
+  .playbtn:active{ transform:scale(.98); }
+  .pc-time{ color:var(--gold); font-size:1.05rem; font-weight:700; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
+  .wave{ display:flex; align-items:center; gap:2px; height:62px; margin-top:1.05rem; }
+  .wave i{ flex:1 1 0; min-width:2px; background:rgba(94,234,212,.30); border-radius:2px; }
+  .wave i.on{ background:var(--gold); }
   .qs{ margin-top:1.5rem; }
   .qs h2{ font-size:1.12rem; color:var(--coal); margin-bottom:.6rem; }
   .qs ul{ list-style:none; }
@@ -48,20 +64,35 @@
     <p class="sub">Valeria: la asistente que capacita a tus pasajeros</p>
     <p class="lead">Valeria trabaja en los dos sentidos: <b>llama</b> al pasajero que adquirió su tarjeta, le explica <b>cómo usarla y bajo qué condiciones está cubierto</b> y deja la <b>constancia completa</b>; y <b>recibe llamadas</b> como recepcionista, <b>cotiza precios y sugiere el plan</b> según el destino y los días del viaje. Esta es una llamada real: háblale como a una persona.</p>
 
+    <div class="demo-sec">
+      <div class="playcard">
+        <div class="pc-top"><span class="pc-dot"></span><span class="pc-kind">LLAMADA · CAPACITACIÓN</span><span class="pc-badge">EJEMPLO</span></div>
+        <p class="pc-title">📞 Escúchala llamando a tu cliente<span>y capacitándolo con su tarjeta</span></p>
+        <div class="pc-row">
+          <button class="playbtn" id="play-saliente" type="button">▶ Escuchar el ejemplo</button>
+          <span class="pc-time" id="time-saliente">00:00 / 01:00</span>
+        </div>
+        <div class="wave" id="wave-saliente"></div>
+        <audio id="audio-saliente" preload="none"></audio>
+      </div>
+      <div class="playcard">
+        <div class="pc-top"><span class="pc-dot"></span><span class="pc-kind">LLAMADA · VENTAS</span><span class="pc-badge">EJEMPLO</span></div>
+        <p class="pc-title">📲 Escúchala recibiendo llamadas<span>y vendiendo por ti</span></p>
+        <div class="pc-row">
+          <button class="playbtn" id="play-entrante" type="button">▶ Escuchar el ejemplo</button>
+          <span class="pc-time" id="time-entrante">00:00 / 00:43</span>
+        </div>
+        <div class="wave" id="wave-entrante"></div>
+        <audio id="audio-entrante" preload="none"></audio>
+      </div>
+    </div>
+
     <div class="callcard" id="llamada">
       <h2>Pruébala ahora: elige el modo</h2>
       <p>Toca uno de los dos botones y luego «Iniciar llamada» en el panel que aparece abajo a la derecha.</p>
       <button class="btn" id="btnSaliente" type="button">📞 Se le pide que llame<span class="sub2">Ella llama al pasajero: orientación de su tarjeta (capacitación)</span></button>
       <button class="btn btn-alt" id="btnEntrante" type="button">📲 Ella recibe una llamada<span class="sub2">Recepcionista: precios, planes y cotización según tu viaje</span></button>
       <p class="status" id="liveStatus"></p>
-    </div>
-
-    <div class="callcard" id="demo">
-      <h2>Demo: escúchala en acción</h2>
-      <p>Dos conversaciones de ejemplo, como las que tendría con tus clientes. Toca un botón y luego «Iniciar llamada» en el panel que aparece abajo a la derecha.</p>
-      <button class="btn" id="btnDemoSaliente" type="button">📞 Escúchala llamando a tu cliente<span class="sub2">y capacitándolo con su tarjeta</span></button>
-      <button class="btn btn-alt" id="btnDemoEntrante" type="button">📲 Escúchala recibiendo llamadas<span class="sub2">y vendiendo por ti</span></button>
-      <p class="status" id="demoStatus"></p>
     </div>
 
     <div class="qs">
@@ -104,22 +135,59 @@
     }
     document.getElementById('btnSaliente').addEventListener('click', function(){ setModo('saliente'); });
     document.getElementById('btnEntrante').addEventListener('click', function(){ setModo('entrante'); });
-    // Botones de DEMO (aparte de los modos): conversaciones de ejemplo con un
-    // pasajero de muestra (Carlos Ramírez) y, en recepción, la escena de envío.
-    function setDemo(modo){
-      var w = document.querySelector('elevenlabs-convai');
-      if (w) w.setAttribute('dynamic-variables', JSON.stringify(modo === 'saliente'
-        ? { tipo_llamada: 'saliente', nombre_cliente: 'Carlos Ramírez', nombre_agencia: 'Travel Care', plan: 'Europa', destino: 'Italia' }
-        : { tipo_llamada: 'entrante', modo_demo: 'con_envio' }));
-      document.getElementById('btnDemoSaliente').classList.toggle('active', modo === 'saliente');
-      document.getElementById('btnDemoEntrante').classList.toggle('active', modo === 'entrante');
-      document.getElementById('demoStatus').textContent = (modo === 'saliente')
-        ? 'Demo activada: ELLA LLAMA a Carlos Ramírez. Toca «Iniciar llamada» en el panel y actúa como Carlos, el pasajero.'
-        : 'Demo activada: ELLA RECIBE. Toca «Iniciar llamada» en el panel, pide una cotización y dile «¿me lo puedes enviar?».';
-    }
-    document.getElementById('btnDemoSaliente').addEventListener('click', function(){ setDemo('saliente'); });
-    document.getElementById('btnDemoEntrante').addEventListener('click', function(){ setDemo('entrante'); });
   </script>
+<script>
+  // ===== Reproductores de ejemplo: grabaciones reales de Valeria =====
+  // El audio viaja en trozos base64 (carpeta tc-audio/) y se reensambla en el
+  // navegador al primer «Escuchar». Sin transcripción: solo la llamada.
+  (function(){
+    var PARTS = { saliente: 4, entrante: 3 };
+    var PEAKS = {
+      saliente: [0.275,0.329,0.209,0.183,0.093,0.267,0.219,0.113,0.208,0.273,0.184,0.194,0.394,0.209,0.123,0.0,0.0,0.242,0.162,0.284,0.294,0.214,0.249,0.288,0.226,0.149,0.155,0.225,0.22,0.137,0.206,0.17,0.321,0.372,0.287,0.192,0.121,0.122,0.197,0.146,0.158,0.251,0.156,0.144,0.132,0.137,0.136,0.013,0.372,0.194,0.2,0.126,0.109,0.179,0.189,0.278,0.254,0.159,0.097,0.154,0.195,0.118,0.052,0.0,0.3,0.31,0.273,0.168,0.138,0.164,0.156,0.12],
+      entrante: [0.328,0.293,0.217,0.192,0.218,0.133,0.06,0.264,0.224,0.164,0.142,0.164,0.272,0.154,0.206,0.169,0.264,0.262,0.285,0.231,0.209,0.121,0.265,0.162,0.157,0.153,0.121,0.122,0.084,0.104,0.214,0.169,0.133,0.19,0.122,0.139,0.167,0.366,0.169,0.191,0.114,0.162,0.193,0.142,0.082,0.279,0.211,0.219,0.158,0.128,0.1,0.107,0.183,0.107,0.082,0.25,0.149,0.076,0.053,0.182,0.133,0.0,0.0,0.0,0.0,0.0,0.223,0.392,0.272,0.255,0.139,0.124]
+    };
+    function fmt(s){ s = Math.max(0, Math.floor(s)); var m = Math.floor(s/60), r = s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
+    function buildWave(name){
+      var w = document.getElementById('wave-'+name), pk = PEAKS[name];
+      for (var i=0;i<pk.length;i++){ var b=document.createElement('i'); b.style.height = Math.min(100, Math.max(10, pk[i]*230))+'%'; w.appendChild(b); }
+    }
+    function load(name){
+      var jobs=[];
+      for (var i=1;i<=PARTS[name];i++)(function(k){ jobs.push(fetch('tc-audio/'+name+'-'+k+'.b64').then(function(r){ return r.text(); })); })(i);
+      return Promise.all(jobs).then(function(parts){
+        var bin = atob(parts.join('')), bytes = new Uint8Array(bin.length);
+        for (var j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
+        return URL.createObjectURL(new Blob([bytes], {type:'audio/mpeg'}));
+      });
+    }
+    function wire(name){
+      var btn=document.getElementById('play-'+name), au=document.getElementById('audio-'+name),
+          tm=document.getElementById('time-'+name), bars=document.getElementById('wave-'+name).children,
+          ready=false, loading=false;
+      buildWave(name);
+      function paint(){
+        var f = (au.duration && au.currentTime) ? au.currentTime/au.duration : 0;
+        var n = Math.floor(f*bars.length);
+        for (var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i<n);
+        if (au.duration) tm.textContent = fmt(au.currentTime||0)+' / '+fmt(au.duration);
+      }
+      btn.addEventListener('click', function(){
+        if (!au.paused){ au.pause(); return; }
+        ['saliente','entrante'].forEach(function(o){ if (o!==name){ var a2=document.getElementById('audio-'+o); if (a2 && !a2.paused) a2.pause(); } });
+        if (ready){ au.play(); return; }
+        if (loading) return; loading=true; btn.textContent='⏳ Cargando…';
+        load(name).then(function(url){ au.src=url; ready=true; loading=false; au.play(); })
+        .catch(function(){ loading=false; btn.textContent='▶ Escuchar el ejemplo'; });
+      });
+      au.addEventListener('play', function(){ btn.textContent='❚❚ Pausar'; });
+      au.addEventListener('pause', function(){ btn.textContent='▶ Escuchar el ejemplo'; });
+      au.addEventListener('timeupdate', paint);
+      au.addEventListener('loadedmetadata', paint);
+      au.addEventListener('ended', function(){ au.currentTime=0; paint(); });
+    }
+    wire('saliente'); wire('entrante');
+  })();
+</script>
 <script>
   // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
   // Versiones anteriores peleaban con el interior del widget (estilos dentro
@@ -150,7 +218,7 @@
       for (var i = 0; i < p.length; i++){
         var n = p[i];
         if (!n || n.nodeType !== 1) continue;
-        if (n.id === 'fabCall' || n.id === 'btnSaliente' || n.id === 'btnEntrante' || n.id === 'btnDemoSaliente' || n.id === 'btnDemoEntrante'){ show(); return; }
+        if (n.id === 'fabCall' || n.id === 'btnSaliente' || n.id === 'btnEntrante'){ show(); return; }
         var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
         if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
       }
