@@ -206,7 +206,25 @@
   .ap-state { margin-left:auto; flex:none; font-size:10.5px; font-weight:700; letter-spacing:.6px;
           text-transform:uppercase; padding:3px 8px; border-radius:999px; white-space:nowrap; }
   .ap-state.new { background:#c9a227; color:#241a03; }
-  .ap-state.ok { background:rgba(242,237,228,.12); color:#c9bb9d; border:1px solid rgba(242,237,228,.25); }
+  .ap-state.ok { background:rgba(52,168,83,.2); color:#8fe3ae; border:1px solid rgba(52,168,83,.55); }
+  .ap-state.wait { background:rgba(217,164,32,.16); color:#ffd98a; border:1px solid rgba(217,164,32,.55); }
+  /* ===== Confirmación automática de citas ===== */
+  .confirm-card { background:#101314; border:1px solid rgba(216,167,117,.45); border-radius:18px;
+          padding:16px 14px 12px; max-width:430px; margin:14px auto 0; overflow:hidden; color:#f2ede4;
+          box-shadow:0 18px 36px rgba(0,0,0,.4); }
+  .cf-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:16.5px; line-height:1.25; }
+  .cf-sub { font-size:13px; color:#c9bb9d; line-height:1.5; margin:4px 0 12px; }
+  .cf-sms { background:rgba(242,237,228,.05); border:1px solid rgba(242,237,228,.1); border-radius:14px; padding:12px; }
+  .cf-bubble { max-width:92%; background:rgba(242,237,228,.1); border-radius:14px 14px 14px 4px;
+          padding:9px 11px; font-size:13px; line-height:1.5; color:#f2ede4; }
+  .cf-bubble b { color:#ffd98a; }
+  .cf-bubble.me { margin:8px 0 0 auto; background:#c9a227; color:#241a03; font-weight:700;
+          border-radius:14px 14px 4px 14px; max-width:55%; text-align:center; }
+  .cf-steps { margin-top:6px; }
+  .cf-step { padding:9px 0 7px; border-top:1px dashed rgba(242,237,228,.14); }
+  .cf-step b { display:block; font-family:'Montserrat',sans-serif; font-size:12px; letter-spacing:.5px;
+          text-transform:uppercase; color:#ffd98a; margin-bottom:2px; }
+  .cf-step span { display:block; font-size:13.5px; line-height:1.5; color:#e9e1cf; }
   .ap-list { margin-top:6px; }
   .ap-row { display:flex; gap:11px; align-items:flex-start; padding:10px 2px;
           border-bottom:1px dashed rgba(242,237,228,.14); opacity:.62; }
@@ -505,7 +523,7 @@
               <div class="ap-detail">Signature Cut · Dani Hurtado</div>
               <div class="ap-note">Nota: “Longer on top, beard trim neat”</div>
             </div>
-            <span class="ap-state new">Nueva</span>
+            <span class="ap-state ok">Confirmado</span>
           </div>
         </div>
         <div class="ap-list">
@@ -515,7 +533,7 @@
               <div class="ap-client">James Carter</div>
               <div class="ap-detail">Fade · Bryan Petrosino</div>
             </div>
-            <span class="ap-state ok">Confirmada</span>
+            <span class="ap-state ok">Confirmado</span>
           </div>
           <div class="ap-row">
             <span class="ap-time">10:30 AM</span>
@@ -523,7 +541,7 @@
               <div class="ap-client">Luis Fernando</div>
               <div class="ap-detail">Precision Hot Towel · Glen Blamer</div>
             </div>
-            <span class="ap-state ok">Confirmada</span>
+            <span class="ap-state ok">Confirmado</span>
           </div>
           <div class="ap-row">
             <span class="ap-time">12:00 PM</span>
@@ -531,7 +549,7 @@
               <div class="ap-client">Tommy Reyes</div>
               <div class="ap-detail">Beard Trim · Alexander Peña</div>
             </div>
-            <span class="ap-state ok">Confirmada</span>
+            <span class="ap-state ok">Confirmado</span>
           </div>
           <div class="ap-row">
             <span class="ap-time">5:00 PM</span>
@@ -539,12 +557,25 @@
               <div class="ap-client">Chris Doyle</div>
               <div class="ap-detail">Signature Jr · Bryan Petrosino</div>
             </div>
-            <span class="ap-state ok">Confirmada</span>
+            <span class="ap-state wait">Por confirmar</span>
           </div>
         </div>
         <div class="ap-foot">Todo el día en un solo lugar: tu agenda. La confirmación sale al teléfono del cliente.</div>
       </div>
       <p class="ticket-note">Los pedidos especiales llegan anotados tal como el cliente los dijo — dentro de la misma reserva.</p>
+      <div class="confirm-card reveal">
+        <div class="cf-title">Y cada cita se confirma sola</div>
+        <p class="cf-sub">Sin que muevas un dedo: antes de cada cita, Maya se encarga de que el cliente la confirme.</p>
+        <div class="cf-sms">
+          <div class="cf-bubble">Hola Marcus 👋 Te recordamos tu cita de mañana viernes a las 3:30 PM: Signature Cut con Dani Hurtado. Responde <b>SÍ</b> para confirmar, <b>CAMBIAR</b> para moverla o <b>CANCELAR</b>.</div>
+          <div class="cf-bubble me">SÍ ✓</div>
+        </div>
+        <div class="cf-steps">
+          <div class="cf-step"><b>1 · El día antes</b><span>Cada cliente recibe un texto como este para confirmar su cita.</span></div>
+          <div class="cf-step"><b>2 · ¿Necesita moverla?</b><span>Responde CAMBIAR o CANCELAR y Maya lo reprograma con su mismo barbero — sin llamadas ni vueltas.</span></div>
+          <div class="cf-step"><b>3 · ¿No contestó el texto?</b><span>Maya lo llama por teléfono. En cuanto confirma, tu agenda pasa sola de «Por confirmar» a «Confirmado».</span></div>
+        </div>
+      </div>
     </div>
 
     <h2 class="step-h"><span>3.</span> Ahora llámala tú mismo</h2>
