@@ -345,7 +345,7 @@
     </div>
 
     <h2 class="step-h" id="ejemplo"><span>1.</span> Escucha cómo agenda una cita</h2>
-    <p class="step-lead">Un cliente llama para cortarse el pelo. Fíjate cómo Maya le ofrece los barberos por nombre, el cliente elige a Dani Hurtado y la cita queda confirmada — con el pedido especial anotado palabra por palabra.</p>
+    <p class="step-lead">Un cliente llama para cortarse el pelo. Fíjate cómo Maya le pregunta con quién le gustaría agendar y es el propio cliente quien pide a Dani Hurtado por nombre; la cita queda confirmada — con el pedido especial anotado palabra por palabra.</p>
     <div class="callcard reveal">
       <div class="cc-head">
         <span class="dot" aria-hidden="true"></span>
@@ -354,7 +354,7 @@
       </div>
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
-        <span class="cc-time" id="ccTime">00:00 / 01:28</span>
+        <span class="cc-time" id="ccTime">00:00 / 01:20</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Ver la conversación</span><span class="chev" aria-hidden="true">▾</span></button>
@@ -371,9 +371,9 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>The Signature Cut sounds perfect.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>Great choice. Do you have a barber preference? We have Dani Hurtado, Bryan Petrosino, Glen Blamer, and Alexander Peña — or I can book you with the first one available.</p></div>
+          <p>Great choice. Do you have a barber you'd like to book with?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
-          <p>I've heard great things about Dani Hurtado. Let's go with Dani.</p></div>
+          <p>Yes — Dani Hurtado, please. I've heard great things about him.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
           <p>Dani it is. What day works best for you?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
@@ -608,12 +608,25 @@
     setTimeout(skOff, 2600);
 
     // ===== Reproductor del ejemplo: audio reensamblado desde trozos + transcripción sincronizada =====
-    var DLG = { total: 88.28, lines: [
-      {start:0.00,end:1.28},{start:1.70,end:5.14},{start:5.56,end:8.84},{start:9.26,end:19.09},
-      {start:19.51,end:21.48},{start:21.90,end:33.77},{start:34.19,end:37.46},{start:37.88,end:40.00},
-      {start:40.42,end:42.25},{start:42.67,end:46.17},{start:46.59,end:47.92},{start:48.34,end:51.76},
-      {start:52.18,end:57.42},{start:57.84,end:61.42},{start:61.84,end:65.91},{start:66.33,end:81.54},
-      {start:81.96,end:83.21},{start:83.63,end:88.28}
+    var DLG = { total: 79.92, lines: [
+      {start:0.00,end:1.28},
+      {start:1.70,end:5.64},
+      {start:6.06,end:9.34},
+      {start:9.76,end:18.58},
+      {start:19.00,end:20.96},
+      {start:21.38,end:24.51},
+      {start:24.93,end:28.88},
+      {start:29.30,end:31.92},
+      {start:32.34,end:34.17},
+      {start:34.59,end:38.75},
+      {start:39.17,end:40.49},
+      {start:40.91,end:44.70},
+      {start:45.12,end:50.36},
+      {start:50.78,end:54.50},
+      {start:54.92,end:59.00},
+      {start:59.42,end:72.52},
+      {start:72.94,end:74.19},
+      {start:74.61,end:79.92}
     ]};
     var PARTS = 5;
     var audio = document.getElementById('ccAudio');
