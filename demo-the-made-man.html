@@ -418,7 +418,7 @@
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
         <button class="cc-play cc-play-es" id="playBtnEs" type="button" disabled>🇪🇸 Cargando en español…</button>
-        <span class="cc-time" id="ccTime">00:00 / 01:20</span>
+        <span class="cc-time" id="ccTime">00:00 / 01:33</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
       <button class="cc-fold" id="foldBtn" type="button" aria-expanded="false"><span>💬 Ver la conversación</span><span class="chev" aria-hidden="true">▾</span></button>
@@ -455,7 +455,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Yes — I like it a little longer on top, and please keep the beard trim neat.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>Noted, just like that: longer on top, and a neat beard trim. Let me confirm everything: a Signature Cut with Dani Hurtado, this Friday at 3:30 PM, for Marcus Reed. We'll send the confirmation to your phone. Anything else?</p></div>
+          <p>Noted, just like that: longer on top, and a neat beard trim. Let me confirm everything: a Signature Cut with Dani Hurtado, this Friday at 3:30 PM, for Marcus Reed. Two quick things: the day before your appointment, we'll text you to confirm — you can confirm, change, or cancel right from that message. You'll also get a secure link to register your card as a guarantee: there's no charge at all, it's just our no-show guarantee — and without it, the appointment could be released. Anything else?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>That's all, thank you!</p></div>
         <div class="turn recep"><span class="who">Maya</span>
@@ -493,7 +493,7 @@
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Sí, me gusta un poco más largo arriba, y por favor que la barba quede bien arreglada.</p></div>
         <div class="turn recep"><span class="who">Maya</span>
-          <p>Anotado, tal cual: más largo arriba y la barba bien arreglada. Le confirmo todo: un Signature Cut con Dani Hurtado, este viernes a las 3:30 PM, para Marcus Reed. Le enviamos la confirmación a su teléfono. ¿Algo más?</p></div>
+          <p>Anotado, tal cual: más largo arriba y la barba bien arreglada. Le confirmo todo: un Signature Cut con Dani Hurtado, este viernes a las 3:30 PM, para Marcus Reed. Dos cosas rápidas: el día antes de su cita le enviaremos un mensaje de texto para confirmar — puede confirmar, cambiar o cancelar respondiendo ese mismo mensaje. Y también le llegará un enlace seguro para registrar su tarjeta como garantía: no se le cobra nada, es solo la garantía por si no se presenta — y sin registrarla, la cita podría liberarse. ¿Algo más?</p></div>
         <div class="turn cliente"><span class="who">Cliente</span>
           <p>Es todo, ¡muchas gracias!</p></div>
         <div class="turn recep"><span class="who">Maya</span>
@@ -791,7 +791,7 @@
     setTimeout(skOff, 2600);
 
     // ===== Reproductor del ejemplo: audios (EN/ES) reensamblados desde trozos + transcripción sincronizada =====
-    var DLG_EN = { total: 79.92, lines: [
+    var DLG_EN = { total: 93.44, lines: [
       {start:0.00,end:1.28},
       {start:1.70,end:5.64},
       {start:6.06,end:9.34},
@@ -807,11 +807,11 @@
       {start:45.12,end:50.36},
       {start:50.78,end:54.50},
       {start:54.92,end:59.00},
-      {start:59.42,end:72.52},
-      {start:72.94,end:74.19},
-      {start:74.61,end:79.92}
+      {start:59.42,end:86.05},
+      {start:86.47,end:87.71},
+      {start:88.13,end:93.44}
     ]};
-    var DLG_ES = { total: 86.33, lines: [
+    var DLG_ES = { total: 102.92, lines: [
       {start:0.00,end:1.28},
       {start:1.70,end:6.15},
       {start:6.57,end:12.54},
@@ -827,9 +827,9 @@
       {start:49.69,end:54.79},
       {start:55.21,end:59.22},
       {start:59.64,end:63.73},
-      {start:64.15,end:78.33},
-      {start:78.75,end:80.37},
-      {start:80.79,end:86.33}
+      {start:64.15,end:94.92},
+      {start:95.34,end:96.96},
+      {start:97.38,end:102.92}
     ]};
     var ccTime = document.getElementById('ccTime');
     var pill = document.querySelector('.cc-pill');
@@ -838,10 +838,10 @@
       return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
     var TRACKS = [
       { audio: document.getElementById('ccAudio'), btn: document.getElementById('playBtn'),
-        transcript: document.getElementById('transcript'), dlg: DLG_EN, dir: 'mm-audio/', parts: 5,
+        transcript: document.getElementById('transcript'), dlg: DLG_EN, dir: 'mm-audio/', parts: 6,
         labels: { play: '\u25B6 Escuchar el ejemplo', pause: '\u23F8 Pausar el ejemplo', again: '\u21BA Escuchar de nuevo', fail: 'Ejemplo no disponible' } },
       { audio: document.getElementById('ccAudioEs'), btn: document.getElementById('playBtnEs'),
-        transcript: document.getElementById('transcriptEs'), dlg: DLG_ES, dir: 'mm-audio-es/', parts: 5,
+        transcript: document.getElementById('transcriptEs'), dlg: DLG_ES, dir: 'mm-audio-es/', parts: 6,
         labels: { play: '\uD83C\uDDEA\uD83C\uDDF8 Esc\u00FAchala en espa\u00F1ol', pause: '\u23F8 Pausar en espa\u00F1ol', again: '\u21BA Esc\u00FAchala otra vez', fail: 'No disponible en espa\u00F1ol' } }
     ];
     var cur = TRACKS[0];
