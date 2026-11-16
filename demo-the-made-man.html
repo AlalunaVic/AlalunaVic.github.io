@@ -176,6 +176,46 @@
   .ticket .t-row span:last-child { text-align:right; font-weight:600; }
   .ticket .t-foot { margin-top:10px; font-size:12.5px; line-height:1.5; color:#6b543a; }
   .ticket-note { text-align:center; font-size:13px; color:#e3dac6; margin-top:10px; }
+  /* ===== Panel de la aplicación del negocio (agenda de reservas) ===== */
+  .app-stage { margin-bottom:20px; }
+  .app-panel { position:relative; background:#101314; border:1px solid #c9a227; border-radius:22px;
+          padding:16px 14px 14px; max-width:430px; margin:0 auto; overflow:hidden;
+          box-shadow:0 22px 44px rgba(0,0,0,.5); color:#f2ede4; }
+  .app-panel::before { content:""; position:absolute; top:6px; left:50%; transform:translateX(-50%);
+          width:74px; height:5px; border-radius:99px; background:rgba(242,237,228,.22); }
+  .ap-head { display:flex; align-items:center; gap:10px; padding:8px 2px 12px; border-bottom:1px solid rgba(201,162,39,.35); }
+  .ap-logo { width:38px; height:38px; border-radius:11px; background:linear-gradient(45deg,#c9a227,#d8a775);
+          color:#241a03; font-family:'Montserrat',sans-serif; font-weight:800; font-size:14px; flex:none;
+          display:flex; align-items:center; justify-content:center; }
+  .ap-id { min-width:0; }
+  .ap-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:14.5px; line-height:1.2; white-space:nowrap; }
+  .ap-sub { font-size:11.5px; color:#c9bb9d; line-height:1.3; }
+  .ap-chip { margin-left:auto; flex:none; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:9.5px;
+          letter-spacing:1.2px; text-transform:uppercase; color:#ffd98a;
+          border:1px solid rgba(216,167,117,.55); padding:3px 7px; border-radius:999px; white-space:nowrap; }
+  .ap-new { margin-top:12px; background:rgba(201,162,39,.13); border:1px solid rgba(216,167,117,.6);
+          border-radius:14px; padding:11px 12px; }
+  .ap-new-tag { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:10.5px; letter-spacing:1.4px;
+          text-transform:uppercase; color:#ffd98a; margin-bottom:7px; }
+  .ap-new-main { display:flex; gap:11px; align-items:flex-start; }
+  .ap-time { font-family:'Montserrat',sans-serif; font-weight:800; font-size:16px; color:#ffe9b8;
+          white-space:nowrap; line-height:1.25; }
+  .ap-client { font-family:'Montserrat',sans-serif; font-weight:800; font-size:16.5px; line-height:1.2; }
+  .ap-detail { font-size:13px; color:#e9e1cf; line-height:1.4; }
+  .ap-note { font-size:12.5px; color:#ffd98a; line-height:1.45; margin-top:2px; }
+  .ap-state { margin-left:auto; flex:none; font-size:10.5px; font-weight:700; letter-spacing:.6px;
+          text-transform:uppercase; padding:3px 8px; border-radius:999px; white-space:nowrap; }
+  .ap-state.new { background:#c9a227; color:#241a03; }
+  .ap-state.ok { background:rgba(242,237,228,.12); color:#c9bb9d; border:1px solid rgba(242,237,228,.25); }
+  .ap-list { margin-top:6px; }
+  .ap-row { display:flex; gap:11px; align-items:flex-start; padding:10px 2px;
+          border-bottom:1px dashed rgba(242,237,228,.14); opacity:.62; }
+  .ap-row:last-child { border-bottom:none; }
+  .ap-row .ap-time { font-size:14px; color:#e9e1cf; }
+  .ap-row .ap-client { font-size:14.5px; }
+  .ap-row .ap-detail { font-size:12.5px; }
+  .ap-foot { margin-top:10px; padding-top:10px; border-top:1px solid rgba(201,162,39,.35);
+          font-size:12px; line-height:1.5; color:#c9bb9d; text-align:center; }
   .calc { background:#15181b; border:1px solid #3d362a; border-radius:12px; padding:18px; margin-bottom:20px; }
   .calc label { display:flex; justify-content:space-between; font-size:14px; font-weight:600; margin:12px 0 4px; }
   .calc output { color:#d8a775; font-weight:800; }
@@ -444,21 +484,67 @@
       <audio id="ccAudioEs" preload="metadata"></audio>
     </div>
 
-    <h2 class="step-h"><span>2.</span> Y esto es lo que te llega a ti</h2>
-    <p class="step-lead">Mientras tú sigues cortando, esa llamada llega a tu WhatsApp como una cita limpia y lista.</p>
-    <div class="ticket-stage reveal">
-      <div class="ticket">
-        <span class="t-stamp">Ejemplo</span>
-        <div class="t-head"><span>Nueva cita</span><span>Por teléfono</span></div>
-        <div class="t-name">Marcus Reed</div>
-        <div class="t-row"><span>Servicio</span><span>Signature Cut</span></div>
-        <div class="t-row"><span>Barbero</span><span>Dani Hurtado</span></div>
-        <div class="t-row"><span>Día y hora</span><span>Viernes · 3:30 PM</span></div>
-        <div class="t-row"><span>Teléfono</span><span>732-555-0148</span></div>
-        <div class="t-row"><span>Nota especial</span><span>“Longer on top, beard trim neat”</span></div>
-        <div class="t-foot">La confirmación sale al teléfono del cliente. Tú solo ves la cita llegar.</div>
+    <h2 class="step-h"><span>2.</span> Y esto es lo que ves en tu aplicación</h2>
+    <p class="step-lead">Mientras tú sigues cortando, cada llamada de Maya se convierte en una reserva dentro de la aplicación de tu barbería: entra en tu agenda al instante, con el barbero, el servicio y el pedido especial anotados. Sin mensajes sueltos, sin papelitos.</p>
+    <div class="app-stage reveal">
+      <div class="app-panel">
+        <div class="ap-head">
+          <span class="ap-logo">MM</span>
+          <div class="ap-id">
+            <div class="ap-name">The Made Man · Agenda</div>
+            <div class="ap-sub">Reservas del viernes</div>
+          </div>
+          <span class="ap-chip">App del negocio</span>
+        </div>
+        <div class="ap-new">
+          <div class="ap-new-tag">✦ Nueva reserva · por teléfono</div>
+          <div class="ap-new-main">
+            <span class="ap-time">3:30 PM</span>
+            <div>
+              <div class="ap-client">Marcus Reed</div>
+              <div class="ap-detail">Signature Cut · Dani Hurtado</div>
+              <div class="ap-note">Nota: “Longer on top, beard trim neat”</div>
+            </div>
+            <span class="ap-state new">Nueva</span>
+          </div>
+        </div>
+        <div class="ap-list">
+          <div class="ap-row">
+            <span class="ap-time">9:00 AM</span>
+            <div>
+              <div class="ap-client">James Carter</div>
+              <div class="ap-detail">Fade · Bryan Petrosino</div>
+            </div>
+            <span class="ap-state ok">Confirmada</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-time">10:30 AM</span>
+            <div>
+              <div class="ap-client">Luis Fernando</div>
+              <div class="ap-detail">Precision Hot Towel · Glen Blamer</div>
+            </div>
+            <span class="ap-state ok">Confirmada</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-time">12:00 PM</span>
+            <div>
+              <div class="ap-client">Tommy Reyes</div>
+              <div class="ap-detail">Beard Trim · Alexander Peña</div>
+            </div>
+            <span class="ap-state ok">Confirmada</span>
+          </div>
+          <div class="ap-row">
+            <span class="ap-time">5:00 PM</span>
+            <div>
+              <div class="ap-client">Chris Doyle</div>
+              <div class="ap-detail">Signature Jr · Bryan Petrosino</div>
+            </div>
+            <span class="ap-state ok">Confirmada</span>
+          </div>
+        </div>
+        <div class="ap-foot">Todo el día en un solo lugar: tu agenda. La confirmación sale al teléfono del cliente.</div>
       </div>
-      <p class="ticket-note">Los pedidos especiales llegan anotados tal como el cliente los dijo.</p>
+      <p class="ticket-note">Los pedidos especiales llegan anotados tal como el cliente los dijo — dentro de la misma reserva.</p>
     </div>
 
     <h2 class="step-h"><span>3.</span> Ahora llámala tú mismo</h2>
@@ -478,8 +564,8 @@
         <li>Nunca pierdes una llamada: contesta varias al mismo tiempo, aunque tengas las manos en un corte.</li>
         <li>Atiende en inglés y en español, de apertura a cierre: nunca falta, nunca está ocupada, nunca toma break.</li>
         <li>Pregunta siempre por el pedido especial y lo anota tal como el cliente lo dice, para que lo veas en la cita.</li>
-        <li>Cada cita llega limpia a tu WhatsApp en el momento en que se agenda.</li>
-        <li>Si un cliente pregunta algo que ella no sabe, nunca inventa: te pasa el mensaje para que lo atiendas tú.</li>
+        <li>Cada cita entra limpia en la aplicación de tu barbería en el momento en que se agenda: la ves en tu agenda, con su barbero y su nota, sin mensajes sueltos.</li>
+        <li>Si un cliente pregunta algo que ella no sabe, nunca inventa: te lo deja anotado en tu aplicación para que lo atiendas tú.</li>
         <li>Servicio técnico y actualizaciones constantes incluidos: si algo falla, lo resolvemos nosotros — tú sigue cortando.</li>
         <li>Y trae extras: una página web para tu barbería si no tienes una, tu perfil de Google optimizado y un kit de códigos QR para tu mostrador.</li>
         <li>No tienes que aprender tecnología: instalamos todo y lo probamos contigo.</li>
