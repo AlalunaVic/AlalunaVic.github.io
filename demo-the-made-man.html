@@ -116,6 +116,8 @@
   button.cc-play:disabled { opacity:.55; cursor:wait; }
   .cc-top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
   .cc-top .cc-play { margin-top:0; font-size:14px; padding:12px 20px; }
+  .cc-play-es { background:transparent; color:#ffd98a; border:1.5px solid #c9a227; }
+  .cc-play-es:hover { box-shadow:0 10px 22px rgba(201,162,39,.18); }
   .cc-time { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; color:#ffd98a; letter-spacing:1px; }
   .wave { display:flex; align-items:center; gap:2.5px; height:64px; margin:18px 2px 6px; }
   .wave i { flex:1; border-radius:3px; background:#3a3f45; min-width:2px; }
@@ -354,6 +356,7 @@
       </div>
       <div class="cc-top">
         <button class="cc-play" id="playBtn" type="button" disabled>▶ Cargando el ejemplo…</button>
+        <button class="cc-play cc-play-es" id="playBtnEs" type="button" disabled>🇪🇸 Cargando en español…</button>
         <span class="cc-time" id="ccTime">00:00 / 01:20</span>
       </div>
       <div class="wave" id="wave" aria-hidden="true"></div>
@@ -397,9 +400,48 @@
         <div class="turn recep"><span class="who">Maya</span>
           <p>You're all set, Marcus. We look forward to seeing you on Friday. Thanks for calling The Made Man Barber Shop!</p></div>
       </div>
+        <div class="transcript" id="transcriptEs" style="display:none">
+        <div class="turn ring"><span class="who">Timbre</span>
+          <p>♪ ♪ Suena el teléfono…</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Gracias por llamar a The Made Man Barber Shop, soy Maya. ¿En qué le puedo ayudar hoy?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>¡Hola! Quisiera agendar un corte de pelo para esta semana, si tienen algo disponible.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>¡Claro que sí! Nuestro Signature Cut incluye consulta, delineado con navaja, toalla caliente con eucalipto y peinado. ¿Le gustaría ese, o prefiere otro servicio?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>El Signature Cut suena perfecto.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Excelente elección. ¿Tiene algún barbero con quien le gustaría agendar?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Sí, con Dani Hurtado, por favor. He escuchado cosas muy buenas de él.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Perfecto, con Dani. ¿Qué día le queda mejor?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>El viernes por la tarde, si está libre.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Dani tiene un espacio este viernes a las 3:30 PM. ¿Le queda bien?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Perfecto, lo tomo.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Muy bien. ¿Me da su nombre y un número de teléfono para la confirmación?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Marcus Reed — 732-555-0148.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Gracias, Marcus. ¿Algo especial que le gustaría que anotemos para su cita?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Sí, me gusta un poco más largo arriba, y por favor que la barba quede bien arreglada.</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Anotado, tal cual: más largo arriba y la barba bien arreglada. Le confirmo todo: un Signature Cut con Dani Hurtado, este viernes a las 3:30 PM, para Marcus Reed. Le enviamos la confirmación a su teléfono. ¿Algo más?</p></div>
+        <div class="turn cliente"><span class="who">Cliente</span>
+          <p>Es todo, ¡muchas gracias!</p></div>
+        <div class="turn recep"><span class="who">Maya</span>
+          <p>Ya quedó todo listo, Marcus. Lo esperamos el viernes. ¡Gracias por llamar a The Made Man Barber Shop!</p></div>
+        </div>
       </div>
       <div class="cc-pill">✓ Cita registrada · Signature Cut con Dani Hurtado · Viernes 3:30 PM · Marcus Reed · Nota: longer on top, beard trim neat</div>
       <audio id="ccAudio" preload="metadata"></audio>
+      <audio id="ccAudioEs" preload="metadata"></audio>
     </div>
 
     <h2 class="step-h"><span>2.</span> Y esto es lo que te llega a ti</h2>
@@ -607,8 +649,8 @@
     window.addEventListener('load', function(){ setTimeout(skOff, 350); });
     setTimeout(skOff, 2600);
 
-    // ===== Reproductor del ejemplo: audio reensamblado desde trozos + transcripción sincronizada =====
-    var DLG = { total: 79.92, lines: [
+    // ===== Reproductor del ejemplo: audios (EN/ES) reensamblados desde trozos + transcripción sincronizada =====
+    var DLG_EN = { total: 79.92, lines: [
       {start:0.00,end:1.28},
       {start:1.70,end:5.64},
       {start:6.06,end:9.34},
@@ -628,71 +670,110 @@
       {start:72.94,end:74.19},
       {start:74.61,end:79.92}
     ]};
-    var PARTS = 5;
-    var audio = document.getElementById('ccAudio');
-    var playBtn = document.getElementById('playBtn');
+    var DLG_ES = { total: 86.33, lines: [
+      {start:0.00,end:1.28},
+      {start:1.70,end:6.15},
+      {start:6.57,end:12.54},
+      {start:12.96,end:22.93},
+      {start:23.35,end:25.47},
+      {start:25.89,end:29.75},
+      {start:30.17,end:33.39},
+      {start:33.81,end:36.59},
+      {start:37.01,end:38.61},
+      {start:39.03,end:43.54},
+      {start:43.96,end:44.84},
+      {start:45.26,end:49.27},
+      {start:49.69,end:54.79},
+      {start:55.21,end:59.22},
+      {start:59.64,end:63.73},
+      {start:64.15,end:78.33},
+      {start:78.75,end:80.37},
+      {start:80.79,end:86.33}
+    ]};
     var ccTime = document.getElementById('ccTime');
-    var transcript = document.getElementById('transcript');
-    var turns = transcript ? transcript.querySelectorAll('.turn') : [];
     var pill = document.querySelector('.cc-pill');
     var card = document.querySelector('.callcard');
     function fmt(s){ s = Math.max(0, Math.floor(s)); var m = Math.floor(s / 60), r = s % 60;
       return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
+    var TRACKS = [
+      { audio: document.getElementById('ccAudio'), btn: document.getElementById('playBtn'),
+        transcript: document.getElementById('transcript'), dlg: DLG_EN, dir: 'mm-audio/', parts: 5,
+        labels: { play: '\u25B6 Escuchar el ejemplo', pause: '\u23F8 Pausar el ejemplo', again: '\u21BA Escuchar de nuevo', fail: 'Ejemplo no disponible' } },
+      { audio: document.getElementById('ccAudioEs'), btn: document.getElementById('playBtnEs'),
+        transcript: document.getElementById('transcriptEs'), dlg: DLG_ES, dir: 'mm-audio-es/', parts: 5,
+        labels: { play: '\uD83C\uDDEA\uD83C\uDDF8 Esc\u00FAchala en espa\u00F1ol', pause: '\u23F8 Pausar en espa\u00F1ol', again: '\u21BA Esc\u00FAchala otra vez', fail: 'No disponible en espa\u00F1ol' } }
+    ];
+    var cur = TRACKS[0];
     function syncUI(){
+      var tr = cur, audio = tr.audio;
       if (!audio) return;
       var t = audio.currentTime || 0;
-      var dur = (audio.duration && isFinite(audio.duration)) ? audio.duration : DLG.total;
+      var dur = (audio.duration && isFinite(audio.duration)) ? audio.duration : tr.dlg.total;
       if (ccTime) ccTime.textContent = fmt(t) + ' / ' + fmt(dur);
       var bars = document.querySelectorAll('#wave i');
       if (bars.length) {
         var on = Math.round((dur > 0 ? t / dur : 0) * bars.length);
         bars.forEach(function(b, idx){ b.classList.toggle('on', idx < on); });
       }
-      if (transcript && turns.length) {
-        transcript.classList.add('synced');
-        DLG.lines.forEach(function(L, idx){
+      var turns = tr.transcript ? tr.transcript.querySelectorAll('.turn') : [];
+      if (tr.transcript && turns.length) {
+        tr.transcript.classList.add('synced');
+        tr.dlg.lines.forEach(function(L, idx){
           var el = turns[idx]; if (!el) return;
           el.classList.toggle('active', t >= L.start && t < L.end + 0.4);
           el.classList.toggle('heard', t >= L.end + 0.4);
         });
       }
-      if (pill) pill.classList.toggle('lit', t >= DLG.lines[DLG.lines.length - 1].start);
+      if (pill) pill.classList.toggle('lit', t >= tr.dlg.lines[tr.dlg.lines.length - 1].start);
     }
-    if (audio && playBtn) {
+    function activate(tr){
+      if (cur === tr) return;
+      if (cur.audio && !cur.audio.paused) cur.audio.pause();
+      cur = tr;
+      TRACKS.forEach(function(o){
+        if (o.transcript) o.transcript.style.display = (o === tr) ? '' : 'none';
+        if (o.btn && !o.btn.disabled && o !== tr) o.btn.textContent = o.labels.play;
+      });
+      syncUI();
+    }
+    TRACKS.forEach(function(tr){
+      if (!tr.audio || !tr.btn) return;
       var jobs = [];
-      for (var k = 1; k <= PARTS; k++) (function(kk){
-        jobs.push(fetch('mm-audio/ejemplo-' + kk + '.b64').then(function(r){ return r.text(); }));
+      for (var k = 1; k <= tr.parts; k++) (function(kk){
+        jobs.push(fetch(tr.dir + 'ejemplo-' + kk + '.b64').then(function(r){ return r.text(); }));
       })(k);
       Promise.all(jobs).then(function(parts){
         var bin = atob(parts.join('')), bytes = new Uint8Array(bin.length);
         for (var j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
-        audio.src = URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' }));
-        playBtn.disabled = false;
-        playBtn.textContent = '▶ Escuchar el ejemplo';
-        syncUI();
-      }).catch(function(){ playBtn.textContent = 'Ejemplo no disponible'; });
-      playBtn.addEventListener('click', function(){
-        if (audio.paused || audio.ended) { audio.play(); } else { audio.pause(); }
+        tr.audio.src = URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' }));
+        tr.btn.disabled = false;
+        tr.btn.textContent = tr.labels.play;
+        if (tr === cur) syncUI();
+      }).catch(function(){ tr.btn.textContent = tr.labels.fail; });
+      tr.btn.addEventListener('click', function(){
+        if (tr !== cur) { activate(tr); tr.audio.play(); }
+        else if (tr.audio.paused || tr.audio.ended) { tr.audio.play(); } else { tr.audio.pause(); }
       });
-      audio.addEventListener('play', function(){
-        playBtn.textContent = '⏸ Pausar el ejemplo';
+      tr.audio.addEventListener('play', function(){
+        if (tr !== cur) activate(tr);
+        tr.btn.textContent = tr.labels.pause;
         if (card) card.classList.add('playing');
         openTranscript();
         syncUI();
       });
-      audio.addEventListener('pause', function(){
-        if (!audio.ended) playBtn.textContent = '▶ Escuchar el ejemplo';
-        if (card) card.classList.remove('playing');
-        syncUI();
+      tr.audio.addEventListener('pause', function(){
+        if (!tr.audio.ended) tr.btn.textContent = tr.labels.play;
+        if (tr === cur && card) card.classList.remove('playing');
+        if (tr === cur) syncUI();
       });
-      audio.addEventListener('timeupdate', syncUI);
-      audio.addEventListener('loadedmetadata', syncUI);
-      audio.addEventListener('ended', function(){
-        playBtn.textContent = '↺ Escuchar de nuevo';
+      tr.audio.addEventListener('timeupdate', function(){ if (tr === cur) syncUI(); });
+      tr.audio.addEventListener('loadedmetadata', function(){ if (tr === cur) syncUI(); });
+      tr.audio.addEventListener('ended', function(){
+        tr.btn.textContent = tr.labels.again;
         if (card) card.classList.remove('playing');
-        syncUI();
+        if (tr === cur) syncUI();
       });
-    }
+    });
     // Desplegable de la conversación
     var foldBtn = document.getElementById('foldBtn');
     var transcriptWrap = document.getElementById('transcriptWrap');
