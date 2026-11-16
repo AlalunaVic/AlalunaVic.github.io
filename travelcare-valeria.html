@@ -68,7 +68,7 @@
         <li><b>7.</b> En modo recepcionista: «Quiero viajar a España por 12 días, ¿qué plan me conviene y cuánto me cuesta?»</li>
         <li><b>8.</b> En modo recepcionista: «Viajo varias veces al año, ¿tienen algún plan anual?»</li>
         <li><b>9.</b> En modo «ella llama»: fíjate en su presentación — confirma tu nombre completo, te saluda por tu primer nombre y te pregunta cómo estás antes de empezar.</li>
-        <li><b>10.</b> En modo recepcionista: «¿Me lo puedes enviar por WhatsApp?» — mira cómo toma tus datos, los repite para confirmar y te promete el envío al terminar la llamada.</li>
+        <li><b>10.</b> En modo recepcionista, la escena completa: pide tu cotización, dile «¿Me lo puedes enviar?», elige correo o WhatsApp cuando te pregunte, dale el dato y respóndele «sí, ya me llegó» cuando te pregunte si lo recibiste.</li>
       </ul>
     </div>
 
@@ -91,7 +91,7 @@
       var w = document.querySelector('elevenlabs-convai');
       if (w) w.setAttribute('dynamic-variables', JSON.stringify(modo === 'saliente'
         ? { tipo_llamada: 'saliente', nombre_cliente: 'Carlos Ramírez', nombre_agencia: 'Travel Care', plan: 'Europa', destino: 'Italia' }
-        : { tipo_llamada: 'entrante' }));
+        : { tipo_llamada: 'entrante', modo_demo: 'con_envio' }));
       document.getElementById('btnSaliente').classList.toggle('active', modo === 'saliente');
       document.getElementById('btnEntrante').classList.toggle('active', modo === 'entrante');
       document.getElementById('liveStatus').textContent = (modo === 'saliente')
