@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Travel Care Assistance — Fase 1 · Tu asistente de agencias</title>
+<style>
+  :root{ --teal:#059898; --teal-d:#046e6e; --coal:#31373D; --ink:#1d2126; --bg:#f4f7f7; --gold:#f5c518; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html, body{ overflow-x:hidden; overflow-x:clip; }
+  body{ font-family:'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+  .tape{ background:var(--coal); color:#fff; overflow:hidden; white-space:nowrap; padding:.5rem 0; font-weight:700; letter-spacing:.18em; font-size:.78rem; }
+  .tape span{ display:inline-block; padding-right:2.5rem; animation:slide 22s linear infinite; }
+  @keyframes slide{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .tape span{ animation:none; } .pc-dot{ animation:none; } }
+  .wrap{ max-width:760px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+  .badge{ display:inline-block; background:#e6f5f5; color:var(--teal-d); border:1px solid var(--teal); border-radius:999px; padding:.35rem .9rem; font-size:.78rem; font-weight:700; letter-spacing:.06em; margin-bottom:1rem; }
+  h1{ font-size:2.35rem; line-height:1.05; color:var(--coal); letter-spacing:.01em; }
+  h1 em{ color:var(--teal); font-style:normal; }
+  .sub{ font-size:1.22rem; font-weight:700; margin-top:.7rem; color:var(--coal); }
+  .lead{ margin-top:.8rem; font-size:1.02rem; line-height:1.6; color:#3c434a; }
+  .lead b{ color:var(--coal); }
+  .hero{ background:#fff; border:1px solid #dde6e6; border-radius:18px; padding:1.3rem 1.2rem; margin-top:1.5rem; box-shadow:0 8px 28px rgba(4,110,110,.08); overflow:hidden; }
+  .hero h2{ font-size:1.3rem; color:var(--coal); line-height:1.25; }
+  .hero h2 em{ color:var(--teal); font-style:normal; }
+  .bens{ list-style:none; margin-top:.9rem; }
+  .bens li{ font-size:.99rem; line-height:1.5; color:#3c434a; padding:.42rem 0 .42rem 1.7rem; position:relative; }
+  .bens li::before{ content:"✔"; position:absolute; left:0; color:var(--teal); font-weight:800; }
+  .bens li b{ color:var(--coal); }
+  .fast{ display:inline-block; margin-top:.9rem; background:var(--gold); color:var(--coal); font-weight:800; border-radius:999px; padding:.45rem 1rem; font-size:.9rem; letter-spacing:.02em; }
+  .cta{ display:block; width:100%; margin-top:1rem; background:var(--teal); color:#fff; border:none; border-radius:14px; padding:1.05rem 1rem; font-size:1.12rem; font-weight:800; cursor:pointer; letter-spacing:.01em; text-align:center; text-decoration:none; }
+  .cta:active{ transform:scale(.99); }
+  .callcard{ background:#fff; border:1px solid #dde6e6; border-radius:18px; padding:1.3rem 1.2rem; margin-top:1.5rem; box-shadow:0 8px 28px rgba(4,110,110,.08); overflow:hidden; }
+  .callcard h2{ font-size:1.15rem; color:var(--coal); margin-bottom:.4rem; }
+  .callcard p{ font-size:.96rem; line-height:1.55; color:#3c434a; }
+  .btn{ display:block; width:100%; margin-top:1rem; background:var(--teal); color:#fff; border:none; border-radius:14px; padding:1.05rem 1rem; font-size:1.12rem; font-weight:800; cursor:pointer; letter-spacing:.01em; }
+  .btn:active{ transform:scale(.99); }
+  .btn .sub2{ display:block; font-size:.86rem; font-weight:600; opacity:.88; margin-top:.3rem; letter-spacing:0; }
+  .status{ margin-top:.7rem; font-size:.9rem; color:var(--teal-d); min-height:1.2em; font-weight:600; }
+  .demo-sec{ margin-top:1.5rem; }
+  .playcard{ background:linear-gradient(160deg,#31373D,#22262b); border:1px solid rgba(5,152,152,.55); border-radius:22px; padding:1.25rem 1.2rem 1.35rem; margin-bottom:1.1rem; box-shadow:0 10px 30px rgba(29,33,38,.25); overflow:hidden; }
+  .pc-top{ display:flex; align-items:center; gap:.6rem; }
+  .pc-dot{ width:13px; height:13px; border-radius:50%; background:#ff5147; animation:pulse 1.6s ease-in-out infinite; flex:none; }
+  @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 3px rgba(255,81,71,.22);} 50%{ box-shadow:0 0 0 7px rgba(255,81,71,.08);} }
+  .pc-kind{ color:#f2ead2; font-weight:700; letter-spacing:.2em; font-size:.76rem; white-space:nowrap; }
+  .pc-badge{ margin-left:auto; color:var(--gold); border:1.5px solid var(--gold); border-radius:999px; padding:.32rem .8rem; font-size:.72rem; font-weight:800; letter-spacing:.22em; flex:none; }
+  .pc-title{ color:#fff; font-size:1.28rem; font-weight:800; margin-top:1rem; line-height:1.25; }
+  .pc-title span{ display:block; font-size:1.02rem; font-weight:700; color:#ffd94d; margin-top:.15rem; }
+  .pc-row{ display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+  .playbtn{ background:linear-gradient(90deg,var(--teal),#08b3b3); color:#fff; border:none; border-radius:999px; padding:.95rem 1.5rem; font-size:1.05rem; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(5,152,152,.35); }
+  .playbtn:active{ transform:scale(.98); }
+  .pc-time{ color:var(--gold); font-size:1.05rem; font-weight:700; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
+  .wave{ display:flex; align-items:center; gap:2px; height:62px; margin-top:1.05rem; }
+  .wave i{ flex:1 1 0; min-width:2px; background:rgba(94,234,212,.30); border-radius:2px; }
+  .wave i.on{ background:var(--gold); }
+  .panel{ background:#fff; border:1px solid #dde6e6; border-radius:18px; margin-top:1.5rem; box-shadow:0 8px 28px rgba(4,110,110,.08); overflow:hidden; }
+  .panel-head{ background:var(--coal); color:#fff; padding:.85rem 1.2rem; font-weight:800; font-size:.98rem; display:flex; align-items:center; gap:.55rem; }
+  .panel-head .dotlive{ width:9px; height:9px; border-radius:50%; background:#35d07f; flex:none; }
+  .panel-body{ padding:1rem 1.2rem 1.2rem; }
+  .excel{ display:flex; gap:.8rem; align-items:flex-start; background:#eef7f7; border:1px dashed var(--teal); border-radius:12px; padding:.85rem .95rem; }
+  .excel .ic{ font-size:1.5rem; line-height:1; }
+  .excel p{ font-size:.95rem; line-height:1.5; color:#3c434a; }
+  .excel p b{ color:var(--coal); }
+  .feed{ margin-top:1rem; display:grid; gap:.55rem; }
+  .item{ border:1px solid #e2e9e9; border-radius:12px; padding:.75rem .95rem; font-size:.94rem; line-height:1.5; color:#3c434a; }
+  .item b{ color:var(--coal); }
+  .item .when{ color:#7a838c; font-size:.82rem; font-weight:700; letter-spacing:.03em; }
+  .item.new{ border:2px solid var(--teal); background:#f2fafa; }
+  .chip{ display:inline-block; background:var(--teal); color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.12em; border-radius:999px; padding:.18rem .6rem; margin-bottom:.3rem; }
+  .panel-note{ margin-top:.9rem; font-size:.93rem; line-height:1.55; color:#3c434a; }
+  .panel-note b{ color:var(--teal-d); }
+  .qs{ margin-top:1.5rem; }
+  .qs h2{ font-size:1.12rem; color:var(--coal); margin-bottom:.6rem; }
+  .qs ul{ list-style:none; }
+  .qs li{ background:#fff; border:1px solid #dde6e6; border-radius:12px; padding:.75rem .95rem; margin-bottom:.55rem; font-size:.97rem; line-height:1.45; }
+  .qs li b{ color:var(--teal-d); }
+  .steps{ display:grid; gap:.55rem; margin-top:1.5rem; }
+  .step{ background:var(--coal); color:#eef3f3; border-radius:12px; padding:.85rem 1rem; font-size:.95rem; line-height:1.5; }
+  .step b{ color:var(--gold); }
+  .step.on{ outline:2px solid var(--teal); }
+  .foot{ margin-top:2rem; font-size:.85rem; color:#6a737c; text-align:center; line-height:1.6; }
+  #fabCall{ position:fixed; left:14px; bottom:14px; z-index:40; background:var(--gold); color:var(--coal); border:none; border-radius:999px; padding:.85rem 1.25rem; font-size:1rem; font-weight:800; cursor:pointer; box-shadow:0 8px 22px rgba(29,33,38,.35); }
+  #fabCall.fab-off{ display:none; }
+  #fabCall:active{ transform:scale(.97); }
+</style>
+</head>
+<body>
+  <div class="tape"><span>ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦&nbsp;</span><span>ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦&nbsp;</span></div>
+  <div class="wrap">
+    <div class="badge">● HECHA ESPECIALMENTE PARA TRAVEL CARE</div>
+    <h1>TRAVEL CARE<br><em>ASSISTANCE</em></h1>
+    <p class="sub">La recepcionista que siempre contesta, personalizada para tu negocio</p>
+
+    <div class="hero">
+      <h2>Fase 1 · <em>Tu asistente de agencias</em></h2>
+      <p class="lead">Tus agencias escriben a cualquier hora — también de noche, también el fin de semana. Esta asistente <b>responde por WhatsApp al instante, cotiza con tu tarifa negociada</b> y deja cada gestión ordenada en tu panel. Tú y tu equipo solo entran a emitir.</p>
+      <ul class="bens">
+        <li><b>Contesta 24/7:</b> ninguna agencia se queda esperando respuesta.</li>
+        <li><b>Cotiza con TU información:</b> tu tarifa negociada y tus coberturas, sin errores.</li>
+        <li><b>No inventa:</b> lo que no sabe, lo deriva a tu WhatsApp con los datos tomados.</li>
+        <li><b>Todo queda en tu panel:</b> cotizaciones y consultas de tus 20–30 chats diarios, en orden.</li>
+      </ul>
+      <span class="fast">⚡ Instalación en 48 horas</span>
+      <a class="cta" href="https://wa.me/18483655865?text=Hola%2C%20quiero%20instalar%20la%20recepcionista%20de%20Alaluna%20AI%20Solutions%20en%20mi%20negocio%20Travel%20Care" target="_blank" rel="noopener">Quiero instalarlo en mi negocio</a>
+    </div>
+
+    <div class="demo-sec">
+      <div class="playcard">
+        <div class="pc-top"><span class="pc-dot"></span><span class="pc-kind">ESCENA · WHATSAPP DE UNA AGENCIA</span><span class="pc-badge">EJEMPLO</span></div>
+        <p class="pc-title">📲 Sábado, 10:48 p. m.: una agencia necesita cotizar<span>y la asistente responde en el momento</span></p>
+        <div class="pc-row">
+          <button class="playbtn" id="play-escena" type="button">▶ Escuchar el ejemplo</button>
+          <span class="pc-time" id="time-escena">00:00 / 01:02</span>
+        </div>
+        <div class="wave" id="wave-escena"></div>
+        <audio id="audio-escena" preload="none"></audio>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span class="dotlive"></span>Panel Travel Care · la aplicación de tu negocio</div>
+      <div class="panel-body">
+        <div class="excel">
+          <span class="ic">📊</span>
+          <p><b>Tu Excel manda.</b> Subes tus tarifas, planes y coberturas <b>una vez al mes</b> — tú o tu equipo — y el asistente queda actualizado al instante, sin llamar a nadie.</p>
+        </div>
+        <div class="feed">
+          <div class="item new">
+            <span class="chip">NUEVO</span><br>
+            <b>Cotización lista para emitir</b> — Agencia Andes Travel · Pasajero: Martín Rojas · Europa, 12 días · Plan Europa<br>
+            <span class="when">HOY · 10:48 P. M. · RESUELTO POR EL ASISTENTE</span>
+          </div>
+          <div class="item">
+            <b>Consulta de cobertura</b> — Agencia del Sur preguntó qué cubre el plan Mundial 50 Mil · respondida al momento<br>
+            <span class="when">HOY · 9:15 P. M.</span>
+          </div>
+          <div class="item">
+            <b>Derivación a tu WhatsApp</b> — Una agencia pidió aplicar su tarifa especial: datos tomados y derivados, sin inventar precios<br>
+            <span class="when">HOY · 6:02 P. M.</span>
+          </div>
+        </div>
+        <p class="panel-note">Esto es lo que te llega: <b>todo a la aplicación de tu negocio</b>, ordenado y con el detalle — nada se pierde en chats sueltos.</p>
+      </div>
+    </div>
+
+    <div class="callcard" id="llamada">
+      <h2>Pruébala ahora, en vivo</h2>
+      <p>Toca el botón y luego «Iniciar llamada» en el panel que aparece abajo a la derecha. Háblale como le hablaría una de tus agencias.</p>
+      <button class="btn" id="btnProbar" type="button">📞 Hablar con la asistente de agencias<span class="sub2">Cotiza, pregunta coberturas o pide ayuda para un pasajero</span></button>
+      <p class="status" id="liveStatus"></p>
+    </div>
+
+    <div class="qs">
+      <h2>Preguntas para ponerla a prueba</h2>
+      <ul>
+        <li><b>1.</b> «Necesito cotizar un viaje a Europa de 10 días, ¿cuánto sale?»</li>
+        <li><b>2.</b> «¿Qué cubre el plan Mundial 50 Mil?»</li>
+        <li><b>3.</b> «Mi pasajero está en España y se enfermó, ¿qué tiene que hacer?»</li>
+        <li><b>4.</b> «Quiero aplicar la tarifa negociada especial de mi agencia» — mira cómo deriva sin inventar.</li>
+        <li><b>5.</b> «¿Tienen un plan para alguien que viaja todo el año?»</li>
+      </ul>
+    </div>
+
+    <div class="steps">
+      <div class="step on"><b>Etapa 1 · Agencias</b> — la de esta demo: cotiza y atiende a tus agencias 24/7.</div>
+      <div class="step"><b>Etapa 2 · Público directo</b> — la asistente que cotiza y vende al viajero.</div>
+      <div class="step"><b>Etapa 3 · Capacitación</b> — enseña a tus clientes a usar su tarjeta.</div>
+      <div class="step">Las etapas 2 y 3 se activan <b>cuando usted diga</b>: a su ritmo, sobre la marcha.</div>
+    </div>
+
+    <a class="cta" href="https://wa.me/18483655865?text=Hola%2C%20quiero%20instalar%20la%20recepcionista%20de%20Alaluna%20AI%20Solutions%20en%20mi%20negocio%20Travel%20Care" target="_blank" rel="noopener">Quiero instalarlo en mi negocio</a>
+
+    <p class="foot">Hecha especialmente para Travel Care Assistance por Alaluna AI Solutions.<br>La llamada es real: la asistente contesta en vivo.</p>
+  </div>
+
+  <button id="fabCall" type="button">📞 Probar en vivo</button>
+
+  <elevenlabs-convai agent-id="agent_4901m7kpddqmffvsqgbd7ygvd1w2" text-contents='{"main_label":"Valeria · Agencias Travel Care","start_call":"Iniciar llamada","end_call":"Colgar","start_chat":"Mensaje"}'></elevenlabs-convai>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  <script>
+    document.getElementById('btnProbar').addEventListener('click', function(){
+      document.getElementById('liveStatus').textContent = 'Panel abierto abajo a la derecha: toca «Iniciar llamada» y actúa como una agencia.';
+    });
+    document.getElementById('fabCall').addEventListener('click', function(){
+      document.getElementById('liveStatus').textContent = 'Panel abierto abajo a la derecha: toca «Iniciar llamada» y actúa como una agencia.';
+      document.getElementById('llamada').scrollIntoView({ behavior:'smooth', block:'center' });
+    });
+  </script>
+<script>
+  // ===== Reproductor de la escena: la grabación viaja en trozos base64
+  // (carpeta tc-audio-f1/) y se reensambla en el navegador al primer «Escuchar».
+  (function(){
+    var PARTS = 4;
+    var PEAKS = [0.418,0.309,0.314,0.204,0.362,0.366,0.349,0.313,0.359,0.096,0.581,0.466,0.466,0.375,0.407,0.667,0.445,0.327,0.566,0.372,0.36,0.489,0.331,0.277,0.303,0.253,0.675,0.494,0.51,0.387,0.388,0.442,0.437,0.374,0.243,0.379,0.48,0.332,0.292,0.164,0.347,0.418,0.462,0.326,0.618,0.43,0.384,0.534,0.355,0.383,0.518,0.337,0.62,0.408,0.489,0.453,0.41,0.313,0.407,0.433,0.358,0.511,0.179,0.327];
+    function fmt(s){ s = Math.max(0, Math.floor(s)); var m = Math.floor(s/60), r = s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
+    var w = document.getElementById('wave-escena');
+    for (var i=0;i<PEAKS.length;i++){ var b=document.createElement('i'); b.style.height = Math.min(100, Math.max(10, PEAKS[i]*230))+'%'; w.appendChild(b); }
+    function load(){
+      var jobs=[];
+      for (var k=1;k<=PARTS;k++)(function(kk){ jobs.push(fetch('tc-audio-f1/escena-'+kk+'.b64').then(function(r){ return r.text(); })); })(k);
+      return Promise.all(jobs).then(function(parts){
+        var bin = atob(parts.join('')), bytes = new Uint8Array(bin.length);
+        for (var j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
+        return URL.createObjectURL(new Blob([bytes], {type:'audio/mpeg'}));
+      });
+    }
+    var btn=document.getElementById('play-escena'), au=document.getElementById('audio-escena'),
+        tm=document.getElementById('time-escena'), bars=w.children, ready=false, loading=false;
+    function paint(){
+      var f = (au.duration && au.currentTime) ? au.currentTime/au.duration : 0;
+      var n = Math.floor(f*bars.length);
+      for (var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i<n);
+      if (au.duration) tm.textContent = fmt(au.currentTime||0)+' / '+fmt(au.duration);
+    }
+    btn.addEventListener('click', function(){
+      if (!au.paused){ au.pause(); return; }
+      if (ready){ au.play(); return; }
+      if (loading) return; loading=true; btn.textContent='⏳ Cargando…';
+      load().then(function(url){ au.src=url; ready=true; loading=false; au.play(); })
+      .catch(function(){ loading=false; btn.textContent='▶ Escuchar el ejemplo'; });
+    });
+    au.addEventListener('play', function(){ btn.textContent='❚❚ Pausar'; });
+    au.addEventListener('pause', function(){ btn.textContent='▶ Escuchar el ejemplo'; });
+    au.addEventListener('timeupdate', paint);
+    au.addEventListener('loadedmetadata', paint);
+    au.addEventListener('ended', function(){ au.currentTime=0; paint(); });
+  })();
+</script>
+<script>
+  // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
+  // El HOST nace oculto desde la página (visibility) y SOLO se muestra cuando
+  // el visitante invoca la experiencia (nuestros botones o el inicio de llamada
+  // del propio widget). Se vuelve a ocultar cuando el visitante colapsa el
+  // panel con su botón «Contraer». Nunca se toca la posición del host ni se
+  // pelea dentro de su shadow DOM.
+  (function(){
+    var shown = false;
+    function hosts(){ return document.querySelectorAll('elevenlabs-convai'); }
+    function apply(){
+      hosts().forEach(function(h){
+        h.style.visibility = shown ? '' : 'hidden';
+        h.style.pointerEvents = shown ? '' : 'none';
+      });
+      var fab = document.getElementById('fabCall');
+      if (fab) fab.classList.toggle('fab-off', shown);
+    }
+    function show(){ if (!shown){ shown = true; apply(); } }
+    function hide(){ if (shown){ shown = false; apply(); } }
+    window.__lunaWidgetShow = show;
+    document.addEventListener('click', function(e){
+      var p = e.composedPath ? e.composedPath() : [];
+      for (var i = 0; i < p.length; i++){
+        var n = p[i];
+        if (!n || n.nodeType !== 1) continue;
+        if (n.id === 'fabCall' || n.id === 'btnProbar'){ show(); return; }
+        var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
+        if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
+      }
+    }, true);
+    function hook(){
+      hosts().forEach(function(h){
+        if (h.__lunaHook5) return; h.__lunaHook5 = true;
+        h.addEventListener('elevenlabs-convai:call', show);
+        h.addEventListener('conversationStarted', show);
+      });
+    }
+    hook(); apply();
+    setInterval(function(){ hook(); if (!shown) apply(); }, 800);
+  })();
+</script>
+</body>
+</html>
