@@ -2,7 +2,7 @@
 // Rebuilds dialogo-ejemplo.mp3 (sample call with ringtone) from the same-origin
 // base64 chunks (kennedy-data-1.js … kennedy-data-23.js) and hands it
 // to the card's <audio id="ccAudio"> as a Blob audio/mpeg.
-// SHA-256 of the rebuilt master: 7f30ee9294a78545dfd7914fe529396956cfc9914d69846ef6e052ab84215f5b
+// SHA-256 of the rebuilt master: e427dd51affe6fd9a8d61cd65aa42f9aaa1c3598f63537214bf5cb4212a5cb35
 // v2 (2026-11-10): carga tolerante a fallos, misma plantilla que Voltia.
 // Cada trozo se reintenta hasta 4 veces (espera creciente + cache-bust en los
 // reintentos) y se vigila que no quede colgado (20 s). Antes, UN solo error de
@@ -10,7 +10,7 @@
 // toda la visita. Los eventos de la página no cambian: kn-audio-ready /
 // kn-audio-error, y el global sigue siendo window.__KN_DLG.
 (function () {
-  var CHUNKS = 23, MAX_TRIES = 4, STALL_MS = 20000;
+  var CHUNKS = 30, MAX_TRIES = 4, STALL_MS = 20000;
   var done = false;
   function fail() { if (!done) { done = true; document.dispatchEvent(new Event('kn-audio-error')); } }
   function filled(i) { var p = window.__KN_DLG || []; return typeof p[i - 1] === 'string' && p[i - 1].length > 0; }
