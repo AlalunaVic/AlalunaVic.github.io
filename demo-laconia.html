@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Laconia Music Center — The receptionist who always answers</title>
+<style>
+  :root{ --navy:#14264C; --navy-d:#0C1A36; --ink:#1d2126; --bg:#f7f3ea; --gold:#C9A24B; --gold-d:#a07f2e; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html, body{ overflow-x:hidden; overflow-x:clip; }
+  body{ font-family:'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+  .tape{ background:var(--navy-d); color:#fff; overflow:hidden; white-space:nowrap; padding:.5rem 0; font-weight:700; letter-spacing:.18em; font-size:.78rem; }
+  .tape span{ display:inline-block; padding-right:2.5rem; animation:slide 22s linear infinite; }
+  @keyframes slide{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .tape span{ animation:none; } .pc-dot{ animation:none; } }
+  .wrap{ max-width:760px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+  .badge{ display:inline-block; background:#efe7d2; color:var(--navy-d); border:1px solid var(--gold); border-radius:999px; padding:.35rem .9rem; font-size:.78rem; font-weight:700; letter-spacing:.06em; margin-bottom:1rem; }
+  h1{ font-size:2.35rem; line-height:1.05; color:var(--navy-d); letter-spacing:.01em; }
+  h1 em{ color:var(--gold-d); font-style:normal; }
+  .sub{ font-size:1.22rem; font-weight:700; margin-top:.7rem; color:var(--navy-d); }
+  .lead{ margin-top:.8rem; font-size:1.02rem; line-height:1.6; color:#3c434a; }
+  .lead b{ color:var(--navy-d); }
+  .hero{ background:#fff; border:1px solid #e4dcc4; border-radius:18px; padding:1.3rem 1.2rem; margin-top:1.5rem; box-shadow:0 8px 28px rgba(12,26,54,.10); overflow:hidden; }
+  .hero h2{ font-size:1.3rem; color:var(--navy-d); line-height:1.25; }
+  .hero h2 em{ color:var(--gold-d); font-style:normal; }
+  .bens{ list-style:none; margin-top:.9rem; }
+  .bens li{ font-size:.99rem; line-height:1.5; color:#3c434a; padding:.42rem 0 .42rem 1.7rem; position:relative; }
+  .bens li::before{ content:"✔"; position:absolute; left:0; color:var(--gold-d); font-weight:800; }
+  .bens li b{ color:var(--navy-d); }
+  .fast{ display:inline-block; margin-top:.9rem; background:var(--gold); color:var(--navy-d); font-weight:800; border-radius:999px; padding:.45rem 1rem; font-size:.9rem; letter-spacing:.02em; }
+  .cta{ display:block; width:100%; margin-top:1rem; background:var(--navy); color:#fff; border:none; border-radius:14px; padding:1.05rem 1rem; font-size:1.12rem; font-weight:800; cursor:pointer; letter-spacing:.01em; text-align:center; text-decoration:none; }
+  .cta:active{ transform:scale(.99); }
+  .callcard{ background:#fff; border:1px solid #e4dcc4; border-radius:18px; padding:1.3rem 1.2rem; margin-top:1.5rem; box-shadow:0 8px 28px rgba(12,26,54,.10); overflow:hidden; }
+  .callcard h2{ font-size:1.15rem; color:var(--navy-d); margin-bottom:.4rem; }
+  .callcard p{ font-size:.96rem; line-height:1.55; color:#3c434a; }
+  .btn{ display:block; width:100%; margin-top:1rem; background:var(--navy); color:#fff; border:none; border-radius:14px; padding:1.05rem 1rem; font-size:1.12rem; font-weight:800; cursor:pointer; letter-spacing:.01em; }
+  .btn:active{ transform:scale(.99); }
+  .btn .sub2{ display:block; font-size:.86rem; font-weight:600; opacity:.88; margin-top:.3rem; letter-spacing:0; }
+  .status{ margin-top:.7rem; font-size:.9rem; color:var(--gold-d); min-height:1.2em; font-weight:600; }
+  .demo-sec{ margin-top:1.5rem; }
+  .playcard{ background:linear-gradient(160deg,#14264C,#0C1A36); border:1px solid rgba(201,162,75,.55); border-radius:22px; padding:1.25rem 1.2rem 1.35rem; margin-bottom:1.1rem; box-shadow:0 10px 30px rgba(12,26,54,.30); overflow:hidden; }
+  .pc-top{ display:flex; align-items:center; gap:.6rem; }
+  .pc-dot{ width:13px; height:13px; border-radius:50%; background:#ff5147; animation:pulse 1.6s ease-in-out infinite; flex:none; }
+  @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 3px rgba(255,81,71,.22);} 50%{ box-shadow:0 0 0 7px rgba(255,81,71,.08);} }
+  .pc-kind{ color:#f2ead2; font-weight:700; letter-spacing:.2em; font-size:.76rem; white-space:nowrap; }
+  .pc-badge{ margin-left:auto; color:var(--gold); border:1.5px solid var(--gold); border-radius:999px; padding:.32rem .8rem; font-size:.72rem; font-weight:800; letter-spacing:.22em; flex:none; }
+  .pc-title{ color:#fff; font-size:1.28rem; font-weight:800; margin-top:1rem; line-height:1.25; }
+  .pc-title span{ display:block; font-size:1.02rem; font-weight:700; color:#ffd94d; margin-top:.15rem; }
+  .pc-row{ display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+  .playbtn{ background:linear-gradient(90deg,var(--gold),#dcbc6a); color:var(--navy-d); border:none; border-radius:999px; padding:.95rem 1.5rem; font-size:1.05rem; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(201,162,75,.35); }
+  .playbtn:active{ transform:scale(.98); }
+  .pc-time{ color:var(--gold); font-size:1.05rem; font-weight:700; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
+  .wave{ display:flex; align-items:center; gap:2px; height:62px; margin-top:1.05rem; }
+  .wave i{ flex:1 1 0; min-width:2px; background:rgba(201,162,75,.30); border-radius:2px; }
+  .wave i.on{ background:#ffd94d; }
+  .panel{ background:#fff; border:1px solid #e4dcc4; border-radius:18px; margin-top:1.5rem; box-shadow:0 8px 28px rgba(12,26,54,.10); overflow:hidden; }
+  .panel-head{ background:var(--navy-d); color:#fff; padding:.85rem 1.2rem; font-weight:800; font-size:.98rem; display:flex; align-items:center; gap:.55rem; }
+  .panel-head .dotlive{ width:9px; height:9px; border-radius:50%; background:#35d07f; flex:none; }
+  .panel-body{ padding:1rem 1.2rem 1.2rem; }
+  .feed{ margin-top:.2rem; display:grid; gap:.55rem; }
+  .item{ border:1px solid #e7e0c9; border-radius:12px; padding:.75rem .95rem; font-size:.94rem; line-height:1.5; color:#3c434a; }
+  .item b{ color:var(--navy-d); }
+  .item .when{ color:#7a838c; font-size:.82rem; font-weight:700; letter-spacing:.03em; }
+  .item.new{ border:2px solid var(--gold); background:#fbf7ea; }
+  .chip{ display:inline-block; background:var(--gold); color:var(--navy-d); font-size:.68rem; font-weight:800; letter-spacing:.12em; border-radius:999px; padding:.18rem .6rem; margin-bottom:.3rem; }
+  .panel-note{ margin-top:.9rem; font-size:.93rem; line-height:1.55; color:#3c434a; }
+  .panel-note b{ color:var(--gold-d); }
+  .qs{ margin-top:1.5rem; }
+  .qs h2{ font-size:1.12rem; color:var(--navy-d); margin-bottom:.6rem; }
+  .qs ul{ list-style:none; }
+  .qs li{ background:#fff; border:1px solid #e4dcc4; border-radius:12px; padding:.75rem .95rem; margin-bottom:.55rem; font-size:.97rem; line-height:1.45; }
+  .qs li b{ color:var(--gold-d); }
+  .steps{ display:grid; gap:.55rem; margin-top:1.5rem; }
+  .step{ background:var(--navy-d); color:#eef3f3; border-radius:12px; padding:.85rem 1rem; font-size:.95rem; line-height:1.5; }
+  .step b{ color:var(--gold); }
+  .foot{ margin-top:2rem; font-size:.85rem; color:#6a737c; text-align:center; line-height:1.6; }
+  #fabCall{ position:fixed; left:14px; bottom:14px; z-index:40; background:var(--gold); color:var(--navy-d); border:none; border-radius:999px; padding:.85rem 1.25rem; font-size:1rem; font-weight:800; cursor:pointer; box-shadow:0 8px 22px rgba(12,26,54,.35); }
+  #fabCall.fab-off{ display:none; }
+  #fabCall:active{ transform:scale(.97); }
+</style>
+</head>
+<body>
+  <div class="tape"><span>ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦&nbsp;</span><span>ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦ ALALUNA AI SOLUTIONS ✦&nbsp;</span></div>
+  <div class="wrap">
+    <div class="badge">● MADE ESPECIALLY FOR LACONIA MUSIC CENTER</div>
+    <h1>LACONIA<br><em>MUSIC CENTER</em></h1>
+    <p class="sub">The receptionist who always answers, personalized for your business</p>
+
+    <div class="hero">
+      <h2>Meet Hailey · <em>your rentals specialist</em></h2>
+      <p class="lead">Parents call about school rentals at all hours — in the morning before you open at 1, at night, on Sundays. Hailey <b>answers every call, knows your store</b>, and takes the <b>complete rental request on the spot</b>, ready for your team to prepare.</p>
+      <ul class="bens">
+        <li><b>Answers 24/7:</b> no rental is ever lost to a ringing phone or a closed store.</li>
+        <li><b>Rental specialist:</b> instrument, size, student, school and phone — the full request, taken in one call.</li>
+        <li><b>Knows Laconia:</b> 8,000+ band &amp; orchestra instruments, lessons, repairs, hours and directions.</li>
+        <li><b>Never invents:</b> anything she doesn't know, she takes a name and number for your team.</li>
+      </ul>
+      <span class="fast">⚡ Installed in 48 hours</span>
+      <a class="cta" href="https://wa.me/18483655865?text=Hi%2C%20I%20saw%20the%20Laconia%20Music%20Center%20demo%20and%20I%20want%20this%20receptionist%20for%20my%20business" target="_blank" rel="noopener">I want this for my business</a>
+    </div>
+
+    <div class="demo-sec">
+      <div class="playcard">
+        <div class="pc-top"><span class="pc-dot"></span><span class="pc-kind">SCENE · A CALL BEFORE OPENING</span><span class="pc-badge">EXAMPLE</span></div>
+        <p class="pc-title">🎻 Tuesday, 9:12 a.m.: a mom needs a violin for her daughter<span>and Hailey takes the whole rental before the store even opens</span></p>
+        <div class="pc-row">
+          <button class="playbtn" id="play-escena" type="button">▶ Listen to the example</button>
+          <span class="pc-time" id="time-escena">00:00 / 01:31</span>
+        </div>
+        <div class="wave" id="wave-escena"></div>
+        <audio id="audio-escena" preload="none"></audio>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span class="dotlive"></span>Laconia Rental Desk · your business app</div>
+      <div class="panel-body">
+        <div class="feed">
+          <div class="item new">
+            <span class="chip">NEW</span><br>
+            <b>New rental request</b> — Violin ¾ · Student: Sofia Ramirez · Roosevelt Elementary · Pickup: today after 1 PM · Note: teacher asked for a shoulder rest<br>
+            <span class="when">TODAY · 9:12 A.M. · TAKEN BY HAILEY BEFORE OPENING</span>
+          </div>
+          <div class="item">
+            <b>Lessons callback</b> — Piano lessons for a 7-year-old · Mrs. Chen · phone taken, lessons team to call back<br>
+            <span class="when">TODAY · 8:47 A.M.</span>
+          </div>
+          <div class="item">
+            <b>Repair intake</b> — Clarinet with a sticking key · Mr. Alvarez · asked to be called with timing after inspection<br>
+            <span class="when">YESTERDAY · 7:58 P.M.</span>
+          </div>
+        </div>
+        <p class="panel-note">This is what lands with you: <b>everything in your business app</b>, in order and with the details — no rental ever lost in a missed call again.</p>
+      </div>
+    </div>
+
+    <div class="callcard" id="llamada">
+      <h2>Try her live, right now</h2>
+      <p>Tap the button, then "Start call" on the panel that appears at the bottom right. Talk to her like a parent renting an instrument would.</p>
+      <button class="btn" id="btnProbar" type="button">📞 Talk to Hailey<span class="sub2">Ask her to rent a violin, about a bassoon, or about lessons</span></button>
+      <p class="status" id="liveStatus"></p>
+    </div>
+
+    <div class="qs">
+      <h2>Questions to put her to the test</h2>
+      <ul>
+        <li><b>1.</b> "I need to rent a violin for my 9-year-old daughter — how does it work?"</li>
+        <li><b>2.</b> "Do you rent bassoons? My son's teacher said they're hard to find."</li>
+        <li><b>3.</b> "What are your hours on Saturdays?"</li>
+        <li><b>4.</b> "My son's clarinet has a broken key — can you fix it?"</li>
+        <li><b>5.</b> "Do you offer piano lessons for a 7-year-old?"</li>
+      </ul>
+    </div>
+
+    <div class="steps">
+      <div class="step"><b>Rentals — her specialty.</b> School band &amp; orchestra, from a first flute to a string bass, with the sizes and the schools' requests noted.</div>
+      <div class="step"><b>Lessons &amp; repairs too.</b> Every inquiry becomes a written request with name and phone — nothing lives only in someone's memory.</div>
+      <div class="step"><b>Always on.</b> Mornings before 1 PM, evenings after 8, and Sundays — exactly when parents finally have a minute to call.</div>
+    </div>
+
+    <a class="cta" href="https://wa.me/18483655865?text=Hi%2C%20I%20saw%20the%20Laconia%20Music%20Center%20demo%20and%20I%20want%20this%20receptionist%20for%20my%20business" target="_blank" rel="noopener">I want this for my business</a>
+
+    <p class="foot">Made especially for Laconia Music Center by Alaluna AI Solutions.<br>The call is real: Hailey answers live.</p>
+  </div>
+
+  <button id="fabCall" type="button">📞 Try her live</button>
+
+  <elevenlabs-convai agent-id="agent_9301m7n3egm7et5ar6ypw21w23cr" text-contents='{"main_label":"Hailey · Laconia Music Center","start_call":"Start call","end_call":"End call","start_chat":"Message"}'></elevenlabs-convai>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  <script>
+    document.getElementById('btnProbar').addEventListener('click', function(){
+      document.getElementById('liveStatus').textContent = 'Panel opened at the bottom right: tap "Start call" and talk to her like a parent would.';
+    });
+    document.getElementById('fabCall').addEventListener('click', function(){
+      document.getElementById('liveStatus').textContent = 'Panel opened at the bottom right: tap "Start call" and talk to her like a parent would.';
+      document.getElementById('llamada').scrollIntoView({ behavior:'smooth', block:'center' });
+    });
+  </script>
+<script>
+  // ===== Scene player: the recording travels in base64 chunks
+  // (laconia-audio/ folder) and is reassembled in the browser on first "Listen".
+  (function(){
+    var PARTS = 10;
+    var PEAKS = [0.324,0.12,0.194,0.34,0.361,0.45,0.307,0.487,0.371,0.239,0.259,0.369,0.221,0.302,0.207,0.244,0.254,0.288,0.258,0.469,0.237,0.254,0.295,0.172,0.246,0.306,0.313,0.277,0.28,0.285,0.139,0.245,0.36,0.5,0.277,0.208,0.23,0.285,0.154,0.226,0.293,0.198,0.2,0.12,0.248,0.321,0.269,0.274,0.397,0.225,0.226,0.35,0.288,0.337,0.247,0.289,0.335,0.199,0.478,0.349,0.227,0.328,0.229,0.222];
+    function fmt(s){ s = Math.max(0, Math.floor(s)); var m = Math.floor(s/60), r = s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
+    var w = document.getElementById('wave-escena');
+    for (var i=0;i<PEAKS.length;i++){ var b=document.createElement('i'); b.style.height = Math.min(100, Math.max(10, PEAKS[i]*230))+'%'; w.appendChild(b); }
+    function load(){
+      var jobs=[];
+      for (var k=1;k<=PARTS;k++)(function(kk){ jobs.push(fetch('laconia-audio/escena-'+kk+'.b64').then(function(r){ return r.text(); })); })(k);
+      return Promise.all(jobs).then(function(parts){
+        var bin = atob(parts.join('')), bytes = new Uint8Array(bin.length);
+        for (var j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
+        return URL.createObjectURL(new Blob([bytes], {type:'audio/mpeg'}));
+      });
+    }
+    var btn=document.getElementById('play-escena'), au=document.getElementById('audio-escena'),
+        tm=document.getElementById('time-escena'), bars=w.children, ready=false, loading=false;
+    function paint(){
+      var f = (au.duration && au.currentTime) ? au.currentTime/au.duration : 0;
+      var n = Math.floor(f*bars.length);
+      for (var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i<n);
+      if (au.duration) tm.textContent = fmt(au.currentTime||0)+' / '+fmt(au.duration);
+    }
+    btn.addEventListener('click', function(){
+      if (!au.paused){ au.pause(); return; }
+      if (ready){ au.play(); return; }
+      if (loading) return; loading=true; btn.textContent='⏳ Loading…';
+      load().then(function(url){ au.src=url; ready=true; loading=false; au.play(); })
+      .catch(function(){ loading=false; btn.textContent='▶ Listen to the example'; });
+    });
+    au.addEventListener('play', function(){ btn.textContent='❚❚ Pause'; });
+    au.addEventListener('pause', function(){ btn.textContent='▶ Listen to the example'; });
+    au.addEventListener('timeupdate', paint);
+    au.addEventListener('loadedmetadata', paint);
+    au.addEventListener('ended', function(){ au.currentTime=0; paint(); });
+  })();
+</script>
+<script>
+  // ===== Widget oculto hasta que el visitante lo invoca (__lunaHide5, pedido de Victor) =====
+  // El HOST nace oculto desde la página (visibility) y SOLO se muestra cuando
+  // el visitante invoca la experiencia (nuestros botones o el inicio de llamada
+  // del propio widget). Se vuelve a ocultar cuando el visitante colapsa el
+  // panel con su botón «Contraer». Nunca se toca la posición del host ni se
+  // pelea dentro de su shadow DOM.
+  (function(){
+    var shown = false;
+    function hosts(){ return document.querySelectorAll('elevenlabs-convai'); }
+    function apply(){
+      hosts().forEach(function(h){
+        h.style.visibility = shown ? '' : 'hidden';
+        h.style.pointerEvents = shown ? '' : 'none';
+      });
+      var fab = document.getElementById('fabCall');
+      if (fab) fab.classList.toggle('fab-off', shown);
+    }
+    function show(){ if (!shown){ shown = true; apply(); } }
+    function hide(){ if (shown){ shown = false; apply(); } }
+    window.__lunaWidgetShow = show;
+    document.addEventListener('click', function(e){
+      var p = e.composedPath ? e.composedPath() : [];
+      for (var i = 0; i < p.length; i++){
+        var n = p[i];
+        if (!n || n.nodeType !== 1) continue;
+        if (n.id === 'fabCall' || n.id === 'btnProbar'){ show(); return; }
+        var lbl = (n.getAttribute && n.getAttribute('aria-label')) || '';
+        if (n.tagName === 'BUTTON' && (lbl === 'Contraer' || lbl === 'Collapse')){ setTimeout(hide, 350); return; }
+      }
+    }, true);
+    function hook(){
+      hosts().forEach(function(h){
+        if (h.__lunaHook5) return; h.__lunaHook5 = true;
+        h.addEventListener('elevenlabs-convai:call', show);
+        h.addEventListener('conversationStarted', show);
+      });
+    }
+    hook(); apply();
+    setInterval(function(){ hook(); if (!shown) apply(); }, 800);
+  })();
+</script>
+</body>
+</html>
