@@ -115,7 +115,7 @@
         <p class="pc-title">🎻 Tuesday, 9:42 a.m.: a mom needs a violin for her daughter<span>and Melody completes the whole rental while the store is still closed — the request in the panel below is this very call</span></p>
         <div class="pc-row">
           <button class="playbtn" id="play-escena" type="button">▶ Listen to the example</button>
-          <span class="pc-time" id="time-escena">00:00 / 01:32</span>
+          <span class="pc-time" id="time-escena">00:00 / 01:42</span>
         </div>
         <div class="wave" id="wave-escena"></div>
         <audio id="audio-escena" preload="none"></audio>
@@ -207,8 +207,8 @@
   // ===== Scene player: the recording travels in base64 chunks
   // (laconia-music-audio/ folder) and is reassembled in the browser on first "Listen".
   (function(){
-    var PARTS = 10;
-    var PEAKS = [0.272,0.232,0.164,0.412,0.432,0.425,0.357,0.242,0.177,0.272,0.229,0.254,0.163,0.238,0.288,0.264,0.221,0.377,0.153,0.265,0.189,0.281,0.334,0.235,0.383,0.362,0.267,0.102,0.344,0.301,0.417,0.346,0.338,0.213,0.178,0.146,0.275,0.234,0.247,0.405,0.203,0.271,0.248,0.243,0.224,0.335,0.437,0.386,0.277,0.319,0.199,0.251,0.274,0.346,0.22,0.291,0.234,0.268,0.192,0.437,0.459,0.231,0.366,0.188];
+    var PARTS = 12;
+    var PEAKS = [0.328,0.186,0.168,0.25,0.217,0.317,0.303,0.219,0.207,0.2,0.373,0.24,0.242,0.222,0.124,0.273,0.186,0.226,0.179,0.232,0.218,0.265,0.27,0.123,0.195,0.141,0.352,0.218,0.244,0.196,0.223,0.238,0.281,0.193,0.238,0.241,0.262,0.188,0.178,0.19,0.24,0.246,0.22,0.263,0.152,0.31,0.248,0.346,0.168,0.316,0.198,0.174,0.266,0.319,0.15,0.281,0.188,0.203,0.28,0.194,0.239,0.289,0.274,0.233];
     function fmt(s){ s = Math.max(0, Math.floor(s)); var m = Math.floor(s/60), r = s%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
     var w = document.getElementById('wave-escena');
     for (var i=0;i<PEAKS.length;i++){ var b=document.createElement('i'); b.style.height = Math.min(100, Math.max(10, PEAKS[i]*230))+'%'; w.appendChild(b); }
