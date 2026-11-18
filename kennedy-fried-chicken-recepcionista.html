@@ -302,9 +302,9 @@
     .callcard:hover, .call:hover, .info:hover { transform:none; }
   }
 
-/* ===== App del negocio: el pedido llega en vivo (sincronizado con el audio) ===== */
+/* ===== App del negocio v3: tablero de cocina vivo + panel del dueno ===== */
 .app-stage { margin-bottom:20px; }
-.app-panel { position:relative; background:#f7f0e1; color:#2a1408; border-radius:16px; max-width:430px; margin:0 auto; box-shadow:0 18px 40px rgba(0,0,0,.45); overflow:hidden; font-size:14.5px; }
+.app-panel { position:relative; background:#f7f0e1; color:#2a1408; border-radius:16px; max-width:640px; margin:0 auto; box-shadow:0 18px 40px rgba(0,0,0,.45); overflow:hidden; font-size:14.5px; }
 .app-head { display:flex; align-items:center; gap:10px; background:#211310; color:#f5e9d0; padding:12px 16px; }
 .app-logo { font-size:22px; }
 .app-titles { display:flex; flex-direction:column; line-height:1.25; flex:1; }
@@ -313,29 +313,64 @@
 .app-live { background:#d8232a; color:#fff; font-weight:800; font-size:11px; letter-spacing:1px; padding:4px 9px; border-radius:999px; opacity:.25; }
 .app-panel.live .app-live { opacity:1; animation:aoPulse 1.1s ease-in-out infinite; }
 @keyframes aoPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
-.app-tabs { display:flex; gap:8px; padding:10px 16px 0; }
-.app-tabs span { font-size:12px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:#8a6d3b; padding:5px 10px; border-radius:999px; border:1px solid rgba(42,20,8,.25); }
-.app-tabs span.on { background:#2a1408; color:#f5c518; border-color:#2a1408; }
-.app-status { margin:10px 16px 4px; font-size:13px; color:#6b543a; background:rgba(42,20,8,.06); border-radius:8px; padding:8px 10px; }
-.app-order { position:relative; padding:8px 16px 16px; min-height:120px; }
-.ao-row { display:none; }
-.ao-row.on { display:flex; animation:aoIn .45s ease both; }
+.app-tabs { display:flex; gap:8px; padding:12px 14px 0; }
+.app-tab { flex:1; font:inherit; font-size:12.5px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:#8a6d3b; padding:9px 6px; border-radius:10px; border:1.5px solid rgba(42,20,8,.3); background:transparent; cursor:pointer; }
+.app-tab.on { background:#2a1408; color:#f5c518; border-color:#2a1408; }
+.app-status { margin:10px 14px 4px; font-size:13px; color:#6b543a; background:rgba(42,20,8,.06); border-radius:8px; padding:8px 10px; }
+.board { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:10px 10px 14px; }
+.bcol { background:rgba(42,20,8,.05); border:1px solid rgba(42,20,8,.12); border-radius:12px; padding:8px; min-height:150px; }
+.bcol h4 { margin:0 0 8px; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#6b543a; display:flex; justify-content:space-between; align-items:center; }
+.bcol h4 .cnt { background:#2a1408; color:#f5c518; border-radius:999px; padding:1px 7px; font-size:11px; }
+.bcol.ready-col { background:rgba(29,122,58,.08); border-color:rgba(29,122,58,.35); }
+.ocard { background:#fffdf7; border:1.5px solid rgba(42,20,8,.25); border-radius:10px; padding:8px; margin-bottom:8px; box-shadow:0 3px 8px rgba(42,20,8,.12); animation:aoIn .45s ease both; }
 @keyframes aoIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-.ao-head { justify-content:space-between; align-items:center; padding:8px 0 4px; }
-.ao-badge { background:#d8232a; color:#fff; font-weight:800; font-size:11px; letter-spacing:1px; padding:3px 8px; border-radius:6px; }
-.ao-type { font-weight:800; color:#8a6d3b; text-transform:uppercase; font-size:12px; letter-spacing:1px; }
-.ao-cust { justify-content:space-between; padding:6px 0; border-top:1px dashed rgba(42,20,8,.18); font-size:15px; }
-.ao-cust span { color:#6b543a; }
-.ao-item { justify-content:space-between; gap:12px; padding:6px 0; border-top:1px dashed rgba(42,20,8,.18); }
-.ao-special { padding:7px 9px; margin-top:8px; background:#fdf3d7; border:1px solid #e7cf8a; border-radius:8px; font-weight:600; color:#7a5b12; }
-.ao-totals { flex-direction:column; padding-top:8px; margin-top:8px; border-top:2px solid rgba(42,20,8,.35); }
-.ao-totals > div { display:flex; justify-content:space-between; padding:3px 0; }
-.ao-totals .ao-grand { font-weight:800; font-size:17px; }
-.ao-totals .ao-ready { display:block; text-align:center; color:#1d7a3a; font-weight:700; font-size:13px; padding-top:6px; }
-.ao-stamp { display:none; position:absolute; top:44%; left:50%; transform:translate(-50%,-50%) rotate(-7deg); border:3px solid #1d7a3a; color:#1d7a3a; font-family:'Montserrat',sans-serif; font-weight:800; font-size:19px; text-align:center; line-height:1.3; padding:8px 16px; border-radius:10px; background:rgba(247,240,225,.92); letter-spacing:.5px; }
-.ao-stamp small { font-size:12px; font-weight:700; }
-.ao-stamp.on { display:block; animation:aoStamp .4s ease both; }
-@keyframes aoStamp { from { opacity:0; transform:translate(-50%,-50%) rotate(-7deg) scale(1.6); } to { opacity:1; transform:translate(-50%,-50%) rotate(-7deg) scale(1); } }
+.ocard.wide { grid-column:auto; }
+.board .ocard.dave { border-color:#d8232a; border-width:2px; }
+.ocard header { display:flex; justify-content:space-between; align-items:baseline; gap:6px; }
+.ocard .oc-name { font-family:'Montserrat',sans-serif; font-size:14.5px; }
+.ocard .oc-meta { font-size:10.5px; color:#8a6d3b; font-weight:700; letter-spacing:.4px; text-transform:uppercase; white-space:nowrap; }
+.ocard ul { list-style:none; margin:6px 0 0; padding:0; }
+.ocard li { display:none; justify-content:space-between; gap:6px; font-size:12px; padding:3px 0; border-top:1px dashed rgba(42,20,8,.15); }
+.ocard li.on { display:flex; animation:aoIn .4s ease both; }
+.ocard .oc-special { display:none; margin-top:6px; font-size:11.5px; background:#fdf3d7; border:1px solid #e7cf8a; border-radius:6px; padding:4px 6px; color:#7a5b12; font-weight:600; }
+.ocard .oc-special.on { display:block; animation:aoIn .4s ease both; }
+.ocard footer { display:none; margin-top:6px; padding-top:5px; border-top:2px solid rgba(42,20,8,.3); font-size:12.5px; justify-content:space-between; }
+.ocard footer.on { display:flex; animation:aoIn .4s ease both; }
+.ocard .oc-state { margin-top:7px; font-size:10.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:#8a6d3b; }
+.ocard.preparing .oc-state { color:#b97d10; }
+.ocard.ready { border-color:#1d7a3a; background:#f2fbf4; }
+.ocard.ready .oc-state { color:#1d7a3a; font-size:12px; }
+.ocard.ready .oc-name { font-size:17px; }
+.ocard.picked { opacity:.45; }
+.ocard.picked .oc-state { color:#6b543a; }
+.bcol .bempty { font-size:11.5px; color:#a08b6d; text-align:center; padding:14px 4px; border:1.5px dashed rgba(42,20,8,.2); border-radius:8px; }
+/* Panel del dueno */
+#ownerView { padding:4px 14px 16px; }
+.op-link { font-size:13px; background:#eef7ee; border:1px solid rgba(29,122,58,.4); color:#20512c; border-radius:8px; padding:9px 11px; margin:10px 0; line-height:1.5; }
+.op-link b { color:#1d7a3a; }
+#opSearch { width:100%; font:inherit; font-size:14px; padding:10px 12px; border-radius:10px; border:1.5px solid rgba(42,20,8,.3); background:#fffdf7; color:#2a1408; margin-bottom:6px; }
+.op-sec { margin-top:10px; }
+.op-sec > button.op-sec-head { width:100%; font:inherit; display:flex; justify-content:space-between; align-items:center; background:#2a1408; color:#f5e9d0; border:none; border-radius:8px; padding:8px 11px; font-weight:800; font-size:12.5px; letter-spacing:.6px; text-transform:uppercase; cursor:pointer; }
+.op-sec > button.op-sec-head .cnt { color:#f5c518; }
+.op-rows { padding:4px 2px 2px; }
+.op-row { display:flex; align-items:center; gap:7px; padding:6px 4px; border-bottom:1px dashed rgba(42,20,8,.15); font-size:13px; }
+.op-row .op-name { flex:1; line-height:1.3; }
+.op-row .op-name .tag { display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.5px; padding:1px 5px; border-radius:4px; margin-left:5px; vertical-align:middle; }
+.tag.out { background:#d8232a; color:#fff; }
+.tag.newp { background:#f5c518; color:#2a1408; }
+.op-row.out .op-name { color:#a33; text-decoration:line-through; }
+.op-price { font:inherit; font-weight:800; font-size:12.5px; background:rgba(42,20,8,.06); border:1px solid rgba(42,20,8,.25); color:#2a1408; border-radius:7px; padding:4px 7px; cursor:pointer; white-space:nowrap; }
+.op-price.changed { background:#fdf3d7; border-color:#e7cf8a; }
+.op-price-input { font:inherit; font-size:12.5px; width:110px; padding:4px 6px; border-radius:7px; border:1.5px solid #b97d10; }
+.op-tgl, .op-del { font:inherit; font-size:11px; font-weight:800; border-radius:7px; padding:5px 7px; cursor:pointer; border:1px solid rgba(42,20,8,.3); background:#fffdf7; color:#2a1408; white-space:nowrap; }
+.op-tgl.off { background:#d8232a; border-color:#d8232a; color:#fff; }
+.op-del { color:#a33; }
+.op-add { display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
+.op-add select, .op-add input { font:inherit; font-size:13px; padding:8px; border-radius:8px; border:1.5px solid rgba(42,20,8,.3); background:#fffdf7; color:#2a1408; }
+.op-add input { flex:1; min-width:110px; }
+.op-add button, #opReset { font:inherit; font-weight:800; font-size:13px; padding:8px 14px; border-radius:8px; border:none; background:#2a1408; color:#f5c518; cursor:pointer; }
+#opReset { background:transparent; color:#a33; border:1.5px solid rgba(163,51,51,.5); margin-top:10px; }
+.op-hint { font-size:12px; color:#6b543a; margin-top:10px; line-height:1.5; }
 </style>
 <script>if('scrollRestoration' in history)history.scrollRestoration='manual';if(location.hash){history.replaceState(null,'',location.pathname+location.search);}window.scrollTo(0,0);</script>
 
@@ -394,34 +429,64 @@
           </div>
 
     <h2 class="step-h"><span>2.</span> And this is what you get</h2>
-    <p class="step-lead">While you keep cooking, every order lands in your store's app — on the kitchen screen and in your owner panel. Press play above and watch this one arrive.</p>
+    <p class="step-lead">While you keep cooking, the store runs itself: orders land on a live kitchen board, move to preparation and pop up ready with the customer's name. And the owner panel is real — change the menu there and the receptionist knows it on the next call.</p>
     <div class="app-stage reveal">
       <div class="app-panel" id="appPanel">
         <div class="app-head">
           <span class="app-logo">🍗</span>
-          <div class="app-titles"><b>Kennedy Fried Chicken</b><small>STORE APP · ORDERS</small></div>
+          <div class="app-titles"><b>Kennedy Fried Chicken</b><small>STORE APP · LIVE ORDERS</small></div>
           <span class="app-live" id="appLive">● LIVE</span>
         </div>
-        <div class="app-tabs"><span class="on">Kitchen screen</span><span>Owner panel</span></div>
-        <div class="app-status" id="appStatus">Press play on the call above — the order lands here, item by item, as Mike takes it.</div>
-        <div class="app-order" id="appOrder">
-          <div class="ao-head ao-row" data-t="5.8"><span class="ao-badge">NEW ORDER</span><span class="ao-type">Pickup</span></div>
-          <div class="ao-item ao-row" data-t="15.6"><span>1 × Family Box (9 pcs)</span><b>$23.99</b></div>
-          <div class="ao-item ao-row" data-t="39.8"><span>1 × Buffalo &amp; Crispy Wings 12 pcs (Lemon Pepper)</span><b>$14.99</b></div>
-          <div class="ao-item ao-row" data-t="43.6"><span>1 × Mozzarella Sticks</span><b>$5.99</b></div>
-          <div class="ao-item ao-row" data-t="47.6"><span>2 × Red Velvet Cake</span><b>$9.00</b></div>
-          <div class="ao-special ao-row" data-t="59.7"><span>★ Special: extra crispy · sauces on the side</span></div>
-          <div class="ao-totals ao-row" data-t="75.9">
-            <div><span>Subtotal</span><b>$53.97</b></div>
-            <div><span>New Jersey tax (6.625%)</span><b>$3.58</b></div>
-            <div class="ao-grand"><span>Total</span><b>$57.55</b></div>
-            <div class="ao-ready">Ready for pickup in 15–20 min</div>
+        <div class="app-tabs">
+          <button class="app-tab on" id="tabBoard" type="button">Kitchen board</button>
+          <button class="app-tab" id="tabOwner" type="button">Owner panel</button>
+        </div>
+        <div id="boardView">
+          <div class="app-status" id="appStatus">Press play on the call above — Dave's order lands here and moves across the board as the kitchen works it.</div>
+          <div class="board">
+            <div class="bcol" id="colNew">
+              <h4>New <span class="cnt" id="cntNew">0</span></h4>
+              <div class="bcol-body" id="bodyNew"><div class="bempty" id="emptyNew">No new orders</div></div>
+            </div>
+            <div class="bcol" id="colPrep">
+              <h4>Preparing <span class="cnt" id="cntPrep">1</span></h4>
+              <div class="bcol-body" id="bodyPrep">
+                <article class="ocard preparing" id="jamesCard">
+                  <header><b class="oc-name">James</b><span class="oc-meta">Pickup · #1041</span></header>
+                  <ul><li class="on"><span>1 × 12 pcs Wings (Hot)</span><b>$14.99</b></li><li class="on"><span>1 × Cheese Fries</span><b>$4.99</b></li></ul>
+                  <footer class="on"><span>Total</span><b>$21.31</b></footer>
+                  <div class="oc-state">Preparing · 6 min</div>
+                </article>
+              </div>
+            </div>
+            <div class="bcol ready-col" id="colReady">
+              <h4>Ready for pickup <span class="cnt" id="cntReady">1</span></h4>
+              <div class="bcol-body" id="bodyReady">
+                <article class="ocard ready" id="mariaCard">
+                  <header><b class="oc-name">Maria G.</b><span class="oc-meta">Pickup · #1039</span></header>
+                  <ul><li class="on"><span>1 × Dinner Box</span><b>$8.99</b></li><li class="on"><span>2 × Red Velvet Cake</span><b>$9.00</b></li></ul>
+                  <footer class="on"><span>Total</span><b>$19.09</b></footer>
+                  <div class="oc-state">✓ Ready for pickup</div>
+                </article>
+              </div>
+            </div>
           </div>
-          <div class="ao-cust ao-row" data-t="90.2"><b>Dave</b><span>732-555-0119</span></div>
-          <div class="ao-stamp" id="appStamp">✓ ORDER COMPLETE<br><small>SENT TO THE KITCHEN</small></div>
+        </div>
+        <div id="ownerView" hidden>
+          <div class="op-link">🔗 Receptionist link: <b>ACTIVE</b> — every change below reaches Mike, your AI receptionist, on the very next live call.<br><span id="opChanges">No changes yet today.</span></div>
+          <input id="opSearch" type="search" placeholder="Search the menu… (try &quot;wings&quot;)" autocomplete="off">
+          <div id="opMenu"></div>
+          <div class="op-add">
+            <select id="opAddSection"></select>
+            <input id="opAddName" type="text" placeholder="New product name">
+            <input id="opAddPrice" type="text" placeholder="$0.00">
+            <button id="opAddBtn" type="button">Add product</button>
+          </div>
+          <button id="opReset" type="button">Reset menu to the original</button>
+          <p class="op-hint">Try it: mark <b>Mozzarella Sticks</b> as sold out here, then go to step 3 and call Mike live — ask for mozzarella sticks and hear what he says. Change any price and he will quote the new one.</p>
         </div>
       </div>
-      <p class="ticket-note">Every order lands in the store's app the moment it's placed — special requests noted exactly as the customer said them.</p>
+      <p class="ticket-note">A real working board, not a picture: orders arrive, move to preparation and land on ready-for-pickup with the customer's name — and the owner panel below talks straight to the receptionist.</p>
     </div>
     <h2 class="step-h"><span>3.</span> Now call him yourself</h2>
     <div class="call reveal" id="llamada">
@@ -1319,34 +1384,231 @@
   })();
 </script>
 
+
+<script type="application/json" id="menuData">[{"section": "Combo Specials", "items": [{"name": "2 pcs Chicken", "price": "$8.99"}, {"name": "3 pcs Chicken", "price": "$9.99"}, {"name": "5 pcs Chicken", "price": "$14.99"}, {"name": "5 pcs Wings", "price": "$11.99"}, {"name": "Cheeseburger", "price": "$9.99"}, {"name": "Double Cheeseburger", "price": "$12.99"}, {"name": "Beef Bacon Cheeseburger", "price": "$12.99"}, {"name": "Italian Cheeseburger", "price": "$12.99"}, {"name": "Chicken Sandwich", "price": "$9.99"}, {"name": "Chicken Cheesesteak", "price": "$12.99"}, {"name": "Fish Sandwich", "price": "$9.99"}, {"name": "Grilled Chicken Sandwich", "price": "$12.99"}, {"name": "Gyro on Pita", "price": "$12.99"}, {"name": "Philly Cheesesteak", "price": "$12.99"}, {"name": "Gyro Platter with soda", "price": "$13.99"}, {"name": "21 pcs Shrimp Basket", "price": "$10.99"}, {"name": "Jumbo Shrimp 6 pcs", "price": "$10.99"}, {"name": "Hot Wings 6 pcs", "price": "$11.99 · 9 pcs $14.99"}, {"name": "Chicken Tenders 3 pcs", "price": "$9.99 · 5 pcs $12.99"}, {"name": "Popcorn Chicken", "price": "$9.99"}, {"name": "Chicken Strips", "price": "$9.99"}, {"name": "Surf N Turf", "price": "$12.99"}]}, {"section": "Fords Fat Sandwiches", "items": [{"name": "B.1 Fat Ford", "price": "$12.99"}, {"name": "B.2 Mad Max", "price": "$12.99"}, {"name": "B.3 Fat Kardashian", "price": "$12.99"}, {"name": "B.4 Fat Cardi B", "price": "$12.99"}]}, {"section": "Rice Menu", "items": [{"name": "Hot Wings 6 pcs", "price": "$13.49 · 9 pcs $16.99"}, {"name": "Wings 4 pcs", "price": "$11.99 · 6 pcs $14.99"}, {"name": "Chicken 2 pcs", "price": "$10.99 · 3 pcs $11.99"}, {"name": "Tilapia or Whiting Fish 2 pcs", "price": "$12.99 · 3 pcs $14.99"}, {"name": "Popcorn Chicken", "price": "$11.99"}, {"name": "Chicken Strips", "price": "$11.99"}]}, {"section": "Gyro Platters", "items": [{"name": "Gyro", "price": "$13.99"}, {"name": "Chicken Gyro", "price": "$12.99"}, {"name": "Mixed Gyro", "price": "$13.99"}, {"name": "Extra meat", "price": "$3.99"}]}, {"section": "Wraps", "items": [{"name": "Gyro Wrap", "price": "$8.99"}, {"name": "Chicken Gyro Wrap", "price": "$8.99"}, {"name": "BBQ Wrap", "price": "$8.99"}, {"name": "Hot Buffalo Chicken Wrap", "price": "$8.99"}, {"name": "Chicken Tender Wrap", "price": "$8.99"}, {"name": "Grilled Chicken Wrap", "price": "$8.99"}]}, {"section": "Catering", "items": [{"name": "Mixed Chicken (catering)", "price": "30 pcs $38.99 · 50 $59.99 · 75 $86.99 · 100 $118.99 · 150 $174.99"}, {"name": "Chicken Wings (catering)", "price": "30 pcs $34.99 · 50 $54.99 · 75 $80.99 · 100 $117.00 · 150 $164.99"}]}, {"section": "Vegetarian", "items": [{"name": "Veggie Burger", "price": "$5.99"}, {"name": "Italian Veggie Burger", "price": "$8.99"}, {"name": "Veggie Wrap", "price": "$8.99"}, {"name": "Falafel Sandwich", "price": "$8.99"}, {"name": "Falafel Salad", "price": "$13.99"}, {"name": "Falafel Platter", "price": "$12.99"}]}, {"section": "Seafood", "items": [{"name": "Jumbo Shrimp with fries & 1 roll (chicken packs)", "price": "6 pcs $9.99 · 9 pcs $12.99 · 12 pcs $15.99"}, {"name": "Shrimp Basket with fries & 1 roll", "price": "$9.99"}, {"name": "Whiting Fish with fries (chicken packs)", "price": "2 pcs $8.99 · 3 pcs $11.99"}, {"name": "Tilapia Fish with fries (chicken packs)", "price": "2 pcs $8.99 · 3 pcs $11.99"}, {"name": "Fish only (whiting or tilapia) (chicken packs)", "price": "2 pcs $6.99 · 3 pcs $9.99 · 5 pcs $15.99 · 10 pcs $29.99"}]}, {"section": "Salads", "items": [{"name": "Garden Salad", "price": "$7.99"}, {"name": "Small Garden Salad", "price": "$3.99"}, {"name": "Grilled Chicken Salad", "price": "$13.99"}, {"name": "Fried Shrimp Salad", "price": "$13.99"}, {"name": "Crispy Tender Salad", "price": "$13.99"}, {"name": "Gyro Salad", "price": "$13.99"}]}, {"section": "Burgers & Sandwiches", "items": [{"name": "Veggie Burger", "price": "$5.99"}, {"name": "Cheeseburger", "price": "$5.99"}, {"name": "Double Cheeseburger", "price": "$8.99"}, {"name": "Italian Cheeseburger", "price": "$8.99"}, {"name": "Beef Bacon Cheeseburger", "price": "$8.99"}, {"name": "Philly Cheesesteak", "price": "$8.99"}, {"name": "Italian Cheesesteak", "price": "$9.99"}, {"name": "Philly Chicken Cheesesteak", "price": "$8.99"}, {"name": "Italian Chicken Cheesesteak", "price": "$9.99"}, {"name": "Lamb Gyro", "price": "$8.99"}, {"name": "Chicken Gyro", "price": "$8.99"}, {"name": "Chicken Sandwich", "price": "$5.99"}, {"name": "Grilled Chicken Sandwich", "price": "$8.99"}, {"name": "Spicy Chicken Sandwich", "price": "$7.99"}, {"name": "Chicken Parm", "price": "$9.99"}, {"name": "Surf N Turf", "price": "$8.99"}, {"name": "Fish Sandwich", "price": "$5.99"}, {"name": "Whiting Fish Sandwich", "price": "$5.99"}]}, {"section": "Mix Chicken Boxes", "items": [{"name": "Snack Box (2 pcs, fries or mashed potato, 1 roll)", "price": "$7.99"}, {"name": "Dinner Box (3 pcs, fries or mash, 1 roll)", "price": "$8.99"}, {"name": "Jumbo Box (5 pcs, fries or mash, 2 rolls)", "price": "$13.99"}, {"name": "Picnic Box (6 pcs, fries or mash, 2 rolls)", "price": "$15.99"}, {"name": "Family Box (9 pcs chicken, box of fries, half pint salad, 2 rolls)", "price": "$23.99"}, {"name": "Kennedy Box (15 pcs, box of fries, 2 half pint salads, 4 rolls)", "price": "$31.99"}, {"name": "Dinner Bucket (18 pcs, box of fries, 2 half pint salads, 6 rolls)", "price": "$35.99"}, {"name": "Large Box (20 pcs, box of fries, 2 half pint salads, 6 rolls)", "price": "$42.99"}, {"name": "Wings Box with fries (chicken packs)", "price": "4 pcs $8.49 · 6 pcs $11.99"}]}, {"section": "Mix Chicken By The Piece And Packs", "items": [{"name": "Thigh", "price": "$2.80"}, {"name": "Breast", "price": "$2.80"}, {"name": "Center Breast", "price": "$2.80"}, {"name": "Leg", "price": "$2.25"}, {"name": "Wing", "price": "$1.75"}, {"name": "Packs (chicken packs)", "price": "3 pcs $6.99 · 6 pcs $12.99 · 9 pcs $15.99 · 12 pcs $17.99 · 15 pcs $19.99 · 20 pcs $28.99"}]}, {"section": "Buffalo & Crispy Wings", "items": [{"name": "Buffalo & Crispy Wings — 6 pcs", "price": "$7.99"}, {"name": "Buffalo & Crispy Wings — 9 pcs", "price": "$10.99"}, {"name": "Buffalo & Crispy Wings — 12 pcs", "price": "$14.99"}, {"name": "Buffalo & Crispy Wings — 20 pcs", "price": "$23.99"}, {"name": "Buffalo & Crispy Wings — 30 pcs", "price": "$34.99"}]}, {"section": "Nuggets", "items": [{"name": "Nuggets (with fries) — 6 pcs", "price": "$5.99"}, {"name": "Nuggets (with fries) — 9 pcs", "price": "$7.99"}, {"name": "Nuggets (with fries) — 12 pcs", "price": "$10.99"}, {"name": "Nuggets (with fries) — 20 pcs", "price": "$16.99"}]}, {"section": "Tenders", "items": [{"name": "Tenders (with fries) — 3 pcs", "price": "$8.99"}, {"name": "Tenders (with fries) — 5 pcs", "price": "$11.99"}, {"name": "Tenders (with fries) — 10 pcs", "price": "$21.99"}]}, {"section": "Regular Wings", "items": [{"name": "Regular Wings — 5 pcs", "price": "$7.49"}, {"name": "Regular Wings — 10 pcs", "price": "$13.99"}, {"name": "Regular Wings — 15 pcs", "price": "$18.99"}, {"name": "Regular Wings — 20 pcs", "price": "$24.99"}, {"name": "Regular Wings — 30 pcs", "price": "$34.99"}, {"name": "Regular Wings — 50 pcs", "price": "$54.99"}, {"name": "Regular Wings — 75 pcs", "price": "$80.99"}, {"name": "Regular Wings — 100 pcs", "price": "$117.99"}, {"name": "Regular Wings — 150 pcs", "price": "$164.99"}]}, {"section": "Sides", "items": [{"name": "French Fries", "price": "$3.49"}, {"name": "Onion Rings", "price": "$4.49"}, {"name": "Potato Wedges", "price": "$3.99"}, {"name": "Mozzarella Sticks", "price": "$5.99"}, {"name": "Corn on the Cob", "price": "$1.99"}, {"name": "Coleslaw", "price": "$2.99"}, {"name": "Macaroni Salad", "price": "$2.99"}, {"name": "Chicken Strips", "price": "$5.99"}, {"name": "Popcorn Chicken", "price": "$5.99"}, {"name": "Mashed Potato", "price": "$2.99"}, {"name": "Macaroni & Cheese", "price": "$2.99"}, {"name": "Tostones", "price": "$4.49"}, {"name": "Pizza Roll", "price": "$1.99"}, {"name": "Spinach Roll", "price": "$1.99"}, {"name": "Cheese Fries", "price": "$4.99"}, {"name": "Yellow Rice", "price": "$3.99"}, {"name": "Cup of Cheese 4 oz", "price": "$1.99"}, {"name": "Beef Patty", "price": "$2.99"}]}, {"section": "Desserts", "items": [{"name": "Red Velvet Cake", "price": "$4.50"}, {"name": "Oreo Mousse Cake", "price": "$4.50"}, {"name": "Carrot Cake", "price": "$4.50"}, {"name": "Chocolate Cake", "price": "$4.50"}, {"name": "Cheesecake", "price": "$4.50"}, {"name": "Apple Pie", "price": "$1.99"}, {"name": "Banana Pudding", "price": "$2.99"}, {"name": "Sweet Potato Pie", "price": "$2.99"}]}]</script>
 <script>
-// ===== El pedido se arma en la app, sincronizado con el audio del ejemplo =====
+// ===== Tablero vivo + panel del dueno enlazado con el recepcionista =====
 (function(){
   var audio = document.getElementById('ccAudio');
   var panel = document.getElementById('appPanel');
-  if (!audio || !panel) return;
-  var rows = Array.prototype.slice.call(panel.querySelectorAll('[data-t]'));
-  var stamp = document.getElementById('appStamp');
+  if (!panel) return;
   var status = document.getElementById('appStatus');
-  var scrolled = false;
-  function sync(){
-    var t = audio.currentTime || 0;
-    rows.forEach(function(r){ r.classList.toggle('on', t >= parseFloat(r.getAttribute('data-t'))); });
-    var done = audio.ended || (audio.duration && t >= audio.duration - 0.25 && t > 0);
-    if (stamp) stamp.classList.toggle('on', !!done);
-    if (done) { status.textContent = '✓ Order complete — already on the kitchen screen and in the owner panel.'; }
-    else if (!audio.paused && t > 0) { status.textContent = '📞 On the call — building the order…'; }
+  var bodies = { new: document.getElementById('bodyNew'), prep: document.getElementById('bodyPrep'), ready: document.getElementById('bodyReady') };
+  var cnts = { new: document.getElementById('cntNew'), prep: document.getElementById('cntPrep'), ready: document.getElementById('cntReady') };
+  var emptyNew = document.getElementById('emptyNew');
+  function counts(){
+    ['new','prep','ready'].forEach(function(k){
+      cnts[k].textContent = bodies[k].querySelectorAll('.ocard').length;
+    });
+    if (emptyNew) emptyNew.style.display = bodies.new.querySelectorAll('.ocard').length ? 'none' : 'block';
   }
-  audio.addEventListener('play', function(){
-    panel.classList.add('live');
-    if (!scrolled) { scrolled = true; setTimeout(function(){ panel.scrollIntoView({ behavior:'smooth', block:'center' }); }, 400); }
-    sync();
+  function move(card, to, stateText, cls){
+    if (!card) return;
+    bodies[to].appendChild(card);
+    card.classList.remove('preparing','ready','picked');
+    if (cls) card.classList.add(cls);
+    var st = card.querySelector('.oc-state');
+    if (st && stateText) st.textContent = stateText;
+    counts();
+  }
+  // ---------- Tarjetas de la coreografia ----------
+  var daveCard = null, marcusCard = null, flowTimers = [];
+  function clearFlow(){ flowTimers.forEach(clearTimeout); flowTimers = []; }
+  function later(fn, ms){ flowTimers.push(setTimeout(fn, ms)); }
+  function startFlow(){
+    clearFlow();
+    if (!daveCard) return;
+    // Dave pasa DE INMEDIATO a preparacion; Marcus ya entro y se completa
+    move(daveCard, 'prep', 'Preparing · just started', 'preparing');
+    status.textContent = 'Dave\'s order is already in preparation — and another order is coming in right behind it.';
+    if (marcusCard) {
+      marcusCard.querySelectorAll('[data-m]').forEach(function(el){ el.classList.add('on'); });
+      var mst = marcusCard.querySelector('.oc-state'); if (mst) mst.textContent = 'New order';
+    }
+    later(function(){
+      move(daveCard, 'ready', '\u2713 Ready for pickup', 'ready');
+      status.textContent = 'Dave is ready for pickup \u2014 Marcus moves into preparation.';
+    }, 7000);
+    later(function(){ move(marcusCard, 'prep', 'Preparing \u00b7 just started', 'preparing'); }, 9500);
+    later(function(){
+      if (!document.getElementById('priyaCard')) {
+        var wrap = document.createElement('div'); wrap.innerHTML = PRIYA_HTML;
+        var pc = wrap.firstElementChild; bodies.new.appendChild(pc); counts();
+        status.textContent = 'Another order just came in \u2014 the board never stops.';
+      }
+    }, 13000);
+    later(function(){
+      var maria = document.getElementById('mariaCard');
+      if (maria) { maria.classList.add('picked'); var st = maria.querySelector('.oc-state'); if (st) st.textContent = 'Picked up \u2713'; }
+      var priya = document.getElementById('priyaCard');
+      move(priya, 'prep', 'Preparing \u00b7 just started', 'preparing');
+    }, 20000);
+  }
+  var DAVE_HTML = "\n<article class=\"ocard dave\" id=\"daveCard\">\n  <header><b class=\"oc-name\">Dave</b><span class=\"oc-meta\">Pickup \u00b7 #1042</span></header>\n  <ul>\n    <li data-t=\"15.6\"><span>1 \u00d7 Family Box (9 pcs)</span><b>$23.99</b></li>\n    <li data-t=\"39.8\"><span>1 \u00d7 Buffalo &amp; Crispy Wings 12 pcs (Lemon Pepper)</span><b>$14.99</b></li>\n    <li data-t=\"43.6\"><span>1 \u00d7 Mozzarella Sticks</span><b>$5.99</b></li>\n    <li data-t=\"47.6\"><span>2 \u00d7 Red Velvet Cake</span><b>$9.00</b></li>\n  </ul>\n  <div class=\"oc-special\" data-t=\"59.7\">\u2605 Special: extra crispy \u00b7 sauces on the side</div>\n  <footer data-t=\"75.9\"><span>Total (incl. NJ tax)</span><b>$57.55</b></footer>\n  <div class=\"oc-state\">Receiving order\u2026</div>\n</article>";
+  var MARCUS_HTML = "\n<article class=\"ocard\" id=\"marcusCard\">\n  <header><b class=\"oc-name\">Marcus</b><span class=\"oc-meta\">Pickup \u00b7 #1043</span></header>\n  <ul>\n    <li data-m=\"1\"><span>1 \u00d7 Kennedy Box (15 pcs)</span><b>$31.99</b></li>\n    <li data-m=\"2\"><span>1 \u00d7 Onion Rings</span><b>$4.49</b></li>\n  </ul>\n  <footer data-m=\"3\"><span>Total (incl. NJ tax)</span><b>$38.88</b></footer>\n  <div class=\"oc-state\">Receiving order\u2026</div>\n</article>";
+  var PRIYA_HTML = "\n<article class=\"ocard\" id=\"priyaCard\">\n  <header><b class=\"oc-name\">Priya</b><span class=\"oc-meta\">Pickup \u00b7 #1044</span></header>\n  <ul><li class=\"on\"><span>1 \u00d7 Grilled Chicken Salad</span><b>$13.99</b></li><li class=\"on\"><span>1 \u00d7 Veggie Wrap</span><b>$8.99</b></li></ul>\n  <footer class=\"on\"><span>Total (incl. NJ tax)</span><b>$24.51</b></footer>\n  <div class=\"oc-state\">Receiving order\u2026</div>\n</article>";
+  function ensureDave(){
+    if (daveCard) return;
+    var wrap = document.createElement('div'); wrap.innerHTML = DAVE_HTML;
+    daveCard = wrap.firstElementChild;
+    bodies.new.appendChild(daveCard); counts();
+  }
+  function ensureMarcus(){
+    if (marcusCard) return;
+    var wrap = document.createElement('div'); wrap.innerHTML = MARCUS_HTML;
+    marcusCard = wrap.firstElementChild;
+    bodies.new.appendChild(marcusCard); counts();
+  }
+  function syncAudio(){
+    if (!audio) return;
+    var t = audio.currentTime || 0;
+    if (t >= 5.8) ensureDave();
+    if (daveCard && bodies.new.contains(daveCard)) {
+      daveCard.querySelectorAll('[data-t]').forEach(function(el){
+        el.classList.toggle('on', t >= parseFloat(el.getAttribute('data-t')));
+      });
+    }
+    if (t >= 45) {
+      ensureMarcus();
+      marcusCard.querySelectorAll('[data-m="1"]').forEach(function(el){ el.classList.toggle('on', t >= 52); });
+      marcusCard.querySelectorAll('[data-m="2"]').forEach(function(el){ el.classList.toggle('on', t >= 66); });
+      marcusCard.querySelectorAll('[data-m="3"]').forEach(function(el){ el.classList.toggle('on', t >= 78); });
+    }
+    if (!audio.paused && t > 0 && t < 100) status.textContent = '\uD83D\uDCDE On the call \u2014 Dave\'s order is building in the New column\u2026';
+  }
+  var scrolled = false;
+  if (audio) {
+    audio.addEventListener('play', function(){
+      panel.classList.add('live');
+      if (!scrolled) { scrolled = true; setTimeout(function(){ panel.scrollIntoView({ behavior:'smooth', block:'center' }); }, 400); }
+      syncAudio();
+    });
+    audio.addEventListener('timeupdate', syncAudio);
+    audio.addEventListener('seeked', syncAudio);
+    audio.addEventListener('ended', startFlow);
+    setInterval(function(){ if (!audio.paused) syncAudio(); }, 300);
+  }
+  counts();
+  // ---------- Pestanas ----------
+  var tabBoard = document.getElementById('tabBoard'), tabOwner = document.getElementById('tabOwner');
+  var boardView = document.getElementById('boardView'), ownerView = document.getElementById('ownerView');
+  function show(view){
+    var owner = view === 'owner';
+    boardView.hidden = owner; ownerView.hidden = !owner;
+    tabBoard.classList.toggle('on', !owner); tabOwner.classList.toggle('on', owner);
+  }
+  tabBoard.addEventListener('click', function(){ show('board'); });
+  tabOwner.addEventListener('click', function(){ show('owner'); });
+  // ---------- Panel del dueno ----------
+  var MENU = [];
+  try { MENU = JSON.parse(document.getElementById('menuData').textContent); } catch(e) {}
+  var LS = 'kennedy-owner-v1';
+  var state = { soldout: [], removed: [], prices: {}, added: [] };
+  try { var saved = JSON.parse(localStorage.getItem(LS) || 'null'); if (saved) state = saved; } catch(e) {}
+  function save(){ try { localStorage.setItem(LS, JSON.stringify(state)); } catch(e) {} }
+  function shortName(n){ return n.split(' (')[0]; }
+  function allItems(){
+    var out = [];
+    MENU.forEach(function(sec){
+      sec.items.forEach(function(it){ out.push({ section: sec.section, name: it.name, price: it.price, added: false }); });
+    });
+    state.added.forEach(function(a){ out.push({ section: a.section, name: a.name, price: a.price, added: true }); });
+    return out;
+  }
+  function buildUpdates(){
+    var parts = [];
+    var out = state.soldout.concat(state.removed);
+    if (out.length) parts.push('SOLD OUT TODAY (not available, do not sell these items): ' + out.map(shortName).join(', ') + '.');
+    var pk = Object.keys(state.prices);
+    if (pk.length) parts.push('PRICE UPDATES (these replace the printed menu prices): ' + pk.map(function(n){ return shortName(n) + ' now costs ' + state.prices[n]; }).join('; ') + '.');
+    if (state.added.length) parts.push('NEW ITEMS the owner just added to the menu (sell them at these prices): ' + state.added.map(function(a){ return shortName(a.name) + ' \u2014 ' + a.price; }).join('; ') + '.');
+    return parts.length ? parts.join(' ') : 'No changes today \u2014 the printed menu is fully in effect.';
+  }
+  function pushToReceptionist(){
+    var host = document.querySelector('elevenlabs-convai');
+    if (host) host.setAttribute('dynamic-variables', JSON.stringify({ menu_updates: buildUpdates() }));
+    var bits = [];
+    if (state.soldout.length) bits.push('Sold out: ' + state.soldout.map(shortName).join(', '));
+    if (state.removed.length) bits.push('Removed: ' + state.removed.map(shortName).join(', '));
+    var pk = Object.keys(state.prices);
+    if (pk.length) bits.push('New prices: ' + pk.map(function(n){ return shortName(n) + ' \u2192 ' + state.prices[n]; }).join(', '));
+    if (state.added.length) bits.push('Added: ' + state.added.map(function(a){ return shortName(a.name); }).join(', '));
+    document.getElementById('opChanges').textContent = bits.length ? ('Changes for the next call \u2014 ' + bits.join(' \u00b7 ')) : 'No changes yet today.';
+  }
+  var opMenu = document.getElementById('opMenu');
+  var searchEl = document.getElementById('opSearch');
+  function render(){
+    var q = (searchEl.value || '').toLowerCase().trim();
+    opMenu.innerHTML = '';
+    var items = allItems().filter(function(it){ return state.removed.indexOf(it.name) < 0; });
+    var bySec = {};
+    items.forEach(function(it){ (bySec[it.section] = bySec[it.section] || []).push(it); });
+    Object.keys(bySec).forEach(function(secName){
+      var list = bySec[secName].filter(function(it){ return !q || it.name.toLowerCase().indexOf(q) >= 0; });
+      if (!list.length) return;
+      var sec = document.createElement('div'); sec.className = 'op-sec';
+      var head = document.createElement('button'); head.type = 'button'; head.className = 'op-sec-head';
+      head.innerHTML = '<span>' + secName + '</span><span class="cnt">' + list.length + (q ? '' : ' \u25be') + '</span>';
+      var rows = document.createElement('div'); rows.className = 'op-rows';
+      if (q) rows.style.display = 'block'; else if (secName !== 'Sides' && secName !== 'Combo Specials') rows.style.display = 'none';
+      head.addEventListener('click', function(){ rows.style.display = rows.style.display === 'none' ? 'block' : 'none'; });
+      sec.appendChild(head);
+      list.forEach(function(it){
+        var row = document.createElement('div'); row.className = 'op-row' + (state.soldout.indexOf(it.name) >= 0 ? ' out' : '');
+        var name = document.createElement('span'); name.className = 'op-name';
+        name.textContent = it.name;
+        if (state.soldout.indexOf(it.name) >= 0) { var tg = document.createElement('span'); tg.className = 'tag out'; tg.textContent = 'SOLD OUT TODAY'; name.appendChild(tg); }
+        if (it.added) { var tg2 = document.createElement('span'); tg2.className = 'tag newp'; tg2.textContent = 'NEW'; name.appendChild(tg2); }
+        var cur = state.prices[it.name] || it.price;
+        var price = document.createElement('button'); price.type = 'button'; price.className = 'op-price' + (state.prices[it.name] ? ' changed' : '');
+        price.textContent = cur; price.title = 'Tap to change the price';
+        price.addEventListener('click', function(){
+          var inp = document.createElement('input'); inp.className = 'op-price-input'; inp.value = cur; inp.inputMode = 'decimal';
+          price.replaceWith(inp); inp.focus(); inp.select();
+          function commit(){
+            var v = inp.value.trim();
+            if (v && v !== it.price) state.prices[it.name] = v; else delete state.prices[it.name];
+            save(); render(); pushToReceptionist();
+          }
+          inp.addEventListener('blur', commit);
+          inp.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') inp.blur(); });
+        });
+        var tgl = document.createElement('button'); tgl.type = 'button'; tgl.className = 'op-tgl' + (state.soldout.indexOf(it.name) >= 0 ? ' off' : '');
+        tgl.textContent = state.soldout.indexOf(it.name) >= 0 ? 'Sold out' : 'Available';
+        tgl.addEventListener('click', function(){
+          var i = state.soldout.indexOf(it.name);
+          if (i >= 0) state.soldout.splice(i, 1); else state.soldout.push(it.name);
+          save(); render(); pushToReceptionist();
+        });
+        var del = document.createElement('button'); del.type = 'button'; del.className = 'op-del'; del.textContent = '\u2715'; del.title = 'Remove from the menu';
+        del.addEventListener('click', function(){
+          if (it.added) { state.added = state.added.filter(function(a){ return a.name !== it.name; }); delete state.prices[it.name]; var si = state.soldout.indexOf(it.name); if (si >= 0) state.soldout.splice(si, 1); }
+          else state.removed.push(it.name);
+          save(); render(); pushToReceptionist();
+        });
+        row.appendChild(name); row.appendChild(price); row.appendChild(tgl); row.appendChild(del);
+        rows.appendChild(row);
+      });
+      sec.appendChild(rows);
+      opMenu.appendChild(sec);
+    });
+  }
+  searchEl.addEventListener('input', render);
+  var addSel = document.getElementById('opAddSection');
+  MENU.forEach(function(sec){ var o = document.createElement('option'); o.value = sec.section; o.textContent = sec.section; addSel.appendChild(o); });
+  document.getElementById('opAddBtn').addEventListener('click', function(){
+    var n = document.getElementById('opAddName').value.trim();
+    var pr = document.getElementById('opAddPrice').value.trim();
+    if (!n || !pr) return;
+    state.added.push({ section: addSel.value, name: n, price: pr });
+    document.getElementById('opAddName').value = ''; document.getElementById('opAddPrice').value = '';
+    save(); render(); pushToReceptionist();
   });
-  audio.addEventListener('timeupdate', sync);
-  audio.addEventListener('seeked', sync);
-  audio.addEventListener('pause', function(){ if (!audio.ended && (audio.currentTime||0) > 0) status.textContent = 'Paused — press play and watch the order keep building.'; });
-  audio.addEventListener('ended', sync);
-  setInterval(function(){ if (!audio.paused) sync(); }, 300);
+  document.getElementById('opReset').addEventListener('click', function(){
+    state = { soldout: [], removed: [], prices: {}, added: [] };
+    save(); render(); pushToReceptionist();
+  });
+  render(); pushToReceptionist();
 })();
 </script>
 </body>
