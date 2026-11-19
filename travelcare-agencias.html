@@ -133,6 +133,37 @@
   .bubble{ background:#fff; border:1px solid #dde6e6; border-radius:12px; border-top-left-radius:2px; padding:.75rem .9rem; font-size:.97rem; line-height:1.55; color:#3c434a; }
   .bubble b{ color:var(--teal-d); }
   .stamp{ margin-top:.7rem; font-size:.9rem; font-weight:700; color:var(--teal-d); min-height:1.2em; }
+  .promo-panel .panel-head{ background:var(--coal); }
+  .extra-tag{ display:inline-block; background:#fdf6d8; color:#7a6200; border:1px solid var(--gold); border-radius:999px; padding:.28rem .8rem; font-size:.74rem; font-weight:800; letter-spacing:.05em; margin-bottom:.8rem; }
+  .fld select{ width:100%; border:1px solid #cfe0e0; border-radius:10px; padding:.55rem .6rem; font-size:.95rem; font-family:inherit; background:#fff; color:var(--ink); }
+  .fld select:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .fld input[type=date]{ width:100%; border:1px solid #cfe0e0; border-radius:10px; padding:.55rem .6rem; font-size:.95rem; font-family:inherit; color:var(--ink); background:#fff; }
+  .fld input[type=date]:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .seg{ display:grid; gap:.5rem; margin-bottom:.7rem; }
+  .seg label{ display:flex; gap:.6rem; align-items:flex-start; border:1.5px solid #dde6e6; border-radius:12px; padding:.65rem .75rem; cursor:pointer; font-size:.93rem; line-height:1.45; color:#3c434a; }
+  .seg label.sel{ border-color:var(--teal); background:#f2fafa; }
+  .seg input{ margin-top:.2rem; accent-color:var(--teal); flex:none; }
+  .seg b{ color:var(--coal); }
+  .seg .rec{ color:var(--teal-d); font-weight:800; font-size:.76rem; letter-spacing:.04em; white-space:nowrap; }
+  .warn{ background:#fdf6d8; border:1px solid var(--gold); color:#6b5600; border-radius:10px; padding:.6rem .75rem; font-size:.88rem; line-height:1.5; margin-bottom:.7rem; display:none; }
+  .freq{ font-size:.9rem; font-weight:700; color:var(--coal); background:#eef7f7; border-radius:10px; padding:.55rem .75rem; margin-bottom:.7rem; line-height:1.5; }
+  .reach{ margin-top:.65rem; font-size:.92rem; font-weight:700; color:var(--coal); }
+  .firebtn{ display:block; width:100%; background:var(--gold); color:var(--coal); border:none; border-radius:14px; padding:1rem; font-size:1.08rem; font-weight:800; cursor:pointer; font-family:inherit; margin-top:.8rem; }
+  .firebtn:active{ transform:scale(.99); }
+  .firebtn:disabled{ opacity:.45; cursor:not-allowed; }
+  .confirmbox{ display:none; background:#fff7d6; border:1.5px dashed var(--gold); border-radius:12px; padding:.8rem; margin-top:.7rem; }
+  .confirmbox p{ font-size:.95rem; line-height:1.5; color:#3c434a; margin-bottom:.6rem; }
+  .confirmbox .row{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .ghostbtn{ background:#fff; color:var(--coal); border:1.5px solid #c9d4d4; border-radius:10px; padding:.55rem .95rem; font-weight:800; font-size:.92rem; cursor:pointer; font-family:inherit; }
+  .resgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem; margin-top:.6rem; }
+  .resgrid .cell{ background:#eef7f7; border-radius:10px; padding:.55rem .3rem; text-align:center; }
+  .resgrid .num{ font-size:1.25rem; font-weight:800; color:var(--teal-d); }
+  .resgrid .lab{ font-size:.68rem; font-weight:700; letter-spacing:.04em; color:#5c646c; }
+  @media (max-width:560px){ .resgrid{ grid-template-columns:repeat(2,1fr); } }
+  .hist-item{ border:1px solid #e2e9e9; border-radius:12px; padding:.75rem .95rem; font-size:.93rem; line-height:1.5; color:#3c434a; margin-bottom:.55rem; }
+  .hist-item b{ color:var(--coal); }
+  .hist-item .when{ color:#7a838c; font-size:.82rem; font-weight:700; letter-spacing:.03em; }
+  .demo-tag{ display:inline-block; background:var(--gold); color:var(--coal); font-size:.66rem; font-weight:800; letter-spacing:.1em; border-radius:999px; padding:.16rem .55rem; margin-bottom:.3rem; }
 </style>
 </head>
 <body>
@@ -257,6 +288,68 @@
             <div class="bubble" id="op-pv-bubble"></div>
           </div>
           <p class="stamp" id="op-stamp">✔ Valeria ya está usando tus cambios</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel promo-panel" id="panel-promos">
+      <div class="panel-head">🚀 PROMOS — TU AGENTE SALE A VENDER</div>
+      <div class="panel-body">
+        <span class="extra-tag">PARTE DEL EXTRA: REGISTRO DE CONVERSACIONES + SEGUIMIENTO</span>
+        <p class="panel-note" style="margin-top:0">Hasta aquí, Valeria <b>espera</b> a que las agencias escriban. Con las promos, <b>sale a buscarlas</b>: tú creas la oferta, eliges a quién llega y ella la ofrece por ti — y atiende cada respuesta cotizando con la promo aplicada.</p>
+
+        <div class="op-sec">
+          <h3>1 · Crea tu promoción</h3>
+          <div class="fld"><label>Nombre de la promo</label><input type="text" id="pr-name" placeholder="Ej.: Europa en diciembre"></div>
+          <div class="grid2">
+            <div class="fld"><label>Plan / zona</label><select id="pr-plan"></select></div>
+            <div class="fld"><label>Días del ejemplo</label><select id="pr-days"></select></div>
+          </div>
+          <div class="fld"><label>Beneficio</label><input type="text" id="pr-benefit" placeholder="Ej.: 15% de descuento en Europa para salidas de diciembre"></div>
+          <div class="grid2">
+            <div class="fld"><label>Vigencia — desde</label><input type="date" id="pr-from"></div>
+            <div class="fld"><label>Vigencia — hasta</label><input type="date" id="pr-to"></div>
+          </div>
+        </div>
+
+        <div class="op-sec">
+          <h3>2 · ¿A quién le llega?</h3>
+          <div class="seg" id="pr-segs">
+            <label><input type="radio" name="pr-seg" value="todas" checked><span><b>Todas mis agencias activas</b> — llega a <span id="pr-n-todas">0</span> agencias.</span></label>
+            <label><input type="radio" name="pr-seg" value="dormidas"><span><b>Agencias dormidas</b> <span class="rec">⭐ LA RECOMENDADA</span> — <span id="pr-n-dorm">0</span> sin cotizar en 60 días. Reactivar a una agencia dormida vale más que insistir a las que ya compran sin descuento.</span></label>
+            <label><input type="radio" name="pr-seg" value="top"><span><b>Mis agencias top</b> — tu lista corta VIP (<span id="pr-n-top">0</span>): <span id="pr-top-names"></span>. Es el único segmento que puede recibir llamada de voz.</span></label>
+          </div>
+        </div>
+
+        <div class="op-sec">
+          <h3>3 · ¿Por qué canal sale?</h3>
+          <div class="seg" id="pr-chans">
+            <label><input type="radio" name="pr-ch" value="whatsapp" checked><span><b>WhatsApp con plantilla</b> <span class="rec">RECOMENDADO</span> — llega al instante, por la vía oficial, y Valeria atiende cada respuesta al momento.</span></label>
+            <label><input type="radio" name="pr-ch" value="llamada"><span><b>Llamada de voz de Valeria</b> — solo para tu lista top: la llamada cuesta minutos y atención, por eso se reserva a las mejores.</span></label>
+          </div>
+          <div class="warn" id="pr-warn"></div>
+          <div class="freq" id="pr-freq"></div>
+        </div>
+
+        <div class="op-sec">
+          <h3>4 · Vista previa — esto es lo que recibe la agencia</h3>
+          <div class="preview">
+            <div class="bubble" id="pr-pv-bubble"></div>
+            <p class="reach" id="pr-reach"></p>
+          </div>
+          <button class="firebtn" id="pr-fire" type="button">🚀 Disparar promoción</button>
+          <div class="confirmbox" id="pr-confirm">
+            <p id="pr-confirm-tx"></p>
+            <div class="row"><button class="minibtn" id="pr-yes" type="button">Sí, disparar</button><button class="ghostbtn" id="pr-no" type="button">Cancelar</button></div>
+          </div>
+          <p class="stamp" id="pr-stamp"></p>
+        </div>
+
+        <div class="op-sec">
+          <h3>Historial de promos disparadas</h3>
+          <div id="pr-history"></div>
+          <p class="hint" style="margin-bottom:0">Cuando conectes el WhatsApp oficial de tu negocio, estos resultados serán los reales: cada respuesta la atiende Valeria y cotiza con la promo aplicada, y todo queda en tu registro de conversaciones.</p>
         </div>
 
       </div>
@@ -579,6 +672,252 @@
     }
 
     buildRates(); buildPhones(); buildAgencies(); buildRules(); buildPreviewControls(); renderPreview();
+  })();
+</script>
+<script>
+  // ===== Promos — el agente sale a vender (extra: Registro + Seguimiento) =====
+  // Extiende la MISMA data del panel del dueño (travelcare-owner-v1) con la
+  // clave `promos`. Lee tarifas y agencias vivas del panel en cada render:
+  // si Bryan edita un precio o pausa una agencia, la promo lo refleja.
+  (function(){
+    var KEY = 'travelcare-owner-v1';
+    var TIERS = ['5','8','10','16','22','30','45','60','90'];
+    var PLANS = [
+      { id:'europa',   name:'Europa' },
+      { id:'mundo30',  name:'Mundo 30K' },
+      { id:'mundo50',  name:'Mundo 50K' },
+      { id:'mundo100', name:'Mundo 100K' }
+    ];
+    var DEF_RATES = {
+      europa:   { '5':35, '8':41, '10':51, '16':72, '22':86, '30':96,  '45':141, '60':160, '90':189, extra:5 },
+      mundo30:  { '5':52, '8':70, '10':83, '16':99, '22':109,'30':123, '45':182, '60':237, '90':354, extra:6 },
+      mundo50:  { '5':59, '8':79, '10':94, '16':109,'22':132,'30':160, '45':219, '60':285, '90':418, extra:7 },
+      mundo100: { '5':73, '8':95, '10':110,'16':155,'22':183,'30':238, '45':285, '60':378, '90':496, extra:9 },
+      anual:    { '30':179, '60':199, '90':299 }
+    };
+    var DEF_AGENCIES = [
+      { n:'Andes Travel', a:true }, { n:'Agencia del Sur', a:true },
+      { n:'Viajes El Sol', a:true }, { n:'Turismo Horizonte', a:false }
+    ];
+    // Data demo por agencia: última cotización (hace X días) y si es de la lista top.
+    var META_DEF = {
+      'Andes Travel':    { last:6,  top:true  },
+      'Agencia del Sur': { last:64, top:true  },
+      'Viajes El Sol':   { last:92, top:false },
+      'Turismo Horizonte': { last:45, top:false }
+    };
+    function $(id){ return document.getElementById(id); }
+    function esc(s){ return String(s == null ? '' : s).replace(/</g,'&lt;'); }
+    function hhmm(){ var d = new Date(), p = function(n){ return (n<10?'0':'')+n; }; return p(d.getHours()) + ':' + p(d.getMinutes()); }
+    function ymOf(d){ return d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2); }
+    function dmy(d){ return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth()+1)).slice(-2) + '/' + d.getFullYear(); }
+    function fmtDate(v){ if (!v) return '—'; var p = v.split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : v; }
+
+    function rawLoad(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+    function panelData(){
+      var raw = rawLoad();
+      return { rates: raw.rates || DEF_RATES, agencies: raw.agencies || DEF_AGENCIES };
+    }
+    function seedPromos(){
+      var now = new Date(), fired = new Date(now); fired.setDate(Math.max(1, now.getDate() - 4));
+      return {
+        meta: JSON.parse(JSON.stringify(META_DEF)),
+        history: [{
+          id: 1, name: 'Adelanto Black Friday — Mundo 50K', plan: 'mundo50', planName: 'Mundo 50K',
+          benefit: '10% de descuento en Mundo 50K', segment: 'todas', channel: 'whatsapp',
+          firedAt: dmy(fired), ym: ymOf(fired), sent: 3, resp: 2, cot: 1, vend: 1, demo: true
+        }]
+      };
+    }
+    var P;
+    (function init(){
+      var raw = rawLoad();
+      if (raw.promos && raw.promos.history) { P = raw.promos; }
+      else { P = seedPromos(); persist(); }
+      if (!P.meta) P.meta = JSON.parse(JSON.stringify(META_DEF));
+    })();
+    function persist(){
+      var raw = rawLoad(); raw.promos = P;
+      try { localStorage.setItem(KEY, JSON.stringify(raw)); } catch(e){}
+    }
+    // Si el panel del dueño re-guarda su data, re-asegura la clave promos al salir.
+    window.addEventListener('beforeunload', persist);
+
+    function metaFor(name){
+      if (P.meta[name]) return P.meta[name];
+      if (META_DEF[name]) return META_DEF[name];
+      return { last: 2, top: false };
+    }
+    function segments(){
+      var ags = panelData().agencies;
+      var act = ags.filter(function(a){ return a.a; });
+      return {
+        todas: act,
+        dormidas: act.filter(function(a){ return metaFor(a.n).last >= 60; }),
+        top: act.filter(function(a){ return metaFor(a.n).top; })
+      };
+    }
+    function segLabel(s){ return s === 'dormidas' ? 'Agencias dormidas' : (s === 'top' ? 'Agencias top' : 'Todas las activas'); }
+    function chanLabel(c){ return c === 'llamada' ? 'Llamada de voz' : 'WhatsApp con plantilla'; }
+    function curSeg(){ var r = document.querySelector('input[name="pr-seg"]:checked'); return r ? r.value : 'todas'; }
+    function curChan(){ var r = document.querySelector('input[name="pr-ch"]:checked'); return r ? r.value : 'whatsapp'; }
+    function monthCount(){
+      var ym = ymOf(new Date());
+      return P.history.filter(function(h){ return h.ym === ym; }).length;
+    }
+    function planName(id){
+      if (id === 'anual') return 'Plan Anual';
+      for (var i = 0; i < PLANS.length; i++) if (PLANS[i].id === id) return PLANS[i].name;
+      return id;
+    }
+    function priceCalc(){
+      var plan = $('pr-plan').value, days = $('pr-days').value;
+      var rates = panelData().rates;
+      var base = rates[plan] ? rates[plan][days] : null;
+      var ben = $('pr-benefit').value || '';
+      var m = ben.match(/(\d+(?:[.,]\d+)?)\s*%/);
+      var pct = m ? parseFloat(m[1].replace(',', '.')) : 0;
+      var applied = (base != null && pct > 0) ? Math.round(base * (1 - pct / 100)) : base;
+      return { base: base, pct: pct, applied: applied };
+    }
+
+    // ---- Controles del formulario ----
+    (function buildForm(){
+      var ps = $('pr-plan'), opts = '';
+      PLANS.forEach(function(p){ opts += '<option value="' + p.id + '">' + p.name + '</option>'; });
+      opts += '<option value="anual">Anual</option>';
+      ps.innerHTML = opts; ps.value = 'europa';
+      fillDays();
+      var today = new Date(), plus = new Date(today); plus.setDate(today.getDate() + 30);
+      function iso(d){ return d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+      $('pr-from').value = iso(today); $('pr-to').value = iso(plus);
+      ps.addEventListener('change', function(){ fillDays(); renderPreview(); });
+      $('pr-days').addEventListener('change', renderPreview);
+      ['pr-name','pr-benefit','pr-from','pr-to'].forEach(function(id){ $(id).addEventListener('input', renderPreview); });
+    })();
+    function fillDays(){
+      var plan = $('pr-plan').value, ds = $('pr-days');
+      var days = (plan === 'anual') ? ['30','60','90'] : TIERS, opts = '';
+      days.forEach(function(d){ opts += '<option value="' + d + '">' + d + ' días</option>'; });
+      ds.innerHTML = opts; ds.value = (plan === 'anual') ? '30' : '16';
+    }
+
+    // ---- Segmentos y canal (con la corrección de la llamada) ----
+    function paintSeg(id){
+      document.querySelectorAll('#' + id + ' label').forEach(function(l){
+        var inp = l.querySelector('input');
+        l.classList.toggle('sel', !!(inp && inp.checked));
+      });
+    }
+    function showWarn(msg){
+      var w = $('pr-warn');
+      if (msg){ w.textContent = msg; w.style.display = 'block'; } else { w.style.display = 'none'; }
+    }
+    function enforceChannel(fromSeg){
+      if (curChan() === 'llamada' && curSeg() !== 'top'){
+        document.querySelector('input[name="pr-ch"][value="whatsapp"]').checked = true;
+        showWarn('⚠️ La llamada de voz de Valeria se reserva a tus agencias top — cuesta minutos y atención. Para este segmento, el disparo va por WhatsApp con plantilla. Si quieres llamada, elige «Mis agencias top».');
+      } else if (!fromSeg) { showWarn(''); }
+      paintSeg('pr-chans');
+    }
+    document.querySelectorAll('input[name="pr-seg"]').forEach(function(r){
+      r.addEventListener('change', function(){ paintSeg('pr-segs'); enforceChannel(true); renderPreview(); });
+    });
+    document.querySelectorAll('input[name="pr-ch"]').forEach(function(r){
+      r.addEventListener('change', function(){ enforceChannel(false); renderPreview(); });
+    });
+
+    // ---- Renders ----
+    function renderCounts(){
+      var s = segments();
+      $('pr-n-todas').textContent = s.todas.length;
+      $('pr-n-dorm').textContent = s.dormidas.length;
+      $('pr-n-top').textContent = s.top.length;
+      $('pr-top-names').textContent = s.top.map(function(a){ return a.n; }).join(', ') || '—';
+    }
+    function renderFreq(){
+      var n = monthCount();
+      $('pr-freq').innerHTML = '🔁 <b>Freno de frecuencia:</b> cada agencia recibe máximo <b>2 promos al mes</b>, para no quemar tu canal. Este mes ya disparaste <b>' + n + ' de 2</b>.' + (n >= 2 ? ' Ya alcanzaste el tope de este mes.' : '');
+      $('pr-fire').disabled = n >= 2;
+    }
+    function renderPreview(){
+      renderCounts();
+      var seg = curSeg(), chan = curChan(), s = segments(), list = s[seg];
+      var n = list.length;
+      var first = list[0] ? list[0].n : 'tu agencia';
+      var ben = ($('pr-benefit').value || '').trim() || 'un beneficio especial para tu agencia';
+      var pc = priceCalc();
+      var plan = $('pr-plan').value, days = $('pr-days').value;
+      var priceTxt = pc.base == null ? '' : (pc.pct > 0
+        ? 'queda en <b>$' + pc.applied + '</b> por pasajero (precio regular $' + pc.base + ')'
+        : 'con tu tarifa queda en <b>$' + pc.applied + '</b> por pasajero, con el beneficio aplicado al emitir');
+      var vig = 'Vigencia: del ' + fmtDate($('pr-from').value) + ' al ' + fmtDate($('pr-to').value) + '.';
+      var b = $('pr-pv-bubble');
+      if (chan === 'llamada'){
+        b.innerHTML = '📞 <b>Valeria abriría la llamada así</b> (a <b>' + esc(first) + '</b>):<br>«Hola, ¿hablo con ' + esc(first) + '? Soy Valeria, de Travel Care Assistance. Le llamo porque tenemos una promoción especial para su agencia: <b>' + esc(ben) + '</b>. Para <b>' + planName(plan) + ', ' + days + ' días</b>, por ejemplo, ' + priceTxt + '. ' + vig + ' ¿Le preparo una cotización?»';
+      } else {
+        b.innerHTML = '💬 <b>WhatsApp que recibiría ' + esc(first) + '</b>:<br>«Hola, ' + esc(first) + ' 👋 Soy Valeria, la asistente de Travel Care. Tenemos una promo especial para tu agencia: <b>' + esc(ben) + '</b>. Ejemplo con tu tarifa: <b>' + planName(plan) + ', ' + days + ' días</b> — ' + priceTxt + '. ' + vig + ' ¿Quieres que te deje una cotización lista?»';
+      }
+      $('pr-reach').textContent = n === 0
+        ? '📣 Este segmento no tiene agencias activas ahora mismo.'
+        : '📣 Llega a ' + n + (n === 1 ? ' agencia' : ' agencias') + ' · ' + segLabel(seg) + ' · Canal: ' + chanLabel(chan);
+    }
+    function resultsFor(n, chan){
+      if (n <= 0) return { sent:0, resp:0, cot:0, vend:0 };
+      var resp, cot, vend;
+      if (chan === 'llamada'){ resp = n; cot = Math.max(1, Math.round(n * 0.7)); vend = Math.max(1, Math.round(cot * 0.5)); }
+      else { resp = Math.max(1, Math.round(n * 0.6)); cot = Math.max(1, Math.round(resp * 0.65)); vend = Math.round(cot * 0.5); }
+      cot = Math.min(cot, resp); vend = Math.min(vend, cot);
+      return { sent: n, resp: resp, cot: cot, vend: vend };
+    }
+    function renderHistory(){
+      var box = $('pr-history');
+      if (!P.history.length){ box.innerHTML = '<p class="hint">Todavía no disparas ninguna promo en esta demo.</p>'; return; }
+      var html = '';
+      P.history.slice().reverse().forEach(function(h){
+        html += '<div class="hist-item"><span class="demo-tag">RESULTADOS DE EJEMPLO — DEMOSTRACIÓN</span><br>' +
+          '<b>' + esc(h.name) + '</b> — ' + esc(h.planName) + ' · ' + segLabel(h.segment) + ' · ' + chanLabel(h.channel) + '<br>' +
+          '<span class="when">DISPARADA ' + esc(h.firedAt) + '</span>' +
+          '<div class="resgrid">' +
+          '<div class="cell"><div class="num">' + h.sent + '</div><div class="lab">ENVIADAS</div></div>' +
+          '<div class="cell"><div class="num">' + h.resp + '</div><div class="lab">RESPONDIERON</div></div>' +
+          '<div class="cell"><div class="num">' + h.cot + '</div><div class="lab">COTIZARON</div></div>' +
+          '<div class="cell"><div class="num">' + h.vend + '</div><div class="lab">VENDIERON</div></div>' +
+          '</div></div>';
+      });
+      box.innerHTML = html;
+    }
+
+    // ---- Disparo en dos pasos (simulado) ----
+    $('pr-fire').addEventListener('click', function(){
+      var n = segments()[curSeg()].length;
+      if (n === 0){ showWarn('⚠️ Este segmento no tiene agencias activas: activa alguna en tu panel o elige otro segmento.'); return; }
+      if (monthCount() >= 2){ renderFreq(); return; }
+      var name = ($('pr-name').value || '').trim() || 'Promo sin nombre';
+      $('pr-confirm-tx').innerHTML = '¿Seguro? La promo <b>«' + esc(name) + '»</b> saldrá a <b>' + n + (n === 1 ? ' agencia' : ' agencias') + '</b> por <b>' + chanLabel(curChan()) + '</b>.';
+      $('pr-confirm').style.display = 'block';
+    });
+    $('pr-no').addEventListener('click', function(){ $('pr-confirm').style.display = 'none'; });
+    $('pr-yes').addEventListener('click', function(){
+      var seg = curSeg(), chan = curChan(), n = segments()[seg].length;
+      var r = resultsFor(n, chan), now = new Date();
+      P.history.push({
+        id: Date.now(), name: ($('pr-name').value || '').trim() || 'Promo sin nombre',
+        plan: $('pr-plan').value, planName: planName($('pr-plan').value),
+        benefit: ($('pr-benefit').value || '').trim(), segment: seg, channel: chan,
+        firedAt: dmy(now) + ' · ' + hhmm(), ym: ymOf(now),
+        sent: r.sent, resp: r.resp, cot: r.cot, vend: r.vend, demo: true
+      });
+      persist();
+      $('pr-confirm').style.display = 'none';
+      $('pr-stamp').textContent = '✔ Promo disparada (simulado) — Valeria ya está atendiendo las respuestas con la promo aplicada (' + hhmm() + ')';
+      renderFreq(); renderHistory();
+    });
+
+    paintSeg('pr-segs'); paintSeg('pr-chans');
+    renderFreq(); renderPreview(); renderHistory();
+    // Mantiene conteos y vista previa en sintonía con los cambios del panel del dueño.
+    setInterval(function(){ renderPreview(); renderFreq(); }, 2500);
   })();
 </script>
 </body>
