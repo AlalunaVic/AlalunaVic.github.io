@@ -164,6 +164,141 @@
   .hist-item b{ color:var(--coal); }
   .hist-item .when{ color:#7a838c; font-size:.82rem; font-weight:700; letter-spacing:.03em; }
   .demo-tag{ display:inline-block; background:var(--gold); color:var(--coal); font-size:.66rem; font-weight:800; letter-spacing:.1em; border-radius:999px; padding:.16rem .55rem; margin-bottom:.3rem; }
+
+  /* ===== Panel tipo APLICACIÓN (actividad de la agente) ===== */
+  .appbar .live-pill{ margin-left:auto; background:#123b2c; color:#35d07f; border:1px solid #35d07f; border-radius:999px; font-size:.66rem; font-weight:800; letter-spacing:.14em; padding:.22rem .6rem; white-space:nowrap; }
+  .app-sync{ display:flex; gap:.65rem; align-items:center; background:#eef7f7; border:1px solid #cfe8e8; border-radius:12px; padding:.65rem .8rem; }
+  .app-sync .ic{ font-size:1.35rem; line-height:1; flex:none; }
+  .app-sync p{ font-size:.89rem; line-height:1.5; color:#3c434a; }
+  .app-sync p b{ color:var(--teal-d); }
+  .app-rows{ margin-top:.8rem; display:grid; grid-template-columns:minmax(0,1fr); gap:.45rem; }
+  .app-row{ display:flex; gap:.65rem; align-items:center; width:100%; min-width:0; text-align:left; background:#fff; border:1.5px solid #e2e9e9; border-radius:14px; padding:.6rem .7rem; cursor:pointer; font-family:inherit; }
+  .app-row:active{ transform:scale(.995); }
+  .app-row.sel{ border-color:var(--teal); background:#f2fafa; }
+  .app-row .ic{ width:38px; height:38px; flex:none; border-radius:12px; background:#eef7f7; display:flex; align-items:center; justify-content:center; font-size:1.15rem; }
+  .app-row .tx{ flex:1; min-width:0; }
+  .app-row .tx b{ display:block; color:var(--coal); font-size:.93rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .app-row .tx span{ display:block; color:#5c646c; font-size:.83rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .app-row .meta{ text-align:right; flex:none; max-width:96px; }
+  .app-row .meta .hr{ display:block; color:#7a838c; font-size:.74rem; font-weight:700; margin-bottom:.25rem; white-space:nowrap; }
+  .stchip{ display:inline-block; font-size:.6rem; font-weight:800; letter-spacing:.07em; border-radius:999px; padding:.18rem .5rem; line-height:1.3; }
+  .stchip.nuevo{ background:var(--gold); color:var(--coal); }
+  .stchip.resuelto{ background:#e2f4ea; color:#177245; }
+  .stchip.derivado{ background:#fdeeda; color:#9a6206; }
+  .app-detail{ margin-top:.8rem; border:1.5px solid var(--teal); border-radius:14px; padding:.85rem .9rem; background:#fbfefe; }
+  .app-detail h4{ font-size:.96rem; color:var(--coal); margin-bottom:.6rem; }
+  .kv{ display:grid; grid-template-columns:1fr 1fr; gap:.55rem .9rem; }
+  .kv .k{ display:block; font-size:.66rem; font-weight:800; letter-spacing:.1em; color:#7a838c; }
+  .kv .v{ display:block; font-size:.95rem; font-weight:700; color:var(--coal); margin-top:.1rem; }
+  .emitbtn{ margin-top:.85rem; width:100%; background:var(--teal); color:#fff; border:none; border-radius:12px; padding:.8rem; font-size:1rem; font-weight:800; cursor:pointer; font-family:inherit; }
+  .emitbtn:active{ transform:scale(.99); }
+  @keyframes landflash{ 0%{ box-shadow:0 0 0 0 rgba(245,197,24,0);} 25%{ box-shadow:0 0 0 4px rgba(245,197,24,.9);} 100%{ box-shadow:0 0 0 0 rgba(245,197,24,0);} }
+  .app-row.landed{ animation:landflash 1.1s ease-in-out 2; border-color:var(--gold); background:#fffdf0; }
+
+  /* ===== Escena EN VIVO sincronizada con el audio ===== */
+  .livebox{ margin-top:1.1rem; background:#0d2929; border:1px solid rgba(94,234,212,.35); border-radius:16px; padding:.85rem; }
+  .live-head{ display:flex; align-items:center; gap:.5rem; color:#fff; font-weight:800; font-size:.85rem; letter-spacing:.05em; }
+  .live-head .rec{ width:9px; height:9px; border-radius:50%; background:#ff5147; animation:pulse 1.6s ease-in-out infinite; flex:none; }
+  .live-head .st{ margin-left:auto; color:#9fd8d8; font-size:.74rem; font-weight:700; text-align:right; }
+  .live-grid{ display:grid; gap:.7rem; margin-top:.7rem; }
+  @media (min-width:620px){ .live-grid{ grid-template-columns:1fr 1fr; } }
+  .wa{ background:#e9e2d5; border-radius:12px; padding:.6rem; display:flex; flex-direction:column; gap:.4rem; }
+  .wa .msg{ max-width:90%; padding:.5rem .65rem; border-radius:10px; font-size:.84rem; line-height:1.45; color:#26302f; }
+  .wa .msg.ag{ background:#fff; align-self:flex-start; border-top-left-radius:2px; }
+  .wa .msg.va{ background:#d7f5c8; align-self:flex-end; border-top-right-radius:2px; }
+  .wa .msg .who{ display:block; font-size:.64rem; font-weight:800; letter-spacing:.06em; color:#7a838c; margin-bottom:.15rem; }
+  .wa .typing{ align-self:flex-end; background:#d7f5c8; border-radius:10px; padding:.45rem .7rem; font-size:.84rem; color:#4a5a58; display:none; }
+  .livebox.playing .msg{ opacity:0; transform:translateY(8px); transition:opacity .45s, transform .45s; }
+  .livebox.playing .msg.show{ opacity:1; transform:none; }
+  .livebox.playing .typing.show{ display:block; }
+  .ficha{ background:#fff; border-radius:12px; padding:.7rem .8rem; }
+  .ficha h5{ font-size:.76rem; letter-spacing:.12em; color:var(--teal-d); margin-bottom:.35rem; }
+  .frow{ display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; padding:.34rem 0; border-bottom:1px dashed #e2e9e9; font-size:.88rem; }
+  .frow:last-of-type{ border-bottom:none; }
+  .frow .fk{ color:#7a838c; font-weight:700; flex:none; }
+  .frow .fv{ font-weight:800; color:var(--coal); text-align:right; }
+  .frow .fv .ph{ display:none; }
+  .livebox.playing .frow .fv{ color:#c8ced2; }
+  .livebox.playing .frow .fv .val{ display:none; }
+  .livebox.playing .frow .fv .ph{ display:inline; }
+  .livebox.playing .frow .fv.fill{ color:var(--coal); animation:pop .45s; }
+  .livebox.playing .frow .fv.fill .val{ display:inline; }
+  .livebox.playing .frow .fv.fill .ph{ display:none; }
+  @keyframes pop{ 0%{ transform:scale(1.22);} 100%{ transform:scale(1);} }
+  .ficha .sello{ margin-top:.6rem; background:#e2f4ea; color:#177245; font-weight:800; font-size:.82rem; border-radius:10px; padding:.5rem .6rem; text-align:center; }
+  .livebox.playing .ficha .sello{ display:none; }
+  .livebox.playing .ficha .sello.show{ display:block; animation:pop .5s; }
+
+  /* ===== Animaciones «así funciona» (Panel del Dueño y Promos) ===== */
+  .anim{ border:1.5px solid #cfe8e8; background:linear-gradient(160deg,#f4fbfb,#eef7f7); border-radius:14px; padding:.7rem .8rem .8rem; margin-bottom:1rem; overflow:hidden; }
+  .anim .atag{ display:inline-block; background:var(--coal); color:#fff; font-size:.66rem; font-weight:800; letter-spacing:.14em; border-radius:999px; padding:.2rem .6rem; margin-bottom:.6rem; }
+  .anim-cap{ margin-top:.55rem; text-align:center; font-size:.86rem; font-weight:800; color:var(--teal-d); }
+  .anim-stage{ position:relative; height:158px; }
+  .ascene{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; opacity:0; }
+  .ascene.scA{ animation:scA 12s linear infinite; }
+  .ascene.scB{ animation:scB 12s linear infinite; }
+  .ascene.scC{ animation:scC 12s linear infinite; }
+  @keyframes scA{ 0%{ opacity:0; transform:translateY(10px);} 4%{ opacity:1; transform:none;} 29%{ opacity:1;} 33%,100%{ opacity:0;} }
+  @keyframes scB{ 0%,33%{ opacity:0; transform:translateY(10px);} 37%{ opacity:1; transform:none;} 62%{ opacity:1;} 66%,100%{ opacity:0;} }
+  @keyframes scC{ 0%,66%{ opacity:0; transform:translateY(10px);} 70%{ opacity:1; transform:none;} 96%{ opacity:1;} 100%{ opacity:0;} }
+  .acap{ position:relative; height:1.4em; margin-top:.55rem; }
+  .acap span{ position:absolute; left:0; right:0; text-align:center; font-size:.86rem; font-weight:800; color:var(--teal-d); opacity:0; }
+  .acap .capA{ animation:scA 12s linear infinite; }
+  .acap .capB{ animation:scB 12s linear infinite; }
+  .acap .capC{ animation:scC 12s linear infinite; }
+  .mini-tag{ font-size:.8rem; font-weight:700; color:#5c646c; }
+  .mini-sheet{ background:#fff; border:1px solid #cfe0e0; border-radius:10px; padding:.5rem; display:grid; gap:.3rem; box-shadow:0 4px 14px rgba(4,110,110,.10); }
+  .ms-row{ display:flex; gap:.3rem; }
+  .ms-row span{ width:46px; height:17px; background:#eef7f7; border-radius:4px; position:relative; }
+  .ms-row span.hot{ background:#fdf6d8; border:1.5px solid var(--gold); }
+  .ms-row span.hot i{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-weight:800; font-size:.78rem; color:var(--coal); }
+  .hot .v72{ animation:v72 12s linear infinite; }
+  .hot .v79{ animation:v79 12s linear infinite; }
+  @keyframes v72{ 0%,12%{ opacity:1;} 16%,100%{ opacity:0;} }
+  @keyframes v79{ 0%,12%{ opacity:0;} 16%{ opacity:1; transform:scale(1.25);} 20%,100%{ opacity:1; transform:scale(1);} }
+  .mini-agent{ display:flex; align-items:center; gap:.6rem; background:#fff; border:1px solid #cfe0e0; border-radius:999px; padding:.45rem .95rem .45rem .45rem; box-shadow:0 4px 14px rgba(4,110,110,.10); }
+  .mini-agent .avatar{ width:38px; height:38px; border-radius:50%; background:var(--teal); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; flex:none; }
+  .mini-agent .ma-tx b{ display:block; color:var(--coal); font-size:.92rem; line-height:1.2; }
+  .mini-agent .ma-tx small{ color:#7a838c; }
+  .mini-agent .ma-chk{ background:#35d07f; color:#fff; border-radius:50%; width:25px; height:25px; display:flex; align-items:center; justify-content:center; font-weight:800; flex:none; animation:chkB 12s linear infinite; }
+  @keyframes chkB{ 0%,40%{ transform:scale(.3); opacity:.25;} 48%{ transform:scale(1.2); opacity:1;} 54%,100%{ transform:scale(1); opacity:1;} }
+  .mini-chat{ display:grid; gap:.35rem; width:100%; max-width:310px; }
+  .mini-chat .mb{ font-size:.82rem; padding:.45rem .6rem; border-radius:10px; line-height:1.4; color:#26302f; }
+  .mini-chat .mb.ag{ background:#fff; justify-self:start; border:1px solid #dde6e6; }
+  .mini-chat .mb.va{ background:#d7f5c8; justify-self:end; }
+  .promo-stage{ display:grid; gap:.55rem; }
+  .pr-top{ display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; }
+  .pr-card{ background:#fff; border:1.5px solid var(--teal); color:var(--coal); border-radius:999px; padding:.4rem .8rem; font-size:.86rem; }
+  .pr-fire{ margin-left:auto; background:var(--gold); color:var(--coal); font-weight:800; font-size:.84rem; border-radius:999px; padding:.42rem .85rem; animation:firePulse 10s linear infinite; }
+  @keyframes firePulse{ 0%,4%{ transform:scale(1);} 10%{ transform:scale(1.14);} 16%,100%{ transform:scale(1);} }
+  .pbar{ height:8px; background:#dde6e6; border-radius:999px; overflow:hidden; }
+  .pbar i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--teal),#35d07f); animation:barFill 10s linear infinite; }
+  @keyframes barFill{ 0%,18%{ width:0;} 92%,100%{ width:100%;} }
+  .pr-chips, .pr-replies, .pr-stats{ display:flex; gap:.45rem; flex-wrap:wrap; }
+  .pr-chip{ background:#fff; border:1px solid #cfe0e0; border-radius:999px; padding:.34rem .7rem; font-size:.8rem; font-weight:700; color:var(--coal); opacity:0; }
+  .pr-rep{ background:#d7f5c8; border-radius:10px; padding:.38rem .6rem; font-size:.8rem; color:#26302f; opacity:0; }
+  .pr-stat{ background:#fff; border:1px solid #cfe0e0; border-radius:10px; padding:.34rem .6rem; font-size:.68rem; font-weight:800; letter-spacing:.05em; color:#5c646c; opacity:0; }
+  .pr-stat b{ color:var(--teal-d); font-size:.95rem; }
+  .pr-chip.c1{ animation:w25 10s linear infinite; } .pr-chip.c2{ animation:w40 10s linear infinite; } .pr-chip.c3{ animation:w50 10s linear infinite; }
+  .pr-rep.r1{ animation:w63 10s linear infinite; } .pr-rep.r2{ animation:w70 10s linear infinite; }
+  .pr-stat.s1{ animation:w63 10s linear infinite; } .pr-stat.s2{ animation:w70 10s linear infinite; } .pr-stat.s3{ animation:w84 10s linear infinite; }
+  @keyframes w25{ 0%,22%{ opacity:0; transform:translateY(8px) scale(.92);} 30%,94%{ opacity:1; transform:none;} 100%{ opacity:0;} }
+  @keyframes w40{ 0%,37%{ opacity:0; transform:translateY(8px) scale(.92);} 45%,94%{ opacity:1; transform:none;} 100%{ opacity:0;} }
+  @keyframes w50{ 0%,47%{ opacity:0; transform:translateY(8px) scale(.92);} 55%,94%{ opacity:1; transform:none;} 100%{ opacity:0;} }
+  @keyframes w63{ 0%,60%{ opacity:0; transform:translateY(8px) scale(.92);} 68%,94%{ opacity:1; transform:none;} 100%{ opacity:0;} }
+  @keyframes w70{ 0%,67%{ opacity:0; transform:translateY(8px) scale(.92);} 75%,94%{ opacity:1; transform:none;} 100%{ opacity:0;} }
+  @keyframes w84{ 0%,81%{ opacity:0; transform:scale(.7);} 88%,96%{ opacity:1; transform:scale(1);} 100%{ opacity:0;} }
+  @media (prefers-reduced-motion: reduce){
+    .ascene, .acap span, .mini-agent .ma-chk, .hot .v72, .hot .v79, .pr-fire, .pbar i, .pr-chip, .pr-rep, .pr-stat, .live-head .rec{ animation:none !important; }
+    .anim-stage{ height:auto; display:grid; gap:.9rem; }
+    .ascene{ position:static; opacity:1 !important; transform:none !important; }
+    .acap{ display:none; }
+    .hot .v72{ display:none; } .hot .v79{ opacity:1 !important; }
+    .pr-chip, .pr-rep, .pr-stat{ opacity:1 !important; transform:none !important; }
+    .pbar i{ width:100% !important; }
+    .app-row.landed{ animation:none; }
+    .livebox .msg, .frow .fv.fill{ transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -195,39 +330,93 @@
           <span class="pc-time" id="time-escena">00:00 / 01:02</span>
         </div>
         <div class="wave" id="wave-escena"></div>
+        <div class="livebox" id="livebox">
+          <div class="live-head"><span class="rec"></span>EN VIVO · VALERIA ESTÁ ATENDIENDO<span class="st" id="live-st">✔ Última atención: resuelta por el asistente</span></div>
+          <div class="live-grid">
+            <div class="wa" aria-label="Conversación de WhatsApp">
+              <div class="msg ag" data-t="0.3"><span class="who">ANDES TRAVEL · WHATSAPP</span>Hola, buenas noches. Soy Carlos, de Andes Travel. Disculpe la hora: necesito cotizar una asistencia para un pasajero que viaja a Europa por 12 días.</div>
+              <div class="typing" data-t="9.9" data-until="11.2">Valeria está escribiendo…</div>
+              <div class="msg va" data-t="11.2"><span class="who">VALERIA · ASISTENTE</span>Buenas noches, Carlos 🌙 Para 12 días en Europa aplica el tramo de 16: el Plan Europa sale en <b>$72</b>, con asistencia médica de €30.000.</div>
+              <div class="msg ag" data-t="22.8"><span class="who">ANDES TRAVEL · WHATSAPP</span>¿Y ese plan cubre COVID?</div>
+              <div class="msg va" data-t="25.6"><span class="who">VALERIA · ASISTENTE</span>Sí: incluye €15.000 por COVID y €30.000 de repatriación. ¿Le dejo la cotización anotada con los datos del pasajero?</div>
+              <div class="msg ag" data-t="34.5"><span class="who">ANDES TRAVEL · WHATSAPP</span>Sí, por favor. El pasajero es Martín Rojas, sale el 15 de diciembre.</div>
+              <div class="msg va" data-t="39.6"><span class="who">VALERIA · ASISTENTE</span>Perfecto, ya quedó anotada ✔ Su equipo la recibe en el panel de Travel Care para emitir.</div>
+              <div class="msg ag" data-t="55.1"><span class="who">ANDES TRAVEL · WHATSAPP</span>Eso es todo, muchas gracias. ¡Qué rápido!</div>
+              <div class="msg va" data-t="58.4"><span class="who">VALERIA · ASISTENTE</span>Con gusto, Carlos. Quedo atenta a lo que necesite su agencia, a cualquier hora.</div>
+            </div>
+            <div class="ficha" aria-label="Ficha de la cotización">
+              <h5>🧾 COTIZACIÓN EN CURSO</h5>
+              <div class="frow"><span class="fk">Agencia</span><span class="fv" data-t="1.5" data-cls="fill"><span class="ph">···</span><span class="val">Andes Travel</span></span></div>
+              <div class="frow"><span class="fk">Pasajero</span><span class="fv" data-t="36.8" data-cls="fill"><span class="ph">···</span><span class="val">Martín Rojas</span></span></div>
+              <div class="frow"><span class="fk">Destino</span><span class="fv" data-t="7.0" data-cls="fill"><span class="ph">···</span><span class="val">Europa</span></span></div>
+              <div class="frow"><span class="fk">Días</span><span class="fv" data-t="7.0" data-cls="fill"><span class="ph">···</span><span class="val">12 días · tramo 16</span></span></div>
+              <div class="frow"><span class="fk">Plan</span><span class="fv" data-t="15.5" data-cls="fill"><span class="ph">···</span><span class="val">Plan Europa</span></span></div>
+              <div class="frow"><span class="fk">Precio</span><span class="fv" data-t="17.8" data-cls="fill"><span class="ph">···</span><span class="val">$72</span></span></div>
+              <div class="sello" data-t="51.5">✔ COTIZACIÓN LISTA — YA ESTÁ EN TU PANEL ↓</div>
+            </div>
+          </div>
+        </div>
         <audio id="audio-escena" preload="none"></audio>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-head"><span class="dotlive"></span>Panel Travel Care · la aplicación de tu negocio</div>
+    <div class="panel" id="panel-app">
+      <div class="panel-head appbar"><span class="dotlive"></span>📱 Travel Care · Mi panel<span class="live-pill">● EN VIVO</span></div>
       <div class="panel-body">
-        <div class="excel">
+        <div class="app-sync">
           <span class="ic">📊</span>
-          <p><b>Tu Excel manda.</b> Subes tus tarifas, planes y coberturas <b>una vez al mes</b> — tú o tu equipo — y el asistente queda actualizado al instante, sin llamar a nadie.</p>
+          <p><b>Datos sincronizados desde tu Excel.</b> Tu Excel manda: subes tus tarifas, planes y coberturas <b>una vez al mes</b> y el asistente queda actualizado al instante, sin llamar a nadie.</p>
         </div>
-        <div class="feed">
-          <div class="item new">
-            <span class="chip">NUEVO</span><br>
-            <b>Cotización lista para emitir</b> — Agencia Andes Travel · Pasajero: Martín Rojas · Europa, 12 días · Plan Europa<br>
-            <span class="when">HOY · 10:48 P. M. · RESUELTO POR EL ASISTENTE</span>
-          </div>
-          <div class="item">
-            <b>Consulta de cobertura</b> — Agencia del Sur preguntó qué cubre el plan Mundial 50 Mil · respondida al momento<br>
-            <span class="when">HOY · 9:15 P. M.</span>
-          </div>
-          <div class="item">
-            <b>Derivación a tu WhatsApp</b> — Una agencia pidió aplicar su tarifa especial: datos tomados y derivados, sin inventar precios<br>
-            <span class="when">HOY · 6:02 P. M.</span>
-          </div>
+        <div class="app-rows" id="app-rows">
+          <button class="app-row sel" id="row-cot" data-rec="cot" type="button">
+            <span class="ic">🧾</span>
+            <span class="tx"><b>Andes Travel</b><span>Cotización lista para emitir · Europa, 12 días</span></span>
+            <span class="meta"><span class="hr">10:48 p. m.</span><span class="stchip nuevo">NUEVO</span></span>
+          </button>
+          <button class="app-row" data-rec="cob" type="button">
+            <span class="ic">❓</span>
+            <span class="tx"><b>Agencia del Sur</b><span>Consulta de cobertura · Mundial 50 Mil</span></span>
+            <span class="meta"><span class="hr">9:15 p. m.</span><span class="stchip resuelto">RESUELTO POR EL ASISTENTE</span></span>
+          </button>
+          <button class="app-row" data-rec="der" type="button">
+            <span class="ic">↪️</span>
+            <span class="tx"><b>Tarifa especial</b><span>Derivación a tu WhatsApp · datos tomados</span></span>
+            <span class="meta"><span class="hr">6:02 p. m.</span><span class="stchip derivado">DERIVADO</span></span>
+          </button>
         </div>
-        <p class="panel-note">Esto es lo que te llega: <b>todo a la aplicación de tu negocio</b>, ordenado y con el detalle — nada se pierde en chats sueltos.</p>
+        <div class="app-detail" id="app-detail"></div>
+        <p class="panel-note">Esto es lo que te llega: <b>todo a la aplicación de tu negocio</b>, ordenado y con el detalle — nada se pierde en chats sueltos. Toca cualquier registro para verlo completo.</p>
       </div>
     </div>
 
     <div class="panel owner-panel" id="panel-dueno">
       <div class="panel-head">⚙️ PANEL DEL DUEÑO — TÚ CONTROLAS LO QUE VALERIA COTIZA</div>
       <div class="panel-body">
+        <div class="anim" aria-hidden="true">
+          <span class="atag">▶ ASÍ FUNCIONA</span>
+          <div class="anim-stage">
+            <div class="ascene scA">
+              <div class="mini-sheet">
+                <div class="ms-row"><span></span><span></span><span></span></div>
+                <div class="ms-row"><span></span><span class="hot"><i class="v72">$72</i><i class="v79">$79</i></span><span></span></div>
+                <div class="ms-row"><span></span><span></span><span></span></div>
+              </div>
+              <span class="mini-tag">📊 Sube su Excel — o edita una tarifa aquí mismo</span>
+            </div>
+            <div class="ascene scB">
+              <div class="mini-agent"><span class="avatar">V</span><span class="ma-tx"><b>Valeria</b><small>tu asistente de agencias</small></span><span class="ma-chk">✔</span></div>
+              <span class="mini-tag">Sin llamar a nadie, sin esperar a un técnico</span>
+            </div>
+            <div class="ascene scC">
+              <div class="mini-chat">
+                <span class="mb ag">¿Cuánto sale Europa, 16 días?</span>
+                <span class="mb va">El Plan Europa, 16 días, sale en <b>$79</b> ✔</span>
+              </div>
+              <span class="mini-tag">La próxima agencia ya recibe tu precio nuevo</span>
+            </div>
+          </div>
+          <div class="acap"><span class="capA">1 · Subes tu Excel o editas una tarifa</span><span class="capB">2 · Valeria queda actualizada al instante</span><span class="capC">3 · Y cotiza con tu precio nuevo, sola</span></div>
+        </div>
         <p class="panel-note" style="margin-top:0">Todo lo que cambies aquí, <b>Valeria lo usa al momento</b>: tarifas, teléfonos, agencias y reglas. Sin llamar a nadie, sin esperar a un técnico. Pruébalo: cambia un precio y mira la vista previa de abajo.</p>
 
         <div class="op-sec">
@@ -298,6 +487,32 @@
       <div class="panel-body">
         <span class="extra-tag">PARTE DEL EXTRA: REGISTRO DE CONVERSACIONES + SEGUIMIENTO</span>
         <p class="panel-note" style="margin-top:0">Hasta aquí, Valeria <b>espera</b> a que las agencias escriban. Con las promos, <b>sale a buscarlas</b>: tú creas la oferta, eliges a quién llega y ella la ofrece por ti — y atiende cada respuesta cotizando con la promo aplicada.</p>
+
+        <div class="anim" aria-hidden="true">
+          <span class="atag">▶ ASÍ FUNCIONA</span>
+          <div class="promo-stage">
+            <div class="pr-top">
+              <span class="pr-card">🚀 <b>Promo · Europa −15%</b></span>
+              <span class="pr-fire">Disparar</span>
+            </div>
+            <div class="pbar"><i></i></div>
+            <div class="pr-chips">
+              <span class="pr-chip c1">✉ Andes Travel</span>
+              <span class="pr-chip c2">✉ Agencia del Sur</span>
+              <span class="pr-chip c3">✉ Viajes El Sol</span>
+            </div>
+            <div class="pr-replies">
+              <span class="pr-rep r1">💬 «¡Me interesa!»</span>
+              <span class="pr-rep r2">💬 «Cotízame 2 pasajeros»</span>
+            </div>
+            <div class="pr-stats">
+              <span class="pr-stat s1"><b>3</b> ENVIADAS</span>
+              <span class="pr-stat s2"><b>2</b> RESPONDIERON</span>
+              <span class="pr-stat s3"><b>1</b> COTIZARON</span>
+            </div>
+          </div>
+          <p class="anim-cap">Creas la promo → la disparas → Valeria la vende por ti</p>
+        </div>
 
         <div class="op-sec">
           <h3>1 · Crea tu promoción</h3>
@@ -918,6 +1133,80 @@
     renderFreq(); renderPreview(); renderHistory();
     // Mantiene conteos y vista previa en sintonía con los cambios del panel del dueño.
     setInterval(function(){ renderPreview(); renderFreq(); }, 2500);
+  })();
+</script>
+<script>
+  // ===== Panel tipo aplicación: filas de actividad + detalle del registro =====
+  (function(){
+    var REC = {
+      cot: { title:'🧾 Cotización lista para emitir', fields:[
+        ['Agencia','Andes Travel'], ['Pasajero','Martín Rojas'], ['Destino','Europa'],
+        ['Días','12 días · tramo 16'], ['Plan','Plan Europa'], ['Precio cotizado','$72'],
+        ['Estado','✔ Lista para emitir · resuelto por el asistente'] ], action:'Emitir cotización' },
+      cob: { title:'❓ Consulta de cobertura', fields:[
+        ['Agencia','Agencia del Sur'], ['Tema','Qué cubre el plan Mundial 50 Mil'],
+        ['Respuesta','Enviada al momento por el asistente'], ['Estado','✔ Resuelto por el asistente'] ], action:null },
+      der: { title:'↪️ Derivación a tu WhatsApp', fields:[
+        ['Motivo','Aplicar la tarifa especial de la agencia'], ['Datos','Tomados por el asistente, sin inventar precios'],
+        ['Derivado a','WhatsApp de tu equipo'], ['Estado','✔ Derivado a tu equipo'] ], action:null }
+    };
+    var detail = document.getElementById('app-detail');
+    var rows = document.querySelectorAll('.app-row');
+    function render(id){
+      var r = REC[id]; if (!r) return;
+      var html = '<h4>' + r.title + '</h4><div class="kv">';
+      r.fields.forEach(function(f){ html += '<div><span class="k">' + f[0].toUpperCase() + '</span><span class="v">' + f[1] + '</span></div>'; });
+      html += '</div>';
+      if (r.action) html += '<button class="emitbtn" id="app-emit" type="button">' + r.action + '</button>';
+      detail.innerHTML = html;
+      var eb = document.getElementById('app-emit');
+      if (eb) eb.addEventListener('click', function(){ eb.textContent = '✔ Emitida (demo)'; eb.style.background = '#35a06f'; });
+      rows.forEach(function(row){ row.classList.toggle('sel', row.dataset.rec === id); });
+    }
+    rows.forEach(function(row){ row.addEventListener('click', function(){ render(row.dataset.rec); }); });
+    render('cot');
+    // La escena llama a esto cuando la cotización «aterriza» en el panel.
+    window.__tcLandQuote = function(){
+      render('cot');
+      var row = document.getElementById('row-cot');
+      if (!row) return;
+      row.classList.remove('landed'); void row.offsetWidth; row.classList.add('landed');
+    };
+  })();
+</script>
+<script>
+  // ===== Escena EN VIVO: la animación sigue al audio (timeupdate) =====
+  // Cues medidos de la mezcla real (62.5 s): cada turno del guion tiene su
+  // tiempo; la ficha se llena cuando Valeria/agencia nombran cada dato.
+  // Sin reproducir, el panel muestra el estado final completo (sin clase
+  // .playing nada se oculta). Al pausar, currentTime se congela y la
+  // animación queda congelada en el mismo punto.
+  (function(){
+    var au = document.getElementById('audio-escena');
+    var box = document.getElementById('livebox');
+    if (!au || !box) return;
+    var steps = box.querySelectorAll('[data-t]');
+    var st = document.getElementById('live-st');
+    var landed = false;
+    function apply(){
+      var t = au.currentTime || 0;
+      steps.forEach(function(el){
+        var on = t >= parseFloat(el.dataset.t) && (!el.dataset.until || t < parseFloat(el.dataset.until));
+        el.classList.toggle(el.dataset.cls || 'show', on);
+      });
+      if (st) st.textContent = t >= 51.5 ? '✔ Cotización registrada en tu panel ↓' : 'Valeria está atendiendo en automático…';
+      if (t >= 51.5 && !landed){ landed = true; if (window.__tcLandQuote) window.__tcLandQuote(); }
+      if (t < 1) landed = false;
+    }
+    au.addEventListener('play', function(){ box.classList.add('playing'); apply(); });
+    au.addEventListener('timeupdate', apply);
+    au.addEventListener('seeked', apply);
+    au.addEventListener('pause', apply);
+    au.addEventListener('ended', function(){
+      box.classList.remove('playing');
+      landed = false;
+      if (st) st.textContent = '✔ Última atención: resuelta por el asistente';
+    });
   })();
 </script>
 </body>
