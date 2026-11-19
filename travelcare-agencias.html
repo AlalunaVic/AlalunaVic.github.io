@@ -83,6 +83,56 @@
   #fabCall{ position:fixed; left:14px; bottom:14px; z-index:40; background:var(--gold); color:var(--coal); border:none; border-radius:999px; padding:.85rem 1.25rem; font-size:1rem; font-weight:800; cursor:pointer; box-shadow:0 8px 22px rgba(29,33,38,.35); }
   #fabCall.fab-off{ display:none; }
   #fabCall:active{ transform:scale(.97); }
+  .owner-panel .panel-head{ background:var(--teal-d); }
+  .op-sec{ border-top:1px solid #e2e9e9; padding:1rem 0 .5rem; }
+  .op-sec:first-of-type{ border-top:none; padding-top:.2rem; }
+  .op-sec h3{ font-size:1.02rem; color:var(--coal); margin-bottom:.35rem; }
+  .op-sec .hint{ font-size:.88rem; color:#5c646c; line-height:1.5; margin-bottom:.6rem; }
+  .rates-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table.rates{ border-collapse:collapse; width:100%; min-width:540px; font-size:.9rem; }
+  table.rates th, table.rates td{ border:1px solid #e2e9e9; padding:.3rem .35rem; text-align:center; }
+  table.rates th{ background:#eef7f7; color:var(--coal); font-size:.82rem; }
+  table.rates td.lbl{ text-align:left; font-weight:700; color:var(--coal); white-space:nowrap; background:#fbfdfd; }
+  .rates input{ width:62px; border:1px solid #cfe0e0; border-radius:8px; padding:.32rem .3rem; font-size:.92rem; text-align:right; font-variant-numeric:tabular-nums; font-family:inherit; }
+  .rates input:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .anual-row{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.65rem; align-items:center; }
+  .anual-row .an-t{ font-size:.88rem; font-weight:800; color:var(--coal); width:100%; }
+  .anual-row label{ font-size:.85rem; font-weight:700; color:var(--coal); display:flex; align-items:center; gap:.35rem; }
+  .anual-row input{ width:70px; border:1px solid #cfe0e0; border-radius:8px; padding:.35rem .3rem; font-size:.92rem; text-align:right; font-family:inherit; }
+  .anual-row input:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .fld{ margin-bottom:.6rem; }
+  .fld label{ display:block; font-size:.85rem; font-weight:700; color:var(--coal); margin-bottom:.25rem; }
+  .fld input[type=text], .fld input[type=tel], .fld textarea{ width:100%; border:1px solid #cfe0e0; border-radius:10px; padding:.55rem .6rem; font-size:.95rem; font-family:inherit; color:var(--ink); background:#fff; }
+  .fld input:focus, .fld textarea:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:.15rem .8rem; }
+  @media (max-width:560px){ .grid2{ grid-template-columns:1fr; } }
+  .agency{ display:flex; align-items:center; gap:.6rem; border:1px solid #e2e9e9; border-radius:12px; padding:.55rem .7rem; margin-bottom:.5rem; }
+  .agency .nm{ font-weight:700; color:var(--coal); font-size:.95rem; flex:1; }
+  .agency .st{ font-size:.72rem; font-weight:800; letter-spacing:.05em; white-space:nowrap; }
+  .agency .st.on{ color:var(--teal-d); }
+  .agency .st.off{ color:#b3543f; }
+  .switch{ position:relative; width:46px; height:26px; flex:none; display:inline-block; }
+  .switch input{ opacity:0; width:0; height:0; position:absolute; }
+  .switch .tr{ position:absolute; inset:0; background:#c9d4d4; border-radius:999px; transition:.2s; cursor:pointer; }
+  .switch .tr::before{ content:""; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.25); }
+  .switch input:checked + .tr{ background:var(--teal); }
+  .switch input:checked + .tr::before{ transform:translateX(20px); }
+  .addrow{ display:flex; gap:.5rem; margin-top:.45rem; }
+  .addrow input[type=text]{ flex:1; border:1px solid #cfe0e0; border-radius:10px; padding:.55rem .6rem; font-size:.95rem; font-family:inherit; min-width:0; }
+  .addrow input[type=text]:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .minibtn{ background:var(--teal); color:#fff; border:none; border-radius:10px; padding:.55rem .95rem; font-weight:800; font-size:.92rem; cursor:pointer; font-family:inherit; }
+  .minibtn:active{ transform:scale(.98); }
+  .rule{ display:flex; align-items:center; gap:.7rem; padding:.55rem 0; border-bottom:1px dashed #e2e9e9; }
+  .rule:last-child{ border-bottom:none; }
+  .rule .tx{ flex:1; font-size:.94rem; line-height:1.45; color:#3c434a; }
+  .rule .tx b{ color:var(--coal); }
+  .preview{ background:#f2fafa; border:1.5px solid var(--teal); border-radius:14px; padding:.9rem; }
+  .pv-row{ display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.7rem; }
+  .pv-row select{ flex:1 1 130px; border:1px solid #cfe0e0; border-radius:10px; padding:.55rem .5rem; font-size:.93rem; font-family:inherit; background:#fff; color:var(--ink); min-width:0; }
+  .pv-row select:focus{ outline:2px solid var(--teal); border-color:var(--teal); }
+  .bubble{ background:#fff; border:1px solid #dde6e6; border-radius:12px; border-top-left-radius:2px; padding:.75rem .9rem; font-size:.97rem; line-height:1.55; color:#3c434a; }
+  .bubble b{ color:var(--teal-d); }
+  .stamp{ margin-top:.7rem; font-size:.9rem; font-weight:700; color:var(--teal-d); min-height:1.2em; }
 </style>
 </head>
 <body>
@@ -141,6 +191,74 @@
           </div>
         </div>
         <p class="panel-note">Esto es lo que te llega: <b>todo a la aplicación de tu negocio</b>, ordenado y con el detalle — nada se pierde en chats sueltos.</p>
+      </div>
+    </div>
+
+    <div class="panel owner-panel" id="panel-dueno">
+      <div class="panel-head">⚙️ PANEL DEL DUEÑO — TÚ CONTROLAS LO QUE VALERIA COTIZA</div>
+      <div class="panel-body">
+        <p class="panel-note" style="margin-top:0">Todo lo que cambies aquí, <b>Valeria lo usa al momento</b>: tarifas, teléfonos, agencias y reglas. Sin llamar a nadie, sin esperar a un técnico. Pruébalo: cambia un precio y mira la vista previa de abajo.</p>
+
+        <div class="op-sec">
+          <h3>1 · Tus tarifas (editables)</h3>
+          <p class="hint">Son las tarifas de demostración de la Fase 1. Toca cualquier monto y cámbialo: la vista previa cotiza con tu número nuevo al instante.</p>
+          <div class="rates-wrap"><table class="rates" id="op-rates"></table></div>
+          <div class="anual-row" id="op-anual"></div>
+        </div>
+
+        <div class="op-sec">
+          <h3>2 · Los datos de tu negocio</h3>
+          <p class="hint">Los teléfonos de tu central que Valeria comparte con las agencias — y el WhatsApp de tu equipo, adonde deriva lo que no sabe, con los datos ya tomados.</p>
+          <div class="grid2">
+            <div class="fld"><label>Central Perú</label><input type="tel" id="op-ph-peru"></div>
+            <div class="fld"><label>WhatsApp de la central</label><input type="tel" id="op-ph-wapp"></div>
+            <div class="fld"><label>Central USA</label><input type="tel" id="op-ph-usa"></div>
+            <div class="fld"><label>Central España</label><input type="tel" id="op-ph-esp"></div>
+            <div class="fld"><label>Central Panamá</label><input type="tel" id="op-ph-pan"></div>
+            <div class="fld"><label>Central Cuba</label><input type="tel" id="op-ph-cuba"></div>
+          </div>
+          <div class="fld" style="margin-bottom:0"><label>WhatsApp de tu equipo (derivaciones de Valeria)</label><input type="tel" id="op-ph-equipo"></div>
+        </div>
+
+        <div class="op-sec">
+          <h3>3 · Tus agencias</h3>
+          <p class="hint">Activa o pausa cada agencia. Si una está en pausa, Valeria no le cotiza en automático: deriva su consulta a tu equipo.</p>
+          <div id="op-agencies"></div>
+          <div class="addrow"><input type="text" id="op-ag-new" placeholder="Nombre de una agencia nueva"><button class="minibtn" id="op-ag-add" type="button">Agregar</button></div>
+        </div>
+
+        <div class="op-sec">
+          <h3>4 · Las reglas de Valeria</h3>
+          <div class="fld"><label>Su saludo — así se presenta con cada agencia</label><textarea id="op-saludo" rows="2"></textarea></div>
+          <div class="rule"><div class="tx"><b>Cotizar solo con las tarifas cargadas.</b> Si un precio no está en tu tabla, no lo inventa.</div><label class="switch"><input type="checkbox" id="op-r-solo"><span class="tr"></span></label></div>
+          <div class="rule"><div class="tx"><b>Derivar precios especiales a tu equipo.</b> Tarifas negociadas y pedidos especiales van a tu WhatsApp, con los datos tomados.</div><label class="switch"><input type="checkbox" id="op-r-derivar"><span class="tr"></span></label></div>
+          <div class="rule"><div class="tx"><b>Responder 24/7.</b> También de noche y el fin de semana.</div><label class="switch"><input type="checkbox" id="op-r-siempre"><span class="tr"></span></label></div>
+        </div>
+
+        <div class="op-sec">
+          <h3>5 · Tu actualización mensual por Excel</h3>
+          <div class="excel">
+            <span class="ic">📊</span>
+            <p><b>Sube tu Excel actualizado y Valeria cotiza desde el archivo nuevo.</b> Es el flujo de la Fase 1: una vez al mes subes tus tarifas, planes y coberturas, y el asistente queda actualizado al instante. La tabla editable de arriba es esa misma información — visible y ajustable a mano cuando quieras.</p>
+          </div>
+          <div class="addrow"><button class="minibtn" id="op-excel-btn" type="button">📊 Subir mi Excel actualizado</button><input type="file" id="op-excel-file" accept=".xlsx,.xls,.csv" style="display:none"></div>
+          <p class="hint" id="op-excel-note" style="margin:.55rem 0 0"></p>
+        </div>
+
+        <div class="op-sec">
+          <h3>Vista previa — así cotiza Valeria ahora</h3>
+          <p class="hint">Elige plan, días y agencia: esto es lo que Valeria respondería con los datos que tienes cargados en este momento.</p>
+          <div class="preview">
+            <div class="pv-row">
+              <select id="op-pv-plan" aria-label="Plan"></select>
+              <select id="op-pv-days" aria-label="Días"></select>
+              <select id="op-pv-agency" aria-label="Agencia"></select>
+            </div>
+            <div class="bubble" id="op-pv-bubble"></div>
+          </div>
+          <p class="stamp" id="op-stamp">✔ Valeria ya está usando tus cambios</p>
+        </div>
+
       </div>
     </div>
 
@@ -276,6 +394,191 @@
     }
     hook(); apply();
     setInterval(function(){ hook(); if (!shown) apply(); }, 800);
+  })();
+</script>
+<script>
+  // ===== Panel del dueño — la data que Bryan controla y Valeria usa =====
+  // Modelo Kennedy: el dueño edita aquí y los cambios se ven en acción en la
+  // vista previa. Todo persiste en localStorage (travelcare-owner-v1).
+  (function(){
+    var KEY = 'travelcare-owner-v1';
+    var TIERS = ['5','8','10','16','22','30','45','60','90'];
+    var PLANS = [
+      { id:'europa',   name:'Europa' },
+      { id:'mundo30',  name:'Mundo 30K' },
+      { id:'mundo50',  name:'Mundo 50K' },
+      { id:'mundo100', name:'Mundo 100K' }
+    ];
+    var DEF = {
+      rates: {
+        europa:   { '5':35, '8':41, '10':51, '16':72, '22':86, '30':96,  '45':141, '60':160, '90':189, extra:5 },
+        mundo30:  { '5':52, '8':70, '10':83, '16':99, '22':109,'30':123, '45':182, '60':237, '90':354, extra:6 },
+        mundo50:  { '5':59, '8':79, '10':94, '16':109,'22':132,'30':160, '45':219, '60':285, '90':418, extra:7 },
+        mundo100: { '5':73, '8':95, '10':110,'16':155,'22':183,'30':238, '45':285, '60':378, '90':496, extra:9 },
+        anual:    { '30':179, '60':199, '90':299 }
+      },
+      phones: { peru:'01 705 7724', wapp:'+51 984 216 550', usa:'+1 305 501 2206', esp:'+34 911 986 998', pan:'+507 836 5262', cuba:'+53 5280 3563', equipo:'+51 984 216 550' },
+      agencies: [
+        { n:'Andes Travel', a:true },
+        { n:'Agencia del Sur', a:true },
+        { n:'Viajes El Sol', a:true },
+        { n:'Turismo Horizonte', a:false }
+      ],
+      rules: {
+        saludo:'Hola, soy Valeria, la asistente de Travel Care. Cuéntame el destino y los días del viaje y te cotizo al momento.',
+        solo:true, derivar:true, siempre:true
+      },
+      excel:'Todavía no subes un Excel en esta demo: Valeria está usando la tabla editable de arriba.'
+    };
+    function clone(o){ return JSON.parse(JSON.stringify(o)); }
+    function load(){
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (!raw) return clone(DEF);
+        var s = JSON.parse(raw), d = clone(DEF);
+        for (var k in d) if (s[k] !== undefined) d[k] = s[k];
+        return d;
+      } catch(e){ return clone(DEF); }
+    }
+    var S = load();
+    function $(id){ return document.getElementById(id); }
+    function hhmm(){ var d = new Date(), p = function(n){ return (n<10?'0':'')+n; }; return p(d.getHours()) + ':' + p(d.getMinutes()); }
+    function save(){
+      try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+      $('op-stamp').textContent = '✔ Valeria ya está usando tus cambios (guardado ' + hhmm() + ')';
+    }
+    function num(v, fb){ var n = parseFloat(v); return isNaN(n) ? fb : n; }
+
+    // ---- 1 · Tarifas ----
+    function buildRates(){
+      var t = $('op-rates'), html = '<tr><th class="lbl" style="text-align:left;background:#eef7f7">Días</th>';
+      PLANS.forEach(function(p){ html += '<th>' + p.name + '</th>'; });
+      html += '</tr>';
+      TIERS.forEach(function(d){
+        html += '<tr><td class="lbl">' + d + ' días</td>';
+        PLANS.forEach(function(p){
+          html += '<td><input type="number" min="0" step="1" inputmode="numeric" data-plan="' + p.id + '" data-days="' + d + '" value="' + S.rates[p.id][d] + '"></td>';
+        });
+        html += '</tr>';
+      });
+      html += '<tr><td class="lbl">Día extra</td>';
+      PLANS.forEach(function(p){
+        html += '<td><input type="number" min="0" step="1" inputmode="numeric" data-plan="' + p.id + '" data-days="extra" value="' + S.rates[p.id].extra + '"></td>';
+      });
+      html += '</tr>';
+      t.innerHTML = html;
+      var an = $('op-anual'), ah = '<span class="an-t">Plan Anual</span>';
+      ['30','60','90'].forEach(function(d){
+        ah += '<label>' + d + ' días <input type="number" min="0" step="1" inputmode="numeric" data-plan="anual" data-days="' + d + '" value="' + S.rates.anual[d] + '"></label>';
+      });
+      an.innerHTML = ah;
+      t.querySelectorAll('input').forEach(bindRate);
+      an.querySelectorAll('input').forEach(bindRate);
+    }
+    function bindRate(inp){
+      inp.addEventListener('input', function(){
+        S.rates[inp.dataset.plan][inp.dataset.days] = num(inp.value, 0);
+        save(); renderPreview();
+      });
+    }
+
+    // ---- 2 · Datos del negocio ----
+    var PH = { peru:'op-ph-peru', wapp:'op-ph-wapp', usa:'op-ph-usa', esp:'op-ph-esp', pan:'op-ph-pan', cuba:'op-ph-cuba', equipo:'op-ph-equipo' };
+    function buildPhones(){
+      for (var k in PH){
+        (function(kk){
+          var el = $(PH[kk]); el.value = S.phones[kk] || '';
+          el.addEventListener('input', function(){ S.phones[kk] = el.value; save(); });
+        })(k);
+      }
+    }
+
+    // ---- 3 · Agencias ----
+    function buildAgencies(){
+      var box = $('op-agencies'), html = '';
+      S.agencies.forEach(function(ag, i){
+        html += '<div class="agency"><span class="nm">' + ag.n.replace(/</g,'&lt;') + '</span>' +
+          '<span class="st ' + (ag.a ? 'on' : 'off') + '">' + (ag.a ? 'ACTIVA' : 'EN PAUSA') + '</span>' +
+          '<label class="switch"><input type="checkbox" data-ag="' + i + '"' + (ag.a ? ' checked' : '') + '><span class="tr"></span></label></div>';
+      });
+      box.innerHTML = html;
+      box.querySelectorAll('input[data-ag]').forEach(function(inp){
+        inp.addEventListener('change', function(){
+          S.agencies[+inp.dataset.ag].a = inp.checked;
+          save(); buildAgencies(); renderPreview();
+        });
+      });
+      var sel = $('op-pv-agency'), cur = sel.value, opts = '';
+      S.agencies.forEach(function(ag, i){ opts += '<option value="' + i + '">' + ag.n.replace(/</g,'&lt;') + '</option>'; });
+      sel.innerHTML = opts;
+      if (cur !== '' && +cur < S.agencies.length) sel.value = cur;
+    }
+    $('op-ag-add').addEventListener('click', function(){
+      var inp = $('op-ag-new'), v = inp.value.trim();
+      if (!v) return;
+      S.agencies.push({ n:v, a:true }); inp.value = '';
+      save(); buildAgencies(); renderPreview();
+    });
+
+    // ---- 4 · Reglas ----
+    function buildRules(){
+      var sal = $('op-saludo'); sal.value = S.rules.saludo;
+      sal.addEventListener('input', function(){ S.rules.saludo = sal.value; save(); renderPreview(); });
+      [['op-r-solo','solo'],['op-r-derivar','derivar'],['op-r-siempre','siempre']].forEach(function(pair){
+        var el = $(pair[0]); el.checked = !!S.rules[pair[1]];
+        el.addEventListener('change', function(){ S.rules[pair[1]] = el.checked; save(); });
+      });
+    }
+
+    // ---- 5 · Excel ----
+    $('op-excel-note').textContent = S.excel;
+    $('op-excel-btn').addEventListener('click', function(){ $('op-excel-file').click(); });
+    $('op-excel-file').addEventListener('change', function(){
+      var f = this.files && this.files[0];
+      if (!f) return;
+      S.excel = '✔ Excel recibido: «' + f.name + '» — Valeria ya cotiza desde el archivo nuevo (guardado ' + hhmm() + ').';
+      $('op-excel-note').textContent = S.excel;
+      save();
+    });
+
+    // ---- Vista previa ----
+    function buildPreviewControls(){
+      var ps = $('op-pv-plan'), opts = '';
+      PLANS.forEach(function(p){ opts += '<option value="' + p.id + '">' + p.name + '</option>'; });
+      opts += '<option value="anual">Anual</option>';
+      ps.innerHTML = opts; ps.value = 'europa';
+      fillDays(); buildAgencies();
+      ps.addEventListener('change', function(){ fillDays(); renderPreview(); });
+      $('op-pv-days').addEventListener('change', renderPreview);
+      $('op-pv-agency').addEventListener('change', renderPreview);
+    }
+    function fillDays(){
+      var plan = $('op-pv-plan').value, ds = $('op-pv-days'), days = (plan === 'anual') ? ['30','60','90'] : TIERS, opts = '';
+      days.forEach(function(d){ opts += '<option value="' + d + '">' + d + ' días</option>'; });
+      ds.innerHTML = opts;
+      ds.value = (plan === 'anual') ? '30' : '16';
+    }
+    function planName(id){
+      if (id === 'anual') return 'Plan Anual';
+      for (var i = 0; i < PLANS.length; i++) if (PLANS[i].id === id) return PLANS[i].name;
+      return id;
+    }
+    function renderPreview(){
+      var plan = $('op-pv-plan').value, days = $('op-pv-days').value;
+      var agIdx = $('op-pv-agency').value, ag = S.agencies[+agIdx];
+      var b = $('op-pv-bubble');
+      if (ag && !ag.a){
+        b.innerHTML = '💬 <b>' + ag.n.replace(/</g,'&lt;') + '</b> está <b>en pausa</b> en tu panel: Valeria no le cotiza en automático. Deriva su consulta a tu equipo (' + (S.phones.equipo || 'tu WhatsApp') + '), con los datos ya tomados.';
+        return;
+      }
+      var price = S.rates[plan] ? S.rates[plan][days] : null;
+      var saludo = (S.rules.saludo || '').trim();
+      b.innerHTML = '💬 Valeria respondería' + (ag ? ' a <b>' + ag.n.replace(/</g,'&lt;') + '</b>' : '') + ':<br>«' +
+        (saludo ? saludo.replace(/</g,'&lt;') + ' ' : '') +
+        'Para <b>' + planName(plan) + ', ' + days + ' días</b>, el precio es <b>$' + price + '</b> por pasajero. ¿Te lo dejo listo para emitir?»';
+    }
+
+    buildRates(); buildPhones(); buildAgencies(); buildRules(); buildPreviewControls(); renderPreview();
   })();
 </script>
 </body>
