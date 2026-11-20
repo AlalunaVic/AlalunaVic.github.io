@@ -75,8 +75,15 @@
   .qs ul{ list-style:none; }
   .qs li{ background:#fff; border:1px solid #dde6e6; border-radius:12px; padding:.75rem .95rem; margin-bottom:.55rem; font-size:.97rem; line-height:1.45; }
   .qs li b{ color:var(--teal-d); }
-  .steps{ display:grid; gap:.55rem; margin-top:1.5rem; }
+  .steps{ display:grid; gap:.55rem; margin-top:1.5rem; padding:1rem; background:#edf3f3; border:1.5px dashed #9db8b8; border-radius:18px; }
+  .growth-head{ padding:.1rem .1rem .35rem; }
+  .growth-kicker{ display:inline-block; color:var(--teal-d); font-size:.72rem; font-weight:800; letter-spacing:.16em; margin-bottom:.45rem; }
+  .growth-title{ color:#454d54; font-size:1.32rem; line-height:1.25; font-weight:800; }
   .step{ background:var(--coal); color:#eef3f3; border-radius:12px; padding:.85rem 1rem; font-size:.95rem; line-height:1.5; }
+  .step.future{ background:#e3eaea; color:#394047; border:1.5px dashed #9db8b8; }
+  .step.future b{ color:var(--teal-d); }
+  .step.note{ background:#f7f9f9; color:#5c646c; border:1.5px dashed #c3d2d2; }
+  .step.note b{ color:var(--teal-d); }
   .step b{ color:var(--gold); }
   .step.on{ outline:2px solid var(--teal); }
   .foot{ margin-top:2rem; font-size:.85rem; color:#6a737c; text-align:center; line-height:1.6; }
@@ -589,10 +596,14 @@
     </div>
 
     <div class="steps">
+      <div class="growth-head">
+        <span class="growth-kicker">OPCIONAL · A TU RITMO</span>
+        <h2 class="growth-title">Estas serían las etapas de tu crecimiento en la plataforma, si lo deseas</h2>
+      </div>
       <div class="step on"><b>Etapa 1 · Agencias</b> — la de esta demo: cotiza y atiende a tus agencias 24/7.</div>
-      <div class="step"><b>Etapa 2 · Público directo</b> — la asistente que cotiza y vende al viajero.</div>
-      <div class="step"><b>Etapa 3 · Capacitación</b> — enseña a tus clientes a usar su tarjeta.</div>
-      <div class="step">Las etapas 2 y 3 se activan <b>cuando usted diga</b>: a su ritmo, sobre la marcha.</div>
+      <div class="step future"><b>Etapa 2 · Público directo</b> — la asistente que cotiza y vende al viajero.</div>
+      <div class="step future"><b>Etapa 3 · Capacitación</b> — enseña a tus clientes a usar su tarjeta.</div>
+      <div class="step note">Las etapas 2 y 3 se activan <b>cuando usted diga</b>: a su ritmo, sobre la marcha.</div>
     </div>
 
     <div class="qs">
