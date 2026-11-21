@@ -54,7 +54,6 @@
   <div class="row">
     <button class="btn sel" id="btn-m1">Marco 1</button>
     <button class="btn" id="btn-m2">Marco 2</button>
-    <button class="btn" id="btn-beauty">✨ Belleza</button>
   </div>
 
   <p class="hint">El código aparece en la esquina superior izquierda de la pantalla de la cámara del iPad (toca el chip 📱 para ver el QR).</p>
@@ -153,7 +152,6 @@ $("btn-shoot").addEventListener("click", () => {
 });
 $("btn-m1").addEventListener("click", () => { sendCmd("mode1"); $("btn-m1").classList.add("sel"); $("btn-m2").classList.remove("sel"); });
 $("btn-m2").addEventListener("click", () => { sendCmd("mode2"); $("btn-m2").classList.add("sel"); $("btn-m1").classList.remove("sel"); });
-$("btn-beauty").addEventListener("click", () => sendCmd("beauty"));
 </script>
 </body>
 </html>
