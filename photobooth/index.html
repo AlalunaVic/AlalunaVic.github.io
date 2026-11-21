@@ -811,13 +811,15 @@ $("btn-share").addEventListener("click", async () => {
   }
 });
 
-/* Imprimir comparte EL ARCHIVO de la foto desde el toque real (sin clic
-   programado: Safari pierde el gesto y terminaría imprimiendo la página,
-   que es lo que salió rotado y con la URL al pie en la prueba de Victor). */
+/* Imprimir comparte EL ARCHIVO de la foto desde el toque real. SIN respaldo
+   window.print(): si el menú de compartir se cierra sin imprimir, print()
+   cae fuera del gesto y Safari muestra «This website has been blocked from
+   automatically printing» — y si se permite, imprime la PÁGINA (lo que salió
+   rotado y con la URL al pie en la primera prueba de Victor). Mejor un aviso. */
 $("btn-print").addEventListener("click", async () => {
   if (!lastBlob) return;
   if (await shareFile()) return;
-  window.print();
+  toast("Si el menú no salió, toca «Compartir / Guardar» y elige Imprimir ahí 🖨️");
 });
 </script>
 <div id="toast"></div>
