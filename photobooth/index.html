@@ -337,6 +337,7 @@ function pubStatus(obj){
 }
 let rxPhoto = null;      /* recepción en curso: {id, n, parts:Map, quiet, rounds} */
 let photoWaiter = null;  /* ventana esperando su foto: {resolve} */
+let pendingPhotos = [];  /* fotos recibidas antes de pedirlas (el celular capturó primero) */
 function photoToCanvas(img, win){
   const target = win.w / win.h, src = img.naturalWidth / img.naturalHeight;
   let sw, sh, sx, sy;
@@ -366,6 +367,10 @@ function handlePhotoMsg(str){
       URL.revokeObjectURL(url);
       pubStatus({ t: "got", id });
       if (photoWaiter){ const w = photoWaiter; photoWaiter = null; w.resolve(img); }
+      else {
+        pendingPhotos.push({ img, at: Date.now() });
+        if (pendingPhotos.length > 4) pendingPhotos.shift();
+      }
     };
     img.onerror = () => { if (photoWaiter){ const w = photoWaiter; photoWaiter = null; w.resolve(null); } };
     img.src = url;
@@ -382,6 +387,10 @@ function handlePhotoMsg(str){
 }
 function waitRemotePhoto(i, total, win){
   return new Promise((resolve) => {
+    while (pendingPhotos.length){
+      const p = pendingPhotos.shift();
+      if (Date.now() - p.at < 60000){ resolve(photoToCanvas(p.img, win)); return; }
+    }
     const to = setTimeout(() => { if (photoWaiter){ photoWaiter = null; resolve(null); } }, 45000);
     photoWaiter = { resolve: (img) => {
       clearTimeout(to);
