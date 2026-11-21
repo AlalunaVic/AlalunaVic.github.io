@@ -87,6 +87,14 @@
     padding:12px 24px;border-radius:999px;font-weight:700;font-size:16px;opacity:0;pointer-events:none;
     transition:opacity .3s ease,transform .3s ease;white-space:nowrap}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #stage-zone{position:relative}
+  #remote-chip{position:absolute;top:10px;left:10px;z-index:30;background:rgba(20,4,10,.72);color:#ffe9b8;
+    border:1px solid rgba(216,164,65,.55);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:700;cursor:pointer}
+  #remote-panel{position:absolute;top:54px;left:10px;z-index:30;background:rgba(24,5,12,.95);
+    border:1px solid rgba(216,164,65,.6);border-radius:16px;padding:14px;text-align:center;color:#fdf6e3;display:none;max-width:250px}
+  #remote-panel.on{display:block}
+  #remote-panel .qrt{font-size:13px;line-height:1.5;margin-top:9px;color:#ffe9b8}
+  #qr-box{background:#fff;padding:8px;border-radius:10px;display:inline-block;line-height:0}
   .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:inherit;
     font-weight:700;font-size:15px;padding:12px 18px;border-radius:999px;cursor:pointer}
 
@@ -130,6 +138,13 @@
 <script src="v-6.js"></script>
 <script src="v-7.js"></script>
 <script src="v-8.js"></script>
+<script src="fa-1.js"></script><script src="fa-2.js"></script><script src="fa-3.js"></script><script src="fa-4.js"></script>
+<script src="fa-5.js"></script><script src="fa-6.js"></script><script src="fa-7.js"></script><script src="fa-8.js"></script>
+<script src="fa-9.js"></script><script src="fa-10.js"></script><script src="fa-11.js"></script><script src="fa-12.js"></script>
+<script src="fa-13.js"></script><script src="fa-14.js"></script>
+<script src="fmtd-1.js"></script><script src="fmtd-2.js"></script><script src="fmtd-3.js"></script><script src="fmtd-4.js"></script>
+<script src="fmlm-1.js"></script><script src="fmlm-2.js"></script><script src="fm-manifests.js"></script>
+<script src="mq-1.js"></script><script src="qr-1.js"></script>
 
 <!-- INTRO · LOGO ALALUNA (video sin fondo, flotando sobre la app) -->
 <section id="scr-intro" class="screen on">
@@ -163,6 +178,8 @@
       <div id="count"><span id="count-num">3</span></div>
       <div id="flash"></div>
     </div>
+    <div id="remote-chip">📱 Control remoto</div>
+    <div id="remote-panel"><div id="qr-box"></div><div class="qrt" id="remote-txt">Conectando el control remoto…</div></div>
   </div>
   <div id="bar">
     <div class="modes">
@@ -252,6 +269,116 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
 }
+
+/* ---------- Librerías pesadas (rostro + control remoto), en segundo plano ---------- */
+function b64ToBytes(b64){
+  const bin = atob(b64), bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+function injectLib(b64){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(new Blob([b64ToBytes(b64)], { type: "text/javascript" }));
+    const s = document.createElement("script");
+    s.src = url; s.onload = () => res(); s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+/* El parche de fetch va ANTES de cargar face-api: la librería guarda la
+   referencia de fetch al cargarse, y los modelos viven en los trozos. */
+(function patchModelFetch(){
+  if (!window.__FMMAN) return;
+  const origFetch = window.fetch.bind(window);
+  const serve = (b64) => new Response(b64ToBytes(b64).buffer, { headers: { "Content-Type": "application/octet-stream" } });
+  window.fetch = (u, o) => {
+    const s = String(u);
+    if (s.includes("tiny_face_detector_model-weights_manifest")) return Promise.resolve(new Response(window.__FMMAN.td, { headers: { "Content-Type": "application/json" } }));
+    if (s.includes("face_landmark_68_tiny_model-weights_manifest")) return Promise.resolve(new Response(window.__FMMAN.lm, { headers: { "Content-Type": "application/json" } }));
+    if (s.includes("tiny_face_detector_model.bin")) return Promise.resolve(serve(window.__FMTD));
+    if (s.includes("face_landmark_68_tiny_model.bin")) return Promise.resolve(serve(window.__FMLM));
+    return origFetch(u, o);
+  };
+})();
+
+window.__faceReady = false;
+(async function initFace(){
+  try {
+    if (!window.__FALIB || !window.__FMTD || !window.__FMLM || !window.__FMMAN) return;
+    await injectLib(window.__FALIB);
+    await faceapi.nets.tinyFaceDetector.loadFromUri("https://models.local/");
+    await faceapi.nets.faceLandmark68TinyNet.loadFromUri("https://models.local/");
+    window.__faceReady = true;
+  } catch(e){ /* sin detector: se usa el perfilado óptico */ }
+})();
+
+/* ---------- Control remoto: el celular de Victor dispara la foto ---------- */
+let remoteCode = null;
+try { remoteCode = sessionStorage.getItem("pb-code"); } catch(e){}
+if (!remoteCode){
+  remoteCode = String(Math.floor(100000 + Math.random() * 900000));
+  try { sessionStorage.setItem("pb-code", remoteCode); } catch(e){}
+}
+$("remote-chip").textContent = "📱 " + remoteCode;
+$("remote-chip").addEventListener("click", () => $("remote-panel").classList.toggle("on"));
+
+const MQTT_BROKERS = [
+  { host: "broker.emqx.io", port: 8084, path: "/mqtt", ssl: true },
+  { host: "test.mosquitto.org", port: 8081, path: "/mqtt", ssl: true }
+];
+let lastCmd = "", lastCmdAt = 0;
+function handleRemoteCmd(cmd){
+  const now = Date.now();
+  if (cmd === lastCmd && now - lastCmdAt < 1500) return; /* duplicado: llegó por los dos brokers */
+  lastCmd = cmd; lastCmdAt = now;
+  if (cmd === "shoot") shootFlow();
+  else if (cmd === "mode1" || cmd === "mode2"){
+    const b = $(cmd === "mode1" ? "mode-1" : "mode-2");
+    if (b) b.click();
+  }
+  else if (cmd === "beauty") $("btn-beauty").click();
+}
+(async function initRemote(){
+  try {
+    if (!window.__PAHO) return;
+    await injectLib(window.__PAHO);
+    if (window.__QRJS) { try { await injectLib(window.__QRJS); } catch(e){} }
+    const url = "https://alalunavic.github.io/photobooth/control.html?c=" + remoteCode;
+    if (typeof QRCode !== "undefined"){
+      try { new QRCode($("qr-box"), { text: url, width: 168, height: 168 }); } catch(e){}
+    }
+    $("remote-txt").innerHTML = "Escanea con tu celular para disparar la foto desde lejos.<br><b>Código: " + remoteCode + "</b>";
+    const qs = new URLSearchParams(location.search);
+    let brokers = MQTT_BROKERS;
+    if (qs.get("mqttsrv")){
+      const parts = qs.get("mqttsrv").split(":");
+      brokers = [{ host: parts[0], port: Number(parts[1]) || 9002, path: "/" + (parts[2] || "mqtt"), ssl: false }];
+    }
+    const cmdTopic = "alaluna/photobooth/" + remoteCode + "/cmd";
+    const statusTopic = "alaluna/photobooth/" + remoteCode + "/status";
+    brokers.forEach((b, bi) => {
+      const cid = "pb-booth-" + remoteCode + "-" + bi + "-" + Math.random().toString(36).slice(2, 8);
+      const client = new Paho.Client(b.host, b.port, b.path, cid);
+      const connectIt = () => {
+        try {
+          client.connect({
+            useSSL: b.ssl, timeout: 8, keepAliveInterval: 30,
+            onSuccess: () => {
+              client.subscribe(cmdTopic);
+              const m = new Paho.Message("online");
+              m.destinationName = statusTopic; m.retained = true;
+              client.send(m);
+            },
+            onFailure: () => setTimeout(connectIt, 6000)
+          });
+        } catch(e){ setTimeout(connectIt, 6000); }
+      };
+      client.onConnectionLost = () => setTimeout(connectIt, 3000);
+      client.onMessageArrived = (msg) => { if (msg.destinationName === cmdTopic) handleRemoteCmd(msg.payloadString); };
+      connectIt();
+    });
+  } catch(e){ /* la cabina funciona sin control remoto */ }
+})();
 
 /* ---------- Intro: el video del logo, sin fondo ----------
    El video viene sobre fondo blanco; la clave de luminancia en vivo lo
@@ -454,11 +581,99 @@ function shotMsg(txt, ms){
   if (ms) setTimeout(()=> m.style.display = "none", ms);
 }
 
-/* Filtro de belleza natural: (1) perfilado suave del rostro — comprime
-   unos puntos hacia el eje central a la altura de las mejillas, como los
-   filtros de FaceApp/TikTok pero ligero; (2) suaviza la textura de la piel
-   (detalle fino) sin tocar los rasgos; (3) realce mínimo de luz y color. */
-function beautify(src){
+/* Perfilado óptico (respaldo): desplazamiento hacia el eje, anclado en la
+   geometría típica del rostro (mejillas ≈ |nx| 0.32, mandíbula ≈ 0.46h). */
+function opticalWarp(bx, w, h){
+  const srcImg = bx.getImageData(0, 0, w, h);
+  const sd = srcImg.data;
+  const out = bx.createImageData(w, h);
+  const dd = out.data;
+  const cxp = w / 2, y0 = h * 0.46, sig = h * 0.13, A = w * 0.016;
+  const rowShift = new Float32Array(w);
+  for (let y = 0; y < h; y++){
+    const dy = (y - y0) / sig;
+    const g = Math.exp(-(dy * dy) / 2);
+    for (let x = 0; x < w; x++){
+      const nx = (x - cxp) / cxp;
+      const anx = Math.abs(nx);
+      const prof = Math.exp(-Math.pow((anx - 0.32) / 0.20, 2));
+      rowShift[x] = A * prof * g * Math.sign(nx) + (x - cxp) * 0.02 * g;
+    }
+    for (let x = 0; x < w; x++){
+      let sx = x + rowShift[x];
+      if (sx < 0) sx = 0; else if (sx > w - 1) sx = w - 1;
+      const x0 = Math.floor(sx), x1 = Math.min(w - 1, x0 + 1), fx = sx - x0;
+      const i00 = (y * w + x0) * 4, i10 = (y * w + x1) * 4, di = (y * w + x) * 4;
+      for (let ch = 0; ch < 3; ch++) dd[di + ch] = sd[i00 + ch] * (1 - fx) + sd[i10 + ch] * fx;
+      dd[di + 3] = 255;
+    }
+  }
+  bx.putImageData(out, 0, 0);
+}
+
+/* Perfilado REAL tipo FaceApp: detecta cada rostro, mapea sus 68 puntos y
+   deforma SOLO la línea de la mandíbula hacia el eje de la cara (13%).
+   Devuelve true si aplicó; si no hay rostro, false (se usa el óptico). */
+async function faceWarp(bx, base, w, h){
+  if (!window.__faceReady || typeof faceapi === "undefined") return false;
+  /* Detectar en una copia reducida (≤500 px) y escalar los puntos: la
+     detección es el paso caro y no necesita resolución completa. */
+  const ds = Math.min(1, 500 / w);
+  let detInput = base, k = 1;
+  if (ds < 1){
+    detInput = document.createElement("canvas");
+    detInput.width = Math.round(w * ds); detInput.height = Math.round(h * ds);
+    detInput.getContext("2d").drawImage(base, 0, 0, detInput.width, detInput.height);
+    k = 1 / ds;
+  }
+  const dets = await faceapi.detectAllFaces(detInput,
+    new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 })
+  ).withFaceLandmarks(true);
+  if (!dets || !dets.length) return false;
+  const ctrls = [];
+  let rx0 = w, ry0 = h, rx1 = 0, ry1 = 0;
+  for (const d of dets){
+    const pts = d.landmarks.positions.map(p => ({ x: p.x * k, y: p.y * k }));
+    const box = { x: d.detection.box.x * k, y: d.detection.box.y * k,
+                  width: d.detection.box.width * k, height: d.detection.box.height * k };
+    const axisX = pts[30].x, sig = Math.max(24, box.width * 0.30);
+    for (let i = 0; i <= 16; i++){
+      if (i === 8) continue;
+      const p = pts[i];
+      ctrls.push({ x: p.x, y: p.y, dx: (p.x - axisX) * 0.13, sig });
+    }
+    rx0 = Math.min(rx0, Math.floor(box.x - sig)); ry0 = Math.min(ry0, Math.floor(box.y - sig * 0.4));
+    rx1 = Math.max(rx1, Math.ceil(box.x + box.width + sig)); ry1 = Math.max(ry1, Math.ceil(box.y + box.height + sig * 0.7));
+  }
+  rx0 = Math.max(0, rx0); ry0 = Math.max(0, ry0); rx1 = Math.min(w, rx1); ry1 = Math.min(h, ry1);
+  const srcImg = bx.getImageData(0, 0, w, h);
+  const sd = srcImg.data;
+  const out = bx.getImageData(0, 0, w, h);
+  const dd = out.data;
+  for (let y = ry0; y < ry1; y++){
+    for (let x = rx0; x < rx1; x++){
+      let sw = 0, sdx = 0;
+      for (let k = 0; k < ctrls.length; k++){
+        const c = ctrls[k], ddx = x - c.x, ddy = y - c.y;
+        const wgt = Math.exp(-(ddx * ddx + ddy * ddy) / (2 * c.sig * c.sig));
+        sw += wgt; sdx += wgt * c.dx;
+      }
+      if (sw < 0.02) continue;
+      let sx = x + sdx / (sw + 0.35);
+      if (sx < 0) sx = 0; else if (sx > w - 1) sx = w - 1;
+      const x0 = Math.floor(sx), x1 = Math.min(w - 1, x0 + 1), fx = sx - x0;
+      const i00 = (y * w + x0) * 4, i10 = (y * w + x1) * 4, di = (y * w + x) * 4;
+      for (let ch = 0; ch < 3; ch++) dd[di + ch] = sd[i00 + ch] * (1 - fx) + sd[i10 + ch] * fx;
+    }
+  }
+  bx.putImageData(out, 0, 0);
+  return true;
+}
+
+/* Filtro de belleza: (1) perfilado — real por rostro si el detector está
+   listo; si no, el óptico —; (2) suaviza la textura de la piel sin tocar
+   los rasgos; (3) realce mínimo de luz y color. */
+async function beautify(src){
   if (!beautyOn) return src;
   try {
     const MAXD = 1000;
@@ -468,38 +683,10 @@ function beautify(src){
     const bx = base.getContext("2d", { willReadFrequently: true });
     bx.drawImage(src, 0, 0, w, h);
 
-    /* --- 1) Perfilado: desplazamiento hacia el eje, anclado en la
-       geometría real del rostro (mejillas ≈ |nx| 0.32, mandíbula ≈ 0.46h).
-       Cada mejilla entra ~8-10% de su semiancho: visible pero natural. --- */
-    {
-      const srcImg = bx.getImageData(0, 0, w, h);
-      const sd = srcImg.data;
-      const out = bx.createImageData(w, h);
-      const dd = out.data;
-      const cxp = w / 2, y0 = h * 0.46, sig = h * 0.13, A = w * 0.016;
-      const rowShift = new Float32Array(w);
-      for (let y = 0; y < h; y++){
-        const dy = (y - y0) / sig;
-        const g = Math.exp(-(dy * dy) / 2);
-        for (let x = 0; x < w; x++){
-          const nx = (x - cxp) / cxp;
-          const anx = Math.abs(nx);
-          const prof = Math.exp(-Math.pow((anx - 0.32) / 0.20, 2));
-          rowShift[x] = A * prof * g * Math.sign(nx) + (x - cxp) * 0.02 * g;
-        }
-        for (let x = 0; x < w; x++){
-          let sx = x + rowShift[x];
-          if (sx < 0) sx = 0; else if (sx > w - 1) sx = w - 1;
-          const x0 = Math.floor(sx), x1 = Math.min(w - 1, x0 + 1), fx = sx - x0;
-          const i00 = (y * w + x0) * 4, i10 = (y * w + x1) * 4, di = (y * w + x) * 4;
-          for (let ch = 0; ch < 3; ch++){
-            dd[di + ch] = sd[i00 + ch] * (1 - fx) + sd[i10 + ch] * fx;
-          }
-          dd[di + 3] = 255;
-        }
-      }
-      bx.putImageData(out, 0, 0);
-    }
+    /* --- 1) Perfilado --- */
+    let done = false;
+    try { done = await faceWarp(bx, base, w, h); } catch(e){ done = false; }
+    if (!done) opticalWarp(bx, w, h);
 
     /* --- 2) Suavizado de piel + 3) realce suave --- */
     const small = document.createElement("canvas");
@@ -562,8 +749,8 @@ function compose(shots){
   return c;
 }
 
-/* ---------- Flujo de captura ---------- */
-$("btn-shot").addEventListener("click", async () => {
+/* ---------- Flujo de captura (botón en pantalla o control remoto) ---------- */
+async function shootFlow(){
   if (busy || !stream) return;
   busy = true; $("btn-shot").disabled = true;
   try {
@@ -575,7 +762,7 @@ $("btn-shot").addEventListener("click", async () => {
               : i === 0 ? "¡Primera foto! 😄" : i === 1 ? "¡Segunda foto! 💃" : "¡La última, la grande! 🎉", 1500);
       await sleep(250);
       await countdown();
-      shots.push(beautify(grabFrame(wins[i].w, wins[i].h)));
+      shots.push(await beautify(grabFrame(wins[i].w, wins[i].h)));
       await sleep(300);
     }
     shotMsg("");
@@ -593,7 +780,8 @@ $("btn-shot").addEventListener("click", async () => {
     busy = false; $("btn-shot").disabled = false;
     placeVideo(0);
   }
-});
+}
+$("btn-shot").addEventListener("click", shootFlow);
 
 $("btn-again").addEventListener("click", () => show("scr-cam"));
 
