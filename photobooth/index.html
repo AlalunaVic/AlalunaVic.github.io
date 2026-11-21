@@ -454,8 +454,10 @@ function shotMsg(txt, ms){
   if (ms) setTimeout(()=> m.style.display = "none", ms);
 }
 
-/* Filtro de belleza natural: suaviza la textura de la piel (detalle fino)
-   sin tocar los rasgos; realce mínimo de luz y color. Nada exagerado. */
+/* Filtro de belleza natural: (1) perfilado suave del rostro — comprime
+   unos puntos hacia el eje central a la altura de las mejillas, como los
+   filtros de FaceApp/TikTok pero ligero; (2) suaviza la textura de la piel
+   (detalle fino) sin tocar los rasgos; (3) realce mínimo de luz y color. */
 function beautify(src){
   if (!beautyOn) return src;
   try {
@@ -465,6 +467,38 @@ function beautify(src){
     const base = document.createElement("canvas"); base.width = w; base.height = h;
     const bx = base.getContext("2d", { willReadFrequently: true });
     bx.drawImage(src, 0, 0, w, h);
+
+    /* --- 1) Perfilado: remuestreo bilineal con squeeze horizontal --- */
+    {
+      const srcImg = bx.getImageData(0, 0, w, h);
+      const sd = srcImg.data;
+      const out = bx.createImageData(w, h);
+      const dd = out.data;
+      const cxp = w / 2, y0 = h * 0.40, sig = h * 0.17, S = 0.15;
+      const rowK = new Float32Array(w);
+      for (let y = 0; y < h; y++){
+        const dy = (y - y0) / sig;
+        const g = Math.exp(-(dy * dy) / 2);
+        for (let x = 0; x < w; x++){
+          const nx = (x - cxp) / cxp;
+          const fall = Math.abs(nx) * (1 - nx * nx);
+          rowK[x] = 1 + S * g * fall;
+        }
+        for (let x = 0; x < w; x++){
+          let sx = cxp + (x - cxp) * rowK[x];
+          if (sx < 0) sx = 0; else if (sx > w - 1) sx = w - 1;
+          const x0 = Math.floor(sx), x1 = Math.min(w - 1, x0 + 1), fx = sx - x0;
+          const i00 = (y * w + x0) * 4, i10 = (y * w + x1) * 4, di = (y * w + x) * 4;
+          for (let ch = 0; ch < 3; ch++){
+            dd[di + ch] = sd[i00 + ch] * (1 - fx) + sd[i10 + ch] * fx;
+          }
+          dd[di + 3] = 255;
+        }
+      }
+      bx.putImageData(out, 0, 0);
+    }
+
+    /* --- 2) Suavizado de piel + 3) realce suave --- */
     const small = document.createElement("canvas");
     small.width = Math.max(2, Math.round(w / 6)); small.height = Math.max(2, Math.round(h / 6));
     small.getContext("2d").drawImage(base, 0, 0, small.width, small.height);
