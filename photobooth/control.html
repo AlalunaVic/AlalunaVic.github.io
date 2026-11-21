@@ -107,7 +107,7 @@ const MQTT_BROKERS = [
   { host: "broker.emqx.io", port: 8084, path: "/mqtt", ssl: true },
   { host: "test.mosquitto.org", port: 8081, path: "/mqtt", ssl: true }
 ];
-let clients = [], cmdTopic = "", statusTopic = "", photoTopic = "", printTopic = "", boothSeen = false;
+let clients = [], cmdTopic = "", statusTopic = "", photoTopic = "", printTopic = "", viewTopic = "", boothSeen = false;
 
 function setStatus(txt, cls){ const s = $("status"); s.textContent = txt; s.className = cls || ""; }
 
@@ -130,6 +130,7 @@ function connect(code){
   cmdTopic = "alaluna/photobooth/" + code + "/cmd";
   statusTopic = "alaluna/photobooth/" + code + "/status";
   photoTopic = "alaluna/photobooth/" + code + "/photo";
+  viewTopic = "alaluna/photobooth/" + code + "/view";
   printTopic = "alaluna/photobooth/" + code + "/print";
   boothSeen = false; clients = [];
   $("btn-shoot").disabled = true;
@@ -226,6 +227,40 @@ function handleStatus(o){
     if (navigator.vibrate) navigator.vibrate(30);
   }
 }
+/* Vista en vivo: cuadros JPEG chicos (~5/s) para que el iPad muestre lo que apunta el iPhone */
+let viewTimer = null, viewBusy = false;
+const viewCanvas = document.createElement("canvas");
+function startViewPump(){
+  stopViewPump();
+  viewTimer = setInterval(() => {
+    if (!camMode || !camStream || viewBusy) return;
+    const v = $("cam-view");
+    if (!v.videoWidth) return;
+    viewBusy = true;
+    const k = 480 / v.videoWidth;
+    viewCanvas.width = 480; viewCanvas.height = Math.round(v.videoHeight * k);
+    viewCanvas.getContext("2d").drawImage(v, 0, 0, viewCanvas.width, viewCanvas.height);
+    viewCanvas.toBlob(async (blob) => {
+      try {
+        if (blob && camMode){
+          const b64 = await blobToB64(blob);
+          clients.forEach((cl) => {
+            try {
+              if (cl.isConnected()){
+                const m = new Paho.Message(b64);
+                m.destinationName = viewTopic;
+                cl.send(m);
+              }
+            } catch(e){}
+          });
+        }
+      } catch(e){}
+      viewBusy = false;
+    }, "image/jpeg", .55);
+  }, 200);
+}
+function stopViewPump(){ if (viewTimer){ clearInterval(viewTimer); viewTimer = null; } }
+
 async function setCamMode(on){
   if (on && !boothSeen){ setStatus("Primero conéctate a la cabina", "bad"); return; }
   camMode = on;
@@ -241,12 +276,14 @@ async function setCamMode(on){
       $("cam-view").srcObject = camStream;
       $("cam-label").textContent = "Apunta con el iPhone y toca ¡Capturar! 📸";
       $("btn-capture").disabled = false;
+      startViewPump();
     } catch(e){
       $("cam-label").textContent = "No se pudo abrir la cámara del iPhone. Revisa el permiso.";
       setCamMode(false);
     }
   } else {
     sendCmd("cam-off");
+    stopViewPump();
     if (camStream){ camStream.getTracks().forEach(t => t.stop()); camStream = null; }
   }
 }
