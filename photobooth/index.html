@@ -63,6 +63,10 @@
   /* El alto manda si la pantalla es baja: se ajusta por JS */
   #vid{position:absolute;object-fit:cover;background:#ddd;transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}
   #vid.mirror{transform:scaleX(-1)}
+  #remote-view{position:absolute;object-fit:cover;background:#ddd;display:none;
+    transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}
+  #view-badge{position:absolute;top:10px;right:10px;z-index:6;display:none;background:rgba(20,8,2,.72);
+    color:#ffd98a;font-size:12.5px;font-weight:800;padding:6px 11px;border-radius:999px;letter-spacing:.4px}
   #frame-img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   #count{position:absolute;inset:0;display:none;align-items:center;justify-content:center;pointer-events:none;z-index:5}
   #count span{font-size:clamp(110px,30vw,230px);font-weight:900;color:#fff;text-shadow:0 10px 60px rgba(0,0,0,.85)}
@@ -175,7 +179,9 @@
   <div id="stage-zone">
     <div id="stage">
       <video id="vid" autoplay playsinline muted></video>
+      <img id="remote-view" alt="">
       <img id="frame-img" alt="">
+      <div id="view-badge">📸 Vista del iPhone</div>
       <div id="shotmsg"></div>
       <div id="count"><span id="count-num">3</span></div>
       <div id="flash"></div>
@@ -335,6 +341,23 @@ function pubStatus(obj){
     } catch(e){}
   });
 }
+let viewTopicG = "", lastViewAt = 0, lastViewUrl = "";
+function handleViewMsg(b64){
+  try {
+    const bytes = b64ToBytes(b64);
+    const url = URL.createObjectURL(new Blob([bytes], { type: "image/jpeg" }));
+    const img = $("remote-view");
+    img.onload = () => { if (lastViewUrl) URL.revokeObjectURL(lastViewUrl); lastViewUrl = url; };
+    img.src = url;
+    lastViewAt = Date.now();
+  } catch(e){}
+}
+setInterval(() => {
+  const fresh = remoteCam && (Date.now() - lastViewAt < 2500);
+  $("remote-view").style.display = fresh ? "block" : "none";
+  $("view-badge").style.display = fresh ? "block" : "none";
+  vid.style.visibility = fresh ? "hidden" : "visible";
+}, 500);
 let rxPhoto = null;      /* recepción en curso: {id, n, parts:Map, quiet, rounds} */
 let photoWaiter = null;  /* ventana esperando su foto: {resolve} */
 let pendingPhotos = [];  /* fotos recibidas antes de pedirlas (el celular capturó primero) */
@@ -442,6 +465,7 @@ async function sendPrintToPhone(blob){
     const statusTopic = "alaluna/photobooth/" + remoteCode + "/status";
     statusTopicG = statusTopic;
     photoTopicG = "alaluna/photobooth/" + remoteCode + "/photo";
+    viewTopicG = "alaluna/photobooth/" + remoteCode + "/view";
     printTopicG = "alaluna/photobooth/" + remoteCode + "/print";
     brokers.forEach((b, bi) => {
       const cid = "pb-booth-" + remoteCode + "-" + bi + "-" + Math.random().toString(36).slice(2, 8);
@@ -454,6 +478,7 @@ async function sendPrintToPhone(blob){
               boothClients.push(client);
               client.subscribe(cmdTopic);
               client.subscribe(photoTopicG);
+              client.subscribe(viewTopicG);
               const m = new Paho.Message("online");
               m.destinationName = statusTopic; m.retained = true;
               client.send(m);
@@ -466,6 +491,7 @@ async function sendPrintToPhone(blob){
       client.onMessageArrived = (msg) => {
         if (msg.destinationName === cmdTopic) handleRemoteCmd(msg.payloadString);
         else if (msg.destinationName === photoTopicG) handlePhotoMsg(msg.payloadString);
+        else if (msg.destinationName === viewTopicG) handleViewMsg(msg.payloadString);
       };
       connectIt();
     });
@@ -543,10 +569,12 @@ addEventListener("resize", fitStage);
 /* Coloca el video sobre la ventana activa del marco */
 function placeVideo(winIdx){
   const win = FRAMES[mode].windows[winIdx];
-  vid.style.left   = (win.x / W * 100) + "%";
-  vid.style.top    = (win.y / H * 100) + "%";
-  vid.style.width  = (win.w / W * 100) + "%";
-  vid.style.height = (win.h / H * 100) + "%";
+  for (const el of [vid, $("remote-view")]){
+    el.style.left   = (win.x / W * 100) + "%";
+    el.style.top    = (win.y / H * 100) + "%";
+    el.style.width  = (win.w / W * 100) + "%";
+    el.style.height = (win.h / H * 100) + "%";
+  }
 }
 function applyMode(){
   frameImg.src = frameObjs[mode] ? frameObjs[mode].url : "";
