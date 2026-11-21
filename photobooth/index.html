@@ -55,7 +55,9 @@
     cursor:pointer;animation:pulse 1.6s ease-in-out infinite}
   .btn-big:disabled{opacity:.5;animation:none}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
-  .foot-hint{position:absolute;bottom:18px;left:0;right:0;font-size:13px;opacity:.65;letter-spacing:1px}
+  .foot-hint{position:absolute;bottom:calc(20px + env(safe-area-inset-bottom));left:0;right:0;
+    font-size:clamp(18px,3.2vw,24px);font-weight:700;opacity:.92;letter-spacing:1.5px;color:var(--cream);
+    text-shadow:0 2px 12px rgba(0,0,0,.6);padding:0 16px}
   .brand-top{position:absolute;top:0;left:0;right:0;padding:calc(20px + env(safe-area-inset-top)) 20px 16px;
     text-align:center;background:linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,0))}
   .brand-top .b1{font-size:clamp(30px,6.4vw,52px);font-weight:900;letter-spacing:1px;color:var(--gold);
