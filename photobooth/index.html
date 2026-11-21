@@ -341,8 +341,19 @@ function pubStatus(obj){
     } catch(e){}
   });
 }
-let viewTopicG = "", lastViewAt = 0, lastViewUrl = "";
-function handleViewMsg(b64){
+let viewTopicG = "", lastViewAt = 0, lastViewUrl = "", lastViewSeq = 0;
+function handleViewMsg(str){
+  let b64 = str;
+  if (str.charAt(0) === "{"){
+    try {
+      const o = JSON.parse(str);
+      if (typeof o.s === "number"){
+        if (o.s <= lastViewSeq) return;   /* cuadro viejo: llegó por el broker lento */
+        lastViewSeq = o.s;
+      }
+      b64 = o.d || "";
+    } catch(e){ return; }
+  }
   try {
     const bytes = b64ToBytes(b64);
     const url = URL.createObjectURL(new Blob([bytes], { type: "image/jpeg" }));
@@ -373,6 +384,7 @@ function photoToCanvas(img, win){
 function handlePhotoMsg(str){
   let o; try { o = JSON.parse(str); } catch(e){ return; }
   if (o.t === "start"){
+    if (rxPhoto && rxPhoto.id === o.id) return;   /* duplicado del segundo broker */
     rxPhoto = { id: o.id, n: o.n, parts: new Map(), quiet: null, rounds: 0 };
     return;
   }
@@ -401,7 +413,7 @@ function handlePhotoMsg(str){
   }
   clearTimeout(rxPhoto.quiet);
   rxPhoto.quiet = setTimeout(() => {
-    if (!rxPhoto || rxPhoto.rounds >= 4) return;
+    if (!rxPhoto || rxPhoto.rounds >= 6) return;
     rxPhoto.rounds++;
     const missing = [];
     for (let i = 0; i < rxPhoto.n; i++) if (!rxPhoto.parts.has(i)) missing.push(i);
