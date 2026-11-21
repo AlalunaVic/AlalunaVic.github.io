@@ -15,29 +15,17 @@
   .screen{position:fixed;inset:0;display:none;flex-direction:column}
   .screen.on{display:flex}
 
-  /* ---------- Intro: cinta animada Alaluna AI Solutions ---------- */
-  #scr-intro{background:radial-gradient(110% 90% at 50% 30%, #2b0714 0%, #160409 70%);
-             align-items:center;justify-content:center;overflow:hidden;cursor:pointer;z-index:20}
-  #scr-intro .presenta{font-size:clamp(13px,2.2vw,17px);letter-spacing:6px;color:rgba(255,247,232,.75);
-    margin-bottom:26px;font-weight:700}
-  .tape{width:130%;transform:rotate(-2.5deg);overflow:hidden;flex:none;
-    background:linear-gradient(180deg,#ffd970,var(--gold) 45%,var(--gold2));
-    box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.65), inset 0 -3px 0 rgba(0,0,0,.18);
-    padding:16px 0}
-  .tape-track{display:flex;width:max-content;animation:tapeMove 16s linear infinite}
-  .tape-track span{font-weight:900;font-size:clamp(26px,5.4vw,44px);letter-spacing:2px;color:#2a1503;
-    white-space:nowrap;padding-right:.6em}
-  @keyframes tapeMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .tape2{width:130%;transform:rotate(-2.5deg);overflow:hidden;flex:none;margin-top:14px;
-    background:rgba(255,255,255,.06);border-top:1px solid rgba(246,196,83,.5);border-bottom:1px solid rgba(246,196,83,.5);
-    padding:8px 0}
-  .tape2 .tape-track{animation:tapeMove2 22s linear infinite}
-  .tape2 span{font-weight:800;font-size:clamp(13px,2.4vw,19px);letter-spacing:5px;color:var(--gold)}
-  @keyframes tapeMove2{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-  #scr-intro .skip{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:13px;
-    letter-spacing:2px;color:rgba(255,247,232,.5)}
-  #scr-intro{transition:opacity .6s ease}
+  /* ---------- Intro: video del logo, sin fondo (clave en vivo) ---------- */
+  #scr-intro{background:transparent;align-items:center;justify-content:center;overflow:hidden;
+             cursor:pointer;z-index:20;transition:opacity .55s ease}
   #scr-intro.bye{opacity:0;pointer-events:none}
+  #intro-canvas{width:min(88vw,620px);aspect-ratio:800/748}
+  #intro-vid{position:absolute;width:2px;height:2px;opacity:0;pointer-events:none}
+  #scr-intro .skip{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));left:0;right:0;
+    text-align:center;font-size:13px;letter-spacing:2px;color:rgba(255,247,232,.75);
+    text-shadow:0 2px 10px rgba(0,0,0,.7)}
+  #scr-start .fadeable{transition:opacity .7s ease}
+  #scr-start.pre .fadeable{opacity:0}
 
   /* ---------- Bienvenida ---------- */
   #scr-start{background:radial-gradient(120% 90% at 50% 0%, #b81f3a 0%, var(--wine2) 38%, var(--wine) 68%, #4a0a1e 100%);
@@ -123,28 +111,36 @@
 <script src="f1-3.js"></script>
 <script src="f2-1.js"></script>
 <script src="f2-2.js"></script>
+<!-- Intro: video del logo en trozos (base64) -->
+<script src="v-1.js"></script>
+<script src="v-2.js"></script>
+<script src="v-3.js"></script>
+<script src="v-4.js"></script>
+<script src="v-5.js"></script>
+<script src="v-6.js"></script>
+<script src="v-7.js"></script>
+<script src="v-8.js"></script>
 
-<!-- INTRO · ALALUNA AI SOLUTIONS -->
+<!-- INTRO · LOGO ALALUNA (video sin fondo, flotando sobre la app) -->
 <section id="scr-intro" class="screen on">
-  <div class="presenta">P R E S E N T A</div>
-  <div class="tape"><div class="tape-track" id="tape1"></div></div>
-  <div class="tape2"><div class="tape-track" id="tape2"></div></div>
+  <canvas id="intro-canvas" width="800" height="748"></canvas>
+  <video id="intro-vid" muted playsinline autoplay></video>
   <div class="skip">TOCA PARA CONTINUAR</div>
 </section>
 
 <!-- BIENVENIDA -->
-<section id="scr-start" class="screen">
+<section id="scr-start" class="screen on pre">
   <canvas class="notes-float" id="float-canvas"></canvas>
-  <div class="brand-top">
+  <div class="brand-top fadeable">
     <div class="b1">ALALUNA <span class="ai">AI</span></div>
     <div class="b2">BUSINESS SOLUTIONS</div>
     <div class="rule"></div>
   </div>
-  <div class="badge">PHOTOBOOTH</div>
-  <h1>¡Salsa y <span class="gold">Salud</span> 2026!</h1>
-  <p>Ponte frente a la cámara, sonríe…<br>¡y llévate tu foto impresa de recuerdo!</p>
-  <button class="btn-big" id="btn-start" disabled>Cargando marcos…</button>
-  <div class="foot-hint">RWJBH New Brunswick · Noviembre 21, 2026</div>
+  <div class="badge fadeable">PHOTOBOOTH</div>
+  <h1 class="fadeable">¡Salsa y <span class="gold">Salud</span> 2026!</h1>
+  <p class="fadeable">Ponte frente a la cámara, sonríe…<br>¡y llévate tu foto impresa de recuerdo!</p>
+  <button class="btn-big fadeable" id="btn-start" disabled>Cargando marcos…</button>
+  <div class="foot-hint fadeable">RWJBH New Brunswick · Noviembre 21, 2026</div>
 </section>
 
 <!-- CÁMARA -->
@@ -204,10 +200,10 @@ const vid = $("vid"), stage = $("stage"), frameImg = $("frame-img");
 let stream = null, mode = "marco1", busy = false, photoCount = 0, lastBlob = null;
 const frameObjs = {};   // marco1/marco2 -> {url, img}
 
-function b64ToUrl(b64){
+function b64ToUrl(b64, type){
   const bin = atob(b64), bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return URL.createObjectURL(new Blob([bytes], { type: "image/webp" }));
+  return URL.createObjectURL(new Blob([bytes], { type: type || "image/webp" }));
 }
 function loadFrame(key, b64){
   return new Promise((res, rej) => {
@@ -233,23 +229,62 @@ function show(id){
   if (id === "scr-cam") fitStage();
 }
 
-/* ---------- Intro Alaluna AI Solutions ---------- */
+/* ---------- Intro: el video del logo, sin fondo ----------
+   El video viene sobre fondo blanco; la clave de luminancia en vivo lo
+   vuelve transparente para que el logo flote sobre la página principal.
+   Al terminar (o al tocar), la intro se desvanece y aparece el programa. */
 (function(){
-  const phrase = "ALALUNA AI SOLUTIONS ✦ ";
-  const half = phrase.repeat(6);
-  $("tape1").innerHTML = "<span>" + half + "</span><span>" + half + "</span>";
-  const phrase2 = "PHOTOBOOTH · EVENTOS · RECUERDOS ✦ ";
-  const half2 = phrase2.repeat(4);
-  $("tape2").innerHTML = "<span>" + half2 + "</span><span>" + half2 + "</span>";
-  let gone = false;
+  const intro = $("scr-intro"), startScr = $("scr-start");
+  const v = $("intro-vid"), cnv = $("intro-canvas");
+  const cx = cnv.getContext("2d", { willReadFrequently: true });
+  const off = document.createElement("canvas");
+  off.width = cnv.width; off.height = cnv.height;
+  const ox = off.getContext("2d", { willReadFrequently: true });
+  let gone = false, raf = 0;
+
   function dismiss(){
     if (gone) return; gone = true;
-    const intro = $("scr-intro");
+    cancelAnimationFrame(raf);
+    try { v.pause(); } catch(e){}
     intro.classList.add("bye");
-    setTimeout(() => { intro.classList.remove("on"); show("scr-start"); }, 620);
+    startScr.classList.remove("pre");
+    setTimeout(() => intro.classList.remove("on"), 600);
   }
-  setTimeout(dismiss, 3000);
-  $("scr-intro").addEventListener("click", dismiss);
+  intro.addEventListener("click", dismiss);
+  setTimeout(dismiss, 8000);                       // seguro absoluto
+  v.addEventListener("ended", () => setTimeout(dismiss, 250));
+  v.addEventListener("error", () => setTimeout(dismiss, 900));
+
+  function keyFrame(){
+    if (gone) return;
+    if (v.readyState >= 2 && !v.paused){
+      ox.drawImage(v, 0, 0, off.width, off.height);
+      const img = ox.getImageData(0, 0, off.width, off.height);
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4){
+        const L = Math.min(d[i], d[i+1], d[i+2]);
+        let a = (222 - L) / 52;                    // luminancia -> alfa
+        a = a < 0 ? 0 : a > 1 ? 1 : a;
+        a = (a - 0.20) / 0.80;                     // corta el residuo tenue
+        a = a < 0 ? 0 : a > 1 ? 1 : a;
+        if (a <= 0.01){ d[i+3] = 0; continue; }
+        const inv = (1 - a) * 255;                 // desmezcla del blanco
+        d[i]   = Math.max(0, Math.min(255, (d[i]   - inv) / a));
+        d[i+1] = Math.max(0, Math.min(255, (d[i+1] - inv) / a));
+        d[i+2] = Math.max(0, Math.min(255, (d[i+2] - inv) / a));
+        d[i+3] = a * 255;
+      }
+      cx.putImageData(img, 0, 0);
+    }
+    raf = requestAnimationFrame(keyFrame);
+  }
+
+  try {
+    v.src = b64ToUrl(window.__VID || "", "video/mp4");
+    const p = v.play();
+    if (p && p.catch) p.catch(() => setTimeout(dismiss, 900));
+    keyFrame();
+  } catch(e){ setTimeout(dismiss, 900); }
 })();
 
 /* El escenario (2:3) cabe siempre en su zona */
