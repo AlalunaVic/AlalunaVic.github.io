@@ -77,7 +77,7 @@
 
   <div id="cam-wrap">
     <video id="cam-view" autoplay playsinline muted></video>
-    <div id="cam-label">La cabina te dirá qué foto toca</div>
+    <div id="cam-label">Apunta con el iPhone y toca ¡Capturar! 📸</div>
     <button id="btn-capture" disabled><span class="cam">📸</span>¡Capturar!</button>
     <div id="send-progress"></div>
   </div>
@@ -186,6 +186,7 @@ function connect(code){
 
 /* ---------- Cámara del iPhone: capturar aquí y enviar la foto a la cabina ---------- */
 let camMode = false, camStream = null, curWin = { i: 0, n: 1, w: 1044, h: 1198 };
+let winPending = false, sending = false;
 let lastSent = null;   /* {id, chunks:[...]} por si la cabina pide reenvíos */
 let rxPrint = null;    /* archivo final que devuelve la cabina */
 let printFile = null;
@@ -204,10 +205,11 @@ function pubPhoto(obj){
 function handleStatus(o){
   if (o.t === "win"){
     curWin = { i: o.i, n: o.n, w: o.w, h: o.h };
+    winPending = true;
     if (camMode){
       $("cam-label").textContent = o.n === 1 ? "Apunta con el iPhone y captura 📸"
         : "Foto " + (o.i + 1) + " de " + o.n + " — apunta y captura 📸";
-      $("btn-capture").disabled = false;
+      if (!sending) $("btn-capture").disabled = false;
       $("send-progress").textContent = "";
     }
   }
@@ -218,8 +220,9 @@ function handleStatus(o){
     });
   }
   else if (o.t === "got" && lastSent && o.id === lastSent.id){
+    winPending = false; sending = false;
     $("send-progress").textContent = "✓ Foto recibida en la cabina";
-    $("btn-capture").disabled = true;
+    $("btn-capture").disabled = false;
     if (navigator.vibrate) navigator.vibrate(30);
   }
 }
@@ -236,7 +239,8 @@ async function setCamMode(on){
       camStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1440 } }, audio: false });
       $("cam-view").srcObject = camStream;
-      $("cam-label").textContent = "Toca ¡FOTO! en la cabina o espera la indicación de la foto";
+      $("cam-label").textContent = "Apunta con el iPhone y toca ¡Capturar! 📸";
+      $("btn-capture").disabled = false;
     } catch(e){
       $("cam-label").textContent = "No se pudo abrir la cámara del iPhone. Revisa el permiso.";
       setCamMode(false);
@@ -257,8 +261,11 @@ function blobToB64(blob){
 }
 $("btn-capture").addEventListener("click", async () => {
   const v = $("cam-view");
-  if (!v.videoWidth) return;
+  if (!v.videoWidth || sending) return;
+  sending = true;
   $("btn-capture").disabled = true;
+  if (!winPending) sendCmd("shoot");   /* el toque en el iPhone también arranca la cabina */
+  setTimeout(() => { if (sending){ sending = false; $("btn-capture").disabled = false; } }, 9000);
   const target = curWin.w / curWin.h, src = v.videoWidth / v.videoHeight;
   let sw, sh, sx, sy;
   if (src > target){ sh = v.videoHeight; sw = sh * target; sx = (v.videoWidth - sw) / 2; sy = 0; }
@@ -268,7 +275,7 @@ $("btn-capture").addEventListener("click", async () => {
   c.width = Math.round(sw * k); c.height = Math.round(sh * k);
   c.getContext("2d").drawImage(v, sx, sy, sw, sh, 0, 0, c.width, c.height);
   const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .87));
-  if (!blob){ $("btn-capture").disabled = false; return; }
+  if (!blob){ sending = false; $("btn-capture").disabled = false; return; }
   const b64 = await blobToB64(blob);
   const CH = 40000, chunks = [];
   for (let i = 0; i < b64.length; i += CH) chunks.push(b64.slice(i, i + CH));
