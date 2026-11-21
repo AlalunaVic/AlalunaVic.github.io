@@ -305,11 +305,114 @@ function handleRemoteCmd(cmd){
   if (cmd === lastCmd && now - lastCmdAt < 1500) return; /* duplicado: llegó por los dos brokers */
   lastCmd = cmd; lastCmdAt = now;
   if (cmd === "shoot") shootFlow();
+  else if (cmd === "cam-on"){
+    remoteCam = true;
+    $("remote-chip").textContent = "📸 iPhone";
+    toast("Cámara del iPhone activa: las fotos llegan desde el celular");
+  }
+  else if (cmd === "cam-off"){
+    remoteCam = false;
+    $("remote-chip").textContent = "📱 " + remoteCode;
+    toast("Cámara del iPad activa");
+  }
   else if (cmd === "mode1" || cmd === "mode2"){
     const b = $(cmd === "mode1" ? "mode-1" : "mode-2");
     if (b) b.click();
   }
 }
+
+/* ---------- Cámara remota: la foto llega desde el iPhone por MQTT ---------- */
+let remoteCam = false;
+let boothClients = [], statusTopicG = "", photoTopicG = "", printTopicG = "";
+function pubStatus(obj){
+  boothClients.forEach((c) => {
+    try {
+      if (c.isConnected()){
+        const m = new Paho.Message(JSON.stringify(obj));
+        m.destinationName = statusTopicG;
+        c.send(m);
+      }
+    } catch(e){}
+  });
+}
+let rxPhoto = null;      /* recepción en curso: {id, n, parts:Map, quiet, rounds} */
+let photoWaiter = null;  /* ventana esperando su foto: {resolve} */
+function photoToCanvas(img, win){
+  const target = win.w / win.h, src = img.naturalWidth / img.naturalHeight;
+  let sw, sh, sx, sy;
+  if (src > target){ sh = img.naturalHeight; sw = sh * target; sx = (img.naturalWidth - sw) / 2; sy = 0; }
+  else { sw = img.naturalWidth; sh = sw / target; sx = 0; sy = (img.naturalHeight - sh) / 2; }
+  const c = document.createElement("canvas"); c.width = win.w; c.height = win.h;
+  c.getContext("2d").drawImage(img, sx, sy, sw, sh, 0, 0, win.w, win.h);
+  return c;
+}
+function handlePhotoMsg(str){
+  let o; try { o = JSON.parse(str); } catch(e){ return; }
+  if (o.t === "start"){
+    rxPhoto = { id: o.id, n: o.n, parts: new Map(), quiet: null, rounds: 0 };
+    return;
+  }
+  if (o.t !== "chunk" || !rxPhoto || o.id !== rxPhoto.id) return;
+  if (!rxPhoto.parts.has(o.seq)) rxPhoto.parts.set(o.seq, o.d);
+  if (rxPhoto.parts.size >= rxPhoto.n){
+    const id = rxPhoto.id;
+    let b64 = "";
+    for (let i = 0; i < rxPhoto.n; i++) b64 += rxPhoto.parts.get(i) || "";
+    rxPhoto = null;
+    const bytes = b64ToBytes(b64);
+    const url = URL.createObjectURL(new Blob([bytes], { type: "image/jpeg" }));
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      pubStatus({ t: "got", id });
+      if (photoWaiter){ const w = photoWaiter; photoWaiter = null; w.resolve(img); }
+    };
+    img.onerror = () => { if (photoWaiter){ const w = photoWaiter; photoWaiter = null; w.resolve(null); } };
+    img.src = url;
+    return;
+  }
+  clearTimeout(rxPhoto.quiet);
+  rxPhoto.quiet = setTimeout(() => {
+    if (!rxPhoto || rxPhoto.rounds >= 4) return;
+    rxPhoto.rounds++;
+    const missing = [];
+    for (let i = 0; i < rxPhoto.n; i++) if (!rxPhoto.parts.has(i)) missing.push(i);
+    if (missing.length) pubStatus({ t: "need", id: rxPhoto.id, missing });
+  }, 1500);
+}
+function waitRemotePhoto(i, total, win){
+  return new Promise((resolve) => {
+    const to = setTimeout(() => { if (photoWaiter){ photoWaiter = null; resolve(null); } }, 45000);
+    photoWaiter = { resolve: (img) => {
+      clearTimeout(to);
+      resolve(img ? photoToCanvas(img, win) : null);
+    }};
+    pubStatus({ t: "win", i, n: total, w: win.w, h: win.h });
+  });
+}
+function blobToB64(blob){
+  return new Promise((res) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(",")[1] || "");
+    r.readAsDataURL(blob);
+  });
+}
+async function sendPrintToPhone(blob){
+  try {
+    const b64 = await blobToB64(blob);
+    const CH = 40000, n = Math.ceil(b64.length / CH);
+    const id = Math.random().toString(36).slice(2, 9);
+    boothClients.forEach((c) => {
+      try {
+        if (!c.isConnected()) return;
+        const send = (obj) => { const m = new Paho.Message(JSON.stringify(obj)); m.destinationName = printTopicG; c.send(m); };
+        send({ t: "pstart", id, n });
+        for (let i = 0; i < n; i++) send({ t: "pchunk", id, seq: i, d: b64.slice(i * CH, (i + 1) * CH) });
+      } catch(e){}
+    });
+  } catch(e){}
+}
+
 (async function initRemote(){
   try {
     if (!window.__PAHO) return;
@@ -328,6 +431,9 @@ function handleRemoteCmd(cmd){
     }
     const cmdTopic = "alaluna/photobooth/" + remoteCode + "/cmd";
     const statusTopic = "alaluna/photobooth/" + remoteCode + "/status";
+    statusTopicG = statusTopic;
+    photoTopicG = "alaluna/photobooth/" + remoteCode + "/photo";
+    printTopicG = "alaluna/photobooth/" + remoteCode + "/print";
     brokers.forEach((b, bi) => {
       const cid = "pb-booth-" + remoteCode + "-" + bi + "-" + Math.random().toString(36).slice(2, 8);
       const client = new Paho.Client(b.host, b.port, b.path, cid);
@@ -336,7 +442,9 @@ function handleRemoteCmd(cmd){
           client.connect({
             useSSL: b.ssl, timeout: 8, keepAliveInterval: 30,
             onSuccess: () => {
+              boothClients.push(client);
               client.subscribe(cmdTopic);
+              client.subscribe(photoTopicG);
               const m = new Paho.Message("online");
               m.destinationName = statusTopic; m.retained = true;
               client.send(m);
@@ -346,7 +454,10 @@ function handleRemoteCmd(cmd){
         } catch(e){ setTimeout(connectIt, 6000); }
       };
       client.onConnectionLost = () => setTimeout(connectIt, 3000);
-      client.onMessageArrived = (msg) => { if (msg.destinationName === cmdTopic) handleRemoteCmd(msg.payloadString); };
+      client.onMessageArrived = (msg) => {
+        if (msg.destinationName === cmdTopic) handleRemoteCmd(msg.payloadString);
+        else if (msg.destinationName === photoTopicG) handlePhotoMsg(msg.payloadString);
+      };
       connectIt();
     });
   } catch(e){ /* la cabina funciona sin control remoto */ }
@@ -586,6 +697,23 @@ async function shootFlow(){
     const shots = [];
     for (let i = 0; i < wins.length; i++){
       placeVideo(i);
+      if (remoteCam){
+        shotMsg(wins.length === 1 ? "📸 Miren aquí… ¡foto con el iPhone!"
+                : i === 0 ? "📸 Primera foto… ¡con el iPhone!" : i === 1 ? "📸 Segunda foto… ¡con el iPhone!" : "📸 La última, la grande… ¡con el iPhone!");
+        const c = await waitRemotePhoto(i, wins.length, wins[i]);
+        if (c){
+          const f = $("flash");
+          f.style.transition = "none"; f.style.opacity = .92;
+          requestAnimationFrame(()=>{ f.style.transition = "opacity .35s ease"; f.style.opacity = 0; });
+          beep(990, .25);
+          shots.push(c);
+          shotMsg("");
+          await sleep(300);
+          continue;
+        }
+        shotMsg("La foto del iPhone no llegó: uso la cámara del iPad", 2000);
+        await sleep(600);
+      }
       shotMsg(wins.length === 1 ? "¡Sonríe! 😄"
               : i === 0 ? "¡Primera foto! 😄" : i === 1 ? "¡Segunda foto! 💃" : "¡La última, la grande! 🎉", 1500);
       await sleep(250);
@@ -604,6 +732,7 @@ async function shootFlow(){
     photoCount++;
     $("counter").textContent = "Fotos de este evento: " + photoCount;
     show("scr-result");
+    if (remoteCam) sendPrintToPhone(lastBlob);
   } finally {
     busy = false; $("btn-shot").disabled = false;
     placeVideo(0);
