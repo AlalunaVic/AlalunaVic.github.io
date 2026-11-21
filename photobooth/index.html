@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Photobooth · Salsa y Salud 2026</title>
+<style>
+  :root{
+    --gold:#f6c453; --gold2:#e8a020; --wine:#7a1030; --wine2:#a31621; --ink:#1d0b12;
+    --cream:#fff7e8; --teal:#0e7c7b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;overflow:hidden;background:#160409}
+  body{font-family:"Arial Rounded MT Bold","Helvetica Neue",Arial,sans-serif;color:var(--cream);
+       -webkit-user-select:none;user-select:none;touch-action:manipulation}
+  .screen{position:fixed;inset:0;display:none;flex-direction:column}
+  .screen.on{display:flex}
+
+  /* ---------- Pantalla de bienvenida ---------- */
+  #scr-start{background:radial-gradient(120% 90% at 50% 0%, #b81f3a 0%, var(--wine2) 38%, var(--wine) 68%, #4a0a1e 100%);
+             align-items:center;justify-content:center;text-align:center;padding:24px;overflow:hidden}
+  .notes-float{position:absolute;inset:0;pointer-events:none;opacity:.5}
+  .badge{display:inline-block;background:rgba(0,0,0,.28);border:2px solid var(--gold);color:var(--gold);
+         padding:8px 22px;border-radius:999px;font-size:clamp(14px,2.4vw,20px);letter-spacing:3px;margin-bottom:18px}
+  #scr-start h1{font-size:clamp(44px,10vw,96px);line-height:1.02;font-weight:900;color:#fff;
+    text-shadow:0 4px 0 rgba(0,0,0,.25), 0 14px 44px rgba(0,0,0,.5)}
+  #scr-start h1 .gold{color:var(--gold)}
+  #scr-start p{margin-top:16px;font-size:clamp(17px,3vw,24px);opacity:.95;max-width:560px}
+  .btn-big{margin-top:38px;background:linear-gradient(180deg,var(--gold),var(--gold2));color:#3a1503;border:none;
+    font-family:inherit;font-weight:900;font-size:clamp(22px,4.4vw,32px);letter-spacing:1px;
+    padding:20px 46px;border-radius:999px;box-shadow:0 14px 40px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.6);
+    cursor:pointer;animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+  .foot-hint{position:absolute;bottom:18px;left:0;right:0;font-size:13px;opacity:.65;letter-spacing:1px}
+
+  /* ---------- Cámara ---------- */
+  #scr-cam{background:#000}
+  #stage{position:relative;flex:1;overflow:hidden}
+  #vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#111}
+  /* Marco en vivo (aproximación del impreso) */
+  #live-frame{position:absolute;inset:0;pointer-events:none}
+  #live-frame .edge{position:absolute;inset:10px;border:4px solid rgba(246,196,83,.9);border-radius:14px}
+  #live-band{position:absolute;left:0;right:0;bottom:0;height:15%;min-height:64px;
+    background:linear-gradient(180deg, rgba(122,16,48,.0), rgba(122,16,48,.88) 30%, rgba(74,10,30,.97));
+    display:flex;align-items:center;justify-content:center;gap:10px}
+  #live-band .t{font-weight:900;color:#fff;font-size:clamp(18px,4.6vw,34px);letter-spacing:.5px;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  #live-band .t b{color:var(--gold)}
+  #live-band .n{color:var(--gold);font-size:clamp(18px,4.6vw,32px)}
+  #count{position:absolute;inset:0;display:none;align-items:center;justify-content:center;pointer-events:none}
+  #count span{font-size:clamp(120px,34vw,260px);font-weight:900;color:#fff;text-shadow:0 10px 60px rgba(0,0,0,.8),0 0 0 #000}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+  #shotmsg{position:absolute;top:12%;left:0;right:0;text-align:center;font-size:clamp(22px,5vw,36px);font-weight:900;
+    color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.8);display:none}
+  #bar{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,#2a0714,#1a040c)}
+  .modes{display:flex;background:rgba(255,255,255,.1);border-radius:999px;padding:4px;gap:4px}
+  .modes button{border:none;background:transparent;color:#fff;font-family:inherit;font-weight:800;font-size:16px;
+    padding:10px 18px;border-radius:999px;cursor:pointer;opacity:.75}
+  .modes button.sel{background:var(--gold);color:#3a1503;opacity:1}
+  #btn-shot{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#3a1503;border:none;font-family:inherit;
+    font-weight:900;font-size:21px;padding:16px 34px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.5);cursor:pointer}
+  #btn-shot:disabled{opacity:.45}
+  .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:inherit;
+    font-weight:700;font-size:15px;padding:12px 18px;border-radius:999px;cursor:pointer}
+
+  /* ---------- Resultado ---------- */
+  #scr-result{background:linear-gradient(180deg,#2a0714,#160409);align-items:center;padding:20px 16px calc(18px + env(safe-area-inset-bottom));overflow:auto}
+  #scr-result h2{font-size:clamp(22px,4.6vw,32px);font-weight:900;color:#fff;margin:4px 0 14px}
+  #scr-result h2 b{color:var(--gold)}
+  #result-img{max-height:56vh;max-width:92vw;border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.6);border:3px solid rgba(246,196,83,.55)}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+  .btn-print{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#3a1503;border:none;font-family:inherit;
+    font-weight:900;font-size:20px;padding:16px 30px;border-radius:999px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .btn-sec{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);font-family:inherit;
+    font-weight:800;font-size:17px;padding:15px 24px;border-radius:999px;cursor:pointer}
+  #dl-link{display:none;margin-top:14px;color:var(--gold);font-weight:700;font-size:16px}
+  .counter{margin-top:16px;font-size:14px;opacity:.7;letter-spacing:1px}
+
+  /* ---------- Impresión: solo la foto, 4×6 ---------- */
+  #print-area{display:none}
+  @media print{
+    body>*{display:none !important}
+    #print-area{display:block !important;position:fixed;inset:0}
+    #print-area img{width:100%;height:100%;object-fit:cover}
+    @page{size:4in 6in;margin:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- BIENVENIDA -->
+<section id="scr-start" class="screen on">
+  <canvas class="notes-float" id="float-canvas"></canvas>
+  <div class="badge">PHOTOBOOTH</div>
+  <h1>¡Salsa y <span class="gold">Salud</span> 2026!</h1>
+  <p>Ponte frente a la cámara, sonríe…<br>¡y llévate tu foto impresa de recuerdo!</p>
+  <button class="btn-big" id="btn-start">📸 &nbsp;¡TÓMATE TU FOTO!</button>
+  <div class="foot-hint">Toca el botón y mira a la cámara</div>
+</section>
+
+<!-- CÁMARA -->
+<section id="scr-cam" class="screen">
+  <div id="stage">
+    <video id="vid" autoplay playsinline muted></video>
+    <div id="live-frame">
+      <div class="edge"></div>
+      <div id="live-band"><span class="n">♪</span><span class="t">¡Salsa y Salud <b>2026!</b></span><span class="n">♪</span></div>
+    </div>
+    <div id="shotmsg"></div>
+    <div id="count"><span id="count-num">3</span></div>
+    <div id="flash"></div>
+  </div>
+  <div id="bar">
+    <div class="modes">
+      <button id="mode-foto" class="sel">Foto</button>
+      <button id="mode-tira">Tira ×3</button>
+    </div>
+    <button id="btn-shot">📸 ¡Foto!</button>
+    <button class="btn-ghost" id="btn-home">Inicio</button>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section id="scr-result" class="screen">
+  <h2>¡Quedó <b>chévere</b>! 🎉</h2>
+  <img id="result-img" alt="Tu foto">
+  <div class="actions">
+    <button class="btn-print" id="btn-print">🖨️ Imprimir</button>
+    <button class="btn-sec" id="btn-share">📤 Compartir / Guardar</button>
+    <button class="btn-sec" id="btn-again">↩ Otra foto</button>
+  </div>
+  <a id="dl-link" download="salsa-y-salud-2026.jpg">⬇ Descargar la foto</a>
+  <div class="counter" id="counter"></div>
+</section>
+
+<div id="print-area"><img id="print-img" alt=""></div>
+
+<script>
+"use strict";
+/* ================= Photobooth «Salsa y Salud 2026» =================
+   App de un solo archivo: cámara + marco + impresión AirPrint (SELPHY CP1500).
+   Compuesto final: 1200×1800 px (4×6" a 300 dpi). Sin red tras cargar.   */
+
+const W = 1200, H = 1800;
+const GOLD = "#f6c453", GOLD_D = "#c98f1b", CREAM = "#fff7e8";
+const FONT = '"Arial Rounded MT Bold","Helvetica Neue",Arial,sans-serif';
+
+const $ = id => document.getElementById(id);
+const vid = $("vid");
+let stream = null, mode = "foto", busy = false, photoCount = 0, lastBlob = null;
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("on"));
+  $(id).classList.add("on");
+}
+
+/* ---------- Notas musicales flotantes (bienvenida) ---------- */
+(function(){
+  const c = $("float-canvas"), x = c.getContext("2d");
+  let w, h, notes = [];
+  function size(){ w = c.width = innerWidth; h = c.height = innerHeight; }
+  size(); addEventListener("resize", size);
+  function make(){ return { x: Math.random()*w, y: h + 40, s: 22 + Math.random()*36,
+    v: .35 + Math.random()*.8, r: (Math.random()-.5)*.6, vr:(Math.random()-.5)*.01,
+    ch: ["♪","♫","♩"][Math.floor(Math.random()*3)], a:.25+Math.random()*.5 }; }
+  for (let i=0;i<14;i++){ const n = make(); n.y = Math.random()*h; notes.push(n); }
+  (function loop(){
+    x.clearRect(0,0,w,h);
+    notes.forEach((n,i)=>{
+      n.y -= n.v; n.r += n.vr;
+      if (n.y < -60) notes[i] = make();
+      x.save(); x.translate(n.x,n.y); x.rotate(n.r);
+      x.globalAlpha = n.a; x.fillStyle = GOLD; x.font = n.s + "px serif";
+      x.textAlign = "center"; x.fillText(n.ch,0,0); x.restore();
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ---------- Cámara ---------- */
+async function startCamera(){
+  if (stream) return;
+  stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "user", width: { ideal: 1920 }, height: { ideal: 1440 } },
+    audio: false
+  });
+  vid.srcObject = stream;
+  await vid.play();
+}
+
+$("btn-start").addEventListener("click", async () => {
+  try { await startCamera(); }
+  catch(e){ alert("No se pudo abrir la cámara. Revisa el permiso de cámara para esta página."); return; }
+  show("scr-cam");
+});
+$("btn-home").addEventListener("click", () => show("scr-start"));
+$("mode-foto").addEventListener("click", () => setMode("foto"));
+$("mode-tira").addEventListener("click", () => setMode("tira"));
+function setMode(m){
+  mode = m;
+  $("mode-foto").classList.toggle("sel", m === "foto");
+  $("mode-tira").classList.toggle("sel", m === "tira");
+}
+
+/* Captura un cuadro del video, espejado como la vista previa, recortado a ratio rw:rh */
+function grabFrame(rw, rh){
+  const vw = vid.videoWidth, vh = vid.videoHeight;
+  const target = rw / rh, src = vw / vh;
+  let sw, sh, sx, sy;
+  if (src > target){ sh = vh; sw = vh * target; sx = (vw - sw)/2; sy = 0; }
+  else { sw = vw; sh = vw / target; sx = 0; sy = (vh - sh)/2; }
+  const c = document.createElement("canvas");
+  c.width = Math.round(sw); c.height = Math.round(sh);
+  const x = c.getContext("2d");
+  x.translate(c.width, 0); x.scale(-1, 1);
+  x.drawImage(vid, sx, sy, sw, sh, 0, 0, c.width, c.height);
+  return c;
+}
+
+function beep(f, t){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ac = beep._ac || (beep._ac = new AC());
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.frequency.value = f; o.type = "sine";
+    g.gain.setValueAtTime(.12, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + t);
+    o.connect(g); g.connect(ac.destination);
+    o.start(); o.stop(ac.currentTime + t);
+  }catch(e){}
+}
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function countdown(){
+  const box = $("count"), num = $("count-num");
+  box.style.display = "flex";
+  for (const n of [3,2,1]){
+    num.textContent = n;
+    num.style.transform = "scale(1.25)"; num.style.transition = "none";
+    requestAnimationFrame(()=>{ num.style.transition = "transform .45s ease"; num.style.transform = "scale(1)"; });
+    beep(660, .12);
+    await sleep(800);
+  }
+  box.style.display = "none";
+  beep(990, .25);
+  const f = $("flash");
+  f.style.transition = "none"; f.style.opacity = .92;
+  requestAnimationFrame(()=>{ f.style.transition = "opacity .35s ease"; f.style.opacity = 0; });
+}
+
+function shotMsg(txt, ms){
+  const m = $("shotmsg");
+  m.textContent = txt; m.style.display = "block";
+  if (ms) setTimeout(()=> m.style.display = "none", ms);
+}
+
+/* ---------- Dibujo del marco ---------- */
+function roundRect(x, X, Y, w, h, r){
+  x.beginPath();
+  x.moveTo(X+r, Y);
+  x.arcTo(X+w, Y, X+w, Y+h, r); x.arcTo(X+w, Y+h, X, Y+h, r);
+  x.arcTo(X, Y+h, X, Y, r); x.arcTo(X, Y, X+w, Y, r);
+  x.closePath();
+}
+
+function drawNote(x, cx, cy, s, color){
+  /* Nota musical simple: cabeza elíptica + tallo + corchete */
+  x.save(); x.fillStyle = color; x.strokeStyle = color;
+  x.translate(cx, cy); x.rotate(-.28);
+  x.beginPath(); x.ellipse(0, 0, .34*s, .24*s, 0, 0, Math.PI*2); x.fill();
+  x.restore();
+  x.save(); x.strokeStyle = color; x.lineWidth = .09*s; x.lineCap = "round";
+  x.beginPath(); x.moveTo(cx + .30*s, cy - .06*s); x.lineTo(cx + .30*s, cy - 1.05*s); x.stroke();
+  x.beginPath(); x.moveTo(cx + .30*s, cy - 1.05*s);
+  x.quadraticCurveTo(cx + .78*s, cy - .88*s, cx + .62*s, cy - .42*s); x.stroke();
+  x.restore();
+}
+
+function confetti(x, area, n, seed){
+  const colors = [GOLD, "#ff5d73", "#39d0c4", "#ffffff", "#ffb35c"];
+  let s = seed;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < n; i++){
+    const px = area.x + rnd() * area.w, py = area.y + rnd() * area.h;
+    const sz = 6 + rnd() * 10, rot = rnd() * Math.PI;
+    x.save(); x.translate(px, py); x.rotate(rot);
+    x.globalAlpha = .55 + rnd() * .45; x.fillStyle = colors[i % colors.length];
+    if (i % 3 === 0){ x.beginPath(); x.arc(0, 0, sz/2, 0, Math.PI*2); x.fill(); }
+    else x.fillRect(-sz/2, -sz/4, sz, sz/2);
+    x.restore();
+  }
+  x.globalAlpha = 1;
+}
+
+function bandGradient(x, y0, y1){
+  const g = x.createLinearGradient(0, y0, 0, y1);
+  g.addColorStop(0, "#a31621"); g.addColorStop(.55, "#7a1030"); g.addColorStop(1, "#4a0a1e");
+  return g;
+}
+
+function drawTitle(x, cx, cy, size){
+  x.save();
+  x.textAlign = "center"; x.textBaseline = "middle";
+  x.shadowColor = "rgba(0,0,0,.55)"; x.shadowBlur = 18; x.shadowOffsetY = 6;
+  x.font = "900 " + size + "px " + FONT;
+  const t1 = "¡Salsa y Salud ";
+  const t2 = "2026!";
+  const w1 = x.measureText(t1).width, w2 = x.measureText(t2).width;
+  const total = w1 + w2, startX = cx - total/2;
+  x.fillStyle = "#ffffff";
+  x.fillText(t1, startX + w1/2, cy);
+  x.fillStyle = GOLD;
+  x.fillText(t2, startX + w1 + w2/2, cy);
+  x.restore();
+}
+
+function goldFrame(x, inset){
+  x.save();
+  x.strokeStyle = GOLD; x.lineWidth = 10;
+  roundRect(x, inset, inset, W - inset*2, H - inset*2, 26); x.stroke();
+  x.strokeStyle = "rgba(246,196,83,.45)"; x.lineWidth = 3;
+  roundRect(x, inset + 14, inset + 14, W - (inset+14)*2, H - (inset+14)*2, 18); x.stroke();
+  x.restore();
+}
+
+/* Compuesto MODO FOTO: la foto llena el 4×6, banda inferior con el título */
+function composeFoto(photo){
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d");
+  x.drawImage(photo, 0, 0, W, H);
+  const bandH = 300, bandY = H - bandH;
+  const fade = x.createLinearGradient(0, bandY - 130, 0, H);
+  fade.addColorStop(0, "rgba(74,10,30,0)"); fade.addColorStop(.45, "rgba(122,16,48,.88)"); fade.addColorStop(1, "#4a0a1e");
+  x.fillStyle = fade; x.fillRect(0, bandY - 130, W, bandH + 130);
+  confetti(x, { x: 30, y: bandY - 40, w: W - 60, h: bandH - 30 }, 42, 1234567);
+  drawNote(x, 74, bandY + 66, 52, GOLD);
+  drawNote(x, W - 106, bandY + 66, 46, GOLD);
+  drawTitle(x, W/2, bandY + 142, 104);
+  x.save();
+  x.textAlign = "center"; x.fillStyle = "rgba(255,247,232,.92)";
+  x.font = "700 40px " + FONT;
+  x.fillText("★  F I E S T A  ·  M Ú S I C A  ·  B I E N E S T A R  ★", W/2, bandY + 218);
+  x.restore();
+  goldFrame(x, 22);
+  return c;
+}
+
+/* Compuesto MODO TIRA: fondo festivo + 3 fotos apiladas + título abajo */
+function composeTira(photos){
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d");
+  const bg = x.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#b81f3a"); bg.addColorStop(.5, "#7a1030"); bg.addColorStop(1, "#4a0a1e");
+  x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  confetti(x, { x: 0, y: 0, w: W, h: H }, 90, 7654321);
+  const pw = 1020, ph = 452, px = (W - pw)/2, gap = 40;
+  let py = 70;
+  photos.forEach(p => {
+    x.save();
+    x.shadowColor = "rgba(0,0,0,.5)"; x.shadowBlur = 24; x.shadowOffsetY = 8;
+    roundRect(x, px, py, pw, ph, 18); x.clip();
+    x.drawImage(p, px, py, pw, ph);
+    x.restore();
+    x.strokeStyle = GOLD; x.lineWidth = 6;
+    roundRect(x, px, py, pw, ph, 18); x.stroke();
+    py += ph + gap;
+  });
+  drawNote(x, 84, py + 58, 56, GOLD);
+  drawNote(x, W - 118, py + 58, 46, GOLD);
+  drawTitle(x, W/2, py + 84, 96);
+  x.save();
+  x.textAlign = "center"; x.fillStyle = "rgba(255,247,232,.92)";
+  x.font = "700 38px " + FONT;
+  x.fillText("★  F I E S T A  ·  M Ú S I C A  ·  B I E N E S T A R  ★", W/2, py + 164);
+  x.restore();
+  goldFrame(x, 22);
+  return c;
+}
+
+/* ---------- Flujo de captura ---------- */
+$("btn-shot").addEventListener("click", async () => {
+  if (busy || !stream) return;
+  busy = true; $("btn-shot").disabled = true;
+  try {
+    let canvas;
+    if (mode === "foto"){
+      shotMsg("¡Sonríe! 😄", 1400);
+      await countdown();
+      canvas = composeFoto(grabFrame(W, H));
+    } else {
+      const shots = [];
+      for (let i = 0; i < 3; i++){
+        shotMsg(i === 0 ? "¡Primera foto! 😄" : i === 1 ? "¡Otra pose! 💃" : "¡La última! 🎉", 1300);
+        await countdown();
+        shots.push(grabFrame(1020, 452));
+        await sleep(350);
+      }
+      shotMsg("");
+      canvas = composeTira(shots);
+    }
+    lastBlob = await new Promise(r => canvas.toBlob(r, "image/jpeg", .92));
+    const url = URL.createObjectURL(lastBlob);
+    $("result-img").src = url;
+    $("print-img").src = url;
+    $("dl-link").href = url;
+    $("dl-link").style.display = "inline-block";
+    photoCount++;
+    $("counter").textContent = "Fotos de este evento: " + photoCount;
+    show("scr-result");
+  } finally {
+    busy = false; $("btn-shot").disabled = false;
+  }
+});
+
+$("btn-again").addEventListener("click", () => show("scr-cam"));
+
+$("btn-share").addEventListener("click", async () => {
+  if (!lastBlob) return;
+  const file = new File([lastBlob], "salsa-y-salud-2026.jpg", { type: "image/jpeg" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })){
+    try { await navigator.share({ files: [file], title: "Salsa y Salud 2026" }); } catch(e){}
+  } else if (navigator.share){
+    try { await navigator.share({ title: "Salsa y Salud 2026" }); } catch(e){}
+  } else {
+    $("dl-link").click();
+  }
+});
+
+$("btn-print").addEventListener("click", () => {
+  /* En iPad: la hoja de compartir incluye «Imprimir» (AirPrint → SELPHY).
+     Si el navegador soporta impresión directa, se usa esa vía. */
+  const isIOS = /iPad|iPhone/.test(navigator.userAgent);
+  if (isIOS){
+    $("btn-share").click();
+  } else {
+    window.print();
+  }
+});
+</script>
+</body>
+</html>
