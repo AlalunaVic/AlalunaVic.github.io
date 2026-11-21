@@ -468,24 +468,27 @@ function beautify(src){
     const bx = base.getContext("2d", { willReadFrequently: true });
     bx.drawImage(src, 0, 0, w, h);
 
-    /* --- 1) Perfilado: remuestreo bilineal con squeeze horizontal --- */
+    /* --- 1) Perfilado: desplazamiento hacia el eje, anclado en la
+       geometría real del rostro (mejillas ≈ |nx| 0.32, mandíbula ≈ 0.46h).
+       Cada mejilla entra ~8-10% de su semiancho: visible pero natural. --- */
     {
       const srcImg = bx.getImageData(0, 0, w, h);
       const sd = srcImg.data;
       const out = bx.createImageData(w, h);
       const dd = out.data;
-      const cxp = w / 2, y0 = h * 0.40, sig = h * 0.17, S = 0.15;
-      const rowK = new Float32Array(w);
+      const cxp = w / 2, y0 = h * 0.46, sig = h * 0.13, A = w * 0.016;
+      const rowShift = new Float32Array(w);
       for (let y = 0; y < h; y++){
         const dy = (y - y0) / sig;
         const g = Math.exp(-(dy * dy) / 2);
         for (let x = 0; x < w; x++){
           const nx = (x - cxp) / cxp;
-          const fall = Math.abs(nx) * (1 - nx * nx);
-          rowK[x] = 1 + S * g * fall;
+          const anx = Math.abs(nx);
+          const prof = Math.exp(-Math.pow((anx - 0.32) / 0.20, 2));
+          rowShift[x] = A * prof * g * Math.sign(nx) + (x - cxp) * 0.02 * g;
         }
         for (let x = 0; x < w; x++){
-          let sx = cxp + (x - cxp) * rowK[x];
+          let sx = x + rowShift[x];
           if (sx < 0) sx = 0; else if (sx > w - 1) sx = w - 1;
           const x0 = Math.floor(sx), x1 = Math.min(w - 1, x0 + 1), fx = sx - x0;
           const i00 = (y * w + x0) * 4, i10 = (y * w + x1) * 4, di = (y * w + x) * 4;
@@ -507,17 +510,17 @@ function beautify(src){
     ux.imageSmoothingEnabled = true; ux.imageSmoothingQuality = "high";
     ux.drawImage(small, 0, 0, w, h);
     const o = bx.getImageData(0, 0, w, h), b = ux.getImageData(0, 0, w, h);
-    const od = o.data, bd = b.data, T = 16;
+    const od = o.data, bd = b.data, T = 20;
     for (let i = 0; i < od.length; i += 4){
       for (let ch = 0; ch < 3; ch++){
         const j = i + ch, d = od[j] - bd[j];
-        od[j] = Math.abs(d) <= T ? bd[j] + d * 0.30 : od[j];
+        od[j] = Math.abs(d) <= T ? bd[j] + d * 0.25 : od[j];
       }
       const r = od[i], g = od[i+1], bl = od[i+2];
       const lum = 0.2126 * r + 0.7152 * g + 0.0722 * bl;
-      od[i]   = Math.min(255, (lum + (r  - lum) * 1.05) * 1.02);
-      od[i+1] = Math.min(255, (lum + (g  - lum) * 1.05) * 1.02);
-      od[i+2] = Math.min(255, (lum + (bl - lum) * 1.05) * 1.02);
+      od[i]   = Math.min(255, (lum + (r  - lum) * 1.07) * 1.03);
+      od[i+1] = Math.min(255, (lum + (g  - lum) * 1.07) * 1.03);
+      od[i+2] = Math.min(255, (lum + (bl - lum) * 1.07) * 1.03);
     }
     bx.putImageData(o, 0, 0);
     if (sc === 1) return base;
