@@ -15,6 +15,30 @@
   .screen{position:fixed;inset:0;display:none;flex-direction:column}
   .screen.on{display:flex}
 
+  /* ---------- Intro: cinta animada Alaluna AI Solutions ---------- */
+  #scr-intro{background:radial-gradient(110% 90% at 50% 30%, #2b0714 0%, #160409 70%);
+             align-items:center;justify-content:center;overflow:hidden;cursor:pointer;z-index:20}
+  #scr-intro .presenta{font-size:clamp(13px,2.2vw,17px);letter-spacing:6px;color:rgba(255,247,232,.75);
+    margin-bottom:26px;font-weight:700}
+  .tape{width:130%;transform:rotate(-2.5deg);overflow:hidden;flex:none;
+    background:linear-gradient(180deg,#ffd970,var(--gold) 45%,var(--gold2));
+    box-shadow:0 18px 50px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.65), inset 0 -3px 0 rgba(0,0,0,.18);
+    padding:16px 0}
+  .tape-track{display:flex;width:max-content;animation:tapeMove 16s linear infinite}
+  .tape-track span{font-weight:900;font-size:clamp(26px,5.4vw,44px);letter-spacing:2px;color:#2a1503;
+    white-space:nowrap;padding-right:.6em}
+  @keyframes tapeMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .tape2{width:130%;transform:rotate(-2.5deg);overflow:hidden;flex:none;margin-top:14px;
+    background:rgba(255,255,255,.06);border-top:1px solid rgba(246,196,83,.5);border-bottom:1px solid rgba(246,196,83,.5);
+    padding:8px 0}
+  .tape2 .tape-track{animation:tapeMove2 22s linear infinite}
+  .tape2 span{font-weight:800;font-size:clamp(13px,2.4vw,19px);letter-spacing:5px;color:var(--gold)}
+  @keyframes tapeMove2{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  #scr-intro .skip{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:13px;
+    letter-spacing:2px;color:rgba(255,247,232,.5)}
+  #scr-intro{transition:opacity .6s ease}
+  #scr-intro.bye{opacity:0;pointer-events:none}
+
   /* ---------- Bienvenida ---------- */
   #scr-start{background:radial-gradient(120% 90% at 50% 0%, #b81f3a 0%, var(--wine2) 38%, var(--wine) 68%, #4a0a1e 100%);
              align-items:center;justify-content:center;text-align:center;padding:24px;overflow:hidden}
@@ -90,14 +114,22 @@
 <script src="f2-1.js"></script>
 <script src="f2-2.js"></script>
 
+<!-- INTRO · ALALUNA AI SOLUTIONS -->
+<section id="scr-intro" class="screen on">
+  <div class="presenta">P R E S E N T A</div>
+  <div class="tape"><div class="tape-track" id="tape1"></div></div>
+  <div class="tape2"><div class="tape-track" id="tape2"></div></div>
+  <div class="skip">TOCA PARA CONTINUAR</div>
+</section>
+
 <!-- BIENVENIDA -->
-<section id="scr-start" class="screen on">
+<section id="scr-start" class="screen">
   <canvas class="notes-float" id="float-canvas"></canvas>
   <div class="badge">PHOTOBOOTH</div>
   <h1>¡Salsa y <span class="gold">Salud</span> 2026!</h1>
   <p>Ponte frente a la cámara, sonríe…<br>¡y llévate tu foto impresa de recuerdo!</p>
   <button class="btn-big" id="btn-start" disabled>Cargando marcos…</button>
-  <div class="foot-hint">RWJBH New Brunswick · Noviembre 21, 2026</div>
+  <div class="foot-hint">RWJBH New Brunswick · Noviembre 21, 2026 · Photobooth por Alaluna AI Solutions</div>
 </section>
 
 <!-- CÁMARA -->
@@ -185,6 +217,25 @@ function show(id){
   $(id).classList.add("on");
   if (id === "scr-cam") fitStage();
 }
+
+/* ---------- Intro Alaluna AI Solutions ---------- */
+(function(){
+  const phrase = "ALALUNA AI SOLUTIONS ✦ ";
+  const half = phrase.repeat(6);
+  $("tape1").innerHTML = "<span>" + half + "</span><span>" + half + "</span>";
+  const phrase2 = "PHOTOBOOTH · EVENTOS · RECUERDOS ✦ ";
+  const half2 = phrase2.repeat(4);
+  $("tape2").innerHTML = "<span>" + half2 + "</span><span>" + half2 + "</span>";
+  let gone = false;
+  function dismiss(){
+    if (gone) return; gone = true;
+    const intro = $("scr-intro");
+    intro.classList.add("bye");
+    setTimeout(() => { intro.classList.remove("on"); show("scr-start"); }, 620);
+  }
+  setTimeout(dismiss, 3000);
+  $("scr-intro").addEventListener("click", dismiss);
+})();
 
 /* El escenario (2:3) cabe siempre en su zona */
 function fitStage(){
