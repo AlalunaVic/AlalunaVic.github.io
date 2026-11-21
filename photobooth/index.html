@@ -56,6 +56,14 @@
   .btn-big:disabled{opacity:.5;animation:none}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
   .foot-hint{position:absolute;bottom:18px;left:0;right:0;font-size:13px;opacity:.65;letter-spacing:1px}
+  .brand-top{position:absolute;top:0;left:0;right:0;padding:calc(20px + env(safe-area-inset-top)) 20px 16px;
+    text-align:center;background:linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,0))}
+  .brand-top .b1{font-size:clamp(30px,6.4vw,52px);font-weight:900;letter-spacing:1px;color:var(--gold);
+    text-shadow:0 3px 18px rgba(0,0,0,.55);line-height:1.05}
+  .brand-top .b1 .ai{color:#fff}
+  .brand-top .b2{margin-top:5px;font-size:clamp(14px,2.8vw,21px);font-weight:800;letter-spacing:7px;color:var(--cream)}
+  .brand-top .rule{width:min(340px,60vw);height:2px;margin:13px auto 0;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent)}
 
   /* ---------- Cámara ---------- */
   #scr-cam{background:#0d0207}
@@ -125,11 +133,16 @@
 <!-- BIENVENIDA -->
 <section id="scr-start" class="screen">
   <canvas class="notes-float" id="float-canvas"></canvas>
+  <div class="brand-top">
+    <div class="b1">ALALUNA <span class="ai">AI</span></div>
+    <div class="b2">BUSINESS SOLUTIONS</div>
+    <div class="rule"></div>
+  </div>
   <div class="badge">PHOTOBOOTH</div>
   <h1>¡Salsa y <span class="gold">Salud</span> 2026!</h1>
   <p>Ponte frente a la cámara, sonríe…<br>¡y llévate tu foto impresa de recuerdo!</p>
   <button class="btn-big" id="btn-start" disabled>Cargando marcos…</button>
-  <div class="foot-hint">RWJBH New Brunswick · Noviembre 21, 2026 · Photobooth por Alaluna AI Solutions</div>
+  <div class="foot-hint">RWJBH New Brunswick · Noviembre 21, 2026</div>
 </section>
 
 <!-- CÁMARA -->
