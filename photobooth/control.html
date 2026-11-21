@@ -228,36 +228,32 @@ function handleStatus(o){
   }
 }
 /* Vista en vivo: cuadros JPEG chicos (~5/s) para que el iPad muestre lo que apunta el iPhone */
-let viewTimer = null, viewBusy = false;
+let viewTimer = null, viewBusy = false, viewSeq = 0;
 const viewCanvas = document.createElement("canvas");
 function startViewPump(){
   stopViewPump();
   viewTimer = setInterval(() => {
-    if (!camMode || !camStream || viewBusy) return;
+    if (!camMode || !camStream || viewBusy || sending) return;   /* la foto manda: la vista se pausa */
     const v = $("cam-view");
     if (!v.videoWidth) return;
+    const cl = clients.find((x) => { try { return x.isConnected(); } catch(e){ return false; } });
+    if (!cl) return;
     viewBusy = true;
-    const k = 480 / v.videoWidth;
-    viewCanvas.width = 480; viewCanvas.height = Math.round(v.videoHeight * k);
+    const k = 400 / v.videoWidth;
+    viewCanvas.width = 400; viewCanvas.height = Math.round(v.videoHeight * k);
     viewCanvas.getContext("2d").drawImage(v, 0, 0, viewCanvas.width, viewCanvas.height);
     viewCanvas.toBlob(async (blob) => {
       try {
         if (blob && camMode){
           const b64 = await blobToB64(blob);
-          clients.forEach((cl) => {
-            try {
-              if (cl.isConnected()){
-                const m = new Paho.Message(b64);
-                m.destinationName = viewTopic;
-                cl.send(m);
-              }
-            } catch(e){}
-          });
+          const m = new Paho.Message(JSON.stringify({ s: ++viewSeq, d: b64 }));
+          m.destinationName = viewTopic;
+          cl.send(m);
         }
       } catch(e){}
       viewBusy = false;
-    }, "image/jpeg", .55);
-  }, 200);
+    }, "image/jpeg", .5);
+  }, 300);
 }
 function stopViewPump(){ if (viewTimer){ clearInterval(viewTimer); viewTimer = null; } }
 
@@ -307,11 +303,11 @@ $("btn-capture").addEventListener("click", async () => {
   let sw, sh, sx, sy;
   if (src > target){ sh = v.videoHeight; sw = sh * target; sx = (v.videoWidth - sw) / 2; sy = 0; }
   else { sw = v.videoWidth; sh = sw / target; sx = 0; sy = (v.videoHeight - sh) / 2; }
-  const MAXD = 1400, k = Math.min(1, MAXD / Math.max(sw, sh));
+  const MAXD = 1280, k = Math.min(1, MAXD / Math.max(sw, sh));
   const c = document.createElement("canvas");
   c.width = Math.round(sw * k); c.height = Math.round(sh * k);
   c.getContext("2d").drawImage(v, sx, sy, sw, sh, 0, 0, c.width, c.height);
-  const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .87));
+  const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .85));
   if (!blob){ sending = false; $("btn-capture").disabled = false; return; }
   const b64 = await blobToB64(blob);
   const CH = 40000, chunks = [];
@@ -320,7 +316,10 @@ $("btn-capture").addEventListener("click", async () => {
   lastSent = { id, chunks };
   $("send-progress").textContent = "Enviando la foto a la cabina… (" + Math.round(b64.length / 1024) + " KB)";
   pubPhoto({ t: "start", id, n: chunks.length, win: curWin.i });
-  chunks.forEach((d, seq) => pubPhoto({ t: "chunk", id, seq, d }));
+  for (let seq = 0; seq < chunks.length; seq++){
+    pubPhoto({ t: "chunk", id, seq, d: chunks[seq] });
+    if (seq % 6 === 5) await new Promise(r => setTimeout(r, 30));
+  }
   if (navigator.vibrate) navigator.vibrate(40);
   setTimeout(() => {
     if ($("send-progress").textContent.indexOf("Enviando") === 0)
@@ -330,7 +329,10 @@ $("btn-capture").addEventListener("click", async () => {
 
 /* ---------- La cabina devuelve la foto final: imprimir desde el iPhone ---------- */
 function handlePrintMsg(o){
-  if (o.t === "pstart"){ rxPrint = { id: o.id, n: o.n, parts: new Map() }; return; }
+  if (o.t === "pstart"){
+    if (rxPrint && rxPrint.id === o.id) return;   /* duplicado del segundo broker */
+    rxPrint = { id: o.id, n: o.n, parts: new Map() }; return;
+  }
   if (o.t !== "pchunk" || !rxPrint || o.id !== rxPrint.id) return;
   if (!rxPrint.parts.has(o.seq)) rxPrint.parts.set(o.seq, o.d);
   if (rxPrint.parts.size >= rxPrint.n){
