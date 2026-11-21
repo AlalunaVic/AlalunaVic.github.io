@@ -78,6 +78,10 @@
   #btn-shot{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#3a1503;border:none;font-family:inherit;
     font-weight:900;font-size:21px;padding:16px 34px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.5);cursor:pointer}
   #btn-shot:disabled{opacity:.45}
+  #btn-beauty{border:none;font-family:inherit;font-weight:800;font-size:16px;padding:12px 18px;
+    border-radius:999px;cursor:pointer;background:rgba(255,255,255,.1);color:#fff;opacity:.8}
+  #btn-beauty.sel{background:var(--gold);color:#3a1503;opacity:1}
+  .print-hint{margin-top:12px;font-size:14.5px;color:rgba(255,247,232,.75);letter-spacing:.3px}
   #toast{position:fixed;left:50%;bottom:112px;transform:translateX(-50%) translateY(16px);z-index:50;
     background:rgba(20,4,10,.9);color:var(--cream);border:1.5px solid rgba(246,196,83,.65);
     padding:12px 24px;border-radius:999px;font-weight:700;font-size:16px;opacity:0;pointer-events:none;
@@ -104,7 +108,7 @@
   @media print{
     body>*{display:none !important}
     #print-area{display:block !important;position:fixed;inset:0}
-    #print-area img{width:100%;height:100%;object-fit:cover}
+    #print-area img{width:100%;height:100%;object-fit:contain;background:#fff}
     @page{size:4in 6in;margin:0}
   }
 </style>
@@ -165,6 +169,7 @@
       <button id="mode-1" class="sel">Marco 1</button>
       <button id="mode-2">Marco 2</button>
     </div>
+    <button id="btn-beauty" class="sel">✨ Belleza</button>
     <button id="btn-shot">📸 ¡Foto!</button>
     <button class="btn-ghost" id="btn-flip">🔄 Trasera</button>
     <button class="btn-ghost" id="btn-home">Inicio</button>
@@ -181,6 +186,7 @@
     <button class="btn-sec" id="btn-again">↩ Otra foto</button>
   </div>
   <a id="dl-link" download="salsa-y-salud-2026.jpg">⬇ Descargar la foto</a>
+  <div class="print-hint">Al imprimir: elige tu SELPHY · papel Postcard 4×6 · vertical</div>
   <div class="counter" id="counter"></div>
 </section>
 
@@ -206,6 +212,7 @@ const $ = id => document.getElementById(id);
 const vid = $("vid"), stage = $("stage"), frameImg = $("frame-img");
 let stream = null, mode = "marco1", busy = false, photoCount = 0, lastBlob = null;
 let facing = "user";
+let beautyOn = true;
 const frameObjs = {};   // marco1/marco2 -> {url, img}
 
 function b64ToUrl(b64, type){
@@ -447,6 +454,65 @@ function shotMsg(txt, ms){
   if (ms) setTimeout(()=> m.style.display = "none", ms);
 }
 
+/* Filtro de belleza natural: suaviza la textura de la piel (detalle fino)
+   sin tocar los rasgos; realce mínimo de luz y color. Nada exagerado. */
+function beautify(src){
+  if (!beautyOn) return src;
+  try {
+    const MAXD = 1000;
+    const sc = Math.min(1, MAXD / Math.max(src.width, src.height));
+    const w = Math.round(src.width * sc), h = Math.round(src.height * sc);
+    const base = document.createElement("canvas"); base.width = w; base.height = h;
+    const bx = base.getContext("2d", { willReadFrequently: true });
+    bx.drawImage(src, 0, 0, w, h);
+    const small = document.createElement("canvas");
+    small.width = Math.max(2, Math.round(w / 6)); small.height = Math.max(2, Math.round(h / 6));
+    small.getContext("2d").drawImage(base, 0, 0, small.width, small.height);
+    const blur = document.createElement("canvas"); blur.width = w; blur.height = h;
+    const ux = blur.getContext("2d");
+    ux.imageSmoothingEnabled = true; ux.imageSmoothingQuality = "high";
+    ux.drawImage(small, 0, 0, w, h);
+    const o = bx.getImageData(0, 0, w, h), b = ux.getImageData(0, 0, w, h);
+    const od = o.data, bd = b.data, T = 16;
+    for (let i = 0; i < od.length; i += 4){
+      for (let ch = 0; ch < 3; ch++){
+        const j = i + ch, d = od[j] - bd[j];
+        od[j] = Math.abs(d) <= T ? bd[j] + d * 0.30 : od[j];
+      }
+      const r = od[i], g = od[i+1], bl = od[i+2];
+      const lum = 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+      od[i]   = Math.min(255, (lum + (r  - lum) * 1.05) * 1.02);
+      od[i+1] = Math.min(255, (lum + (g  - lum) * 1.05) * 1.02);
+      od[i+2] = Math.min(255, (lum + (bl - lum) * 1.05) * 1.02);
+    }
+    bx.putImageData(o, 0, 0);
+    if (sc === 1) return base;
+    const out = document.createElement("canvas");
+    out.width = src.width; out.height = src.height;
+    const ox = out.getContext("2d");
+    ox.imageSmoothingEnabled = true; ox.imageSmoothingQuality = "high";
+    ox.drawImage(base, 0, 0, out.width, out.height);
+    return out;
+  } catch(e){ return src; }
+}
+$("btn-beauty").addEventListener("click", () => {
+  beautyOn = !beautyOn;
+  $("btn-beauty").classList.toggle("sel", beautyOn);
+  toast(beautyOn ? "Filtro de belleza activado" : "Filtro de belleza desactivado");
+});
+
+/* Marca el JPEG como 300 dpi: su tamaño de impresión queda exactamente 4×6". */
+async function patchDPI(blob){
+  try {
+    const buf = new Uint8Array(await blob.arrayBuffer());
+    if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF && buf[3] === 0xE0){
+      buf[13] = 1; buf[14] = 0x01; buf[15] = 0x2C; buf[16] = 0x01; buf[17] = 0x2C;
+      return new Blob([buf], { type: "image/jpeg" });
+    }
+  } catch(e){}
+  return blob;
+}
+
 /* Compone: fotos bajo el marco oficial */
 function compose(shots){
   const c = document.createElement("canvas"); c.width = W; c.height = H;
@@ -472,12 +538,12 @@ $("btn-shot").addEventListener("click", async () => {
               : i === 0 ? "¡Primera foto! 😄" : i === 1 ? "¡Segunda foto! 💃" : "¡La última, la grande! 🎉", 1500);
       await sleep(250);
       await countdown();
-      shots.push(grabFrame(wins[i].w, wins[i].h));
+      shots.push(beautify(grabFrame(wins[i].w, wins[i].h)));
       await sleep(300);
     }
     shotMsg("");
     const canvas = compose(shots);
-    lastBlob = await new Promise(r => canvas.toBlob(r, "image/jpeg", .92));
+    lastBlob = await patchDPI(await new Promise(r => canvas.toBlob(r, "image/jpeg", .92)));
     const url = URL.createObjectURL(lastBlob);
     $("result-img").src = url;
     $("print-img").src = url;
@@ -494,21 +560,33 @@ $("btn-shot").addEventListener("click", async () => {
 
 $("btn-again").addEventListener("click", () => show("scr-cam"));
 
-$("btn-share").addEventListener("click", async () => {
-  if (!lastBlob) return;
+async function shareFile(){
+  if (!lastBlob) return false;
   const file = new File([lastBlob], "salsa-y-salud-2026.jpg", { type: "image/jpeg" });
   if (navigator.canShare && navigator.canShare({ files: [file] })){
-    try { await navigator.share({ files: [file], title: "Salsa y Salud 2026" }); } catch(e){}
-  } else if (navigator.share){
+    try { await navigator.share({ files: [file], title: "Salsa y Salud 2026" }); return true; }
+    catch(e){ return false; }
+  }
+  return false;
+}
+
+$("btn-share").addEventListener("click", async () => {
+  if (!lastBlob) return;
+  if (await shareFile()) return;
+  if (navigator.share){
     try { await navigator.share({ title: "Salsa y Salud 2026" }); } catch(e){}
   } else {
     $("dl-link").click();
   }
 });
 
-$("btn-print").addEventListener("click", () => {
-  const isIOS = /iPad|iPhone/.test(navigator.userAgent);
-  if (isIOS){ $("btn-share").click(); } else { window.print(); }
+/* Imprimir comparte EL ARCHIVO de la foto desde el toque real (sin clic
+   programado: Safari pierde el gesto y terminaría imprimiendo la página,
+   que es lo que salió rotado y con la URL al pie en la prueba de Victor). */
+$("btn-print").addEventListener("click", async () => {
+  if (!lastBlob) return;
+  if (await shareFile()) return;
+  window.print();
 });
 </script>
 <div id="toast"></div>
